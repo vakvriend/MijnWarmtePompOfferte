@@ -705,7 +705,7 @@ if ($lokale_alinea1 || $lokale_alinea2):
   </div>
 </section>
 
-<?php if($extra && !wc_meta("wc_lokale_alinea1")): ?>
+<?php if($extra): ?>
 <section class="vk-section">
   <div class="vk-container">
     <div class="vk-extra-tekst vk-reveal"><?=wpautop(esc_html($extra))?></div>

@@ -197,7 +197,10 @@ function vk_upsert_mapping($host, $post_id) {
 
 foreach ($domains as $host => $spec) {
     $post_id = vk_find_or_create_page($spec['title']);
-    vk_update_page_meta($post_id, vk_page_meta($spec));
+    $content_status = (string) get_post_meta($post_id, 'wc_ai_content_status', true);
+    if (strpos($content_status, 'seo-unique') !== 0) {
+        vk_update_page_meta($post_id, vk_page_meta($spec));
+    }
     vk_upsert_mapping($host, $post_id);
     vk_upsert_mapping('www.' . $host, $post_id);
 
