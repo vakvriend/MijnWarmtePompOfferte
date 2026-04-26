@@ -85,6 +85,8 @@ foreach ($pages as $page) {
         'wc_vv_usp2'           => 'Qvantum, Nibe en hybride advies',
         'wc_vv_usp3'           => 'Heldere offerte zonder verrassingen',
         'wc_vv_usp4'           => 'Installatie en nazorg door Vakvriend',
+        'wc_qvantum_uitleg_titel' => 'Warm water zonder boilervat',
+        'wc_qvantum_uitleg_tekst' => 'Denk aan een warme kachelsteen: de Qvantum bewaart warmte in de thermische batterij, niet in een vat vol douchewater. Zet u de kraan open, dan stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en maakt het water direct warm. U doucht dus met vers verwarmd water, zonder groot boilervat met stilstaand tapwater.',
         'wc_lokale_h2'         => $is_local ? 'Warmtepomp installateur in ' . $city : 'Warmtepomp advies voor uw woning',
         'wc_lokale_intro'      => 'Elke woning vraagt om een andere warmtepompoplossing. Daarom start Vakvriend met een praktische opname en een berekening van subsidie, besparing en installatiekosten.',
         'wc_lokale_alinea1'    => $is_local ? 'In ' . $city . ' en ' . $region_label . ' zien we veel woningen waar een hybride of lucht/water warmtepomp direct interessant kan zijn. Bij goed geisoleerde woningen kan volledig elektrisch vaak ook een logische stap zijn.' : 'Voor veel Nederlandse woningen is een hybride of lucht/water warmtepomp een logische eerste stap naar minder gasverbruik. Bij goede isolatie kan volledig elektrisch vaak direct interessant zijn.',

@@ -247,6 +247,11 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-qv-type-ico{font-size:20px;flex-shrink:0;margin-top:2px}
 .vk-qv-type strong{display:block;font-size:14px;font-weight:700;color:var(--zwart);margin-bottom:4px}
 .vk-qv-type p{font-size:13px;color:var(--grijs);line-height:1.6;margin:0}
+.vk-qv-explain{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid #dcefe2;border-left:4px solid var(--groen);border-radius:var(--r);padding:16px;margin:16px 0 20px;box-shadow:0 8px 24px rgba(6,104,57,.08)}
+.vk-qv-explain-ico{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--groen-xl);font-size:20px;line-height:1;flex-shrink:0}
+.vk-qv-explain strong{display:block;font-size:15px;font-weight:900;color:var(--zwart);margin-bottom:5px}
+.vk-qv-explain p{font-size:13px;line-height:1.65;color:var(--grijs);margin:0}
+@media(max-width:640px){.vk-qv-explain{padding:14px;gap:10px}.vk-qv-explain p{font-size:12px}}
 
 /* Product foto */
 .vk-product-foto-wrap{position:relative}

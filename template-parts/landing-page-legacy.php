@@ -252,6 +252,14 @@ $reviews = wc_meta_rows('wc_reviews', [
           <?php endforeach; ?>
         </div>
 
+        <div class="vk-qv-explain">
+          <div class="vk-qv-explain-ico">💧</div>
+          <div>
+            <strong><?=esc_html(wc_meta('wc_qvantum_uitleg_titel','Warm water zonder boilervat'))?></strong>
+            <p><?=esc_html(wc_meta('wc_qvantum_uitleg_tekst','Denk aan een warme kachelsteen: de Qvantum bewaart warmte in de thermische batterij, niet in een vat vol douchewater. Zet u de kraan open, dan stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en maakt het water direct warm. U doucht dus met vers verwarmd water, zonder groot boilervat met stilstaand tapwater.'))?></p>
+          </div>
+        </div>
+
         <div class="vk-usp-list" style="margin-top:20px;list-style:none;padding:0;display:flex;flex-direction:column;gap:12px">
           <?php foreach($qvantum_usps as [$title,$text]): ?>
             <div style="display:flex;align-items:flex-start;gap:10px"><span class="vk-check">✓</span><div><strong><?=esc_html($title)?></strong> — <?=esc_html($text)?></div></div>

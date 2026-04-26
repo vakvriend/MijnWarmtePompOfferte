@@ -65,8 +65,8 @@ function wc_enqueue_assets() {
         'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap',
         [], null
     );
-    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '3.5');
-    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '3.5', true);
+    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '3.6');
+    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '3.6', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('wc_lead_nonce'),
@@ -259,6 +259,8 @@ function wc_meta_box_render($post) {
         'wc_qvantum_titel' => 'Qvantum Titel',
         'wc_qvantum_lead'  => 'Qvantum Lead',
         'wc_qvantum_types' => 'Qvantum types (icoon|titel|tekst)',
+        'wc_qvantum_uitleg_titel' => 'Qvantum warmwater uitleg titel',
+        'wc_qvantum_uitleg_tekst' => 'Qvantum warmwater uitleg tekst',
         'wc_qvantum_usps'  => 'Qvantum USP’s (titel|tekst)',
         'wc_qvantum_cta'   => 'Qvantum CTA',
         'wc_nibe_eyebrow'  => 'Nibe Eyebrow',
@@ -305,7 +307,7 @@ function wc_meta_box_render($post) {
         'wc_lokale_faq_v3' => 'Lokale FAQ vraag 3',
         'wc_lokale_faq_a3' => 'Lokale FAQ antwoord 3',
     );
-    $textarea = array('wc_hero_subtitel','wc_form_subtitel','wc_form_benefits','wc_campaign_proof','wc_vv_intro','wc_extra_tekst','wc_faq_extra','wc_qvantum_lead','wc_qvantum_types','wc_qvantum_usps','wc_nibe_lead','wc_nibe_types','wc_types_lead','wc_warmtepomp_types','wc_vv_props','wc_voordelen_lead','wc_voordelen','wc_werkwijze_lead','wc_werkwijze','wc_boringen_lead','wc_boringen_kaart_tekst','wc_reviews_lead','wc_reviews','wc_lokale_intro','wc_lokale_alinea1','wc_lokale_alinea2','wc_lokale_alinea3','wc_lokale_faq_a1','wc_lokale_faq_a2','wc_lokale_faq_a3');
+    $textarea = array('wc_hero_subtitel','wc_form_subtitel','wc_form_benefits','wc_campaign_proof','wc_vv_intro','wc_extra_tekst','wc_faq_extra','wc_qvantum_lead','wc_qvantum_types','wc_qvantum_uitleg_tekst','wc_qvantum_usps','wc_nibe_lead','wc_nibe_types','wc_types_lead','wc_warmtepomp_types','wc_vv_props','wc_voordelen_lead','wc_voordelen','wc_werkwijze_lead','wc_werkwijze','wc_boringen_lead','wc_boringen_kaart_tekst','wc_reviews_lead','wc_reviews','wc_lokale_intro','wc_lokale_alinea1','wc_lokale_alinea2','wc_lokale_alinea3','wc_lokale_faq_a1','wc_lokale_faq_a2','wc_lokale_faq_a3');
     echo '<table style="width:100%;border-collapse:collapse">';
     foreach ($fields as $k => $l) {
         $v = get_post_meta($post->ID, $k, true);
@@ -324,7 +326,7 @@ function wc_meta_box_save($id) {
     if (!isset($_POST['wc_meta_nonce_field'])) return;
     if (!wp_verify_nonce($_POST['wc_meta_nonce_field'], 'wc_meta_nonce')) return;
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    $fields = array('wc_stad','wc_regio','wc_hero_titel','wc_hero_subtitel','wc_hero_kicker','wc_hero_foto','wc_topbar_tekst','wc_form_titel','wc_form_subtitel','wc_form_benefits','wc_campaign_proof','wc_ai_content_status','wc_vv_intro','wc_vv_usp1','wc_vv_usp2','wc_vv_usp3','wc_vv_usp4','wc_telefoon','wc_whatsapp','wc_email','wc_meta_title','wc_meta_desc','wc_extra_tekst','wc_faq_extra','wc_qvantum_eyebrow','wc_qvantum_titel','wc_qvantum_lead','wc_qvantum_types','wc_qvantum_usps','wc_qvantum_cta','wc_nibe_eyebrow','wc_nibe_titel','wc_nibe_lead','wc_nibe_types','wc_nibe_cta','wc_types_eyebrow','wc_types_titel','wc_types_lead','wc_warmtepomp_types','wc_vv_eyebrow','wc_vv_titel','wc_vv_props','wc_voordelen_eyebrow','wc_voordelen_titel','wc_voordelen_lead','wc_voordelen','wc_werkwijze_eyebrow','wc_werkwijze_titel','wc_werkwijze_lead','wc_werkwijze','wc_boringen_eyebrow','wc_boringen_titel','wc_boringen_lead','wc_boringen_cta','wc_boringen_kaart_titel','wc_boringen_kaart_tekst','wc_reviews_eyebrow','wc_reviews_titel','wc_reviews_lead','wc_reviews','wc_faq_eyebrow','wc_faq_titel','wc_lokale_h2','wc_lokale_intro','wc_lokale_alinea1','wc_lokale_alinea2','wc_lokale_alinea3','wc_lokale_faq_v1','wc_lokale_faq_a1','wc_lokale_faq_v2','wc_lokale_faq_a2','wc_lokale_faq_v3','wc_lokale_faq_a3');
+    $fields = array('wc_stad','wc_regio','wc_hero_titel','wc_hero_subtitel','wc_hero_kicker','wc_hero_foto','wc_topbar_tekst','wc_form_titel','wc_form_subtitel','wc_form_benefits','wc_campaign_proof','wc_ai_content_status','wc_vv_intro','wc_vv_usp1','wc_vv_usp2','wc_vv_usp3','wc_vv_usp4','wc_telefoon','wc_whatsapp','wc_email','wc_meta_title','wc_meta_desc','wc_extra_tekst','wc_faq_extra','wc_qvantum_eyebrow','wc_qvantum_titel','wc_qvantum_lead','wc_qvantum_types','wc_qvantum_uitleg_titel','wc_qvantum_uitleg_tekst','wc_qvantum_usps','wc_qvantum_cta','wc_nibe_eyebrow','wc_nibe_titel','wc_nibe_lead','wc_nibe_types','wc_nibe_cta','wc_types_eyebrow','wc_types_titel','wc_types_lead','wc_warmtepomp_types','wc_vv_eyebrow','wc_vv_titel','wc_vv_props','wc_voordelen_eyebrow','wc_voordelen_titel','wc_voordelen_lead','wc_voordelen','wc_werkwijze_eyebrow','wc_werkwijze_titel','wc_werkwijze_lead','wc_werkwijze','wc_boringen_eyebrow','wc_boringen_titel','wc_boringen_lead','wc_boringen_cta','wc_boringen_kaart_titel','wc_boringen_kaart_tekst','wc_reviews_eyebrow','wc_reviews_titel','wc_reviews_lead','wc_reviews','wc_faq_eyebrow','wc_faq_titel','wc_lokale_h2','wc_lokale_intro','wc_lokale_alinea1','wc_lokale_alinea2','wc_lokale_alinea3','wc_lokale_faq_v1','wc_lokale_faq_a1','wc_lokale_faq_v2','wc_lokale_faq_a2','wc_lokale_faq_v3','wc_lokale_faq_a3');
     foreach ($fields as $k) {
         if (isset($_POST[$k])) update_post_meta($id, $k, sanitize_textarea_field($_POST[$k]));
     }
