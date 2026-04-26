@@ -146,13 +146,6 @@ function wc_shortcode_lead_form($atts = array()) {
         </div>
 
         <div class="vk-stap" id="stap-4">
-          <div class="vk-final-moment">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif'); ?>" alt="" class="vk-final-gif" width="120" height="90" loading="lazy">
-            <div>
-              <strong>Uw gratis check staat klaar</strong>
-              <span>Laat uw gegevens achter. Vakvriend rekent subsidie, besparing en passend systeem voor u uit.</span>
-            </div>
-          </div>
           <h3 class="vk-stap-titel"><?php echo esc_html($atts['step_4_title']); ?></h3>
           <p class="vk-stap-sub"><?php echo esc_html($atts['step_4_sub']); ?></p>
           <div class="vk-veld-grid">
@@ -172,7 +165,7 @@ function wc_shortcode_lead_form($atts = array()) {
         </div>
 
         <div class="vk-stap vk-succes" id="stap-succes">
-          <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif'); ?>" alt="" class="vk-succes-gif" width="120" height="90" loading="lazy">
+          <div class="vk-succes-mark">✓</div>
           <div class="vk-succes-pill">Aanvraag compleet</div>
           <h3><?php echo esc_html($atts['success_title']); ?></h3>
           <p><?php echo esc_html($atts['success_text']); ?></p>

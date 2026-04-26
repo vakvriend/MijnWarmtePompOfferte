@@ -178,13 +178,6 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <!-- Stap 4: Contactgegevens -->
         <div class="vk-stap" id="stap-4">
-          <div class="vk-final-moment">
-            <img src="<?=esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif')?>" alt="" class="vk-final-gif" width="120" height="90" loading="lazy">
-            <div>
-              <strong>Uw gratis check staat klaar</strong>
-              <span>Laat uw gegevens achter. Vakvriend rekent subsidie, besparing en passend systeem voor u uit.</span>
-            </div>
-          </div>
           <h3 class="vk-stap-titel">Uw contactgegevens</h3>
           <p class="vk-stap-sub">Stap 4 van 4 — ontvang uw gratis subsidiecheck en advies</p>
           <div class="vk-veld-grid">
@@ -205,7 +198,7 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <!-- Succes -->
         <div class="vk-stap vk-succes" id="stap-succes">
-          <img src="<?=esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif')?>" alt="" class="vk-succes-gif" width="120" height="90" loading="lazy">
+          <div class="vk-succes-mark">✓</div>
           <div class="vk-succes-pill">Aanvraag compleet</div>
           <h3>Gelukt, uw subsidiecheck is aangevraagd</h3>
           <p>Vakvriend heeft uw gegevens ontvangen. We bekijken uw woning, systeemvoorkeur en gasverbruik en nemen binnen 24 uur contact op met praktisch advies.</p>
