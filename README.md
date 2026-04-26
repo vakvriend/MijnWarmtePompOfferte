@@ -24,6 +24,14 @@ Maak bij elke release een zip asset met rootmap:
 
 WordPress toont daarna een normale theme update zodra de release tag hoger is dan de `Version` in `style.css`.
 
+Voor private repositories:
+
+1. Maak een fine-grained GitHub token met toegang tot deze repository en `Contents: read`.
+2. Vul het token in via `Instellingen > Theme updates`.
+3. Ga naar `Dashboard > Updates` en klik op opnieuw controleren.
+
+Let op: als de geinstalleerde theme-versie nog geen token-support bevat, moet versie `2.4` eenmalig handmatig worden geupload of de repository tijdelijk public worden gezet. Daarna werken private GitHub updates via het token.
+
 ## Tracking
 
 Vul de GTM container in via:
