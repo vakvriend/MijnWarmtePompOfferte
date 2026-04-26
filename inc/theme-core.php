@@ -65,8 +65,8 @@ function wc_enqueue_assets() {
         'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap',
         [], null
     );
-    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '3.8');
-    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '3.8', true);
+    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '3.9');
+    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '3.9', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('wc_lead_nonce'),
@@ -145,7 +145,7 @@ function wc_lead_col($col, $id) {
     }
     if ($col === 'lead_status') {
         $s = get_post_meta($id, 'lead_status', true) ?: 'nieuw';
-        echo '<span style="background:#dbeafe;color:#1d4ed8;padding:2px 10px;border-radius:100px;font-size:12px;font-weight:700">' . ucfirst($s) . '</span>';
+        echo '<span style="background:#dbeafe;color:#1d4ed8;padding:2px 10px;border-radius:100px;font-size:12px;font-weight:700">' . esc_html(wc_lead_status_label($s)) . '</span>';
     }
 }
 add_action('manage_wc_lead_posts_custom_column', 'wc_lead_col', 10, 2);
@@ -157,6 +157,7 @@ function wc_lead_detail_box() {
 add_action('add_meta_boxes', 'wc_lead_detail_box');
 
 function wc_lead_detail_render($post) {
+    wp_nonce_field('wc_lead_status_save', 'wc_lead_status_nonce');
     $velden = array(
         'naam'        => 'Naam',
         'email'       => 'E-mail',
@@ -168,8 +169,25 @@ function wc_lead_detail_render($post) {
         'gasverbruik' => 'Gasverbruik',
         'domein'      => 'Domein',
         'landing_page'=> 'Landing page',
+        'referrer'    => 'Referrer',
+        'utm_source'  => 'UTM source',
+        'utm_medium'  => 'UTM medium',
+        'utm_campaign'=> 'UTM campaign',
+        'utm_term'    => 'UTM term',
+        'utm_content' => 'UTM content',
         'gclid'       => 'Google Ads click ID',
+        'gbraid'      => 'Google Ads GBRAID',
+        'wbraid'      => 'Google Ads WBRAID',
         'lead_status' => 'Status',
+    );
+    $status_options = array(
+        'nieuw'        => 'Nieuw',
+        'gebeld'       => 'Gebeld',
+        'gekwalificeerd' => 'Gekwalificeerd',
+        'offerte'      => 'Offerte verstuurd',
+        'gewonnen'     => 'Gewonnen',
+        'verloren'     => 'Verloren',
+        'geen_gehoor'  => 'Geen gehoor',
     );
     echo '<table style="width:100%;border-collapse:collapse">';
     foreach ($velden as $k => $l) {
@@ -179,7 +197,14 @@ function wc_lead_detail_render($post) {
         echo '<td style="padding:10px;font-size:14px">';
         if ($k === 'email' && $v) echo '<a href="mailto:' . esc_attr($v) . '">' . esc_html($v) . '</a>';
         elseif ($k === 'telefoon' && $v) echo '<a href="tel:' . esc_attr($v) . '">' . esc_html($v) . '</a>';
-        elseif ($k === 'lead_status') echo '<span style="background:#dbeafe;color:#1d4ed8;padding:3px 12px;border-radius:100px;font-size:12px;font-weight:700">' . esc_html($v ?: 'nieuw') . '</span>';
+        elseif ($k === 'lead_status') {
+            $current = $v ?: 'nieuw';
+            echo '<select name="lead_status" style="min-width:220px">';
+            foreach ($status_options as $status_key => $status_label) {
+                echo '<option value="' . esc_attr($status_key) . '"' . selected($current, $status_key, false) . '>' . esc_html($status_label) . '</option>';
+            }
+            echo '</select>';
+        }
         else echo esc_html($v ?: '-');
         echo '</td></tr>';
     }
@@ -190,6 +215,70 @@ function wc_lead_detail_render($post) {
     if ($email) echo '<a href="mailto:' . esc_attr($email) . '" class="button button-primary">E-mail sturen</a>&nbsp;';
     if ($tel) echo '<a href="https://wa.me/31' . esc_attr(ltrim($tel, '0')) . '" target="_blank" class="button" style="background:#25D366;color:#fff;border-color:#25D366">💬 WhatsApp</a>';
     echo '</p>';
+}
+
+function wc_lead_status_save($post_id) {
+    if (get_post_type($post_id) !== 'wc_lead') return;
+    if (!isset($_POST['wc_lead_status_nonce']) || !wp_verify_nonce($_POST['wc_lead_status_nonce'], 'wc_lead_status_save')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+    if (!isset($_POST['lead_status'])) return;
+
+    $allowed = array('nieuw','gebeld','gekwalificeerd','offerte','gewonnen','verloren','geen_gehoor');
+    $status = sanitize_key($_POST['lead_status']);
+    if (!in_array($status, $allowed, true)) {
+        $status = 'nieuw';
+    }
+    update_post_meta($post_id, 'lead_status', $status);
+}
+add_action('save_post_wc_lead', 'wc_lead_status_save');
+
+function wc_lead_status_label($status) {
+    $labels = array(
+        'nieuw'        => 'Nieuw',
+        'gebeld'       => 'Gebeld',
+        'gekwalificeerd' => 'Gekwalificeerd',
+        'offerte'      => 'Offerte verstuurd',
+        'gewonnen'     => 'Gewonnen',
+        'verloren'     => 'Verloren',
+        'geen_gehoor'  => 'Geen gehoor',
+    );
+    return $labels[$status] ?? ucfirst(str_replace('_', ' ', $status));
+}
+
+function wc_lead_email_body($lead_id, $data) {
+    $labels = array(
+        'naam'         => 'Naam',
+        'email'        => 'E-mail',
+        'telefoon'     => 'Telefoon',
+        'postcode'     => 'Postcode',
+        'stad'         => 'Stad',
+        'woningtype'   => 'Woningtype',
+        'situatie'     => 'Systeem voorkeur',
+        'gasverbruik'  => 'Gasverbruik',
+        'domein'       => 'Domein',
+        'landing_page' => 'Landing page',
+        'referrer'     => 'Referrer',
+        'utm_source'   => 'UTM source',
+        'utm_medium'   => 'UTM medium',
+        'utm_campaign' => 'UTM campaign',
+        'utm_term'     => 'UTM term',
+        'utm_content'  => 'UTM content',
+        'gclid'        => 'Google Ads click ID',
+        'gbraid'       => 'Google Ads GBRAID',
+        'wbraid'       => 'Google Ads WBRAID',
+    );
+
+    $body = "Nieuwe warmtepomp lead\n\n";
+    foreach ($labels as $key => $label) {
+        $value = isset($data[$key]) ? trim((string) $data[$key]) : '';
+        $body .= $label . ': ' . ($value !== '' ? $value : '-') . "\n";
+    }
+    $body .= "\nStatus: Nieuw\n";
+    $body .= "Lead ID: " . $lead_id . "\n";
+    $body .= "Beheer: " . admin_url('post.php?post=' . $lead_id . '&action=edit') . "\n";
+
+    return $body;
 }
 
 // AJAX lead handler
@@ -207,14 +296,18 @@ function wc_ajax_lead() {
     ));
     if ($id && !is_wp_error($id)) {
         $velden = array('naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','domein','stad','utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','landing_page','referrer');
-        foreach ($velden as $k) update_post_meta($id, $k, sanitize_text_field($_POST[$k] ?? ''));
+        $lead_data = array();
+        foreach ($velden as $k) {
+            $value = sanitize_text_field($_POST[$k] ?? '');
+            update_post_meta($id, $k, $value);
+            $lead_data[$k] = $value;
+        }
         update_post_meta($id, 'lead_status', 'nieuw');
-        $admin = get_option('admin_email');
-        $tel   = $_POST['telefoon'] ?? '';
-        $won   = $_POST['woningtype'] ?? '';
-        $sit   = $_POST['situatie'] ?? '';
-        $body  = "Nieuwe warmtepomp lead!\n\nNaam: $naam\nEmail: $email\nTelefoon: $tel\nStad: $stad\nWoningtype: $won\nSysteem: $sit\n\nBeheer: " . admin_url('post.php?post=' . $id . '&action=edit');
-        wp_mail($admin, 'Nieuwe lead: ' . $naam, $body, array('From: Vakvriend <info@vakvriend.nl>'));
+        $lead_data['naam'] = $naam;
+        $lead_data['email'] = $email;
+        $lead_data['stad'] = $stad;
+        $body = wc_lead_email_body($id, $lead_data);
+        wp_mail('tonny@vakvriend.nl', 'Nieuwe warmtepomp lead: ' . $naam, $body, array('From: Vakvriend <info@vakvriend.nl>'));
         wp_mail($email, 'Bedankt voor uw aanvraag - Vakvriend', "Hallo $naam,\n\nBedankt! Wij nemen binnen 1 werkdag contact op.\n\nTel: 075 234 0001\nwww.vakvriend.nl\n\nTeam Vakvriend", array('From: Vakvriend <info@vakvriend.nl>'));
     }
     wp_send_json_success(array('message' => 'Bedankt! Vakvriend neemt binnen 1 werkdag contact op.'));
