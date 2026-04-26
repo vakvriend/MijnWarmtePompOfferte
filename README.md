@@ -12,6 +12,18 @@ WordPress theme voor Vakvriend warmtepomp-campagnepagina's met:
 
 Upload de theme-map als `vakvriend-warmtepomp-campagne-v2`.
 
+## Updates via GitHub releases
+
+Het theme controleert de laatste GitHub release van:
+
+`vakvriend/MijnWarmtePompOfferte`
+
+Maak bij elke release een zip asset met rootmap:
+
+`vakvriend-warmtepomp-campagne-v2/`
+
+WordPress toont daarna een normale theme update zodra de release tag hoger is dan de `Version` in `style.css`.
+
 ## Tracking
 
 Vul de GTM container in via:
