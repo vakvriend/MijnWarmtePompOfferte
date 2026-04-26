@@ -153,7 +153,8 @@
     min-width:0;
     padding:10px 13px;
   }
-  body.vk-form-step-4 #vk-chat-widget{
+  body.vk-form-step-4 #vk-chat-widget,
+  body.vk-form-success #vk-chat-widget{
     bottom:154px!important;
   }
 }
