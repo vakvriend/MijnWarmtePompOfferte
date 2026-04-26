@@ -252,35 +252,55 @@ h2 em{font-style:italic;color:var(--groen)}
 .vk-lead-center{margin:0 auto 40px;text-align:center}
 h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 
-/* ── QVANTUM TYPES ── */
-.vk-qv-types{display:flex;flex-direction:column;gap:12px;margin:20px 0}
-.vk-qv-type{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--licht);border-radius:var(--r);border-left:3px solid var(--groen)}
-.vk-qv-type-ico{font-size:20px;flex-shrink:0;margin-top:2px}
-.vk-qv-type strong{display:block;font-size:14px;font-weight:700;color:var(--zwart);margin-bottom:4px}
-.vk-qv-type p{font-size:13px;color:var(--grijs);line-height:1.6;margin:0}
-.vk-qv-explain{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid #dcefe2;border-left:4px solid var(--groen);border-radius:var(--r);padding:16px;margin:16px 0 20px;box-shadow:0 8px 24px rgba(6,104,57,.08)}
-.vk-qv-explain-ico{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--groen-xl);font-size:20px;line-height:1;flex-shrink:0}
-.vk-qv-explain strong{display:block;font-size:15px;font-weight:900;color:var(--zwart);margin-bottom:5px}
-.vk-qv-explain p{font-size:13px;line-height:1.65;color:var(--grijs);margin:0}
-@media(max-width:640px){.vk-qv-explain{padding:14px;gap:10px}.vk-qv-explain p{font-size:12px}}
+/* ── MERKSECTIES ── */
+.vk-brand-section{position:relative;overflow:hidden}
+.vk-brand-qvantum{background:linear-gradient(180deg,#fff 0%,#f3fbf5 100%)}
+.vk-brand-nibe{background:linear-gradient(180deg,#f8faf8 0%,#fff 100%)}
+.vk-brand-grid{align-items:center}
+.vk-brand-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.vk-brand-head img{max-width:150px;object-fit:contain}
+.vk-brand-metrics{display:flex;flex-wrap:wrap;gap:8px;margin:-12px 0 22px}
+.vk-brand-metrics span{font-size:12px;font-weight:800;color:var(--groen);background:#fff;border:1px solid #d8ecdf;border-radius:999px;padding:8px 11px;box-shadow:0 8px 22px rgba(8,70,40,.06)}
+.vk-nibe-metrics span{color:#31556f;border-color:#dce6ec;background:#fafdff}
+.vk-qv-types{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0}
+.vk-qv-type{display:flex;gap:14px;align-items:flex-start;padding:16px;background:rgba(255,255,255,.86);border:1px solid #dfeee5;border-radius:var(--r);box-shadow:0 10px 26px rgba(10,60,35,.06);transition:transform .2s,box-shadow .2s,border-color .2s}
+.vk-qv-type:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(10,60,35,.1);border-color:#badfc7}
+.vk-qv-type-ico{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--groen-xl);font-size:21px;flex-shrink:0}
+.vk-qv-type strong{display:block;font-size:15px;font-weight:800;color:var(--zwart);margin-bottom:5px}
+.vk-qv-type p{font-size:13px;color:var(--grijs);line-height:1.62;margin:0}
+.vk-qv-explain{display:flex;gap:16px;align-items:flex-start;background:#0b3d25;color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:18px;margin:18px 0 20px;box-shadow:0 18px 38px rgba(6,104,57,.18)}
+.vk-qv-explain-ico{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:rgba(255,255,255,.14);font-size:22px;line-height:1;flex-shrink:0}
+.vk-qv-explain strong{display:block;font-size:16px;font-weight:900;color:#fff;margin-bottom:6px}
+.vk-qv-explain p{font-size:13px;line-height:1.7;color:rgba(255,255,255,.82);margin:0}
+.vk-brand-checks{margin:20px 0 16px;list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vk-brand-checks>div{display:flex;align-items:flex-start;gap:10px;background:#fff;border:1px solid #e3eee6;border-radius:var(--r);padding:12px;font-size:13px;line-height:1.5}
+.vk-brand-checks strong{color:var(--zwart)}
+@media(max-width:640px){.vk-qv-explain{padding:15px;gap:11px}.vk-qv-explain p{font-size:12px}.vk-brand-checks{grid-template-columns:1fr}.vk-brand-metrics span{font-size:11px;padding:7px 9px}}
 
 /* Product foto */
-.vk-product-foto-wrap{position:relative}
-.vk-product-img{width:100%;border-radius:var(--r-lg);box-shadow:var(--sh-md);object-fit:cover;max-height:500px}
-.vk-product-badge{position:absolute;bottom:-14px;left:24px;background:var(--groen);color:#fff;border-radius:var(--r);padding:14px 20px;box-shadow:var(--sh-md)}
+.vk-product-foto-wrap{position:relative;border-radius:var(--r-lg);padding:22px;background:radial-gradient(circle at 30% 15%,#fff 0%,#eef8f1 42%,#dcefe5 100%);box-shadow:var(--sh-md);overflow:hidden}
+.vk-product-foto-wrap::before{content:'';position:absolute;inset:20px;border:1px solid rgba(6,104,57,.12);border-radius:calc(var(--r-lg) - 6px);pointer-events:none}
+.vk-product-img{width:100%;border-radius:var(--r);object-fit:cover;max-height:500px;position:relative;z-index:1;filter:drop-shadow(0 28px 32px rgba(13,60,35,.2))}
+.vk-product-badge{position:absolute;bottom:22px;left:24px;background:var(--groen);color:#fff;border-radius:var(--r);padding:14px 20px;box-shadow:var(--sh-md);z-index:2}
+.vk-product-badge-top{top:22px;right:24px;bottom:auto;left:auto;background:#fff;color:var(--groen);border:1px solid #d8ecdf}
+.vk-product-ribbon{position:absolute;left:22px;right:22px;bottom:0;z-index:2;background:rgba(11,61,37,.92);color:#fff;font-size:13px;font-weight:800;text-align:center;padding:12px 16px;border-radius:var(--r) var(--r) 0 0}
 .vk-badge-groot{font-family:var(--font-h);font-size:32px;line-height:1}
-.vk-badge-klein{font-size:11px;opacity:.75;margin-top:2px}
+.vk-badge-klein{font-size:11px;opacity:.75;margin-top:2px;font-weight:800;text-transform:uppercase;letter-spacing:0}
 
 /* Vergelijk */
-.vk-vergelijk-kaart{background:#fff;border-radius:var(--r-lg);padding:28px;box-shadow:var(--sh);border:1px solid #e0e0e0}
+.vk-vergelijk-kaart{background:#fff;border-radius:var(--r-lg);padding:30px;box-shadow:0 24px 60px rgba(20,45,30,.1);border:1px solid #dde7df}
+.vk-compare-head{margin-bottom:18px}
+.vk-compare-head span{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0;color:var(--groen)}
+.vk-compare-head h3{margin:3px 0 6px;font-size:24px}
+.vk-compare-head p{font-size:13px;color:var(--grijs);line-height:1.6;margin:0;max-width:430px}
 .vk-vergelijk{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.vk-vergelijk-col{border-radius:var(--r);padding:16px;background:var(--licht)}
-.vk-vergelijk-qvantum{background:var(--groen-xl);border:2px solid var(--groen)}
-.vk-vergelijk-merk{font-weight:800;font-size:15px;margin-bottom:10px;color:var(--zwart)}
-.vk-vergelijk-col ul{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px}
-.vk-vergelijk-tag{margin-top:12px;font-size:11px;font-weight:700;background:var(--groen);color:#fff;padding:3px 10px;border-radius:100px;display:inline-block}
-.vk-tag-grijs{background:var(--grijs)}
-.vk-vergelijk-tip{font-size:12px;color:var(--grijs);text-align:center;margin-top:14px;line-height:1.5}
+.vk-vergelijk-col{border-radius:var(--r);padding:17px;background:#f7f8f7;border:1px solid #e3e6e3;display:flex;flex-direction:column}
+.vk-vergelijk-qvantum{background:linear-gradient(180deg,#eef9f2 0%,#fff 100%);border:2px solid var(--groen)}
+.vk-vergelijk-merk{font-weight:900;font-size:15px;margin-bottom:12px;color:var(--zwart)}
+.vk-vergelijk-col ul{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:13px;line-height:1.35}
+.vk-vergelijk-tag{margin-top:auto;font-size:11px;font-weight:800;background:var(--groen);color:#fff;padding:5px 10px;border-radius:100px;display:inline-flex;align-items:center;width:max-content}
+.vk-tag-grijs{background:#52636c}
+.vk-vergelijk-tip{font-size:12px;color:var(--grijs);text-align:center;margin-top:16px;line-height:1.5}
 @media(max-width:640px){
   .vk-vergelijk-kaart{padding:20px}
   .vk-vergelijk{grid-template-columns:1fr;gap:12px}
@@ -646,23 +666,23 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-hybride-spec strong{display:block;font-size:13px;font-weight:700;color:var(--zwart);margin-bottom:2px}
 .vk-hybride-spec p{font-size:12px;color:var(--grijs);margin:0}
 
-/* Qvantum prominenter */
-.vk-vergelijk-qvantum { background: var(--groen-xl); border: 2px solid var(--groen); }
-.vk-vergelijk-qvantum .vk-vergelijk-merk { color: var(--groen); font-size: 17px; }
-
-/* Nibe subtieler - lichtere achtergrond, kleinere tekst */
-.vk-cols-flip .vk-eyebrow { color: #888; font-size: 11px; }
-.vk-cols-flip h2 { font-size: clamp(22px, 2.5vw, 36px); color: #444; }
-.vk-cols-flip .vk-lead { font-size: 15px; color: #888; }
-.vk-cols-flip .vk-qv-type { background: #f9f9f9; border-left-color: #ccc; }
-.vk-cols-flip .vk-qv-type strong { color: #555; font-size: 13px; }
-.vk-cols-flip .vk-qv-type p { font-size: 12px; color: #aaa; }
-.vk-cols-flip .vk-btn-outline-groen { font-size: 13px; padding: 10px 20px; border-color: #ccc; color: #888; }
-.vk-cols-flip .vk-btn-outline-groen:hover { background: #f5f5f5; }
-
-/* Nibe sectie nog kleiner */
-.vk-cols-flip h2 { font-size: clamp(20px, 2.2vw, 30px) !important; }
-.vk-cols-flip .vk-merk-logo-groot img { height: 20px !important; }
+/* Merksecties responsive polish */
+.vk-brand-nibe .vk-qv-type{border-color:#dfe8ed;background:#fff}
+.vk-brand-nibe .vk-qv-type-ico{background:#edf5f8}
+.vk-brand-nibe .vk-eyebrow{color:#31556f}
+.vk-brand-nibe .vk-btn-outline-groen{margin-top:4px}
+@media(max-width:860px){
+  .vk-brand-grid{gap:34px}
+  .vk-product-foto-wrap{max-width:560px;margin:0 auto}
+}
+@media(max-width:520px){
+  .vk-product-foto-wrap{padding:14px}
+  .vk-product-badge{left:14px;bottom:18px;padding:10px 13px}
+  .vk-product-badge-top{right:14px;top:14px;left:auto;bottom:auto}
+  .vk-product-ribbon{left:14px;right:14px;font-size:11px;padding:10px 12px}
+  .vk-badge-groot{font-size:24px}
+  .vk-compare-head h3{font-size:21px}
+}
 .vk-cols-flip .vk-lead { font-size: 14px !important; }
 .vk-cols-flip .vk-qv-type strong { font-size: 12px !important; }
 .vk-cols-flip .vk-btn-outline-groen { font-size: 12px !important; padding: 8px 16px !important; }

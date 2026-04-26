@@ -228,23 +228,36 @@ $reviews = wc_meta_rows('wc_reviews', [
 </div>
 
 <!-- QVANTUM SPOTLIGHT -->
-<section class="vk-section">
+<section class="vk-section vk-brand-section vk-brand-qvantum">
   <div class="vk-container">
-    <div class="vk-cols-2">
+    <div class="vk-cols-2 vk-brand-grid">
       <div class="vk-reveal">
-        <div class="vk-product-foto-wrap">
+        <div class="vk-product-foto-wrap vk-qvantum-product">
           <img class="vk-product-img" src="https://www.qvantum.com/wp-content/uploads/2024/02/QAQH_2000px-e1737129072551.jpg" alt="Qvantum warmtepomp" loading="lazy">
           <div class="vk-product-badge">
             <div class="vk-badge-groot">COP 4,5</div>
             <div class="vk-badge-klein">Max. rendement</div>
           </div>
+          <div class="vk-product-badge vk-product-badge-top">
+            <div class="vk-badge-klein">Thermische batterij</div>
+            <div class="vk-badge-groot">90°C</div>
+          </div>
+          <div class="vk-product-ribbon">Vers warm tapwater via platenwisselaar</div>
         </div>
       </div>
       <div class="vk-reveal">
-        <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe6fe0053da7edd61e_Qvantum-logo.avif" alt="Qvantum" height="24" style="margin-bottom:16px">
-        <div class="vk-eyebrow"><?=esc_html(wc_meta('wc_qvantum_eyebrow','Aanbevolen systeem · Qvantum'))?></div>
+        <div class="vk-brand-head">
+          <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe6fe0053da7edd61e_Qvantum-logo.avif" alt="Qvantum" height="24">
+          <div class="vk-eyebrow"><?=esc_html(wc_meta('wc_qvantum_eyebrow','Aanbevolen systeem · Qvantum'))?></div>
+        </div>
         <h2><?=wp_kses_post(wc_meta('wc_qvantum_titel','Warmtepomp <em>zonder boiler</em> — én thermische batterij'))?></h2>
         <p class="vk-lead"><?=esc_html(wc_meta('wc_qvantum_lead','Qvantum biedt drie typen warmtepompen — allemaal gebouwd rond hetzelfde principe: de ingebouwde buffertank fungeert als een thermische batterij. Net als een thuisbatterij slaat de warmtepomp goedkope energie op en gebruikt die op momenten dat stroom duur is.'))?></p>
+
+        <div class="vk-brand-metrics">
+          <span>Geen groot boilervat</span>
+          <span>QA · QE · QG</span>
+          <span>Slim met stroomprijzen</span>
+        </div>
 
         <div class="vk-qv-types">
           <?php foreach($qvantum_types as [$ico,$title,$text]): ?>
@@ -266,26 +279,34 @@ $reviews = wc_meta_rows('wc_reviews', [
           </div>
         </div>
 
-        <div class="vk-usp-list" style="margin-top:20px;list-style:none;padding:0;display:flex;flex-direction:column;gap:12px">
+        <div class="vk-usp-list vk-brand-checks">
           <?php foreach($qvantum_usps as [$title,$text]): ?>
-            <div style="display:flex;align-items:flex-start;gap:10px"><span class="vk-check">✓</span><div><strong><?=esc_html($title)?></strong> — <?=esc_html($text)?></div></div>
+            <div><span class="vk-check">✓</span><div><strong><?=esc_html($title)?></strong> — <?=esc_html($text)?></div></div>
           <?php endforeach; ?>
         </div>
-        <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:8px"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum offerte aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-groen"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum offerte aanvragen →'))?></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- NIBE SECTIE -->
-<section class="vk-section vk-bg-licht">
+<section class="vk-section vk-brand-section vk-brand-nibe">
   <div class="vk-container">
-    <div class="vk-cols-2 vk-cols-flip">
+    <div class="vk-cols-2 vk-cols-flip vk-brand-grid">
       <div class="vk-reveal">
-        <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe021869f07fdf55a8_nibe-logo-png_seeklogo-188975%20(1).avif" alt="Nibe" height="24" style="margin-bottom:16px">
-        <div class="vk-eyebrow"><?=esc_html(wc_meta('wc_nibe_eyebrow','Betrouwbare kwaliteit · Nibe'))?></div>
+        <div class="vk-brand-head">
+          <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe021869f07fdf55a8_nibe-logo-png_seeklogo-188975%20(1).avif" alt="Nibe" height="24">
+          <div class="vk-eyebrow"><?=esc_html(wc_meta('wc_nibe_eyebrow','Betrouwbare kwaliteit · Nibe'))?></div>
+        </div>
         <h2><?=wp_kses_post(wc_meta('wc_nibe_titel','Nibe — 30 jaar bewezen betrouwbaarheid'))?></h2>
         <p class="vk-lead"><?=esc_html(wc_meta('wc_nibe_lead','Nibe is een Scandinavisch merk met meer dan 30 jaar ervaring in warmtepompen. Bekend om lange levensduur, uitstekende service en hoog rendement. Vakvriend installeert het complete Nibe assortiment.'))?></p>
+
+        <div class="vk-brand-metrics vk-nibe-metrics">
+          <span>Scandinavische techniek</span>
+          <span>Hybride en all-electric</span>
+          <span>Bodemwarmte mogelijk</span>
+        </div>
 
         <div class="vk-qv-types">
           <?php foreach($nibe_types as [$ico,$title,$text]): ?>
@@ -299,11 +320,15 @@ $reviews = wc_meta_rows('wc_reviews', [
           <?php endforeach; ?>
         </div>
 
-        <a href="#formulier" class="vk-btn vk-btn-outline-groen" style="margin-top:20px"><?=esc_html(wc_meta('wc_nibe_cta','Nibe offerte aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-outline-groen"><?=esc_html(wc_meta('wc_nibe_cta','Nibe offerte aanvragen →'))?></a>
       </div>
       <div class="vk-reveal">
         <div class="vk-vergelijk-kaart">
-          <h3 style="margin-bottom:16px;font-size:19px">Qvantum vs Nibe — wat past bij u?</h3>
+          <div class="vk-compare-head">
+            <span>Merkkeuze</span>
+            <h3>Qvantum vs Nibe</h3>
+            <p>Niet de winnaar kiezen, maar het systeem dat past bij woning, tapwater en ruimte.</p>
+          </div>
           <div class="vk-vergelijk">
             <div class="vk-vergelijk-col vk-vergelijk-qvantum">
               <div class="vk-vergelijk-merk">⭐ Qvantum</div>
