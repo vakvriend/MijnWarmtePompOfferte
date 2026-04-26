@@ -234,7 +234,7 @@ $reviews = wc_meta_rows('wc_reviews', [
 <section class="vk-section vk-brand-section vk-brand-qvantum">
   <div class="vk-container">
     <div class="vk-cols-2 vk-brand-grid">
-      <div class="vk-reveal">
+      <div class="vk-reveal vk-product-card-stack">
         <div class="vk-product-foto-wrap vk-qvantum-product">
           <img class="vk-product-img" src="https://www.qvantum.com/wp-content/uploads/2024/02/QAQH_2000px-e1737129072551.jpg" alt="Qvantum warmtepomp" loading="lazy">
           <div class="vk-product-badge">
@@ -247,6 +247,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           </div>
           <div class="vk-product-ribbon">Vers warm tapwater via platenwisselaar</div>
         </div>
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-product-cta"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum offerte aanvragen →'))?></a>
       </div>
       <div class="vk-reveal">
         <div class="vk-brand-head">

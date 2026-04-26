@@ -280,12 +280,15 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 @media(max-width:640px){.vk-qv-explain{padding:15px;gap:11px}.vk-qv-explain p{font-size:12px}.vk-brand-checks{grid-template-columns:1fr}.vk-brand-metrics span{font-size:11px;padding:7px 9px}}
 
 /* Product foto */
-.vk-product-foto-wrap{position:sticky;top:128px;border-radius:var(--r-lg);padding:22px;background:radial-gradient(circle at 30% 15%,#fff 0%,#eef8f1 42%,#dcefe5 100%);box-shadow:var(--sh-md);overflow:hidden}
-.vk-product-foto-wrap::before{content:'';position:absolute;inset:20px;border:1px solid rgba(6,104,57,.12);border-radius:calc(var(--r-lg) - 6px);pointer-events:none}
-.vk-product-img{width:100%;border-radius:var(--r);object-fit:contain;max-height:420px;position:relative;z-index:1;filter:drop-shadow(0 28px 32px rgba(13,60,35,.2));background:#fff}
-.vk-product-badge{position:absolute;bottom:62px;left:24px;background:var(--groen);color:#fff;border-radius:var(--r);padding:14px 20px;box-shadow:var(--sh-md);z-index:2}
+.vk-product-card-stack{display:flex;flex-direction:column;gap:16px;align-self:start}
+.vk-product-foto-wrap{position:relative;top:auto;border-radius:24px;padding:22px;background:linear-gradient(145deg,#f8fff9 0%,#eef8f1 46%,#dcefe5 100%);box-shadow:0 26px 70px rgba(15,70,40,.14);overflow:hidden;border:1px solid #dcefe4}
+.vk-product-foto-wrap::before{content:'';position:absolute;inset:16px;border:1px solid rgba(6,104,57,.13);border-radius:18px;pointer-events:none;z-index:1}
+.vk-product-foto-wrap::after{content:'';position:absolute;right:-80px;top:-90px;width:220px;height:220px;background:rgba(6,104,57,.12);border-radius:50%;filter:blur(4px);pointer-events:none}
+.vk-product-img{width:100%;border-radius:18px;object-fit:contain;max-height:370px;position:relative;z-index:1;filter:drop-shadow(0 26px 30px rgba(13,60,35,.18));background:#fff;padding:10px}
+.vk-product-badge{position:absolute;bottom:82px;left:24px;background:var(--groen);color:#fff;border-radius:16px;padding:13px 18px;box-shadow:0 16px 34px rgba(6,104,57,.22);z-index:2}
 .vk-product-badge-top{top:22px;right:24px;bottom:auto;left:auto;background:#fff;color:var(--groen);border:1px solid #d8ecdf}
-.vk-product-ribbon{position:absolute;left:22px;right:22px;bottom:0;z-index:2;background:rgba(11,61,37,.92);color:#fff;font-size:13px;font-weight:800;text-align:center;padding:12px 16px;border-radius:var(--r) var(--r) 0 0}
+.vk-product-ribbon{position:absolute;left:22px;right:22px;bottom:20px;z-index:2;background:rgba(11,61,37,.94);color:#fff;font-size:13px;font-weight:800;text-align:center;padding:11px 16px;border-radius:999px;box-shadow:0 12px 28px rgba(11,61,37,.18)}
+.vk-product-cta{width:100%;justify-content:center;box-shadow:0 14px 34px rgba(6,104,57,.18)}
 .vk-badge-groot{font-family:var(--font-h);font-size:32px;line-height:1}
 .vk-badge-klein{font-size:11px;opacity:.75;margin-top:2px;font-weight:800;text-transform:uppercase;letter-spacing:0}
 
@@ -295,12 +298,12 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-compare-head span{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0;color:var(--groen)}
 .vk-compare-head h3{margin:3px 0 6px;font-size:24px}
 .vk-compare-head p{font-size:13px;color:var(--grijs);line-height:1.6;margin:0;max-width:430px}
-.vk-vergelijk{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-.vk-vergelijk-col{border-radius:var(--r);padding:17px;background:#f7f8f7;border:1px solid #e3e6e3;display:flex;flex-direction:column}
+.vk-vergelijk{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;align-items:stretch}
+.vk-vergelijk-col{border-radius:var(--r);padding:17px;background:#f7f8f7;border:1px solid #e3e6e3;display:flex;flex-direction:column;min-height:100%}
 .vk-vergelijk-qvantum{background:linear-gradient(180deg,#eef9f2 0%,#fff 100%);border:2px solid var(--groen)}
 .vk-vergelijk-merk{font-weight:900;font-size:15px;margin-bottom:12px;color:var(--zwart)}
-.vk-vergelijk-col ul{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:13px;line-height:1.35}
-.vk-vergelijk-tag{margin-top:auto;font-size:11px;font-weight:800;background:var(--groen);color:#fff;padding:5px 10px;border-radius:100px;display:inline-flex;align-items:center;width:max-content}
+.vk-vergelijk-col ul{list-style:none;display:flex;flex:1;flex-direction:column;gap:7px;font-size:13px;line-height:1.35}
+.vk-vergelijk-tag{margin-top:14px;font-size:11px;font-weight:800;background:var(--groen);color:#fff;padding:5px 12px;border-radius:100px;display:inline-flex;align-items:center;justify-content:center;width:max-content;min-height:28px;line-height:1}
 .vk-tag-grijs{background:#52636c}
 .vk-vergelijk-tip{font-size:12px;color:var(--grijs);text-align:center;margin-top:16px;line-height:1.5}
 @media(max-width:640px){
@@ -704,14 +707,15 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-brand-nibe .vk-btn-outline-groen{margin-top:4px}
 @media(max-width:860px){
   .vk-brand-grid{gap:30px}
-  .vk-product-foto-wrap{position:relative;top:auto;max-width:560px;margin:0 auto}
+  .vk-product-card-stack{max-width:560px;margin:0 auto}
+  .vk-product-foto-wrap{max-width:100%;margin:0 auto}
 }
 @media(max-width:520px){
   .vk-product-foto-wrap{padding:14px}
   .vk-product-img{max-height:270px}
-  .vk-product-badge{left:14px;bottom:48px;padding:10px 13px}
+  .vk-product-badge{left:14px;bottom:72px;padding:10px 13px}
   .vk-product-badge-top{right:14px;top:14px;left:auto;bottom:auto}
-  .vk-product-ribbon{left:14px;right:14px;font-size:11px;padding:10px 12px}
+  .vk-product-ribbon{left:14px;right:14px;bottom:14px;font-size:11px;padding:10px 12px}
   .vk-badge-groot{font-size:24px}
   .vk-compare-head h3{font-size:21px}
   .vk-qv-type{grid-template-columns:38px 1fr;gap:12px;padding:14px}
