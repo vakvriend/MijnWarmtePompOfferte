@@ -64,6 +64,10 @@ function vkTrackGa4(eventName, payload) {
   }
 
   window.gtag('event', gaEventName, params);
+
+  if (eventName === 'lead_form_success') {
+    window.gtag('event', 'qualify_lead', params);
+  }
 }
 
 function vkTrackAdsLeadConversion() {
