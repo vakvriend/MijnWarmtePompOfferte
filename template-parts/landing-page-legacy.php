@@ -392,35 +392,36 @@ $reviews = wc_meta_rows('wc_reviews', [
 
 
 <!-- HYBRIDE SECTIE -->
-<section class="vk-section vk-bg-licht">
+<section class="vk-section vk-bg-licht vk-hybride-section">
   <div class="vk-container">
-    <div class="vk-cols-2">
+    <div class="vk-cols-2 vk-hybride-grid">
       <div class="vk-reveal">
         <div class="vk-eyebrow">Tussenstap naar gasloos</div>
         <h2>Hybride warmtepomp — <em>het beste van twee werelden</em></h2>
-        <p class="vk-lead">Nog niet klaar voor volledig gasloos? Een hybride warmtepomp combineert een warmtepomp met uw bestaande CV-ketel. De warmtepomp doet het werk bij mild weer, de ketel springt bij als het echt koud is. U bespaart direct op gas zonder grote aanpassingen aan uw woning.</p>
-        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">
-          <div style="display:flex;align-items:flex-start;gap:10px;font-size:15px"><span class="vk-check">✓</span><div><strong>Lagere investering</strong> — geen dure aanpassingen aan radiatoren nodig</div></div>
-          <div style="display:flex;align-items:flex-start;gap:10px;font-size:15px"><span class="vk-check">✓</span><div><strong>Direct besparen</strong> — 30-50% minder gasverbruik vanaf dag 1</div></div>
-          <div style="display:flex;align-items:flex-start;gap:10px;font-size:15px"><span class="vk-check">✓</span><div><strong>ISDE-subsidie</strong> — ook voor hybride systemen beschikbaar</div></div>
-          <div style="display:flex;align-items:flex-start;gap:10px;font-size:15px"><span class="vk-check">✓</span><div><strong>Ideale tussenstap</strong> — later eenvoudig uitbreiden naar volledig elektrisch</div></div>
+        <p class="vk-lead">Nog niet klaar voor volledig gasloos? Een hybride warmtepomp combineert een warmtepomp met uw bestaande CV-ketel. De warmtepomp doet het meeste werk bij mild weer, de ketel springt bij als het echt koud is. Vakvriend beoordeelt merkonafhankelijk of hybride verstandig is, of dat all-electric direct beter past.</p>
+        <div class="vk-hybride-punten">
+          <div><span class="vk-check">✓</span><div><strong>Lagere investering</strong> — vaak zonder grote aanpassingen aan radiatoren</div></div>
+          <div><span class="vk-check">✓</span><div><strong>Direct besparen</strong> — interessant als tussenstap bij oudere woningen</div></div>
+          <div><span class="vk-check">✓</span><div><strong>ISDE-subsidie</strong> — ook voor hybride systemen beschikbaar</div></div>
+          <div><span class="vk-check">✓</span><div><strong>Geen eindstation</strong> — later alsnog door naar volledig elektrisch als de woning klaar is</div></div>
         </div>
         <a href="#formulier" class="vk-btn vk-btn-groen">Hybride offerte aanvragen →</a>
       </div>
       <div class="vk-reveal">
         <div class="vk-hybride-kaart">
           <div class="vk-hybride-logo">
-            <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe55c685e273a402fa_intergas-logo.avif" alt="Intergas" height="28" style="margin-bottom:16px">
+            <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe55c685e273a402fa_intergas-logo.avif" alt="Intergas" height="28">
+            <span>Hybride optie</span>
           </div>
           <h3>Intergas Xtend Eco</h3>
-          <p style="color:var(--grijs);font-size:15px;line-height:1.7;margin-bottom:20px">De Intergas Xtend Eco is de slimste hybride warmtepomp op de markt. In één compact systeem zit zowel de warmtepomp als de Intergas HR-ketel. Ideaal als vervanging van uw bestaande Intergas ketel — plug and play installatie.</p>
+          <p class="vk-hybride-intro">De Intergas Xtend Eco is een compacte hybride oplossing voor woningen waar volledig elektrisch nog niet logisch is. Vooral interessant wanneer de bestaande cv-installatie nog goed bruikbaar is en u eerst flink gas wilt besparen.</p>
           <div class="vk-hybride-specs">
             <div class="vk-hybride-spec"><span>⚡</span><div><strong>COP tot 4,0</strong><p>Hoog rendement bij mild weer</p></div></div>
             <div class="vk-hybride-spec"><span>🔥</span><div><strong>Ketel als backup</strong><p>Springt bij onder -7°C</p></div></div>
             <div class="vk-hybride-spec"><span>📦</span><div><strong>Compact</strong><p>Vervangt bestaande ketel 1-op-1</p></div></div>
             <div class="vk-hybride-spec"><span>💶</span><div><strong>ISDE-subsidie</strong><p>Tot €2.000 beschikbaar</p></div></div>
           </div>
-          <a href="#formulier" class="vk-btn vk-btn-outline-groen" style="width:100%;justify-content:center;margin-top:20px">Vrijblijvend advies aanvragen</a>
+          <a href="#formulier" class="vk-btn vk-btn-outline-groen">Vrijblijvend advies aanvragen</a>
         </div>
       </div>
     </div>
