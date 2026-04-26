@@ -5,7 +5,7 @@ function wc_tracking_settings_init() {
     register_setting('wc_tracking', 'wc_gtm_container_id', array(
         'type'              => 'string',
         'sanitize_callback' => 'wc_sanitize_gtm_container_id',
-        'default'           => '',
+        'default'           => 'GTM-NR62JDXS',
     ));
 
     add_settings_section(
@@ -68,7 +68,7 @@ function wc_tracking_page() {
 }
 
 function wc_get_gtm_container_id() {
-    return wc_sanitize_gtm_container_id(get_option('wc_gtm_container_id', ''));
+    return wc_sanitize_gtm_container_id(get_option('wc_gtm_container_id', 'GTM-NR62JDXS'));
 }
 
 function wc_gtm_head() {
