@@ -326,7 +326,7 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <a href="#formulier" class="vk-btn vk-btn-outline-groen"><?=esc_html(wc_meta('wc_nibe_cta','Nibe offerte aanvragen →'))?></a>
       </div>
-      <div class="vk-reveal">
+      <div class="vk-reveal vk-compare-sticky">
         <div class="vk-vergelijk-kaart">
           <div class="vk-compare-head">
             <span>Merkkeuze</span>
