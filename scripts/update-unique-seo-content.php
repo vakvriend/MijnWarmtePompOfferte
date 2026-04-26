@@ -56,7 +56,7 @@ $special = array(
         'wc_hero_subtitel' => 'Qvantum gebruikt geen groot vat met stilstaand douchewater. De thermische batterij levert warmte aan een platenwisselaar, waardoor tapwater vers wordt verwarmd wanneer u de kraan opent.',
         'wc_lokale_h2' => 'Warmtepomp zonder groot boilervat',
         'wc_lokale_intro' => 'Voor veel woningen is ruimte een probleem. Een traditioneel boilervat is groot, zwaar en niet altijd handig te plaatsen. Qvantum kiest daarom voor warmteopslag in een thermische batterij.',
-        'wc_lokale_alinea1' => 'Denk aan een warme steen die energie bewaart. De warmtepomp laadt die batterij op en gebruikt de warmte later voor verwarming en tapwater. Het douchewater zelf ligt dus niet opgeslagen.',
+        'wc_lokale_alinea1' => 'De warmtepomp slaat warmte op in de thermische batterij en gebruikt die later voor verwarming en tapwater. Het douchewater zelf wordt niet als voorraad opgeslagen.',
         'wc_lokale_alinea2' => 'Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en maakt het water direct warm. Dat is compact en praktisch.',
         'wc_lokale_alinea3' => 'Vakvriend controleert of deze oplossing past bij uw gezin, douchegedrag, meterkast, leidingwerk en beschikbare installatieruimte.',
         'wc_lokale_faq_v1' => 'Is een warmtepomp zonder boiler geschikt voor elk huishouden?',
@@ -269,7 +269,7 @@ function vk_local_meta($title, $spec, $index) {
     $benefit_sets = array(
         "🧭|Advies op woningniveau|We beoordelen eerst bouwjaar, isolatie, afgifte en ruimte voordat er een merk op tafel komt.\n🔇|Plaatsing zonder gedoe|Geluid, buren en onderhoudsruimte worden vooraf meegenomen in het plan.\n💶|Subsidie helder verwerkt|U ziet bruto prijs, verwachte ISDE en netto investering apart terug.",
         "🏠|Geen standaardpakket|De keuze tussen hybride, Qvantum, Nibe of bodemwarmte volgt uit uw woning, niet uit een aanbieding.\n🚿|Tapwater eerlijk beoordeeld|Gezin, douchegedrag en beschikbare ruimte tellen mee in de systeemkeuze.\n📋|Offerte met uitleg|Elke grote kostenpost wordt begrijpelijk gemaakt voordat u beslist.",
-        "⚙️|Techniekruimte gecheckt|Binnenmodule, leidingen, elektra en eventuele buffer worden vooraf bekeken.\n🌿|Minder gas met beleid|We sturen op besparing zonder comfort of geluid te vergeten.\n📍|Lokale omstandigheden meegewogen|Woningtype, straatbeeld en opstelplek bepalen de uitvoering.",
+        "⚙️|Techniekruimte gecheckt|Binnenmodule, leidingen, elektra en eventuele buffer worden vooraf bekeken.\n🌿|Minder gas met beleid|We sturen op besparing zonder comfort of geluid te vergeten.\n📍|Opstelplek vooraf beoordeeld|Woningtype, geluidspositie en onderhoudsruimte bepalen de uitvoering.",
         "📐|Warmteverlies als basis|Het benodigde vermogen wordt niet gegokt maar onderbouwd met uw situatie.\n🧾|Geen verborgen randwerk|Elektra, leidingroutes en regeling worden meegenomen in de beoordeling.\n🤝|Eerlijk vergelijk|Als een goedkoper systeem beter past, zeggen we dat ook.",
         "🌡️|Comfort in koude weken|We kijken niet alleen naar jaargemiddelden maar naar prestaties wanneer het buiten echt fris is.\n🔁|Voorbereid op later|Hybride kan zo worden gekozen dat een volgende stap naar gasloos logisch blijft.\n🧠|Qvantum en Nibe naast elkaar|U krijgt uitleg over thermische batterij, boileropties en regeling.",
         "🛠️|Installatiepraktijk telt|De offerte gaat ook over bereikbaarheid, montage, condensafvoer en onderhoud.\n⚡|Zonnepanelen slim benut|Eigen stroom wordt meegenomen zonder de wintervraag te overschatten.\n✅|Beslissen met rust|U krijgt een voorstel dat technische keuzes vertaalt naar gewone taal.",
@@ -284,7 +284,7 @@ function vk_local_meta($title, $spec, $index) {
     $alinea2 = strtr(vk_pick($attention_styles, $index + 3), array('{city}' => $city, '{attention}' => $attention));
     $alinea3 = vk_pick($closing_styles, $index + 5) . ' Voor ' . $city . ' vertalen we dat naar een concreet advies dat past bij ' . $region . '.';
     $extra = strtr(vk_pick($extra_openers, $index), array('{city}' => $city, '{region}' => $region)) . ' ' .
-        'Voor ' . $city . ' nemen we daarom de lokale woningmix mee: ' . $area . '. ' . ucfirst($focus) . ', maar alleen wanneer de installatievoorwaarden kloppen.' . "\n\n" .
+        'Voor ' . $city . ' nemen we daarom de technische uitgangspunten mee: ' . $area . '. ' . ucfirst($focus) . ', maar alleen wanneer de installatievoorwaarden kloppen.' . "\n\n" .
         vk_pick($extra_middle, $index + 2) . ' In de opname kijken we specifiek naar ' . $attention . ', omdat dat in ' . $region . ' de praktische uitkomst vaak bepaalt.' . "\n\n" .
         vk_pick($extra_close, $index + 4);
     $qvantum_types = "💨|Qvantum QA — lucht/water warmtepomp|De QA haalt warmte uit de buitenlucht en geeft die af aan het cv-water. Het systeem werkt met R290 koudemiddel, een QH-hydromodule en een thermische batterij voor verwarming en tapwater. In de opname controleren we vermogen, geluidspositie en leidingroute.\n" .
@@ -300,7 +300,7 @@ function vk_local_meta($title, $spec, $index) {
     $warmtepomp_types = "💨|Meest toegepast|Lucht/water warmtepomp|Haalt warmte uit buitenlucht en geeft die via water af aan radiatoren of vloerverwarming. Geschikt voor hybride en volledig elektrische installaties, mits vermogen en geluid goed worden ontworpen voor de woning in " . $city . ".|Geen bodemboring nodig;Geschikt voor bestaande woningen;Let op buitenunitpositie;ISDE-subsidie mogelijk;Goede warmteverliesberekening nodig|Qvantum QA of Nibe lucht/water\n" .
         "🌬️|Zonder buitenunit mogelijk|Ventilatie warmtepomp|Gebruikt warmte uit afvoerventilatielucht. Vooral interessant bij goed geventileerde woningen, appartementen of situaties waar een buitenunit niet wenselijk is.|Geen buitenunit;Ventilatie moet geschikt zijn;Compacte installatie;Tapwater apart beoordelen;Niet elke woning is geschikt|Qvantum QE met mogelijke QS-combinatie\n" .
         "🌍|Hoog rendement|Bodemwarmtepomp|Gebruikt warmte uit de bodem via een gesloten bron of boring. Dit is technisch sterk, maar vraagt meer voorbereiding en een hogere investering.|Stabiele bron;Hoog rendement;Boring en vergunning nodig;Interessant voor lange termijn;Past vooral bij geschikte percelen|Nibe bodem/water of Qvantum QG";
-    $vv_props = "🏗️|Bekend met woningmix in " . $city . "|Vakvriend kijkt naar " . $area . " en vertaalt dat naar een realistische systeemkeuze.\n" .
+    $vv_props = "🏗️|Technische opname in " . $city . "|Vakvriend kijkt naar bouwjaar, isolatie, afgiftesysteem, tapwater en installatieruimte voordat er een merk wordt gekozen.\n" .
         "🔇|Geluid en buren vooraf geregeld|In " . $region . " beoordelen we buitenunitpositie, trillingsdemping, erfgrens en onderhoudsruimte voordat u akkoord geeft.\n" .
         "📋|Merkonafhankelijk advies|Qvantum, Nibe en andere passende warmtepompoplossingen worden naast elkaar gelegd. De woning in " . $city . " bepaalt de richting, niet de marge op een toestel.\n" .
         "💶|ISDE in de lokale rekensom|U ziet bruto prijs, subsidie-inschatting, installatiewerk en voorbereiding apart terug, afgestemd op uw situatie in " . $city . ".";
@@ -320,13 +320,13 @@ function vk_local_meta($title, $spec, $index) {
         'wc_hero_subtitel' => $hero_sub,
         'wc_form_titel' => 'Advies voor uw woning in ' . $city,
         'wc_form_subtitel' => 'Beantwoord de vragen en ontvang een check op systeemkeuze, subsidie en plaatsing voor uw situatie in ' . $city . '.',
-        'wc_campaign_proof' => "24 uur|eerste reactie op uw aanvraag\nISDE|verwachte subsidie apart berekend\n" . $city . "|advies afgestemd op de lokale woningmix",
+        'wc_campaign_proof' => "24 uur|eerste reactie op uw aanvraag\nISDE|verwachte subsidie apart berekend\n" . $city . "|advies op basis van woninggegevens",
         'wc_qvantum_eyebrow' => 'Qvantum advies voor ' . $city,
         'wc_qvantum_titel' => 'Qvantum warmtepomp: QA, QE en QG helder uitgelegd',
         'wc_qvantum_lead' => 'Qvantum heeft drie hoofdoplossingen: QA lucht/water, QE ventilatie en QG water/water. Alle systemen werken met thermische opslag. Vakvriend bekijkt voor uw woning in ' . $city . ' of Qvantum technisch logisch is, of dat Nibe, hybride of bodemwarmte beter past.',
         'wc_qvantum_types' => $qvantum_types,
         'wc_qvantum_uitleg_titel' => 'Warm water zonder groot boilervat',
-        'wc_qvantum_uitleg_tekst' => 'Qvantum slaat warmte op in een thermische batterij. Tapwater wordt niet als voorraad in een groot boilervat bewaard. Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het water direct en vers.',
+        'wc_qvantum_uitleg_tekst' => 'Qvantum slaat warmte op in een thermische batterij. Tapwater wordt niet als voorraad in een groot boilervat bewaard. Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het water direct en vers. Voor uw woning in ' . $city . ' beoordelen we doucheprofiel, leidinglengtes en beschikbare technische ruimte.',
         'wc_qvantum_usps' => $qvantum_usps,
         'wc_qvantum_cta' => 'Qvantum check voor ' . $city . ' aanvragen',
         'wc_nibe_eyebrow' => 'Nibe configuratie voor ' . $city,
