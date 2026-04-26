@@ -114,11 +114,6 @@ $reviews = wc_meta_rows('wc_reviews', [
           <h2><?=esc_html($form_titel)?></h2>
           <p><?=esc_html($form_subtitel)?></p>
         </div>
-        <div class="vk-form-benefits">
-          <?php foreach($form_benefits as [$benefit]): if(!$benefit) continue; ?>
-            <span><?=esc_html($benefit)?></span>
-          <?php endforeach; ?>
-        </div>
         <div class="vk-form-trust-bar">
           <span>🔒 Veilig</span><span>⚡ Binnen 24u reactie</span><span>✅ Gratis & vrijblijvend</span>
         </div>
