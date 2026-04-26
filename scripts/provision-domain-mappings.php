@@ -199,10 +199,7 @@ foreach ($domains as $host => $spec) {
     $post_id = vk_find_or_create_page($spec['title']);
     vk_update_page_meta($post_id, vk_page_meta($spec));
     vk_upsert_mapping($host, $post_id);
-
-    if ($host === 'warmtepomphilversum.nl') {
-        vk_upsert_mapping('www.warmtepomphilversum.nl', $post_id);
-    }
+    vk_upsert_mapping('www.' . $host, $post_id);
 
     echo $host . ' -> page ' . $post_id . ' (' . $spec['title'] . ')' . PHP_EOL;
 }
