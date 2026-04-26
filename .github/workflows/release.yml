@@ -27,8 +27,10 @@ jobs:
             --exclude ".git/" \
             --exclude ".github/" \
             --exclude ".DS_Store" \
+            --exclude "docs/" \
             --exclude "log/" \
             --exclude "node_modules/" \
+            --exclude "plugins/" \
             --exclude "vendor/" \
             --exclude "*.zip" \
             ./ "/tmp/${THEME_SLUG}/"
