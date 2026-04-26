@@ -287,19 +287,19 @@ function vk_local_meta($title, $spec, $index) {
         'Voor ' . $city . ' nemen we daarom de lokale woningmix mee: ' . $area . '. ' . ucfirst($focus) . ', maar alleen wanneer de installatievoorwaarden kloppen.' . "\n\n" .
         vk_pick($extra_middle, $index + 2) . ' In de opname kijken we specifiek naar ' . $attention . ', omdat dat in ' . $region . ' de praktische uitkomst vaak bepaalt.' . "\n\n" .
         vk_pick($extra_close, $index + 4);
-    $qvantum_types = "💨|Qvantum QA voor " . $city . "|De lucht/water QA past vaak bij grondgebonden woningen waar een buitenunit netjes kan staan. In " . $city . " letten we vooral op " . $attention . ", zodat de thermische batterij niet alleen slim rekent maar ook prettig werkt in de straat.\n" .
-        "🌬️|Qvantum QE bij beperkte buitenruimte|Voor appartementen, bovenwoningen of situaties waar een buitenunit gevoelig ligt, beoordelen we of ventilatiewarmte logisch is. Dat is in " . $city . " interessant wanneer " . $focus . " en de ventilatieroute klopt.\n" .
-        "🌍|Qvantum QG in " . $region . "|Bij voldoende ruimte onderzoeken we of bodem of bron zinvol is. De QG gebruikt ook thermische opslag, maar vraagt in " . $region . " om een serieuze check op perceel, vergunning, leidingroute en warmteverlies.";
-    $qvantum_usps = "Thermische batterij|Alle Qvantum-systemen slaan warmte op in een batterij, niet in een groot vat met douchewater. Voor " . $city . " scheelt dat ruimte en maakt het tapwaterverhaal eenvoudiger.\n" .
-        "Vers warm water|Koud leidingwater loopt langs een platenwisselaar die warmte uit de batterij haalt. Kinderlijk simpel: de batterij is de warme steen, de wisselaar maakt uw water direct warm.\n" .
-        "Slim met stroom|Qvantum kan warmte bewaren voor momenten waarop stroom gunstiger is. Dat nemen we mee bij woningen in " . $city . " met zonnepanelen of variabele tarieven.\n" .
-        "Rustig geplaatst|De keuze tussen QA, QE en QG hangt af van geluid, ruimte en bouwjaar. Precies daarom bekijken we de woning in " . $region . " eerst technisch.";
-    $nibe_types = "💨|Nibe lucht/water in " . $city . "|Een sterke keuze wanneer er buiten voldoende ruimte is en het afgiftesysteem klopt. We beoordelen in " . $city . " de opstelplek, nachtstand en leidinglengte voordat we vermogen adviseren.\n" .
-        "🌍|Nibe bodemwarmte rond " . $region . "|Voor grotere percelen of woningen met lange termijn plannen kan bodemwarmte heel interessant zijn. Vakvriend controleert boring, vergunning en bronafstand voordat dit in de offerte komt.\n" .
-        "⚡|Nibe hybride als tussenstap|Bij oudere woningen of radiatoren die nog hogere temperaturen vragen, kan hybride de verstandigste route zijn. Dat past vooral wanneer " . $focus . ".";
-    $warmtepomp_types = "💨|Vaak snel haalbaar|Lucht/water warmtepomp|Haalt warmte uit buitenlucht en past bij veel woningen in " . $city . " wanneer geluid, buitenruimte en radiatoren goed worden beoordeeld.|Geen boring nodig;Geschikt voor hybride of all-electric;Opstelplek lokaal getoetst;ISDE-subsidie mogelijk;Aandacht voor " . $attention . "|Qvantum QA of Nibe lucht/water\n" .
-        "🌬️|Slim bij weinig buitenruimte|Ventilatie warmtepomp|Gebruikt afvoerventilatielucht en kan in " . $city . " interessant zijn bij appartementen, bovenwoningen of plekken waar een buitenunit lastig is.|Geen buitenunit nodig;Ventilatieroute wordt gecontroleerd;Interessant bij compacte techniekruimte;Tapwater apart beoordeeld;Past niet bij elke woning|Qvantum QE met mogelijke QS-combinatie\n" .
-        "🌍|Voor lange termijn|Bodemwarmtepomp|Een bodemoplossing vraagt meer voorbereiding, maar kan in " . $region . " sterk zijn bij voldoende perceelruimte en een woning die klaar is voor lage temperatuur.|Hoog rendement;Stabiele bron in de winter;Boring en vergunning inbegrepen;Goede match met vloerverwarming;Alleen zinvol na woningcheck|Nibe bodem/water of Qvantum QG";
+    $qvantum_types = "💨|Qvantum QA — lucht/water warmtepomp|De QA haalt warmte uit de buitenlucht en geeft die af aan het cv-water. Het systeem werkt met R290 koudemiddel, een QH-hydromodule en een thermische batterij voor verwarming en tapwater. Voor " . $city . " controleren we vooral vermogen, geluid en buitenunitpositie.\n" .
+        "🌬️|Qvantum QE — ventilatiewarmtepomp|De QE gebruikt warmte uit afvoerventilatielucht en heeft geen buitenunit nodig. Daardoor is dit systeem interessant bij appartementen of woningen waar buitenunitplaatsing lastig is. Met de QS-unit kan de oplossing ook als WTW-configuratie worden bekeken.\n" .
+        "🌍|Qvantum QG — water/water warmtepomp|De QG is bedoeld voor bodem- of brontoepassingen. Dit vraagt een boring of bron en een goed ontwerp van het afgiftesysteem. Vakvriend beoordeelt vooraf of zo'n bodemoplossing technisch en financieel logisch is.";
+    $qvantum_usps = "Thermische batterij|Alle Qvantum-systemen werken met thermische opslag. De warmtepomp bewaart warmte, zodat het systeem slimmer kan omgaan met verbruik en stroommomenten.\n" .
+        "Warm tapwater via platenwisselaar|Het tapwater zit niet opgeslagen in een groot boilervat. Koud leidingwater stroomt langs een platenwisselaar en wordt direct verwarmd met warmte uit de thermische batterij.\n" .
+        "QA, QE en QG|Qvantum heeft een lucht/water-, ventilatie- en water/water-oplossing. De juiste keuze hangt af van woningtype, ventilatie, ruimte en warmteverlies.\n" .
+        "Merkonafhankelijk bekeken|Vakvriend vergelijkt Qvantum altijd met andere passende oplossingen. Als Nibe, hybride of bodemwarmte beter past, hoort u dat gewoon.";
+    $nibe_types = "💨|Nibe lucht/water warmtepomp|Nibe lucht/water systemen combineren een buitenunit met een binnenmodule en zijn geschikt voor hybride of all-electric toepassingen. Belangrijk zijn de juiste vermogensselectie, geluidspositie en het afgiftesysteem in de woning.\n" .
+        "🌍|Nibe bodem/water warmtepomp|Een Nibe bodemwarmtepomp gebruikt een stabiele bron in de bodem. Dat geeft hoog rendement en rustige werking, maar vraagt wel boring, vergunning, bronontwerp en voldoende voorbereiding.\n" .
+        "⚡|Nibe hybride oplossing|Een hybride Nibe-opstelling werkt samen met een cv-ketel. Dat kan verstandig zijn als radiatoren, isolatie of tapwater nog niet klaar zijn voor volledig elektrisch verwarmen.";
+    $warmtepomp_types = "💨|Meest toegepast|Lucht/water warmtepomp|Haalt warmte uit buitenlucht en geeft die via water af aan radiatoren of vloerverwarming. Geschikt voor hybride en volledig elektrische installaties, mits vermogen en geluid goed worden ontworpen.|Geen bodem boring nodig;Geschikt voor bestaande woningen;Let op buitenunitpositie;ISDE-subsidie mogelijk;Goede warmteverliesberekening nodig|Qvantum QA of Nibe lucht/water\n" .
+        "🌬️|Zonder buitenunit mogelijk|Ventilatie warmtepomp|Gebruikt warmte uit afvoerventilatielucht. Vooral interessant bij goed geventileerde woningen, appartementen of situaties waar een buitenunit niet wenselijk is.|Geen buitenunit;Ventilatie moet geschikt zijn;Compacte installatie;Tapwater apart beoordelen;Niet elke woning is geschikt|Qvantum QE met mogelijke QS-combinatie\n" .
+        "🌍|Hoog rendement|Bodemwarmtepomp|Gebruikt warmte uit de bodem via een gesloten bron of boring. Dit is technisch sterk, maar vraagt meer voorbereiding en een hogere investering.|Stabiele bron;Hoog rendement;Boring en vergunning nodig;Interessant voor lange termijn;Past vooral bij geschikte percelen|Nibe bodem/water of Qvantum QG";
     $vv_props = "🏗️|Bekend met woningmix in " . $city . "|Vakvriend kijkt naar " . $area . " en vertaalt dat naar een realistische systeemkeuze.\n" .
         "🔇|Geluid en buren vooraf geregeld|In " . $region . " beoordelen we buitenunitpositie, trillingsdemping, erfgrens en onderhoudsruimte voordat u akkoord geeft.\n" .
         "📋|Merkonafhankelijk advies|Qvantum, Nibe en andere passende warmtepompoplossingen worden naast elkaar gelegd. De woning in " . $city . " bepaalt de richting, niet de marge op een toestel.\n" .
@@ -322,21 +322,21 @@ function vk_local_meta($title, $spec, $index) {
         'wc_form_subtitel' => 'Beantwoord de vragen en ontvang een check op systeemkeuze, subsidie en plaatsing voor uw situatie in ' . $city . '.',
         'wc_campaign_proof' => "24 uur|eerste reactie op uw aanvraag\nISDE|verwachte subsidie apart berekend\n" . $city . "|advies afgestemd op de lokale woningmix",
         'wc_qvantum_eyebrow' => 'Qvantum advies voor ' . $city,
-        'wc_qvantum_titel' => 'Qvantum warmtepomp in ' . $city . ': compact, slim en zonder klassiek boilervat',
-        'wc_qvantum_lead' => 'Qvantum is vooral interessant wanneer ruimte, tapwater en stroomsturing belangrijk zijn. Voor woningen in ' . $city . ' vergelijken we QA, QE en QG merkonafhankelijk met andere routes op basis van ' . $focus . ', met extra aandacht voor ' . $attention . '.',
+        'wc_qvantum_titel' => 'Qvantum warmtepomp in ' . $city . ': QA, QE en QG helder uitgelegd',
+        'wc_qvantum_lead' => 'Qvantum heeft drie hoofdoplossingen: QA lucht/water, QE ventilatie en QG water/water. Alle systemen werken met thermische opslag. Vakvriend bekijkt voor uw woning in ' . $city . ' of Qvantum technisch logisch is, of dat Nibe, hybride of bodemwarmte beter past.',
         'wc_qvantum_types' => $qvantum_types,
         'wc_qvantum_uitleg_titel' => 'Warm water in ' . $city . ' zonder groot boilervat',
         'wc_qvantum_uitleg_tekst' => 'Denk aan een warme steen die warmte bewaart. De Qvantum bewaart warmte in een thermische batterij. Zet u in ' . $city . ' de douche open, dan stroomt vers koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en maakt het water direct warm. U bewaart dus warmte, geen stilstaand douchewater.',
         'wc_qvantum_usps' => $qvantum_usps,
         'wc_qvantum_cta' => 'Qvantum check voor ' . $city . ' aanvragen',
         'wc_nibe_eyebrow' => 'Nibe configuratie voor ' . $city,
-        'wc_nibe_titel' => 'Nibe warmtepomp kiezen voor woningen in ' . $city,
-        'wc_nibe_lead' => 'Nibe is sterk wanneer betrouwbaarheid, veel modelkeuze en rustige regeling zwaar wegen. In ' . $city . ' kijken we merkonafhankelijk of Nibe, Qvantum, lucht/water, bodemwarmte of hybride beter past bij ' . $area . '.',
+        'wc_nibe_titel' => 'Nibe warmtepomp kiezen voor uw woning in ' . $city,
+        'wc_nibe_lead' => 'Nibe is een bewezen warmtepompmerk met lucht/water-, bodem/water- en hybride oplossingen. Vakvriend kijkt voor uw woning in ' . $city . ' vooral naar warmteverlies, afgiftesysteem, tapwater, geluidspositie en de stap naar hybride of volledig elektrisch.',
         'wc_nibe_types' => $nibe_types,
         'wc_nibe_cta' => 'Nibe advies voor ' . $city . ' aanvragen',
         'wc_types_eyebrow' => 'Systeemkeuze in ' . $region,
         'wc_types_titel' => 'Welke warmtepomp past bij ' . $city . '?',
-        'wc_types_lead' => 'De juiste techniek hangt in ' . $city . ' af van bouwjaar, isolatie, buitenruimte, ventilatie en tapwater. Daarom leggen we merken en systemen merkonafhankelijk naast elkaar voordat u een offerte krijgt.',
+        'wc_types_lead' => 'De juiste techniek hangt af van warmteverlies, isolatie, afgiftesysteem, tapwater en beschikbare ruimte. Voor uw woning in ' . $city . ' leggen we lucht/water, ventilatie, hybride en bodemwarmte merkonafhankelijk naast elkaar.',
         'wc_warmtepomp_types' => $warmtepomp_types,
         'wc_vv_eyebrow' => 'Vakvriend in ' . $region,
         'wc_vv_titel' => 'Waarom Vakvriend voor uw woning in ' . $city . '?',

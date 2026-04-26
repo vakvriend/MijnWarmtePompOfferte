@@ -398,7 +398,7 @@ $reviews = wc_meta_rows('wc_reviews', [
       <div class="vk-reveal">
         <div class="vk-eyebrow">Tussenstap naar gasloos</div>
         <h2>Hybride warmtepomp — <em>het beste van twee werelden</em></h2>
-        <p class="vk-lead">Nog niet klaar voor volledig gasloos? Een hybride warmtepomp combineert een warmtepomp met uw bestaande CV-ketel. De warmtepomp doet het meeste werk bij mild weer, de ketel springt bij als het echt koud is. Vakvriend beoordeelt merkonafhankelijk of hybride verstandig is, of dat all-electric direct beter past.</p>
+        <p class="vk-lead">Nog niet klaar voor volledig gasloos<?= $is_lokaal ? ' in ' . esc_html($stad) : '' ?>? Een hybride warmtepomp werkt samen met de cv-ketel. De warmtepomp levert het grootste deel van de warmte bij milde buitentemperaturen; de ketel blijft beschikbaar voor piekbelasting, tapwater en koude dagen. Vakvriend beoordeelt merkonafhankelijk of hybride verstandig is, of dat all-electric direct beter past.</p>
         <div class="vk-hybride-punten">
           <div><span class="vk-check">✓</span><div><strong>Lagere investering</strong> — vaak zonder grote aanpassingen aan radiatoren</div></div>
           <div><span class="vk-check">✓</span><div><strong>Direct besparen</strong> — interessant als tussenstap bij oudere woningen</div></div>
@@ -414,11 +414,11 @@ $reviews = wc_meta_rows('wc_reviews', [
             <span>Hybride optie</span>
           </div>
           <h3>Intergas Xtend Eco</h3>
-          <p class="vk-hybride-intro">De Intergas Xtend Eco is een compacte hybride oplossing voor woningen waar volledig elektrisch nog niet logisch is. Vooral interessant wanneer de bestaande cv-installatie nog goed bruikbaar is en u eerst flink gas wilt besparen.</p>
+          <p class="vk-hybride-intro">De Intergas Xtend Eco is een hybride lucht/water warmtepomp die samenwerkt met een Intergas HR-ketel. De warmtepomp verlaagt het gasverbruik bij normale warmtevraag; de ketel ondersteunt bij hoge temperatuurvraag, tapwater en koude perioden. Vooral interessant wanneer volledig elektrisch nog niet de juiste stap is.</p>
           <div class="vk-hybride-specs">
             <div class="vk-hybride-spec"><span>⚡</span><div><strong>COP tot 4,0</strong><p>Hoog rendement bij mild weer</p></div></div>
-            <div class="vk-hybride-spec"><span>🔥</span><div><strong>Ketel als backup</strong><p>Springt bij onder -7°C</p></div></div>
-            <div class="vk-hybride-spec"><span>📦</span><div><strong>Compact</strong><p>Vervangt bestaande ketel 1-op-1</p></div></div>
+            <div class="vk-hybride-spec"><span>🔥</span><div><strong>Ketel ondersteunt</strong><p>Voor tapwater en piekvraag</p></div></div>
+            <div class="vk-hybride-spec"><span>📦</span><div><strong>Compacte opstelling</strong><p>Beperkte technische ruimte nodig</p></div></div>
             <div class="vk-hybride-spec"><span>💶</span><div><strong>ISDE-subsidie</strong><p>Tot €2.000 beschikbaar</p></div></div>
           </div>
           <a href="#formulier" class="vk-btn vk-btn-outline-groen">Vrijblijvend advies aanvragen</a>
