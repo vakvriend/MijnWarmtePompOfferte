@@ -146,6 +146,13 @@ function wc_shortcode_lead_form($atts = array()) {
         </div>
 
         <div class="vk-stap" id="stap-4">
+          <div class="vk-final-moment">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif'); ?>" alt="" class="vk-final-gif" width="120" height="90" loading="lazy">
+            <div>
+              <strong>Uw gratis check staat klaar</strong>
+              <span>Laat uw gegevens achter. Vakvriend rekent subsidie, besparing en passend systeem voor u uit.</span>
+            </div>
+          </div>
           <h3 class="vk-stap-titel"><?php echo esc_html($atts['step_4_title']); ?></h3>
           <p class="vk-stap-sub"><?php echo esc_html($atts['step_4_sub']); ?></p>
           <div class="vk-veld-grid">
@@ -153,6 +160,11 @@ function wc_shortcode_lead_form($atts = array()) {
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
             <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"></div>
             <div class="vk-veld"><label>Postcode</label><input type="text" id="vk-pc" placeholder="1234 AB"></div>
+          </div>
+          <div class="vk-final-proof">
+            <span>Geen verplichting</span>
+            <span>Advies van installateur</span>
+            <span>Reactie binnen 24 uur</span>
           </div>
           <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()"><?php echo esc_html($atts['submit_label']); ?></button>
           <p class="vk-disclaimer">Gratis en vrijblijvend. Door te versturen gaat u akkoord met onze <a href="<?php echo esc_url(home_url('/privacy')); ?>">privacyverklaring</a>.</p>

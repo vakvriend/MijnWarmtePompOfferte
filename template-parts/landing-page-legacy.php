@@ -178,6 +178,13 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <!-- Stap 4: Contactgegevens -->
         <div class="vk-stap" id="stap-4">
+          <div class="vk-final-moment">
+            <img src="<?=esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif')?>" alt="" class="vk-final-gif" width="120" height="90" loading="lazy">
+            <div>
+              <strong>Uw gratis check staat klaar</strong>
+              <span>Laat uw gegevens achter. Vakvriend rekent subsidie, besparing en passend systeem voor u uit.</span>
+            </div>
+          </div>
           <h3 class="vk-stap-titel">Uw contactgegevens</h3>
           <p class="vk-stap-sub">Stap 4 van 4 — ontvang uw gratis subsidiecheck en advies</p>
           <div class="vk-veld-grid">
@@ -185,6 +192,11 @@ $reviews = wc_meta_rows('wc_reviews', [
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
             <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"></div>
             <div class="vk-veld"><label>Postcode</label><input type="text" id="vk-pc" placeholder="1234 AB"></div>
+          </div>
+          <div class="vk-final-proof">
+            <span>Geen verplichting</span>
+            <span>Advies van installateur</span>
+            <span>Reactie binnen 24 uur</span>
           </div>
           <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Ontvang gratis subsidiecheck →</button>
           <p class="vk-disclaimer"><span>Gratis en vrijblijvend</span><span>Reactie binnen 24 uur</span><span>ISDE-hulp inbegrepen</span><br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
