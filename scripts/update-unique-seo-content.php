@@ -379,7 +379,7 @@ function vk_local_meta($title, $spec, $index) {
         'wc_boringen_kaart_tekst' => $boringen_kaart_tekst,
         'wc_reviews_titel' => 'Ervaringen met praktisch warmtepompadvies',
         'wc_reviews_lead' => 'Klanten rond ' . $city . ' waarderen vooral dat Vakvriend niet alleen een toestel noemt, maar uitlegt wat de keuze voor hun woning betekent.',
-        'wc_reviews' => vk_pick($review_sets, $index),
+        'wc_reviews' => strtr(vk_pick($review_sets, $index), array('{city}' => $city, '{region}' => $region)),
         'wc_lokale_h2' => 'Warmtepompadvies voor woningen in ' . $city,
         'wc_lokale_intro' => $local_intro,
         'wc_lokale_alinea1' => $alinea1,
@@ -393,6 +393,64 @@ function vk_local_meta($title, $spec, $index) {
         'wc_lokale_faq_a3' => vk_contextual_answer(strtr($faq[5], array('{city}' => $city)), $city),
         'wc_faq_extra' => strtr($extra_faq, array('{city}' => $city)),
         'wc_extra_tekst' => $extra,
+    );
+}
+
+function vk_special_support_meta($title) {
+    $topics = array(
+        'Warmtepomp Zonder Boiler' => array(
+            'label' => 'zonder boilervat',
+            'angle' => 'ruimtebesparing, vers tapwater en uitleg over de thermische batterij',
+            'qvantum' => 'Op deze pagina leggen we Qvantum bewust extra simpel uit: warmte wordt opgeslagen in de thermische batterij, terwijl douchewater pas via de platenwisselaar wordt verwarmd op het moment dat u de kraan opent.',
+            'nibe' => 'Nibe blijft hier de vergelijkingsbasis voor bezoekers die willen weten wanneer een klassiekere configuratie met boiler of buffervat verstandiger is.',
+            'boring' => 'Een boring hoort niet automatisch bij een warmtepomp zonder boiler. We bekijken eerst of een compacte Qvantum-oplossing logischer is dan bodemwarmte.',
+        ),
+        'Warmtepomp Vergelijken' => array(
+            'label' => 'offertes vergelijken',
+            'angle' => 'prijsverschillen, ontbrekend installatiewerk en appels-met-appels vergelijken',
+            'qvantum' => 'Bij Qvantum letten we in vergelijkingen vooral op thermische batterij, platenwisselaar, tapwatercomfort en de vraag of QA, QE of QG eerlijk naast een ander merk is gezet.',
+            'nibe' => 'Bij Nibe kijken we naar modelkeuze, bewezen techniek, geluidswaarden, boilerconfiguratie en of het voorgestelde vermogen past bij de woning.',
+            'boring' => 'Een bodemofferte lijkt duurder, maar kan logisch zijn als boring, vergunning, bron en lange levensduur goed zijn meegenomen.',
+        ),
+        'Mijn Warmtepomp Offerte' => array(
+            'label' => 'persoonlijke offerte',
+            'angle' => 'woninggegevens, verbruik, subsidie en een offerte die technisch klopt',
+            'qvantum' => 'Voor een persoonlijke offerte bekijken we of Qvantum past bij de beschikbare ruimte, tapwaterwens, ventilatie en het idee van warmteopslag zonder groot boilervat.',
+            'nibe' => 'Nibe nemen we mee wanneer betrouwbaarheid, brede configuratiekeuze en een rustige route naar hybride of all-electric belangrijk zijn.',
+            'boring' => 'Bodemwarmte komt alleen in de offerte wanneer perceel, budget, vergunning en warmteverlies dat serieus rechtvaardigen.',
+        ),
+        'Warmtepomp Qvantum' => array(
+            'label' => 'Qvantum warmtepomp',
+            'angle' => 'QA, QE, QG, thermische batterij en vers tapwater via platenwisselaar',
+            'qvantum' => 'Alle Qvantum-systemen gebruiken thermische opslag. De QA gebruikt buitenlucht, de QE ventilatielucht en de QG een bodem- of waterbron; het tapwater wordt vers verwarmd via een platenwisselaar.',
+            'nibe' => 'Nibe staat hier vooral als eerlijke tegenhanger: soms is een Nibe-configuratie logischer wanneer ruimte, tapwaterprofiel of afgiftesysteem daarom vraagt.',
+            'boring' => 'Bij Qvantum QG beoordelen we boring en bron apart, omdat thermische opslag alleen waarde heeft als de bodemoplossing zelf klopt.',
+        ),
+    );
+    $topic = isset($topics[$title]) ? $topics[$title] : $topics['Mijn Warmtepomp Offerte'];
+
+    return array(
+        'wc_qvantum_eyebrow' => 'Verdieping · ' . $topic['label'],
+        'wc_qvantum_titel' => 'Qvantum bekeken vanuit ' . $topic['label'],
+        'wc_qvantum_lead' => $topic['qvantum'],
+        'wc_qvantum_uitleg_titel' => 'Thermische batterij zonder misverstand',
+        'wc_qvantum_uitleg_tekst' => $topic['qvantum'] . ' Het kinderlijke beeld blijft hetzelfde: de batterij is de warme steen, de platenwisselaar maakt pas warm water wanneer iemand het nodig heeft.',
+        'wc_nibe_eyebrow' => 'Vergelijking · Nibe',
+        'wc_nibe_titel' => 'Nibe als nuchtere vergelijking voor ' . $topic['label'],
+        'wc_nibe_lead' => $topic['nibe'],
+        'wc_types_eyebrow' => 'Keuzehulp · ' . $topic['label'],
+        'wc_types_titel' => 'Welke warmtepomp hoort bij ' . $topic['label'] . '?',
+        'wc_types_lead' => 'Deze pagina focust op ' . $topic['angle'] . '. Daarom bekijken we lucht/water, ventilatie, hybride en bodemwarmte vanuit dat specifieke vertrekpunt.',
+        'wc_vv_eyebrow' => 'Vakvriend advies',
+        'wc_vv_titel' => 'Waarom Vakvriend bij ' . $topic['label'] . '?',
+        'wc_vv_intro' => 'Vakvriend vertaalt ' . $topic['label'] . ' naar een praktisch plan met systeemkeuze, installatiewerk, ISDE-subsidie en heldere uitleg. Geen losse modelpraat, maar advies dat u naast andere offertes kunt leggen.',
+        'wc_werkwijze_eyebrow' => 'Aanpak · ' . $topic['label'],
+        'wc_werkwijze_titel' => 'Van vraag naar bruikbare keuze',
+        'wc_werkwijze_lead' => 'We starten bij ' . $topic['angle'] . ', controleren daarna woninggegevens en maken pas dan een voorstel met merk, vermogen, plaatsing en subsidie.',
+        'wc_boringen_eyebrow' => 'Bodemwarmte afwegen',
+        'wc_boringen_titel' => 'Boring alleen wanneer het logisch is',
+        'wc_boringen_lead' => $topic['boring'],
+        'wc_boringen_kaart_tekst' => $topic['boring'] . ' Vakvriend zet dit apart in de offerte, zodat bodemwarmte geen dure bijzin wordt.',
     );
 }
 
@@ -431,6 +489,7 @@ foreach ($special as $title => $meta) {
 
     $meta['wc_ai_content_status'] = $meta['status'];
     unset($meta['status']);
+    $meta = array_merge(vk_special_support_meta($title), $meta);
     vk_apply_meta($post_id, $meta);
     echo 'Updated unique special content: ' . $title . PHP_EOL;
 }
