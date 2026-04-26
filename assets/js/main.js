@@ -31,6 +31,39 @@ function vkTrack(eventName, payload) {
     page_location: location.href,
     page_hostname: location.hostname
   }, payload || {}));
+  vkTrackGa4(eventName, payload);
+}
+
+function vkTrackGa4(eventName, payload) {
+  if (!window.vkGa4MeasurementId || typeof window.gtag !== 'function') return;
+
+  var eventMap = {
+    lead_form_choice: 'lead_form_choice',
+    lead_form_step: 'lead_form_step',
+    lead_form_submit_attempt: 'lead_form_submit_attempt',
+    lead_form_success: 'generate_lead',
+    lead_form_error: 'lead_form_error',
+    calculator_system_select: 'calculator_system_select',
+    lead_cta_click: 'lead_cta_click',
+    phone_click: 'phone_click',
+    whatsapp_click: 'whatsapp_click'
+  };
+  var gaEventName = eventMap[eventName];
+  if (!gaEventName) return;
+
+  var params = Object.assign({
+    send_to: window.vkGa4MeasurementId,
+    event_source: 'warmtepomp_campaign',
+    page_location: location.href,
+    page_hostname: location.hostname
+  }, payload || {});
+
+  if (eventName === 'lead_form_success') {
+    params.value = 100;
+    params.currency = 'EUR';
+  }
+
+  window.gtag('event', gaEventName, params);
 }
 
 function vkTrackAdsLeadConversion() {
