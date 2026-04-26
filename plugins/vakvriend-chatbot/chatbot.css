@@ -157,6 +157,9 @@
   body.vk-form-success #vk-chat-widget{
     bottom:154px!important;
   }
+  body.vk-form-success #vk-chat-widget{
+    display:none!important;
+  }
 }
 
 @media(max-width:400px){
