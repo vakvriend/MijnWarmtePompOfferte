@@ -258,7 +258,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-brand-nibe{background:linear-gradient(180deg,#f8faf8 0%,#fff 100%)}
 .vk-brand-grid{align-items:start;gap:64px}
 .vk-brand-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
-.vk-brand-head img{max-width:150px;object-fit:contain}
+.vk-brand-head img{display:block;max-width:150px;object-fit:contain;flex-shrink:0}
+.vk-brand-head .vk-eyebrow{margin:0;line-height:1;min-height:24px;align-items:center}
+.vk-brand-head .vk-eyebrow::before{margin-top:0}
 .vk-brand-metrics{display:flex;flex-wrap:wrap;gap:8px;margin:-12px 0 22px}
 .vk-brand-metrics span{font-size:12px;font-weight:800;color:var(--groen);background:#fff;border:1px solid #d8ecdf;border-radius:999px;padding:8px 11px;box-shadow:0 8px 22px rgba(8,70,40,.06)}
 .vk-nibe-metrics span{color:#31556f;border-color:#dce6ec;background:#fafdff}
