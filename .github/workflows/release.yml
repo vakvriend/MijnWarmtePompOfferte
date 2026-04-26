@@ -31,6 +31,7 @@ jobs:
             --exclude "log/" \
             --exclude "node_modules/" \
             --exclude "plugins/" \
+            --exclude "scripts/" \
             --exclude "vendor/" \
             --exclude "*.zip" \
             ./ "/tmp/${THEME_SLUG}/"

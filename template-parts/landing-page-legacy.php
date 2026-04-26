@@ -12,6 +12,11 @@ $topbar    = wc_meta('wc_topbar_tekst',"🔥 Gratis warmtepomp offerte" . ($is_l
 $hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis subsidiecheck en advies in $stad" : 'Gratis subsidiecheck en warmtepomp advies');
 $form_titel = wc_meta('wc_form_titel', 'Ontvang uw gratis warmtepomp advies');
 $form_subtitel = wc_meta('wc_form_subtitel', 'Bereken direct uw besparing en ontvang binnen 24 uur reactie van Vakvriend.');
+$form_benefits = wc_meta_rows('wc_form_benefits', [
+  ['Gratis woningcheck'],
+  ['Subsidiebedrag berekend'],
+  ['Offerte binnen 24 uur'],
+], 1);
 $campaign_proof = wc_meta_rows('wc_campaign_proof', [
   ['Binnen 24 uur','reactie op uw aanvraag'],
   ['ISDE','subsidiecheck inbegrepen'],
@@ -108,6 +113,11 @@ $reviews = wc_meta_rows('wc_reviews', [
         <div class="vk-form-head">
           <h2><?=esc_html($form_titel)?></h2>
           <p><?=esc_html($form_subtitel)?></p>
+        </div>
+        <div class="vk-form-benefits">
+          <?php foreach($form_benefits as [$benefit]): if(!$benefit) continue; ?>
+            <span><?=esc_html($benefit)?></span>
+          <?php endforeach; ?>
         </div>
         <div class="vk-form-trust-bar">
           <span>🔒 Veilig</span><span>⚡ Binnen 24u reactie</span><span>✅ Gratis & vrijblijvend</span>

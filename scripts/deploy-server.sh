@@ -22,7 +22,7 @@ sudo docker exec "$CONTAINER" sh -lc "mkdir -p /tmp/vakvriend-deploy-backups/$TS
 
 echo "== Copy theme =="
 sudo docker cp "$APP_DIR" "$CONTAINER:/tmp/$THEME_SLUG-new"
-sudo docker exec "$CONTAINER" sh -lc "rm -rf /tmp/$THEME_SLUG-new/.git /tmp/$THEME_SLUG-new/.github /tmp/$THEME_SLUG-new/docs /tmp/$THEME_SLUG-new/log /tmp/$THEME_SLUG-new/plugins && \
+sudo docker exec "$CONTAINER" sh -lc "rm -rf /tmp/$THEME_SLUG-new/.git /tmp/$THEME_SLUG-new/.github /tmp/$THEME_SLUG-new/docs /tmp/$THEME_SLUG-new/log /tmp/$THEME_SLUG-new/plugins /tmp/$THEME_SLUG-new/scripts && \
   rm -rf /var/www/html/wp-content/themes/$THEME_SLUG && \
   mv /tmp/$THEME_SLUG-new /var/www/html/wp-content/themes/$THEME_SLUG"
 
