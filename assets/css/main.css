@@ -625,7 +625,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 
 /* === LOGO SLIDER - naadloze marquee === */
 .vk-merken {
-  --logo-gap:56px;
+  --logo-gap:72px;
   overflow: hidden;
   max-width:100vw;
   contain:paint;
@@ -636,9 +636,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-merken-inner {
   display: flex;
   align-items: center;
-  width: max-content;
+  min-width: max-content;
   will-change: transform;
-  animation: vkslide 34s linear infinite;
+  animation: vkslide 48s linear infinite;
 }
 .vk-merken-set {
   display:flex;
@@ -657,9 +657,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 }
 @keyframes vkslide {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-25%); }
 }
-@media(max-width:640px){.vk-merken{--logo-gap:38px}.vk-merken-inner{animation-duration:26s}}
+@media(max-width:640px){.vk-merken{--logo-gap:42px}.vk-merken-inner{animation-duration:32s}}
 
 /* Lokale sectie */
 .vk-lokaal-wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
