@@ -29,25 +29,25 @@ $vv_u4     = wc_meta('wc_vv_usp4','24/7 bereikbaar — door heel Nederland');
 $faq_extra = wc_meta('wc_faq_extra','');
 $tel_clean = preg_replace('/\s+/','',$telefoon);
 $qvantum_types = wc_meta_rows('wc_qvantum_types', [
-  ['💨','Qvantum QA — Lucht/water warmtepomp','Extraheert warmte uit de buitenlucht. R290 koudemiddel (GWP=3). Inclusief QH-XL hydromodule met thermische batterij. Geen aparte boiler nodig. COP tot 4,5.'],
-  ['🌬️','Qvantum QE — Ventilatie warmtepomp met WTW','Extraheert warmte uit de afvoerventilatielucht. Geen buitenunit nodig — ideaal voor appartementen. Geïntegreerde thermische batterij laadt op tot 90°C bij goedkope stroom. In combinatie met de Qvantum QS ook geschikt als volwaardige WTW-unit.'],
-  ['🌍','Qvantum QG — Water/water warmtepomp','Voor bodem- of brontoepassingen. Hoogste rendement (COP 4-6). Ook dit Qvantum-systeem werkt met de thermische batterij voor slimme warmteopslag. Vakvriend verzorgt de grondboringen en vergunning.'],
+  ['💨','Qvantum QA — lucht/water warmtepomp','De QA haalt warmte uit de buitenlucht en draagt die over aan het cv-systeem. De thermische batterij fungeert als warmtebuffer voor verwarming en tapwater; het benodigde vermogen, de geluidspositie en de leidingroute bepalen of dit systeem past.'],
+  ['🌬️','Qvantum QE — ventilatiewarmtepomp','De QE gebruikt warmte uit afvoerventilatielucht en heeft daardoor geen buitenunit nodig. Dit is vooral interessant bij appartementen of woningen waar een buitenunit lastig te plaatsen is. Ventilatiecapaciteit en tapwaterprofiel worden altijd apart gecontroleerd.'],
+  ['🌍','Qvantum QG — water/water warmtepomp','De QG is bedoeld voor bodem- of brontoepassingen. Dat kan zeer efficiënt zijn, maar vraagt een goed bronontwerp, voldoende afgiftevermogen en een realistische beoordeling van boring, vergunning en investering.'],
 ], 3);
 $qvantum_usps = wc_meta_rows('wc_qvantum_usps', [
-  ['FlexReady®','Past zich automatisch aan aan stroomprijzen'],
-  ['90% gemeenschappelijke onderdelen','Goedkoper in onderhoud'],
-  ['Automatische software-updates','Via internet'],
-  ['Netcongestie-oplossing','Communiceren als slim netwerk'],
+  ['Thermische opslag','Alle Qvantum-systemen gebruiken warmteopslag als basis van het systeem.'],
+  ['Vers tapwater','Tapwater wordt via een platenwisselaar verwarmd op het moment dat u het nodig heeft.'],
+  ['QA, QE en QG','Lucht/water, ventilatie en water/water worden technisch naast elkaar beoordeeld.'],
+  ['Merkonafhankelijk advies','Als Nibe, hybride of bodemwarmte beter past, krijgt u dat eerlijk te horen.'],
 ], 2);
 $nibe_types = wc_meta_rows('wc_nibe_types', [
-  ['💨','Nibe F2040 / S2125 — Lucht/water warmtepomp','Fluisterstille buitenunit, hoog rendement. Geschikt voor vloerverwarming en radiatoren. Energielabel A+++.'],
-  ['🌍','Nibe S-serie — Bodem/water warmtepomp','Hoogste COP, stabiele warmtebron het hele jaar. Maximale ISDE-subsidie. Vakvriend verzorgt boring en vergunning.'],
-  ['⚡','Nibe F730 — Hybride warmtepomp','Combineert een bestaande CV-ketel met een warmtepomp. Ideale tussenstap naar volledig gasloos.'],
+  ['💨','Nibe lucht/water warmtepomp','Een Nibe lucht/water systeem combineert een buitenunit met een binnenmodule. De juiste keuze hangt af van warmteverlies, afgiftesysteem, geluidsopstelling en de stap naar hybride of volledig elektrisch.'],
+  ['🌍','Nibe bodem/water warmtepomp','Een bodem/water systeem gebruikt een stabiele bron in de bodem. Het rendement is sterk, maar boring, vergunning, bronontwerp en afgiftesysteem moeten vooraf goed worden uitgewerkt.'],
+  ['⚡','Nibe hybride oplossing','Een hybride opstelling werkt samen met de cv-ketel. Dat is vooral zinvol wanneer radiatoren, isolatie of tapwater nog niet klaar zijn voor volledig elektrisch verwarmen.'],
 ], 3);
 $warmtepomp_types = wc_meta_rows('wc_warmtepomp_types', [
-  ['💨','Populairste keuze','Lucht/water warmtepomp','Extraheert warmte uit de buitenlucht en geeft dit via water af aan uw verwarmingssysteem (radiatoren of vloerverwarming). Geen boring nodig.','Geen grondboringen nodig;Snel te installeren;COP 3 tot 4,5;ISDE-subsidie gem. €2.000-€4.000;Geschikt voor radiatoren en vloerverwarming','Qvantum QA of Nibe F2040 / S2125'],
-  ['🌬️','Compact — geen buitenunit','Ventilatie warmtepomp','Haalt warmte uit de afvoerventilatielucht van uw woning. Ideaal voor goed geïsoleerde woningen en appartementen. De Qvantum QE werkt in combinatie met de QS-unit ook als volwaardige WTW.','Geen buitenunit nodig;Ook als WTW met Qvantum QS;Thermische batterij tot 90°C;Ideaal voor appartementen;Geen vergunning nodig','Qvantum QE + optioneel QS'],
-  ['🌍','Hoogste rendement','Bodemwarmtepomp','Extraheert warmte uit de bodem via grondboringen. Stabielste bron het hele jaar. Hoogste COP en maximale ISDE-subsidie. Vakvriend verzorgt boring én vergunning.','Hoogste COP (4 tot 6);Stabiel, ook in de winter;ISDE-subsidie tot €8.000+;Vakvriend regelt boring;Vakvriend regelt vergunning','Nibe S-serie of Qvantum QG'],
+  ['💨','Veel toegepast','Lucht/water warmtepomp','Haalt warmte uit de buitenlucht en geeft die via water af aan radiatoren of vloerverwarming. Geen boring nodig, maar vermogen, geluid en afgiftesysteem moeten goed worden ontworpen.','Geen bodembron nodig;Geschikt voor hybride en all-electric;Buitenunitpositie is belangrijk;ISDE-subsidie mogelijk;Warmteverliesberekening nodig','Qvantum QA of Nibe lucht/water'],
+  ['🌬️','Zonder buitenunit mogelijk','Ventilatie warmtepomp','Gebruikt warmte uit afvoerventilatielucht. Vooral interessant bij appartementen, compacte technische ruimtes of situaties waar een buitenunit niet wenselijk is.','Geen buitenunit;Ventilatiesysteem moet geschikt zijn;Compacte installatie;Tapwater apart beoordelen;Niet elke woning is geschikt','Qvantum QE'],
+  ['🌍','Stabiele bron','Bodemwarmtepomp','Gebruikt warmte uit de bodem via een gesloten bron of boring. Technisch sterk voor de lange termijn, maar vraagt meer voorbereiding en een hogere investering.','Stabiele bron;Hoog rendement mogelijk;Boring en vergunning nodig;Interessant voor lange termijn;Past vooral bij geschikte percelen','Nibe bodem/water of Qvantum QG'],
 ], 6);
 $vv_props = wc_meta_rows('wc_vv_props', [
   ['🏗️','Allround installatiebedrijf','Warmtepompen, CV-ketels, sanitair, vloerverwarming, dakwerk en ventilatie. Alles in eigen hand.'],
@@ -57,8 +57,8 @@ $vv_props = wc_meta_rows('wc_vv_props', [
 ], 3);
 $voordelen = wc_meta_rows('wc_voordelen', [
   ['🔥','Geen boiler nodig (Qvantum)','De Qvantum levert verwarming én warm tapwater in één systeem met geïntegreerde thermische batterij. Compact en efficiënt.'],
-  ['⚡','Tot 60% lagere energiekosten','COP tot 4,5 — per kW stroom krijgt u tot 4,5 kW warmte terug. De thermische batterij benut goedkope daluurstroom optimaal.'],
-  ['💶','ISDE-subsidie tot €8.000+','Van €2.125 voor lucht/water tot meer dan €8.000 voor een bodemwarmtepomp. Vakvriend regelt alles bij de RVO.'],
+  ['⚡','Lager gasverbruik','Een goed gekozen warmtepomp neemt een groot deel van de warmtevraag over. De werkelijke besparing hangt af van isolatie, afgiftesysteem en verbruik.'],
+  ['💶','ISDE-subsidie meegenomen','Vakvriend verwerkt de verwachte ISDE-subsidie apart in de offerte en helpt bij de aanvraagstukken.'],
   ['🌿','100% gasloos wonen','Onafhankelijk van gas en de gasprijs. Toekomstbestendig en klaar voor de energietransitie.'],
   ['🔇','Fluisterstil ook in woonwijken','Speciaal ontworpen voor gebruik in dichtbebouwde gebieden. Nauwelijks hoorbaar voor u en uw buren.'],
   ['🌍','Boringen door heel Nederland','Vakvriend verzorgt grondboringen voor bodemwarmtepompen in heel Nederland, inclusief vergunningsaanvraag.'],
@@ -279,7 +279,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div class="vk-qv-explain-ico">💧</div>
           <div>
             <strong><?=esc_html(wc_meta('wc_qvantum_uitleg_titel','Warm water zonder boilervat'))?></strong>
-            <p><?=esc_html(wc_meta('wc_qvantum_uitleg_tekst','Denk aan een warme kachelsteen: de Qvantum bewaart warmte in de thermische batterij, niet in een vat vol douchewater. Zet u de kraan open, dan stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en maakt het water direct warm. U doucht dus met vers verwarmd water, zonder groot boilervat met stilstaand tapwater.'))?></p>
+            <p><?=esc_html(wc_meta('wc_qvantum_uitleg_tekst','Qvantum bewaart warmte in de thermische batterij, niet in een groot vat met douchewater. Zet u de kraan open, dan stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het tapwater direct.'))?></p>
           </div>
         </div>
 
@@ -331,7 +331,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div class="vk-compare-head">
             <span>Merkkeuze</span>
             <h3>Qvantum vs Nibe</h3>
-            <p>Niet de winnaar kiezen, maar het systeem dat past bij woning, tapwater en ruimte.</p>
+            <p>De juiste keuze hangt af van woning, tapwater, geluid, ruimte en gewenste route naar gasloos.</p>
           </div>
           <div class="vk-vergelijk">
             <div class="vk-vergelijk-col vk-vergelijk-qvantum">
@@ -339,9 +339,9 @@ $reviews = wc_meta_rows('wc_reviews', [
               <ul>
                 <li>✓ Thermische batterij</li>
                 <li>✓ Geen aparte boiler</li>
-                <li>✓ COP tot 4,5</li>
-                <li>✓ QE zonder buitenunit</li>
-                <li>✓ QS voor WTW ventilatie</li>
+                <li>✓ Compacte systeemopbouw</li>
+                <li>✓ QE zonder buitenunit mogelijk</li>
+                <li>✓ QA, QE en QG beschikbaar</li>
                 <li>✓ R290 koudemiddel</li>
               </ul>
               <div class="vk-vergelijk-tag">Onze topkeuze</div>
@@ -353,13 +353,13 @@ $reviews = wc_meta_rows('wc_reviews', [
                 <li>✓ Hybride optie</li>
                 <li>✓ Bodemwarmtepomp</li>
                 <li>✓ Breed assortiment</li>
-                <li>✓ Energielabel A+++</li>
+                <li>✓ Veel configuraties mogelijk</li>
                 <li>✓ Bewezen betrouwbaar</li>
               </ul>
               <div class="vk-vergelijk-tag vk-tag-grijs">Uitstekende keuze</div>
             </div>
           </div>
-          <p class="vk-vergelijk-tip">Vakvriend adviseert welk systeem het beste past bij uw woning en situatie — gratis aan huis.</p>
+          <p class="vk-vergelijk-tip">Vakvriend vergelijkt het systeem op techniek, plaatsing, comfort en netto investering.</p>
         </div>
       </div>
     </div>
@@ -717,12 +717,12 @@ if ($lokale_alinea1 || $lokale_alinea2):
       <?php
       $faqs=[
         ["Wat is het verschil tussen Qvantum en Nibe?","Qvantum onderscheidt zich door de thermische batterij in alle systemen: QA, QE en QG. De warmtepomp slaat warmte op bij gunstige stroommomenten en gebruikt die later voor verwarming en warm tapwater. De QE werkt zonder buitenunit en kan met de QS-unit ook als WTW-oplossing dienen. Nibe biedt meer modelkeuze, waaronder hybride warmtepompen en een breed bodemwarmtepomp-assortiment. Vakvriend adviseert gratis welk merk en model het beste bij uw situatie past."],
-        ["Hoeveel ISDE-subsidie kan ik ontvangen in 2026?","De subsidie hangt af van het type systeem. Voor een lucht/water warmtepomp (bijv. Qvantum QA of Nibe F2040) ontvangt u in 2026 een startbedrag van €1.025 + €225 per kW + €200 energielabelbonus A+++. Bijvoorbeeld een 5kW systeem geeft €2.125. Voor een bodemwarmtepomp is de subsidie significant hoger en kan oplopen tot €8.000 of meer. Vakvriend berekent het exacte bedrag in uw offerte en regelt de aanvraag bij de RVO."],
-        ["Hoe werkt de thermische batterij van Qvantum?","Alle Qvantum-systemen werken met een thermische batterij: de QA lucht/water warmtepomp, de QE ventilatiewarmtepomp en de QG bodemwarmtepomp. Denk aan een grote warme kachelsteen in het systeem. De warmtepomp slaat warmte op wanneer stroom gunstig is en gebruikt die warmte later voor verwarming en warm tapwater. Uw douchewater zit dus niet opgeslagen in een groot boilervat. Koud leidingwater stroomt langs een platenwisselaar, die warmte uit de thermische batterij haalt en het water direct vers warm maakt."],
-        ["Verzorgt Vakvriend ook grondboringen?","Ja. Vakvriend verzorgt grondboringen voor bodemwarmtepompen door heel Nederland. Wij regelen ook de vergunningsaanvraag bij uw gemeente. Een bodemwarmtepomp geeft het hoogste rendement en de hoogste ISDE-subsidie."],
-        ["Is mijn woning" . ($is_lokaal ? " in $stad" : "") . " geschikt voor een warmtepomp?","De meeste woningen gebouwd voor 2019 komen in aanmerking. Vakvriend beoordeelt uw woning gratis tijdens een adviesgesprek aan huis. Goed geïsoleerde woningen met vloerverwarming zijn ideaal, maar ook woningen met radiatoren zijn vaak geschikt met de juiste aanpassingen."],
-        ["Hoe lang duurt de installatie?","Een standaard lucht/water of ventilatie warmtepomp installatie duurt 1 tot 2 werkdagen. Voor een bodemwarmtepomp is meer tijd nodig vanwege de boring. Vakvriend plant alles zo in dat de overlast minimaal is."],
-        ["Regelt Vakvriend de subsidieaanvraag?","Ja, Vakvriend begeleidt de volledige ISDE-subsidieaanvraag bij de RVO. U hoeft er niets voor te doen. De subsidie wordt verrekend zodat u direct inzicht heeft in de netto investering."],
+        ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride en bodemwarmtepompen hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie apart op in de offerte en helpt bij de aanvraagstukken."],
+        ["Hoe werkt de thermische batterij van Qvantum?","Alle Qvantum-systemen werken met thermische opslag: QA, QE en QG. De batterij bewaart warmte voor verwarming en tapwater, maar slaat geen douchewater op. Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het tapwater direct."],
+        ["Verzorgt Vakvriend ook grondboringen?","Ja. Vakvriend kan grondboringen voor bodemwarmtepompen verzorgen en de vergunningsaanvraag meenemen. We adviseren een bodemwarmtepomp alleen wanneer perceel, bron, budget en afgiftesysteem daar technisch goed bij passen."],
+        ["Is mijn woning" . ($is_lokaal ? " in $stad" : "") . " geschikt voor een warmtepomp?","Dat hangt af van isolatie, warmteverlies, radiatoren of vloerverwarming, tapwatergebruik en beschikbare ruimte. Vakvriend beoordeelt eerst de woning en vergelijkt daarna hybride, lucht/water, ventilatie of bodemwarmte."],
+        ["Hoe lang duurt de installatie?","Een lucht/water of ventilatie warmtepomp kan vaak in enkele werkdagen worden geplaatst. Bij bodemwarmte, extra elektra, leidingwerk of aanpassingen aan het afgiftesysteem duurt het traject langer. Dat wordt vooraf in de offerte uitgewerkt."],
+        ["Regelt Vakvriend de subsidieaanvraag?","Ja. Vakvriend neemt de verwachte ISDE-subsidie mee in de offerte en helpt bij de aanvraagstukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO."],
       ];
       if($faq_extra){foreach(explode("\n",$faq_extra) as $r){if(strpos($r,':::')!==false){[$v,$a]=explode(':::',$r,2);$faqs[]=[trim($v),trim($a)];}}}
       foreach($faqs as [$v,$a]): ?>
