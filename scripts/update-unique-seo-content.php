@@ -185,7 +185,7 @@ function vk_contextual_rows($rows, $city) {
     foreach (explode("\n", $rows) as $row) {
         $parts = explode('|', $row);
         if (count($parts) >= 3) {
-            $parts[2] = rtrim($parts[2], '.') . '. Voor ' . $city . ' wordt dit lokaal meegewogen.';
+            $parts[2] = rtrim($parts[2], '.') . '.';
         }
         $out[] = implode('|', $parts);
     }
