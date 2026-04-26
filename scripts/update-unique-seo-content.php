@@ -300,7 +300,7 @@ function vk_local_meta($title, $spec, $index) {
     $hero_sub = strtr(vk_pick($hero_styles, $index + 2), array('{city}' => $city));
     $alinea1 = strtr(vk_pick($angle_styles, $index + 1), array('{city}' => $city, '{region}' => $region, '{focus}' => $focus));
     $alinea2 = strtr(vk_pick($attention_styles, $index + 3), array('{city}' => $city, '{attention}' => $attention));
-    $alinea3 = vk_pick($closing_styles, $index + 5);
+    $alinea3 = vk_pick($closing_styles, $index + 5) . ' Voor ' . $city . ' vertalen we dat naar een concreet advies dat past bij ' . $region . '.';
     $extra = strtr(vk_pick($extra_openers, $index), array('{city}' => $city, '{region}' => $region)) . ' ' .
         'Voor ' . $city . ' nemen we daarom de lokale woningmix mee: ' . $area . '. ' . ucfirst($focus) . ', maar alleen wanneer de installatievoorwaarden kloppen.' . "\n\n" .
         vk_pick($extra_middle, $index + 2) . ' In de opname kijken we specifiek naar ' . $attention . ', omdat dat in ' . $region . ' de praktische uitkomst vaak bepaalt.' . "\n\n" .
