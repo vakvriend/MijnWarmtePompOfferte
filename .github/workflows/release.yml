@@ -1,0 +1,49 @@
+name: Release theme
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build theme zip
+        run: |
+          THEME_SLUG="vakvriend-warmtepomp-campagne-v2"
+          VERSION="${GITHUB_REF_NAME#v}"
+          ZIP_NAME="${THEME_SLUG}-${VERSION}.zip"
+
+          mkdir -p "/tmp/${THEME_SLUG}"
+          rsync -a \
+            --exclude ".git/" \
+            --exclude ".github/" \
+            --exclude ".DS_Store" \
+            --exclude "log/" \
+            --exclude "node_modules/" \
+            --exclude "vendor/" \
+            --exclude "*.zip" \
+            ./ "/tmp/${THEME_SLUG}/"
+
+          cd /tmp
+          zip -r "${GITHUB_WORKSPACE}/${ZIP_NAME}" "${THEME_SLUG}"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          THEME_SLUG="vakvriend-warmtepomp-campagne-v2"
+          VERSION="${GITHUB_REF_NAME#v}"
+          ZIP_NAME="${THEME_SLUG}-${VERSION}.zip"
+
+          gh release create "${GITHUB_REF_NAME}" "${ZIP_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --notes "Vakvriend Warmtepomp Campagne theme ${GITHUB_REF_NAME}"
