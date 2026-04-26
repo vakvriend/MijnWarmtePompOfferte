@@ -114,10 +114,10 @@
     z-index:1002!important;
   }
   .vk-cw-knop{
-    width:46px;
-    height:46px;
-    font-size:20px;
-    box-shadow:0 4px 18px rgba(6,104,57,.32);
+    width:42px;
+    height:42px;
+    font-size:18px;
+    box-shadow:0 4px 16px rgba(6,104,57,.28);
   }
   .vk-cw-badge{
     top:-7px;

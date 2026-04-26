@@ -43,7 +43,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   padding:5px 16px;border-radius:var(--r-xl);
   font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0;
 }
-@media(max-width:640px){.vk-topbar-tekst{display:none}.vk-topbar{padding:0 16px}}
+@media(max-width:640px){.vk-topbar{display:none}}
 
 /* ── NAVBAR ── direct onder topbar */
 .navbar{
@@ -74,7 +74,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .nav-tel-link:hover{background:var(--groen);color:#fff}
 .nav-offerte-btn{font-size:14px;padding:9px 18px}
 @media(max-width:900px){.nav-links{display:none}}
-@media(max-width:640px){.nav-tel-link{display:none}.nav-container{padding:0 16px}}
+@media(max-width:640px){.navbar{top:0}.nav-tel-link{display:none}.nav-container{padding:0 16px}}
 
 /* ── HERO ── */
 .vk-hero{
@@ -94,7 +94,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   gap:48px;align-items:start;width:100%;
 }
 @media(max-width:1020px){.vk-hero-inner{grid-template-columns:1fr;padding:0 20px}}
-@media(max-width:640px){.vk-hero{padding:44px 0 64px}.vk-hero-inner{padding:0 14px;gap:30px}}
+@media(max-width:640px){.vk-hero{margin-top:68px;min-height:calc(100vh - 68px);padding:34px 0 56px}.vk-hero-inner{padding:0 14px;gap:26px}}
 .vk-pill{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
@@ -117,7 +117,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-proof{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:var(--r);padding:14px 16px;color:#fff}
 .vk-proof strong{display:block;font-family:var(--font-h);font-size:28px;line-height:1;margin-bottom:4px}
 .vk-proof span{display:block;font-size:12px;line-height:1.35;color:rgba(255,255,255,.72)}
-@media(max-width:520px){.vk-proof-row{grid-template-columns:1fr}.vk-proof{display:flex;align-items:center;gap:12px}.vk-proof strong{margin:0;min-width:86px}}
+@media(max-width:520px){.vk-proof-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:22px}.vk-proof{padding:13px 9px;text-align:center}.vk-proof strong{font-size:22px;margin:0}.vk-proof span{display:none}}
+@media(max-width:360px){.vk-proof-row{grid-template-columns:1fr}.vk-proof{display:flex;align-items:center;gap:12px}.vk-proof strong{margin:0;min-width:78px}}
 
 /* ── FORMULIER ── */
 .vk-form-wrap{position:sticky;top:120px;width:100%;max-width:500px;justify-self:end}
