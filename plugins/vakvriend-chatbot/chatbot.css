@@ -153,6 +153,9 @@
     min-width:0;
     padding:10px 13px;
   }
+  body.vk-form-step-4 #vk-chat-widget{
+    bottom:154px!important;
+  }
 }
 
 @media(max-width:400px){

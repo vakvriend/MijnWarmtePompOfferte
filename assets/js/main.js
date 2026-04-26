@@ -75,6 +75,7 @@ window.vkStap = function(n) {
   document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
   var s = document.getElementById('stap-' + n);
   if (s) s.classList.add('active');
+  document.body.classList.toggle('vk-form-step-4', n === 4);
   document.querySelectorAll('.vk-prog-dot').forEach(function(d, i) { d.classList.toggle('active', i < n); });
   vkTrack('lead_form_step', {
     form_name: 'warmtepomp_offerte',
@@ -142,6 +143,7 @@ window.vkVerstuur = async function() {
 
 function vkSucces() {
   document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
+  document.body.classList.remove('vk-form-step-4');
   var s = document.getElementById('stap-succes');
   if (s) s.classList.add('active');
   document.querySelectorAll('.vk-prog-dot').forEach(function(d) { d.classList.add('active'); });
