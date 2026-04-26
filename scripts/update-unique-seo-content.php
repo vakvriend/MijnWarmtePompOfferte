@@ -193,7 +193,7 @@ function vk_contextual_rows($rows, $city) {
 }
 
 function vk_contextual_answer($answer, $city) {
-    return rtrim($answer, '.') . '. Voor ' . $city . ' toetsen we dit vooraf in de woningcheck.';
+    return rtrim($answer, '.') . '.';
 }
 
 function vk_local_meta($title, $spec, $index) {
