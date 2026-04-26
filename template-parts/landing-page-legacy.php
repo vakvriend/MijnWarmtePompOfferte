@@ -89,7 +89,7 @@ $reviews = wc_meta_rows('wc_reviews', [
       <div class="vk-trust-row">
         <span class="vk-trust">Gratis & vrijblijvend</span>
         <span class="vk-trust">ISDE-subsidie aangevraagd</span>
-        <span class="vk-trust">Qvantum & Nibe partner</span>
+        <span class="vk-trust">Merkonafhankelijk advies</span>
         <span class="vk-trust"><?=$is_lokaal?"Actief in $stad":"Door heel Nederland"?></span>
       </div>
       <div class="vk-proof-row">
