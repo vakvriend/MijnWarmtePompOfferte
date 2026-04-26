@@ -9,6 +9,14 @@ $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
 $topbar    = wc_meta('wc_topbar_tekst',"🔥 Gratis warmtepomp offerte" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
+$hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis subsidiecheck en advies in $stad" : 'Gratis subsidiecheck en warmtepomp advies');
+$form_titel = wc_meta('wc_form_titel', 'Ontvang uw gratis warmtepomp advies');
+$form_subtitel = wc_meta('wc_form_subtitel', 'Bereken direct uw besparing en ontvang binnen 24 uur reactie van Vakvriend.');
+$campaign_proof = wc_meta_rows('wc_campaign_proof', [
+  ['Binnen 24 uur','reactie op uw aanvraag'],
+  ['ISDE','subsidiecheck inbegrepen'],
+  ['200+','installaties uitgevoerd'],
+], 2);
 $vv_u1     = wc_meta('wc_vv_usp1','Gecertificeerd Qvantum & Nibe installateur');
 $vv_u2     = wc_meta('wc_vv_usp2','200+ warmtepomp installaties');
 $vv_u3     = wc_meta('wc_vv_usp3','4,6 / 5 sterren beoordeling');
@@ -71,7 +79,7 @@ $reviews = wc_meta_rows('wc_reviews', [
   <div class="vk-hero-inner">
     <!-- Links: Tekst -->
     <div class="vk-hero-content">
-      <div class="vk-pill">🌿 Qvantum & Nibe specialist<?php if($is_lokaal) echo " · $stad"; ?></div>
+      <div class="vk-pill">🌿 <?=esc_html($hero_kicker)?></div>
       <h1><?=esc_html($hero_t)?></h1>
       <p class="vk-hero-sub"><?=esc_html($hero_s)?></p>
       <div class="vk-trust-row">
@@ -79,6 +87,14 @@ $reviews = wc_meta_rows('wc_reviews', [
         <span class="vk-trust">ISDE-subsidie aangevraagd</span>
         <span class="vk-trust">Qvantum & Nibe partner</span>
         <span class="vk-trust"><?=$is_lokaal?"Actief in $stad":"Door heel Nederland"?></span>
+      </div>
+      <div class="vk-proof-row">
+        <?php foreach($campaign_proof as [$number,$label]): ?>
+          <div class="vk-proof">
+            <strong><?=esc_html($number)?></strong>
+            <span><?=esc_html($label)?></span>
+          </div>
+        <?php endforeach; ?>
       </div>
       <div class="vk-hero-contact">
         <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-tel-link">📞 <?=esc_html($telefoon)?></a>
@@ -89,6 +105,10 @@ $reviews = wc_meta_rows('wc_reviews', [
     <!-- Rechts: Formulier -->
     <div class="vk-form-wrap" id="formulier">
       <div class="vk-form-card">
+        <div class="vk-form-head">
+          <h2><?=esc_html($form_titel)?></h2>
+          <p><?=esc_html($form_subtitel)?></p>
+        </div>
         <div class="vk-form-trust-bar">
           <span>🔒 Veilig</span><span>⚡ Binnen 24u reactie</span><span>✅ Gratis & vrijblijvend</span>
         </div>

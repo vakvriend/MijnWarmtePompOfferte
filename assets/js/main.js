@@ -37,6 +37,11 @@ window.vkKies = function(btn, key, val) {
   btn.closest('.vk-keuze-grid').querySelectorAll('.vk-keuze').forEach(function(b) { b.classList.remove('actief'); });
   btn.classList.add('actief');
   fd[key] = val;
+  vkTrack('lead_form_choice', {
+    form_name: 'warmtepomp_offerte',
+    field_name: key,
+    field_value: val
+  });
   if (key === 'systeem') {
     var tip = document.getElementById('subsidie-tip');
     if (tip) {
@@ -58,6 +63,12 @@ window.vkStap = function(n) {
   var s = document.getElementById('stap-' + n);
   if (s) s.classList.add('active');
   document.querySelectorAll('.vk-prog-dot').forEach(function(d, i) { d.classList.toggle('active', i < n); });
+  vkTrack('lead_form_step', {
+    form_name: 'warmtepomp_offerte',
+    step_number: n,
+    woningtype: fd.woningtype || '',
+    systeem: fd.systeem || ''
+  });
   var f = document.getElementById('formulier');
   if (f && window.innerWidth < 1020) setTimeout(function() { f.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 100);
 };
@@ -71,6 +82,12 @@ window.vkVerstuur = async function() {
   var pc = (document.getElementById('vk-pc') || {}).value || '';
   if (!naam) { vkFout('Vul uw naam in.'); return; }
   if (!email || !email.includes('@')) { vkFout('Vul een geldig e-mailadres in.'); return; }
+  vkTrack('lead_form_submit_attempt', {
+    form_name: 'warmtepomp_offerte',
+    woningtype: fd.woningtype || '',
+    systeem: fd.systeem || '',
+    gasverbruik: fd.gasverbruik || ''
+  });
   var btn = document.querySelector('.vk-btn-oranje');
   if (btn) { btn.disabled = true; btn.textContent = 'Bezig...'; }
   var p = new URLSearchParams(location.search);
@@ -130,6 +147,10 @@ function vkFout(t) {
   d.className = 'vk-fout'; d.textContent = '\u26a0\ufe0f ' + t;
   var a = document.querySelector('.vk-stap.active');
   if (a) a.insertBefore(d, a.firstChild);
+  vkTrack('lead_form_error', {
+    form_name: 'warmtepomp_offerte',
+    error_message: t
+  });
   setTimeout(function() { if(d.parentNode) d.remove(); }, 4000);
 }
 
@@ -148,6 +169,10 @@ window.vkKiesSysteem = function(btn, sys) {
   calcSysteem = sys;
   // Update calc-sys-lbl label
   var lb = document.getElementById('calc-sys-lbl'); if (lb && SUBSIDIE[sys]) lb.textContent = SUBSIDIE[sys].label;
+  vkTrack('calculator_system_select', {
+    calculator_name: 'warmtepomp_besparing',
+    systeem: sys
+  });
   vkCalc();
 };
 
@@ -235,7 +260,16 @@ window.vkChatStuur = function() {
 document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   a.addEventListener('click', function(e) {
     var t = document.querySelector(this.getAttribute('href'));
-    if (t) { e.preventDefault(); window.scrollTo({top: t.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth'}); }
+    if (t) {
+      e.preventDefault();
+      if (this.getAttribute('href') === '#formulier') {
+        vkTrack('lead_cta_click', {
+          cta_text: (this.textContent || '').trim(),
+          cta_location: this.closest('.vk-mobile-sticky') ? 'mobile_sticky' : this.closest('.vk-hero') ? 'hero' : this.closest('.navbar') ? 'nav' : 'page'
+        });
+      }
+      window.scrollTo({top: t.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth'});
+    }
   });
 });
 

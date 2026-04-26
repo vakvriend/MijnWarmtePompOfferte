@@ -33,5 +33,16 @@ Vul de GTM container in via:
 Beschikbare dataLayer events:
 
 - `lead_form_success`
+- `lead_form_submit_attempt`
+- `lead_form_step`
+- `lead_form_choice`
+- `lead_form_error`
+- `lead_cta_click`
+- `calculator_system_select`
 - `phone_click`
 - `whatsapp_click`
+
+## AI content per pagina
+
+Gebruik `docs/ai-content-schema.json` als outputcontract voor de AI-generator.
+De keys in dit JSON-bestand komen overeen met de campagnevelden in WordPress.

@@ -64,6 +64,11 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
   </div>
 </footer>
 
+<div class="vk-mobile-sticky" aria-label="Snelle acties">
+  <a href="#formulier" class="vk-btn vk-btn-oranje">Offerte aanvragen</a>
+  <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen">Bel direct</a>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>
