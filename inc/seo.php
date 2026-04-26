@@ -30,19 +30,19 @@ function wc_get_page_faqs($post_id = null) {
     $faqs = array(
         array(
             'question' => 'Wat is het verschil tussen Qvantum en Nibe?',
-            'answer'   => 'Qvantum onderscheidt zich door de thermische batterij in alle systemen, zoals QA, QE en QG. Warm tapwater zit niet in een boilervat, maar wordt vers geleverd via een platenwisselaar die warmte uit de thermische batterij haalt. Nibe biedt meer modelkeuze inclusief hybride warmtepompen en bodemwarmtepompen. Vakvriend adviseert welk merk en model het beste past.',
+            'answer'   => 'Qvantum werkt met thermische opslag en vers tapwater via een platenwisselaar. Nibe heeft een breed programma voor lucht/water, bodem/water en hybride installaties. De beste keuze hangt af van warmteverlies, tapwater, geluid, ruimte en afgiftesysteem.',
         ),
         array(
             'question' => 'Hoeveel ISDE-subsidie kan ik ontvangen?',
-            'answer'   => 'De subsidie hangt af van het type warmtepomp, merk, vermogen en energielabel. Vakvriend berekent het exacte bedrag in de offerte en begeleidt de aanvraag.',
+            'answer'   => 'De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Vakvriend neemt de verwachte ISDE-subsidie apart op in de offerte en helpt bij de aanvraagstukken.',
         ),
         array(
             'question' => 'Is mijn woning' . ($is_lokaal ? ' in ' . $stad : '') . ' geschikt voor een warmtepomp?',
-            'answer'   => 'De meeste woningen komen in aanmerking. Vakvriend beoordeelt tijdens een gratis adviesgesprek welk systeem technisch verstandig is voor uw situatie.',
+            'answer'   => 'Dat hangt af van isolatie, warmteverlies, radiatoren of vloerverwarming, tapwatergebruik en beschikbare ruimte. Vakvriend beoordeelt eerst de woning en vergelijkt daarna hybride, lucht/water, ventilatie of bodemwarmte.',
         ),
         array(
             'question' => 'Regelt Vakvriend de subsidieaanvraag?',
-            'answer'   => 'Ja, Vakvriend begeleidt de ISDE-subsidieaanvraag bij de RVO.',
+            'answer'   => 'Ja. Vakvriend neemt de verwachte ISDE-subsidie mee in de offerte en helpt bij de aanvraagstukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO.',
         ),
     );
 
