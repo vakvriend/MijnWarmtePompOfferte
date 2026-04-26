@@ -88,9 +88,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(4,72,37,.97) 0%,rgba(4,72,37,.9) 45%,rgba(4,72,37,.3) 100%)}
 .vk-hero-inner{
   position:relative;z-index:1;
-  max-width:1160px;margin:0 auto;padding:0 32px;
-  display:grid;grid-template-columns:1fr 460px;
-  gap:56px;align-items:start;width:100%;
+  max-width:1220px;margin:0 auto;padding:0 32px;
+  display:grid;grid-template-columns:minmax(0,1fr) 500px;
+  gap:48px;align-items:start;width:100%;
 }
 @media(max-width:1020px){.vk-hero-inner{grid-template-columns:1fr;padding:0 20px}}
 .vk-pill{
@@ -118,9 +118,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 @media(max-width:520px){.vk-proof-row{grid-template-columns:1fr}.vk-proof{display:flex;align-items:center;gap:12px}.vk-proof strong{margin:0;min-width:86px}}
 
 /* ── FORMULIER ── */
-.vk-form-wrap{position:sticky;top:120px}
+.vk-form-wrap{position:sticky;top:120px;width:100%;max-width:500px;justify-self:end}
 .vk-form-card{background:#fff;border-radius:var(--r-lg);padding:32px;box-shadow:0 32px 80px rgba(0,0,0,.28),0 8px 24px rgba(0,0,0,.1)}
-@media(max-width:640px){.vk-form-card{padding:24px}}
+@media(max-width:1020px){.vk-form-wrap{position:relative;top:auto;max-width:620px;justify-self:stretch;margin:0 auto}}
+@media(max-width:640px){.vk-form-card{padding:24px}.vk-form-wrap{max-width:none}}
 .vk-form-head{text-align:center;margin-bottom:18px}
 .vk-form-head h2{font-family:var(--font-b);font-size:22px;font-weight:900;letter-spacing:0;line-height:1.15;color:var(--zwart);margin-bottom:7px}
 .vk-form-head p{font-size:13px;color:var(--grijs);line-height:1.55;margin:0 auto;max-width:340px}
@@ -185,7 +186,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-btn-wa{background:#25D366;color:#fff;border-color:#25D366}
 .vk-btn-wa:hover{background:#20b856}
 .vk-btn-lg{padding:18px 40px;font-size:17px}
-.vk-btn-full{width:100%;justify-content:center}
+.vk-btn-full{width:100%;justify-content:center;white-space:normal;min-height:50px;text-align:center}
 .vk-btn-space{margin-top:20px}
 .vk-btn-space-sm{margin-top:10px}
 .vk-form-note{font-size:11px;opacity:.7;margin-top:4px}
@@ -412,6 +413,31 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-chat-adviseur-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .vk-chat-adviseur-btn{font-size:12px;font-weight:700;padding:6px 14px;border-radius:var(--r-xl);background:var(--groen);color:#fff;text-decoration:none;display:inline-block}
 
+@media(max-width:760px){
+  .vk-chatbot-card{border-radius:var(--r);max-height:calc(100vh - 156px)}
+  .vk-chat-msgs{min-height:180px;max-height:240px}
+  .vk-chat-input-wrap{align-items:center}
+  .vk-chat-input-field{min-width:0}
+  .vk-chat-stuur{min-width:48px;padding:10px 14px}
+
+  #tidio-chat iframe,
+  iframe[src*="tidio"],
+  iframe[src*="tawk"],
+  iframe[src*="crisp"],
+  iframe[src*="intercom"],
+  iframe[src*="jivo"],
+  .crisp-client .cc-kv6t,
+  .intercom-lightweight-app,
+  .tawk-min-container,
+  .tidio-chat-iframe {
+    top:120px!important;
+    right:12px!important;
+    bottom:auto!important;
+    left:auto!important;
+    z-index:1002!important;
+  }
+}
+
 /* ── FAQ ── */
 .vk-faq-lijst{max-width:780px;margin:48px auto 0}
 .vk-faq{border-bottom:1px solid #e5e5e5}
@@ -457,7 +483,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
     background:rgba(255,255,255,.96);border-top:1px solid rgba(0,0,0,.1);
     box-shadow:0 -10px 30px rgba(0,0,0,.12);backdrop-filter:blur(14px);
   }
-  .vk-mobile-sticky a{min-height:48px;border-radius:var(--r);font-size:14px;padding:0 12px}
+  .vk-mobile-sticky a{min-height:48px;border-radius:var(--r);font-size:14px;padding:0 12px;white-space:normal;text-align:center}
 }
 
 /* ── EXTRA TEKST ── */
