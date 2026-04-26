@@ -119,11 +119,11 @@ window.vkVerstuur = async function() {
     else {
       var msg = json.data && json.data.message ? json.data.message : 'Er ging iets mis. Bel 075 234 0001.';
       vkFout(msg);
-      if (btn) { btn.disabled = false; btn.textContent = 'Gratis offerte aanvragen \u2192'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Ontvang gratis subsidiecheck \u2192'; }
     }
   } catch(e) {
     vkFout('Er ging iets mis. Bel 075 234 0001 of probeer het opnieuw.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Gratis offerte aanvragen \u2192'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Ontvang gratis subsidiecheck \u2192'; }
   }
 };
 

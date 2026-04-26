@@ -169,15 +169,15 @@ $reviews = wc_meta_rows('wc_reviews', [
         <!-- Stap 4: Contactgegevens -->
         <div class="vk-stap" id="stap-4">
           <h3 class="vk-stap-titel">Uw contactgegevens</h3>
-          <p class="vk-stap-sub">Stap 4 van 4 — Vakvriend neemt contact op</p>
+          <p class="vk-stap-sub">Stap 4 van 4 — ontvang uw gratis subsidiecheck en advies</p>
           <div class="vk-veld-grid">
             <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
             <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"></div>
             <div class="vk-veld"><label>Postcode</label><input type="text" id="vk-pc" placeholder="1234 AB"></div>
           </div>
-          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">🎯 Gratis offerte aanvragen →</button>
-          <p class="vk-disclaimer">✓ Gratis & vrijblijvend · ✓ Reactie binnen 24 uur · ✓ ISDE-subsidie aanvragen<br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
+          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Ontvang gratis subsidiecheck →</button>
+          <p class="vk-disclaimer"><span>Gratis en vrijblijvend</span><span>Reactie binnen 24 uur</span><span>ISDE-hulp inbegrepen</span><br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
           <div class="vk-terug"><button onclick="vkStap(3)">← Terug</button></div>
         </div>
 

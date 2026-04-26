@@ -156,7 +156,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-veld input{padding:11px 13px;border:1.5px solid #ddd;border-radius:var(--r);font-size:15px;font-family:var(--font-b);transition:border-color .2s;background:#fff}
 .vk-veld input:focus{border-color:var(--groen);outline:none;box-shadow:0 0 0 3px rgba(6,104,57,.1)}
 .vk-disclaimer{font-size:11px;color:var(--grijs);text-align:center;margin-top:10px;line-height:1.6}
+.vk-disclaimer span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.vk-disclaimer span::before{content:'✓';color:var(--groen);font-weight:800}
 .vk-disclaimer a{color:var(--groen)}
+@media(max-width:640px){.vk-disclaimer{font-size:10px}.vk-disclaimer span{display:inline-flex;margin:0 4px 3px;white-space:normal}}
 .vk-succes{text-align:center;padding:8px 0}
 .vk-succes-ico{font-size:52px;margin-bottom:14px}
 .vk-succes h3{font-family:var(--font-h);font-size:26px;margin-bottom:10px;color:var(--zwart)}
