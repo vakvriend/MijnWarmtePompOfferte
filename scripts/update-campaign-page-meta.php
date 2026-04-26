@@ -114,8 +114,13 @@ foreach ($pages as $page) {
     }
 
     vk_campaign_update($page->ID, $base);
+    update_post_meta($page->ID, '_yoast_wpseo_title', $base['wc_meta_title']);
+    update_post_meta($page->ID, '_yoast_wpseo_metadesc', $base['wc_meta_desc']);
     echo 'Updated page ' . $page->ID . ' - ' . $page->post_title . PHP_EOL;
 }
+
+update_option('blogname', 'Gratis warmtepomp offerte | Vakvriend');
+update_option('blogdescription', 'Gratis subsidiecheck, besparing en warmtepomp advies.');
 
 delete_site_transient('wc_github_theme_release');
 delete_site_transient('update_themes');
