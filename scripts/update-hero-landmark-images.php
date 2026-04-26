@@ -15,6 +15,7 @@ if (!file_exists($wp_load)) {
 require $wp_load;
 
 $base = '/wp-content/themes/vakvriend-warmtepomp-campagne-v2/assets/img/landmarks/';
+$version = '?v=2';
 $images = array(
     'Warmtepomp Zonder Boiler' => 'warmtepomp-zonder-boiler.jpg',
     'Warmtepomp Zaanstad'      => 'warmtepomp-zaanstad.jpg',
@@ -57,7 +58,7 @@ foreach ($images as $title => $file) {
         continue;
     }
 
-    update_post_meta($page->ID, 'wc_hero_foto', esc_url_raw($base . $file));
+    update_post_meta($page->ID, 'wc_hero_foto', esc_url_raw($base . $file . $version));
     echo 'Updated hero image: ' . $title . PHP_EOL;
 }
 
