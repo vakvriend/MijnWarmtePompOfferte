@@ -205,11 +205,17 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <!-- Succes -->
         <div class="vk-stap vk-succes" id="stap-succes">
-          <div class="vk-succes-ico">✅</div>
-          <h3>Aanvraag ontvangen!</h3>
-          <p>Bedankt! <strong>Vakvriend</strong> neemt binnen één werkdag contact op voor een gratis adviesgesprek aan huis.</p>
-          <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen vk-btn-full" style="margin-top:20px">📞 Direct bellen: <?=esc_html($telefoon)?></a>
-          <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-full" style="margin-top:10px">💬 WhatsApp sturen</a>
+          <img src="<?=esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif')?>" alt="" class="vk-succes-gif" width="120" height="90" loading="lazy">
+          <div class="vk-succes-pill">Aanvraag compleet</div>
+          <h3>Gelukt, uw subsidiecheck is aangevraagd</h3>
+          <p>Vakvriend heeft uw gegevens ontvangen. We bekijken uw woning, systeemvoorkeur en gasverbruik en nemen binnen 24 uur contact op met praktisch advies.</p>
+          <div class="vk-succes-next">
+            <div><strong>1</strong><span>Aanvraag ontvangen</span></div>
+            <div><strong>2</strong><span>Vakvriend rekent mee</span></div>
+            <div><strong>3</strong><span>U krijgt advies</span></div>
+          </div>
+          <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen vk-btn-full vk-btn-space">📞 Direct bellen: <?=esc_html($telefoon)?></a>
+          <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-full vk-btn-space-sm">💬 WhatsApp sturen</a>
         </div>
       </div>
     </div>

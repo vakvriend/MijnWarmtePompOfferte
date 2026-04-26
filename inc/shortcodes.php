@@ -172,9 +172,15 @@ function wc_shortcode_lead_form($atts = array()) {
         </div>
 
         <div class="vk-stap vk-succes" id="stap-succes">
-          <div class="vk-succes-ico">✓</div>
+          <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/lead-check.gif'); ?>" alt="" class="vk-succes-gif" width="120" height="90" loading="lazy">
+          <div class="vk-succes-pill">Aanvraag compleet</div>
           <h3><?php echo esc_html($atts['success_title']); ?></h3>
           <p><?php echo esc_html($atts['success_text']); ?></p>
+          <div class="vk-succes-next">
+            <div><strong>1</strong><span>Aanvraag ontvangen</span></div>
+            <div><strong>2</strong><span>Vakvriend rekent mee</span></div>
+            <div><strong>3</strong><span>U krijgt advies</span></div>
+          </div>
           <a href="tel:<?php echo esc_attr($ctx['tel_clean']); ?>" class="vk-btn vk-btn-groen vk-btn-full vk-btn-space">Direct bellen: <?php echo esc_html($ctx['telefoon']); ?></a>
           <a href="https://wa.me/<?php echo esc_attr($ctx['whatsapp']); ?>" class="vk-btn vk-btn-wa vk-btn-full vk-btn-space-sm">WhatsApp sturen</a>
         </div>
