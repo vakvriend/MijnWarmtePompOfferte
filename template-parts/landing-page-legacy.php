@@ -526,7 +526,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div><div class="vk-res-n" id="c-tvt">5,1 jr</div><div class="vk-res-u">Terugverdientijd</div></div>
         </div>
       </div>
-      <div style="text-align:center;margin-top:24px">
+      <div class="vk-calc-cta" style="text-align:center;margin-top:24px">
         <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Vraag gratis offerte op maat aan →</a>
       </div>
     </div>

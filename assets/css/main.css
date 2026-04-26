@@ -362,6 +362,26 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 @media(max-width:480px){.vk-calc-res-grid{grid-template-columns:1fr 1fr}}
 .vk-res-n{font-family:var(--font-h);font-size:34px;line-height:1}
 .vk-res-u{font-size:12px;opacity:.7;margin-top:5px}
+@media(max-width:640px){
+  .vk-calc{margin-top:28px;padding:20px 20px 24px;border-radius:16px}
+  .vk-calc h3{font-size:20px;line-height:1.2;margin-bottom:8px}
+  .vk-calc-sub{font-size:13px;line-height:1.45;margin-bottom:24px}
+  .vk-systeem-keuze{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .vk-sys-btn{width:100%;padding:11px 8px;font-size:13px;line-height:1.15}
+  .vk-calc-slider{margin-bottom:22px}
+  .vk-slider-vals{font-size:11px}
+  .vk-slider-vals strong{font-size:21px}
+  .vk-calc-res{padding:15px 17px;border-radius:16px}
+  .vk-calc-res-lbl{font-size:9px;line-height:1.4;letter-spacing:1.1px;margin-bottom:10px}
+  .vk-calc-res-grid{grid-template-columns:1fr;gap:0}
+  .vk-calc-res-grid>div{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 0 8px 18px;border-top:1px solid rgba(255,255,255,.14)}
+  .vk-calc-res-grid>div:first-child{border-top:0}
+  .vk-res-n{font-size:25px;white-space:nowrap;line-height:1}
+  .vk-res-u{font-size:12px;margin-top:0;text-align:right;max-width:128px}
+  .vk-calc-cta{margin-top:16px!important}
+  .vk-calc .vk-btn-lg{width:100%;justify-content:center;min-height:48px;font-size:14px;padding:13px 16px}
+  #calculator{padding-bottom:96px}
+}
 
 /* ── STAPPEN ── */
 .vk-stappen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,.06);border-radius:var(--r-lg);overflow:hidden;position:relative;z-index:1}
