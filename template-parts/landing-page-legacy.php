@@ -26,7 +26,6 @@ $vv_u1     = wc_meta('wc_vv_usp1','Gecertificeerd Qvantum & Nibe installateur');
 $vv_u2     = wc_meta('wc_vv_usp2','200+ warmtepomp installaties');
 $vv_u3     = wc_meta('wc_vv_usp3','4,6 / 5 sterren beoordeling');
 $vv_u4     = wc_meta('wc_vv_usp4','24/7 bereikbaar — door heel Nederland');
-$extra     = wc_meta('wc_extra_tekst','');
 $faq_extra = wc_meta('wc_faq_extra','');
 $tel_clean = preg_replace('/\s+/','',$telefoon);
 $qvantum_types = wc_meta_rows('wc_qvantum_types', [
@@ -733,13 +732,5 @@ if ($lokale_alinea1 || $lokale_alinea2):
     </div>
   </div>
 </section>
-
-<?php if($extra): ?>
-<section class="vk-section">
-  <div class="vk-container">
-    <div class="vk-extra-tekst vk-reveal"><?=wpautop(esc_html($extra))?></div>
-  </div>
-</section>
-<?php endif; ?>
 
 <input type="hidden" id="js-stad" value="<?=esc_attr($stad)?>">

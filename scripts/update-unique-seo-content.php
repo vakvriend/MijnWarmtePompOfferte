@@ -69,8 +69,6 @@ $special = array(
         'wc_form_subtitel' => 'Ontvang een compacte beoordeling van tapwater, thermische batterij, ruimte en subsidie.',
         'wc_voordelen_titel' => 'Waarom een warmtepomp zonder boilervat?',
         'wc_voordelen_lead' => 'Deze pagina draait specifiek om ruimtebesparing en vers tapwater via Qvantum, niet om een algemene warmtepompvergelijking.',
-        'wc_reviews_lead' => 'Aanvragers willen vooral weten of het ontbreken van een groot vat comfort kost. Daarom leggen we tapwater en opslag extra simpel uit.',
-        'wc_extra_tekst' => "Een warmtepomp zonder boiler is vooral interessant wanneer u minder ruimte wilt reserveren voor techniek. Bij veel woningen staat de wasmachine, omvormer, ventilatiebox of cv-ketel al in dezelfde ruimte. Dan is een compact systeem met thermische batterij aantrekkelijk.\n\nVakvriend kijkt niet alleen naar de warmtepomp zelf, maar ook naar comfort. Hoeveel mensen douchen er? Is er een bad? Hoe snel wilt u opnieuw warm water beschikbaar hebben? Die vragen bepalen of een Qvantum-oplossing zonder groot boilervat verstandig is.\n\nOok onderhoud en legionellarisico spelen mee. Omdat het tapwater niet als voorraad in een groot vat staat, werkt het systeem anders dan een klassieke boiler. Wij leggen dit tijdens de opname simpel uit, zodat u precies weet wat u koopt.",
     ),
     'Warmtepomp Vergelijken' => array(
         'status' => 'seo-unique-v2',
@@ -95,8 +93,6 @@ $special = array(
         'wc_form_subtitel' => 'Upload of beschrijf uw situatie en krijg inzicht in prijs, systeemkeuze, subsidie en verborgen randwerk.',
         'wc_voordelen_titel' => 'Vergelijken op meer dan de totaalprijs',
         'wc_voordelen_lead' => 'Deze pagina helpt bezoekers vooral om appels met appels te vergelijken: vermogen, tapwater, geluid en installatie-impact.',
-        'wc_reviews_lead' => 'Mensen vragen hier vaak hulp omdat offertes technisch op elkaar lijken, maar in uitvoering sterk verschillen.',
-        'wc_extra_tekst' => "Een goede vergelijking begint met dezelfde uitgangspunten. Heeft elke aanbieder gerekend met hetzelfde gasverbruik? Is tapwater meegenomen? Zijn extra groepen, leidingwerk, dakdoorvoer of geluidsvoorzieningen inbegrepen?\n\nBij Qvantum speelt de thermische batterij een rol. Bij Nibe is er juist veel modelkeuze. Bij hybride systemen blijft de cv-ketel meewerken. Dat maakt vergelijken lastig, maar ook belangrijk.\n\nVakvriend vertaalt technische offertes naar begrijpelijke keuzes. U ziet niet alleen de aanschafprijs, maar ook de verwachte besparing, subsidie en praktische gevolgen in huis.",
     ),
     'Mijn Warmtepomp Offerte' => array(
         'status' => 'seo-unique-v2',
@@ -121,8 +117,6 @@ $special = array(
         'wc_form_subtitel' => 'Vul woningtype, systeemwens en verbruik in en ontvang een offertepad dat bij uw huis past.',
         'wc_voordelen_titel' => 'Uw offerte begint bij de woning',
         'wc_voordelen_lead' => 'Deze pagina is breed opgezet voor bezoekers die nog niet weten welk systeem past en eerst richting nodig hebben.',
-        'wc_reviews_lead' => 'Aanvragers waarderen vooral dat de offerte niet als losse prijs komt, maar als compleet keuzeplan.',
-        'wc_extra_tekst' => "Een goede warmtepomp offerte voorkomt verrassingen. Daarom nemen we niet alleen de warmtepomp op, maar ook leidingwerk, elektra, regeling, geluid en eventuele aanpassingen aan radiatoren of vloerverwarming.\n\nDe offerte moet ook duidelijk maken wat u netto betaalt. ISDE-subsidie kan veel verschil maken, maar het bedrag hangt af van type en vermogen. Vakvriend rekent dat voor u uit.\n\nZo wordt de offerte geen losse prijs, maar een compleet plan voor minder gasverbruik, beter comfort en een woning die klaar is voor de komende jaren.",
     ),
     'Warmtepomp Qvantum' => array(
         'status' => 'seo-unique-v2',
@@ -147,8 +141,6 @@ $special = array(
         'wc_form_subtitel' => 'Laat QA, QE en QG beoordelen op ventilatie, bron, tapwater, ruimte en subsidie.',
         'wc_voordelen_titel' => 'Qvantum vraagt om goede uitleg',
         'wc_voordelen_lead' => 'Deze pagina focust op de thermische batterij, platenwisselaar en het verschil tussen QA, QE en QG.',
-        'wc_reviews_lead' => 'Bezoekers willen vooral weten wat thermische opslag in normaal Nederlands betekent. Daarom staat uitleg hier voorop.',
-        'wc_extra_tekst' => "Qvantum vraagt om goede uitleg, omdat het anders snel klinkt alsof er toch een boiler verstopt zit. Dat is niet zo. De batterij slaat warmte op; tapwater wordt pas warm gemaakt als u het gebruikt.\n\nVoor appartementen kan de QE interessant zijn, zeker wanneer buitenunitplaatsing lastig is. Voor grondgebonden woningen kan de QA of QG logischer zijn. De juiste keuze hangt af van ventilatie, isolatie en het bestaande verwarmingssysteem.\n\nVakvriend neemt Qvantum mee in een breder advies. Als Nibe of hybride technisch beter past, zeggen we dat ook.",
     ),
 );
 
@@ -284,16 +276,6 @@ function vk_local_meta($title, $spec, $index) {
         "🏘️|Geschikt voor drukke wijken|We letten extra op geluid en trillingen bij dicht op elkaar gebouwde woningen.\n🌬️|Ventilatie niet vergeten|Afvoer, WTW en binnenlucht bepalen soms welk systeem logisch is.\n💬|Nazorg inbegrepen|Na installatie blijft Vakvriend aanspreekbaar voor regeling en uitleg.",
         "🌍|Bodemopties waar zinvol|Bij voldoende perceelruimte kijken we ook naar boring en vergunning.\n💧|Warm water zonder aannames|Tapwatercomfort wordt apart besproken, zeker bij Qvantum-systemen.\n📊|Besparing realistisch gemaakt|Geen mooie gemiddelden, maar verwachtingen die passen bij uw verbruik.",
     );
-    $review_sets = array(
-        "\"De uitleg was helder en niet opdringerig. We wisten eindelijk waarom hybride hier logisch was.\"|Familie uit {city}|Advies en subsidiecheck|5\n\"Netjes meegedacht over de plek van de buitenunit. Dat gaf vertrouwen.\"|Woningeigenaar in {region}|Lucht/water warmtepomp|5",
-        "\"Geen verkooppraatje maar een technisch verhaal dat we konden volgen.\"|Bewoner uit {city}|Warmtepomp vergelijking|5\n\"De offerte was duidelijker dan de andere twee die we hadden liggen.\"|Klant in {region}|Offertebeoordeling|5",
-        "\"Vooral de uitleg over geluid en leidingwerk was waardevol.\"|Huiseigenaar {city}|Woningcheck|5\n\"Ze keken verder dan alleen de warmtepomp zelf. Precies wat we nodig hadden.\"|Gezin in {region}|Installatievoorstel|5",
-        "\"Vakvriend nam ook de minder handige punten van ons huis mee. Dat voelde eerlijk.\"|Bewoner {city}|Hybride advies|5\n\"We kregen eindelijk grip op subsidie, netto prijs en planning.\"|Klant uit {region}|ISDE en offerte|5",
-        "\"Prettig dat Qvantum en Nibe gewoon naast elkaar werden uitgelegd.\"|Woningeigenaar in {city}|Merkvergelijking|5\n\"De opname was praktisch en de offerte las verrassend makkelijk.\"|Particulier {region}|Warmtepomp offerte|5",
-        "\"Ze dachten goed mee over onze beperkte ruimte binnen.\"|Klant uit {city}|Compact systeemadvies|5\n\"Geen snelle belofte, maar een plan waar we iets aan hadden.\"|Bewoner in {region}|Woninganalyse|5",
-        "\"De installatieroute werd vooraf al duidelijk gemaakt. Dat scheelde veel vragen.\"|Huiseigenaar {city}|Voorbereiding installatie|5\n\"Ook de subsidie werd gewoon begrijpelijk uitgelegd.\"|Gezin in {region}|Subsidiecheck|5",
-        "\"We wilden gas besparen, maar geen herrie. Daar is serieus naar gekeken.\"|Bewoner uit {city}|Geluid en plaatsing|5\n\"Vakvriend gaf ook aan wat we beter nog niet moesten doen. Dat waardeer ik.\"|Klant {region}|Eerlijk advies|5",
-    );
     $faq = vk_pick($faq_sets, $index);
     $extra_faq = $faq[0] . ':::' . vk_contextual_answer($faq[1], $city) . "\n" . $faq[2] . ':::' . vk_contextual_answer($faq[3], $city) . "\n" . $faq[4] . ':::' . vk_contextual_answer($faq[5], $city);
     $local_intro = strtr(vk_pick($intro_styles, $index), array('{city}' => $city, '{region}' => $region, '{area}' => $area));
@@ -377,9 +359,6 @@ function vk_local_meta($title, $spec, $index) {
         'wc_boringen_cta' => 'Boring in ' . $city . ' laten beoordelen',
         'wc_boringen_kaart_titel' => 'Boring alleen als het past bij ' . $city,
         'wc_boringen_kaart_tekst' => $boringen_kaart_tekst,
-        'wc_reviews_titel' => 'Ervaringen met praktisch warmtepompadvies',
-        'wc_reviews_lead' => 'Klanten rond ' . $city . ' waarderen vooral dat Vakvriend niet alleen een toestel noemt, maar uitlegt wat de keuze voor hun woning betekent.',
-        'wc_reviews' => strtr(vk_pick($review_sets, $index), array('{city}' => $city, '{region}' => $region)),
         'wc_lokale_h2' => 'Warmtepompadvies voor woningen in ' . $city,
         'wc_lokale_intro' => $local_intro,
         'wc_lokale_alinea1' => $alinea1,
@@ -392,7 +371,6 @@ function vk_local_meta($title, $spec, $index) {
         'wc_lokale_faq_v3' => strtr($faq[4], array('{city}' => $city)),
         'wc_lokale_faq_a3' => vk_contextual_answer(strtr($faq[5], array('{city}' => $city)), $city),
         'wc_faq_extra' => strtr($extra_faq, array('{city}' => $city)),
-        'wc_extra_tekst' => $extra,
     );
 }
 
@@ -455,6 +433,10 @@ function vk_special_support_meta($title) {
 }
 
 function vk_apply_meta($post_id, $meta) {
+    foreach (array('wc_extra_tekst', 'wc_reviews_titel', 'wc_reviews_lead', 'wc_reviews') as $key) {
+        delete_post_meta($post_id, $key);
+    }
+
     foreach ($meta as $key => $value) {
         update_post_meta($post_id, $key, $value);
     }
