@@ -33,6 +33,19 @@ function vkTrack(eventName, payload) {
   }, payload || {}));
 }
 
+function vkTrackAdsLeadConversion() {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function() {
+    window.dataLayer.push(arguments);
+  };
+
+  window.gtag('event', 'conversion', {
+    send_to: 'AW-18103465341/9j_GCMTd-qIcEP3qs7hD',
+    value: 100,
+    currency: 'EUR'
+  });
+}
+
 window.vkKies = function(btn, key, val) {
   btn.closest('.vk-keuze-grid').querySelectorAll('.vk-keuze').forEach(function(b) { b.classList.remove('actief'); });
   btn.classList.add('actief');
@@ -139,6 +152,7 @@ function vkSucces() {
     gasverbruik: fd.gasverbruik || '',
     stad: (document.getElementById('js-stad') || {}).value || ''
   });
+  vkTrackAdsLeadConversion();
 }
 
 function vkFout(t) {
