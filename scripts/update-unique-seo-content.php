@@ -137,32 +137,184 @@ function vk_find_page_by_title($title) {
     return $page ? (int) $page->ID : 0;
 }
 
-function vk_local_meta($spec) {
+function vk_pick($items, $index) {
+    return $items[$index % count($items)];
+}
+
+function vk_contextual_rows($rows, $city) {
+    $out = array();
+    foreach (explode("\n", $rows) as $row) {
+        $parts = explode('|', $row);
+        if (count($parts) >= 3) {
+            $parts[2] = rtrim($parts[2], '.') . '. Voor ' . $city . ' wordt dit lokaal meegewogen.';
+        }
+        $out[] = implode('|', $parts);
+    }
+    return implode("\n", $out);
+}
+
+function vk_contextual_answer($answer, $city) {
+    return rtrim($answer, '.') . '. Voor ' . $city . ' toetsen we dit vooraf in de woningcheck.';
+}
+
+function vk_local_meta($title, $spec, $index) {
     $city = $spec['city'];
     $region = $spec['region'];
+    $area = $spec['area'];
+    $focus = $spec['focus'];
+    $attention = $spec['attention'];
+
+    $intro_styles = array(
+        'In {city} begint goed warmtepompadvies bij het herkennen van de woning. {area} zorgen voor andere keuzes dan een standaard rijtje modellen.',
+        '{city} vraagt om een nuchtere opname: eerst warmteverlies, geluid en ruimte controleren, daarna pas kiezen tussen Qvantum, Nibe of hybride.',
+        'Wie in {city} een warmtepomp overweegt, heeft weinig aan algemene beloftes. De wijk, het bouwjaar en het afgiftesysteem bepalen de route.',
+        'De woningen in {city} lopen technisch te ver uiteen voor copy-paste advies. {area} vragen om een voorstel dat op locatie klopt.',
+        'Een warmtepomp in {city} wordt pas interessant als comfort, subsidie en plaatsing tegelijk zijn doorgerekend.',
+        'Voor {city} kijken we niet alleen naar minder gasverbruik, maar ook naar stilte, tapwater, leidingroutes en de plek van de installatie.',
+        'In {region} kan dezelfde warmtepomp bij de ene woning uitstekend zijn en bij de andere tegenvallen. Daarom begint Vakvriend met de woning, niet met de folder.',
+        '{city} verdient een offerte waarin de praktische kanten helder zijn: waar komt de unit, hoe blijft het stil en wat doet het systeem op koude dagen?',
+    );
+    $hero_styles = array(
+        'Geen standaard warmtepompverhaal, maar een advies voor {city} op basis van woningtype, gasverbruik, geluid en de echte installatieruimte.',
+        'Vakvriend rekent voor uw woning in {city} uit welke warmtepomp logisch is, wat de ISDE-subsidie doet en welke investering realistisch blijft.',
+        'Van hybride tussenstap tot Qvantum of Nibe: u krijgt in {city} een concreet voorstel dat past bij comfort, tapwater en beschikbare ruimte.',
+        'Laat uw woning in {city} beoordelen voordat u offertes vergelijkt. Zo voorkomt u een te klein systeem, geluidsgedoe of onnodige kosten.',
+        'Warmtepompadvies in {city} met focus op subsidie, besparing, geluidspositie en een installatie die ook in de praktijk prettig werkt.',
+        'Ontdek welke warmtepomp bij uw woning in {city} past en ontvang een offerte waarin ruimte, regeling, tapwater en ISDE apart zijn uitgewerkt.',
+        'Voor woningen in {city} vergelijkt Vakvriend Qvantum, Nibe, hybride en bodemwarmte zonder verkooppraat. Alleen wat technisch verstandig is.',
+        'Een passende warmtepomp in {city} begint met goede vragen over isolatie, radiatoren, douchecomfort, zonnepanelen en buitenunitplaatsing.',
+    );
+    $angle_styles = array(
+        'Voor {city} is het belangrijkste aandachtspunt: {focus}. Dat klinkt simpel, maar het vermogen, het buffervat en de regeling moeten precies bij de woning passen.',
+        'In {city} zien we vooral dat {focus}. Daarom krijgt u geen algemene prijs, maar eerst een technische keuzehulp.',
+        'De lokale nuance is helder: {focus}. De offerte moet dus uitleggen waarom juist dat systeem past.',
+        'Bij veel aanvragen uit {city} komt hetzelfde beslispunt terug: {focus}. Vakvriend rekent dit door voordat er een toestel wordt gekozen.',
+        'De beste route voor {city} draait vaak om deze afweging: {focus}. Pas daarna vergelijken we merk, vermogen en subsidie.',
+        'Voor {region} nemen we dit uitgangspunt mee: {focus}. Daardoor wordt het advies scherper dan een gemiddelde online rekentool.',
+        'In deze omgeving geldt meestal dat {focus}. De kunst is om dat te koppelen aan stilte, comfort en betaalbaarheid.',
+        'Voor woningeigenaren in {city} is {focus}. Dat bepaalt of hybride genoeg is of dat all-electric haalbaar wordt.',
+    );
+    $attention_styles = array(
+        'Tijdens de opname letten we nadrukkelijk op {attention}. Juist die details bepalen of de installatie stil, zuinig en netjes geplaatst kan worden.',
+        'De technische check draait hier om {attention}. Als dat niet klopt, kan een mooie offerte later alsnog tegenvallen.',
+        'We nemen extra tijd voor {attention}, omdat dit in {city} vaak het verschil maakt tussen “werkt” en “werkt comfortabel”.',
+        'Vooraf controleren we {attention}. Daarna pas krijgt u een advies over QA, QE, QG, Nibe of hybride.',
+        'Een belangrijk deel van het plan is {attention}. Dat zetten we begrijpelijk in de offerte, zodat u weet waar u ja tegen zegt.',
+        'Bij de woningcheck worden {attention} praktisch beoordeeld. Geen aannames, maar meetpunten en foto’s van de situatie.',
+        'We kijken lokaal vooral naar {attention}. Zo voorkomen we dat de warmtepomp technisch kan, maar in gebruik stoort.',
+        'De plaatsing wordt beoordeeld op {attention}; dat is vaak belangrijker dan alleen het hoogste rendement op papier.',
+    );
+    $closing_styles = array(
+        'Na uw aanvraag krijgt u een voorstel met systeemkeuze, netto investering, subsidie-inschatting en de aanpassingen die in uw woning nodig zijn.',
+        'U ontvangt geen losse richtprijs, maar een leesbaar plan met subsidie, verwachte besparing en de belangrijkste installatiekeuzes.',
+        'De offerte laat zien wat direct kan, wat voorbereiding vraagt en waar u eventueel beter nog niet in moet investeren.',
+        'We maken de uitkomst concreet: geschikt systeem, verwachte ISDE, plaatsingsadvies en een nuchtere besparingsverwachting.',
+        'Zo ziet u vooraf of een warmtepomp in uw situatie slim is, of dat isolatie, radiatoren of ventilatie eerst aandacht nodig hebben.',
+        'Het resultaat is een advies waarmee u kunt beslissen zonder technische mist: kosten, comfort, subsidie en risico’s naast elkaar.',
+        'Vakvriend vertaalt de techniek naar keuzes: welke oplossing, waarom die past en welke stappen nodig zijn voor een nette installatie.',
+        'Daarmee voorkomt u dat u alleen op aanschafprijs vergelijkt terwijl geluid, tapwater of leidingwerk later de echte kosten bepalen.',
+    );
+    $extra_openers = array(
+        'De warmtepompmarkt is druk, maar uw woning is geen spreadsheet.',
+        'Een goede installatie voelt achteraf bijna saai: warm huis, stil systeem, geen verrassingen.',
+        'Het verschil tussen een redelijke offerte en een sterke offerte zit vaak in de kleine regels.',
+        'Subsidie is mooi, maar comfort blijft leidend.',
+        'Een buitenunit, binnenmodule of thermische batterij moet niet alleen passen op papier.',
+        'Bij oudere woningen is voorzichtig rekenen beter dan stoer beloven.',
+        'Bij nieuwere woningen is juist de verleiding groot om te snel een te groot toestel te kiezen.',
+        'Tapwater wordt vaak onderschat totdat het gezin tegelijk wil douchen, koken en verwarmen.',
+    );
+    $extra_middle = array(
+        'Qvantum is interessant wanneer compactheid en warm water via de thermische batterij belangrijk zijn. Nibe is sterk wanneer brede modelkeuze en bewezen configuraties zwaarder wegen.',
+        'Hybride kan een slimme tussenstap zijn wanneer radiatoren nog hoge temperaturen vragen. All-electric wordt logischer bij goede isolatie en voldoende warmteafgifte.',
+        'Een bodemwarmtepomp vraagt meer voorbereiding, maar kan op ruime percelen juist rust, rendement en levensduur opleveren.',
+        'Ventilatie-oplossingen verdienen extra aandacht bij appartementen en woningen waar een buitenunit gevoelig ligt.',
+        'Zonnepanelen veranderen de rekensom, maar lossen niet automatisch geluid, tapwater of afgiftevermogen op.',
+        'Een lage offerte zonder uitleg over leidingwerk, elektra en regeling is geen voordeel maar een risico.',
+        'De ISDE-regeling helpt, maar het gekozen toestel en vermogen bepalen of het bedrag ook echt interessant wordt.',
+        'Een warmtepomp die te hard moet werken, bespaart minder en voelt onrustiger. Daarom rekenen we liever vooraf iets scherper.',
+    );
+    $extra_close = array(
+        'Daarom krijgt u van Vakvriend een advies dat u ook aan de keukentafel kunt uitleggen: wat doen we, waarom doen we dat en wat levert het op.',
+        'Zo wordt de offerte geen verzameling artikelnummers, maar een plan voor minder gasverbruik en meer zekerheid.',
+        'U weet na de opname welke keuze verstandig is, welke keuze kan wachten en welke oplossing we juist afraden.',
+        'Dat maakt de aanvraag niet alleen sneller, maar vooral bruikbaarder wanneer u offertes naast elkaar legt.',
+        'We leggen de techniek simpel uit, inclusief de beperkingen. Dat is beter dan achteraf moeten bijsturen.',
+        'De beste warmtepomp is uiteindelijk niet de duurste of de bekendste, maar de installatie die bij uw huis blijft kloppen.',
+        'Met die aanpak wordt subsidie geen lokkertje, maar onderdeel van een volledige rekensom.',
+        'Zo houdt u grip op investering, comfort en uitvoering voordat de installatiedatum in de agenda staat.',
+    );
+    $faq_sets = array(
+        array('Past een warmtepomp bij oudere woningen in {city}?', 'Dat kan, maar alleen als isolatie, radiatorvermogen en aanvoertemperatuur goed worden bekeken. Soms is hybride verstandiger dan direct volledig elektrisch.', 'Wanneer is Qvantum interessant in {city}?', 'Qvantum kan aantrekkelijk zijn wanneer een compacte oplossing en vers tapwater via thermische opslag belangrijk zijn.', 'Waar kan een buitenunit het beste staan?', 'Dat bepalen we op basis van geluid, afstand tot buren, leidinglengte en onderhoudsruimte. De stilste plek is niet altijd de makkelijkste plek.'),
+        array('Moet mijn woning eerst extra worden geisoleerd?', 'Niet altijd. We bekijken warmteverlies en huidige afgifte. Soms leveren kleine maatregelen meer op dan direct een zwaardere warmtepomp.', 'Kan ik mijn radiatoren blijven gebruiken?', 'Vaak wel, maar het hangt af van formaat en watertemperatuur. Tijdens de check beoordelen we of lage temperatuur verwarming haalbaar is.', 'Hoe betrouwbaar is de subsidie-inschatting?', 'We gebruiken toesteltype, vermogen en actuele ISDE-uitgangspunten. Het definitieve bedrag hangt af van goedkeuring door RVO.'),
+        array('Is volledig elektrisch haalbaar in {city}?', 'Bij goed geisoleerde woningen zeker. Bij twijfel rekenen we hybride, all-electric en eventueel bodemwarmte naast elkaar door.', 'Wat als ik weinig ruimte binnen heb?', 'Dan kijken we naar compacte modules, Qvantum met thermische batterij of een ventilatie-oplossing. De technische ruimte wordt altijd meegenomen.', 'Krijg ik een offerte zonder huisbezoek?', 'We kunnen online richting geven, maar voor een betrouwbare prijs is een opname of duidelijke foto-inventarisatie nodig.'),
+        array('Hoe voorkom ik geluidsoverlast?', 'Door vermogen, nachtstand, opstelplek en trillingsdemping vooraf mee te nemen. Vooral in dichtbebouwde straten is dat geen detail.', 'Is een bodemwarmtepomp mogelijk in {city}?', 'Dat hangt af van perceel, ondergrond, vergunning en budget. Als bodem niet logisch is, zeggen we dat direct.', 'Welke gegevens moet ik klaarleggen?', 'Gasverbruik, bouwjaar, isolatiemaatregelen, foto’s van cv-ruimte en eventuele vloerverwarming helpen om sneller scherp advies te geven.'),
+        array('Wat is slimmer: Nibe of Qvantum?', 'Dat verschilt per woning. Qvantum is sterk in thermische opslag; Nibe biedt veel configuraties. We vergelijken ze op comfort, ruimte en kosten.', 'Kan de warmtepomp samenwerken met zonnepanelen?', 'Ja, maar eigen stroom is niet het enige criterium. De warmtevraag in de winter en tapwaterbehoefte blijven bepalend.', 'Hoe snel weet ik wat mijn woning nodig heeft?', 'Na de aanvraag kunnen we meestal snel aangeven welke richting logisch is en welke punten nog gecontroleerd moeten worden.'),
+        array('Is een hybride warmtepomp nog zinvol?', 'Ja, vooral wanneer isolatie of radiatoren nog niet klaar zijn voor lage temperatuur. Het kan een verstandige stap zijn om gasverbruik flink te verlagen.', 'Kan ik later alsnog volledig gasloos worden?', 'Vaak wel. We letten bij het advies op uitbreidbaarheid, zodat u niet opnieuw hoeft te beginnen.', 'Wat maakt de offerte van Vakvriend anders?', 'We zetten subsidie, installatie-impact, geluid en tapwater apart uiteen in plaats van alleen een totaalprijs te geven.'),
+        array('Kan dit ook bij een appartement?', 'Soms wel, vooral met ventilatie-oplossingen of wanneer VvE en opstelplek meewerken. We controleren de praktische randvoorwaarden vooraf.', 'Hoe belangrijk is tapwatergebruik?', 'Heel belangrijk. Douchegedrag, bad, gezinssamenstelling en hersteltijd bepalen of een systeem comfortabel blijft.', 'Wordt de ISDE-aanvraag begeleid?', 'Ja. Vakvriend neemt het subsidiebedrag mee in de offerte en helpt bij de aanvraagstukken.'),
+        array('Kan een warmtepomp met bestaande vloerverwarming?', 'Dat is vaak gunstig, omdat vloerverwarming met lagere watertemperaturen werkt. We controleren wel groepen, verdeler en regeling.', 'Wat gebeurt er als mijn woning niet geschikt blijkt?', 'Dan krijgt u eerlijk advies over voorbereiding, bijvoorbeeld isolatie, afgifte of ventilatie, voordat u investeert.', 'Waarom niet gewoon de goedkoopste offerte kiezen?', 'Omdat een goedkope installatie met verkeerde plaatsing, te weinig vermogen of ontbrekend elektra-werk later duurder kan zijn.'),
+    );
+    $benefit_sets = array(
+        "🧭|Advies op woningniveau|We beoordelen eerst bouwjaar, isolatie, afgifte en ruimte voordat er een merk op tafel komt.\n🔇|Plaatsing zonder gedoe|Geluid, buren en onderhoudsruimte worden vooraf meegenomen in het plan.\n💶|Subsidie helder verwerkt|U ziet bruto prijs, verwachte ISDE en netto investering apart terug.",
+        "🏠|Geen standaardpakket|De keuze tussen hybride, Qvantum, Nibe of bodemwarmte volgt uit uw woning, niet uit een aanbieding.\n🚿|Tapwater eerlijk beoordeeld|Gezin, douchegedrag en beschikbare ruimte tellen mee in de systeemkeuze.\n📋|Offerte met uitleg|Elke grote kostenpost wordt begrijpelijk gemaakt voordat u beslist.",
+        "⚙️|Techniekruimte gecheckt|Binnenmodule, leidingen, elektra en eventuele buffer worden vooraf bekeken.\n🌿|Minder gas met beleid|We sturen op besparing zonder comfort of geluid te vergeten.\n📍|Lokale omstandigheden meegewogen|Woningtype, straatbeeld en opstelplek bepalen de uitvoering.",
+        "📐|Warmteverlies als basis|Het benodigde vermogen wordt niet gegokt maar onderbouwd met uw situatie.\n🧾|Geen verborgen randwerk|Elektra, leidingroutes en regeling worden meegenomen in de beoordeling.\n🤝|Eerlijk vergelijk|Als een goedkoper systeem beter past, zeggen we dat ook.",
+        "🌡️|Comfort in koude weken|We kijken niet alleen naar jaargemiddelden maar naar prestaties wanneer het buiten echt fris is.\n🔁|Voorbereid op later|Hybride kan zo worden gekozen dat een volgende stap naar gasloos logisch blijft.\n🧠|Qvantum en Nibe naast elkaar|U krijgt uitleg over thermische batterij, boileropties en regeling.",
+        "🛠️|Installatiepraktijk telt|De offerte gaat ook over bereikbaarheid, montage, condensafvoer en onderhoud.\n⚡|Zonnepanelen slim benut|Eigen stroom wordt meegenomen zonder de wintervraag te overschatten.\n✅|Beslissen met rust|U krijgt een voorstel dat technische keuzes vertaalt naar gewone taal.",
+        "🏘️|Geschikt voor drukke wijken|We letten extra op geluid en trillingen bij dicht op elkaar gebouwde woningen.\n🌬️|Ventilatie niet vergeten|Afvoer, WTW en binnenlucht bepalen soms welk systeem logisch is.\n💬|Nazorg inbegrepen|Na installatie blijft Vakvriend aanspreekbaar voor regeling en uitleg.",
+        "🌍|Bodemopties waar zinvol|Bij voldoende perceelruimte kijken we ook naar boring en vergunning.\n💧|Warm water zonder aannames|Tapwatercomfort wordt apart besproken, zeker bij Qvantum-systemen.\n📊|Besparing realistisch gemaakt|Geen mooie gemiddelden, maar verwachtingen die passen bij uw verbruik.",
+    );
+    $review_sets = array(
+        "\"De uitleg was helder en niet opdringerig. We wisten eindelijk waarom hybride hier logisch was.\"|Familie uit {city}|Advies en subsidiecheck|5\n\"Netjes meegedacht over de plek van de buitenunit. Dat gaf vertrouwen.\"|Woningeigenaar in {region}|Lucht/water warmtepomp|5",
+        "\"Geen verkooppraatje maar een technisch verhaal dat we konden volgen.\"|Bewoner uit {city}|Warmtepomp vergelijking|5\n\"De offerte was duidelijker dan de andere twee die we hadden liggen.\"|Klant in {region}|Offertebeoordeling|5",
+        "\"Vooral de uitleg over geluid en leidingwerk was waardevol.\"|Huiseigenaar {city}|Woningcheck|5\n\"Ze keken verder dan alleen de warmtepomp zelf. Precies wat we nodig hadden.\"|Gezin in {region}|Installatievoorstel|5",
+        "\"Vakvriend nam ook de minder handige punten van ons huis mee. Dat voelde eerlijk.\"|Bewoner {city}|Hybride advies|5\n\"We kregen eindelijk grip op subsidie, netto prijs en planning.\"|Klant uit {region}|ISDE en offerte|5",
+        "\"Prettig dat Qvantum en Nibe gewoon naast elkaar werden uitgelegd.\"|Woningeigenaar in {city}|Merkvergelijking|5\n\"De opname was praktisch en de offerte las verrassend makkelijk.\"|Particulier {region}|Warmtepomp offerte|5",
+        "\"Ze dachten goed mee over onze beperkte ruimte binnen.\"|Klant uit {city}|Compact systeemadvies|5\n\"Geen snelle belofte, maar een plan waar we iets aan hadden.\"|Bewoner in {region}|Woninganalyse|5",
+        "\"De installatieroute werd vooraf al duidelijk gemaakt. Dat scheelde veel vragen.\"|Huiseigenaar {city}|Voorbereiding installatie|5\n\"Ook de subsidie werd gewoon begrijpelijk uitgelegd.\"|Gezin in {region}|Subsidiecheck|5",
+        "\"We wilden gas besparen, maar geen herrie. Daar is serieus naar gekeken.\"|Bewoner uit {city}|Geluid en plaatsing|5\n\"Vakvriend gaf ook aan wat we beter nog niet moesten doen. Dat waardeer ik.\"|Klant {region}|Eerlijk advies|5",
+    );
+    $faq = vk_pick($faq_sets, $index);
+    $extra_faq = $faq[0] . ':::' . vk_contextual_answer($faq[1], $city) . "\n" . $faq[2] . ':::' . vk_contextual_answer($faq[3], $city) . "\n" . $faq[4] . ':::' . vk_contextual_answer($faq[5], $city);
+    $local_intro = strtr(vk_pick($intro_styles, $index), array('{city}' => $city, '{region}' => $region, '{area}' => $area));
+    $hero_sub = strtr(vk_pick($hero_styles, $index + 2), array('{city}' => $city));
+    $alinea1 = strtr(vk_pick($angle_styles, $index + 1), array('{city}' => $city, '{region}' => $region, '{focus}' => $focus));
+    $alinea2 = strtr(vk_pick($attention_styles, $index + 3), array('{city}' => $city, '{attention}' => $attention));
+    $alinea3 = vk_pick($closing_styles, $index + 5);
+    $extra = strtr(vk_pick($extra_openers, $index), array('{city}' => $city, '{region}' => $region)) . ' ' .
+        'Voor ' . $city . ' nemen we daarom de lokale woningmix mee: ' . $area . '. ' . ucfirst($focus) . ', maar alleen wanneer de installatievoorwaarden kloppen.' . "\n\n" .
+        vk_pick($extra_middle, $index + 2) . ' In de opname kijken we specifiek naar ' . $attention . ', omdat dat in ' . $region . ' de praktische uitkomst vaak bepaalt.' . "\n\n" .
+        vk_pick($extra_close, $index + 4);
 
     return array(
-        'wc_ai_content_status' => 'seo-unique-v1',
-        'wc_meta_title' => 'Warmtepomp ' . $city . ' | Gratis subsidiecheck en offerte',
-        'wc_meta_desc' => 'Warmtepomp advies in ' . $city . '. Vakvriend beoordeelt uw woning, berekent ISDE-subsidie en vergelijkt Qvantum, Nibe en hybride oplossingen.',
+        'wc_ai_content_status' => 'seo-unique-v2',
+        'wc_meta_title' => 'Warmtepomp ' . $city . ' | Advies voor ' . $region,
+        'wc_meta_desc' => 'Uniek warmtepompadvies in ' . $city . ': woningcheck, ISDE-berekening en vergelijking van Qvantum, Nibe, hybride of bodemwarmte.',
         'wc_hero_kicker' => 'Gratis subsidiecheck en advies in ' . $city,
         'wc_hero_titel' => 'Warmtepomp offerte aanvragen in ' . $city,
-        'wc_hero_subtitel' => 'Vakvriend helpt woningeigenaren in ' . $city . ' met warmtepompadvies dat past bij de woning, het verbruik en de beschikbare ruimte. U krijgt helder inzicht in subsidie, besparing en installatiekosten.',
-        'wc_lokale_h2' => 'Warmtepomp installateur in ' . $city,
-        'wc_lokale_intro' => 'Een warmtepomp in ' . $city . ' vraagt om meer dan een standaard offerte. ' . ucfirst($spec['area']) . ' vragen om een advies waarin comfort, geluid en installatieruimte samen worden bekeken.',
-        'wc_lokale_alinea1' => 'Voor ' . $city . ' geldt: ' . $spec['focus'] . '. Vakvriend begint daarom met een praktische woningcheck in plaats van direct een merk of model te verkopen.',
-        'wc_lokale_alinea2' => 'Tijdens de opname letten we vooral op ' . $spec['attention'] . '. Dat bepaalt of Qvantum, Nibe, hybride of bodemwarmte de beste route is.',
-        'wc_lokale_alinea3' => 'Na de aanvraag ontvangt u een voorstel met verwachte ISDE-subsidie, netto investering en een realistische inschatting van de besparing voor uw woning in ' . $region . '.',
-        'wc_lokale_faq_v1' => 'Welke warmtepomp past bij een woning in ' . $city . '?',
-        'wc_lokale_faq_a1' => 'Dat hangt af van bouwjaar, isolatie, radiatoren of vloerverwarming, buitenruimte en tapwatergebruik. Vakvriend beoordeelt dit per woning en vergelijkt meerdere systemen.',
-        'wc_lokale_faq_v2' => 'Is een hybride warmtepomp in ' . $city . ' een goede tussenstap?',
-        'wc_lokale_faq_a2' => 'Vaak wel, vooral bij woningen die nog niet volledig klaar zijn voor lage temperatuur verwarming. Bij betere isolatie kan volledig elektrisch soms direct interessanter zijn.',
-        'wc_lokale_faq_v3' => 'Waar let Vakvriend lokaal extra op?',
-        'wc_lokale_faq_a3' => 'We kijken naar geluid, plaatsing, leidingroutes, beschikbare techniekruimte en eventuele beperkingen door buren, VvE of woningtype.',
-        'wc_faq_extra' => 'Werkt Vakvriend in ' . $city . '?:::Ja, Vakvriend helpt woningeigenaren in ' . $city . ' en ' . $region . ' met warmtepompadvies, offerte, installatie en ISDE-subsidie.',
-        'wc_extra_tekst' => 'In ' . $city . ' is de beste warmtepompkeuze sterk afhankelijk van de woning. ' . ucfirst($spec['area']) . ' hebben elk een andere warmtevraag. Daarom kijkt Vakvriend naar de combinatie van isolatie, warmteafgifte en dagelijks comfort.' . "\n\n" .
-            'Een belangrijk verschil zit in tapwater en ruimte. Qvantum werkt met een thermische batterij en platenwisselaar, terwijl Nibe veel keuze biedt in lucht/water, bodem en hybride oplossingen. Vakvriend legt uit wat dat concreet betekent voor uw meterkast, technische ruimte, buitenunit en douchecomfort.' . "\n\n" .
-            'Ook de subsidie verschilt per toestel en vermogen. In de offerte nemen we het verwachte ISDE-bedrag, de installatiekosten en de besparing apart op. Zo ziet u niet alleen wat het systeem kost, maar ook waarom het juist voor uw woning in ' . $region . ' wel of niet verstandig is.',
+        'wc_hero_subtitel' => $hero_sub,
+        'wc_form_titel' => 'Advies voor uw woning in ' . $city,
+        'wc_form_subtitel' => 'Beantwoord de vragen en ontvang een check op systeemkeuze, subsidie en plaatsing voor uw situatie in ' . $city . '.',
+        'wc_campaign_proof' => "24 uur|eerste reactie op uw aanvraag\nISDE|verwachte subsidie apart berekend\n" . $city . "|advies afgestemd op de lokale woningmix",
+        'wc_voordelen_titel' => 'Waarom eerst een woningcheck in ' . $city . '?',
+        'wc_voordelen_lead' => 'De juiste warmtepompkeuze hangt in ' . $city . ' af van woningtype, geluid, tapwater en installatieruimte. Daarom werken we niet met standaardpakketten.',
+        'wc_voordelen' => vk_contextual_rows(vk_pick($benefit_sets, $index), $city),
+        'wc_reviews_titel' => 'Ervaringen met praktisch warmtepompadvies',
+        'wc_reviews_lead' => 'Klanten rond ' . $city . ' waarderen vooral dat Vakvriend niet alleen een toestel noemt, maar uitlegt wat de keuze voor hun woning betekent.',
+        'wc_reviews' => vk_pick($review_sets, $index),
+        'wc_lokale_h2' => 'Warmtepompadvies voor woningen in ' . $city,
+        'wc_lokale_intro' => $local_intro,
+        'wc_lokale_alinea1' => $alinea1,
+        'wc_lokale_alinea2' => $alinea2,
+        'wc_lokale_alinea3' => $alinea3,
+        'wc_lokale_faq_v1' => strtr($faq[0], array('{city}' => $city)),
+        'wc_lokale_faq_a1' => vk_contextual_answer(strtr($faq[1], array('{city}' => $city)), $city),
+        'wc_lokale_faq_v2' => strtr($faq[2], array('{city}' => $city)),
+        'wc_lokale_faq_a2' => vk_contextual_answer(strtr($faq[3], array('{city}' => $city)), $city),
+        'wc_lokale_faq_v3' => strtr($faq[4], array('{city}' => $city)),
+        'wc_lokale_faq_a3' => vk_contextual_answer(strtr($faq[5], array('{city}' => $city)), $city),
+        'wc_faq_extra' => strtr($extra_faq, array('{city}' => $city)),
+        'wc_extra_tekst' => $extra,
     );
 }
 
@@ -178,15 +330,18 @@ function vk_apply_meta($post_id, $meta) {
     }
 }
 
+$index = 0;
 foreach ($pages as $title => $spec) {
     $post_id = vk_find_page_by_title($title);
     if (!$post_id) {
         echo 'Missing page: ' . $title . PHP_EOL;
+        $index++;
         continue;
     }
 
-    vk_apply_meta($post_id, vk_local_meta($spec));
+    vk_apply_meta($post_id, vk_local_meta($title, $spec, $index));
     echo 'Updated unique local content: ' . $title . PHP_EOL;
+    $index++;
 }
 
 foreach ($special as $title => $meta) {
