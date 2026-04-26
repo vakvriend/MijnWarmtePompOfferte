@@ -103,7 +103,7 @@ foreach ($pages as $page) {
 
     if (stripos($page->post_title, 'Qvantum') !== false) {
         $base['wc_hero_titel'] = 'Qvantum warmtepomp offerte aanvragen';
-        $base['wc_hero_subtitel'] = 'Ontdek of een Qvantum warmtepomp met thermische batterij past bij uw woning. Vakvriend berekent subsidie, besparing en installatiekosten.';
+        $base['wc_hero_subtitel'] = 'Ontdek of een Qvantum warmtepomp met thermische batterij past bij uw woning. QA, QE en QG slaan warmte slim op en leveren warm tapwater vers via een platenwisselaar.';
         $base['wc_meta_title'] = 'Qvantum warmtepomp offerte | Vakvriend installateur';
         $base['wc_meta_desc'] = 'Vraag gratis Qvantum warmtepomp advies aan. Vakvriend berekent subsidie, besparing en installatiekosten voor QA, QE en QG systemen.';
     }

@@ -30,7 +30,7 @@ function wc_get_page_faqs($post_id = null) {
     $faqs = array(
         array(
             'question' => 'Wat is het verschil tussen Qvantum en Nibe?',
-            'answer'   => 'Qvantum onderscheidt zich door de thermische batterij in elk systeem. Nibe biedt meer modelkeuze inclusief hybride warmtepompen en bodemwarmtepompen. Vakvriend adviseert welk merk en model het beste past.',
+            'answer'   => 'Qvantum onderscheidt zich door de thermische batterij in alle systemen, zoals QA, QE en QG. Warm tapwater zit niet in een boilervat, maar wordt vers geleverd via een platenwisselaar die warmte uit de thermische batterij haalt. Nibe biedt meer modelkeuze inclusief hybride warmtepompen en bodemwarmtepompen. Vakvriend adviseert welk merk en model het beste past.',
         ),
         array(
             'question' => 'Hoeveel ISDE-subsidie kan ik ontvangen?',
