@@ -221,9 +221,13 @@ $reviews = wc_meta_rows('wc_reviews', [
       ['https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe006d86c9d751cc13_Geberit-Logo.svg.avif','Geberit'],
       ['https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe6dc67fa33f17b0a6_Uponor-Logo.svg.avif','Uponor'],
     ];
-    foreach(array_merge($logos,$logos) as [$src,$alt]): ?>
-      <img src="<?=esc_url($src)?>" alt="<?=esc_attr($alt)?>" height="22" loading="lazy">
-    <?php endforeach; ?>
+    for ($set = 0; $set < 2; $set++): ?>
+      <div class="vk-merken-set" <?php if ($set === 1): ?>aria-hidden="true"<?php endif; ?>>
+        <?php foreach($logos as [$src,$alt]): ?>
+          <img src="<?=esc_url($src)?>" alt="<?=esc_attr($alt)?>" height="22" loading="lazy">
+        <?php endforeach; ?>
+      </div>
+    <?php endfor; ?>
   </div>
 </div>
 

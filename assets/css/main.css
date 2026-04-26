@@ -610,15 +610,13 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .reveal,.vk-reveal{opacity:1;transform:none}
 .reveal.zichtbaar,.vk-reveal.zichtbaar{opacity:1;transform:none}
 
-/* LOGO SLIDER - definitief */
-.vk-merken { overflow: hidden; max-width:100vw; contain:paint; background: #f4f4f2; padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,.06); }
-
 /* QVANTUM LOGO kleiner */
 .vk-merk-logo-groot { margin-bottom: 14px; }
 .vk-merk-logo-groot img { height: 28px; width: auto; }
 
-/* === LOGO SLIDER - puur CSS === */
+/* === LOGO SLIDER - naadloze marquee === */
 .vk-merken {
+  --logo-gap:56px;
   overflow: hidden;
   max-width:100vw;
   contain:paint;
@@ -629,9 +627,16 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-merken-inner {
   display: flex;
   align-items: center;
-  gap: 56px;
   width: max-content;
-  animation: vkslide 28s linear infinite;
+  will-change: transform;
+  animation: vkslide 34s linear infinite;
+}
+.vk-merken-set {
+  display:flex;
+  align-items:center;
+  gap:var(--logo-gap);
+  padding-right:var(--logo-gap);
+  flex:0 0 auto;
 }
 .vk-merken-inner img {
   height: 16px;
@@ -645,6 +650,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+@media(max-width:640px){.vk-merken{--logo-gap:38px}.vk-merken-inner{animation-duration:26s}}
 
 /* Lokale sectie */
 .vk-lokaal-wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
