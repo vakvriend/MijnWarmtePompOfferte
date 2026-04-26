@@ -80,6 +80,7 @@ foreach ($pages as $page) {
         'wc_campaign_proof'    => "Binnen 24 uur|reactie op uw aanvraag\nISDE|subsidiecheck inbegrepen\n200+|installaties uitgevoerd",
         'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp offerte') . ' | Gratis subsidiecheck | Vakvriend',
         'wc_meta_desc'         => 'Vraag gratis warmtepomp advies aan' . $in_city . '. Vakvriend berekent subsidie, besparing en installatiekosten voor Qvantum, Nibe en hybride systemen.',
+        'wc_focus_keyword'     => $is_local ? 'warmtepomp ' . strtolower($city) : 'warmtepomp offerte',
         'wc_vv_intro'          => 'Vakvriend helpt woningeigenaren' . $in_city . ' met eerlijk warmtepompadvies, vakkundige installatie en begeleiding bij ISDE-subsidie. We kijken eerst naar isolatie, warmteafgifte, verbruik en budget, zodat u een keuze maakt die technisch klopt.',
         'wc_vv_usp1'           => 'Gratis opname en subsidiecheck',
         'wc_vv_usp2'           => 'Qvantum, Nibe en hybride advies',
@@ -106,6 +107,7 @@ foreach ($pages as $page) {
         $base['wc_hero_subtitel'] = 'Ontdek of een Qvantum warmtepomp met thermische batterij past bij uw woning. QA, QE en QG slaan warmte slim op en leveren warm tapwater vers via een platenwisselaar.';
         $base['wc_meta_title'] = 'Qvantum warmtepomp offerte | Vakvriend installateur';
         $base['wc_meta_desc'] = 'Vraag gratis Qvantum warmtepomp advies aan. Vakvriend berekent subsidie, besparing en installatiekosten voor QA, QE en QG systemen.';
+        $base['wc_focus_keyword'] = 'qvantum warmtepomp';
     }
 
     if (stripos($page->post_title, 'Vergelijken') !== false) {
@@ -113,11 +115,13 @@ foreach ($pages as $page) {
         $base['wc_hero_subtitel'] = 'Vergelijk warmtepompopties op subsidie, besparing, geluid, installatiekosten en geschiktheid voor uw woning.';
         $base['wc_meta_title'] = 'Warmtepomp offertes vergelijken | Gratis subsidiecheck';
         $base['wc_meta_desc'] = 'Vergelijk warmtepomp offertes en krijg gratis advies over subsidie, besparing en het juiste systeem voor uw woning.';
+        $base['wc_focus_keyword'] = 'warmtepomp offertes vergelijken';
     }
 
     vk_campaign_update($page->ID, $base);
     update_post_meta($page->ID, '_yoast_wpseo_title', $base['wc_meta_title']);
     update_post_meta($page->ID, '_yoast_wpseo_metadesc', $base['wc_meta_desc']);
+    update_post_meta($page->ID, '_yoast_wpseo_focuskw', $base['wc_focus_keyword']);
     echo 'Updated page ' . $page->ID . ' - ' . $page->post_title . PHP_EOL;
 }
 

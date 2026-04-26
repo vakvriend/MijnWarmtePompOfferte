@@ -75,6 +75,7 @@ $special = array(
         'wc_regio' => 'heel Nederland',
         'wc_meta_title' => 'Warmtepomp zonder boiler | Vers warm water met Qvantum',
         'wc_meta_desc' => 'Zoekt u een warmtepomp zonder groot boilervat? Vakvriend legt uit hoe Qvantum met thermische batterij en platenwisselaar vers warm tapwater maakt.',
+        'wc_focus_keyword' => 'warmtepomp zonder boiler',
         'wc_hero_titel' => 'Warmtepomp zonder boiler aanvragen',
         'wc_hero_subtitel' => 'Qvantum gebruikt geen groot vat met stilstaand douchewater. De thermische batterij levert warmte aan een platenwisselaar, waardoor tapwater vers wordt verwarmd wanneer u de kraan opent.',
         'wc_lokale_h2' => 'Warmtepomp zonder groot boilervat',
@@ -99,6 +100,7 @@ $special = array(
         'wc_regio' => 'heel Nederland',
         'wc_meta_title' => 'Warmtepomp offertes vergelijken | Qvantum, Nibe en hybride',
         'wc_meta_desc' => 'Vergelijk warmtepomp offertes op subsidie, geluid, rendement, tapwater, installatiekosten en geschiktheid voor uw woning.',
+        'wc_focus_keyword' => 'warmtepomp offertes vergelijken',
         'wc_hero_titel' => 'Warmtepomp offertes vergelijken',
         'wc_hero_subtitel' => 'Een lage prijs zegt weinig als het systeem niet past. Vakvriend vergelijkt warmtepompen op rendement, geluid, tapwater, subsidie en installatiepraktijk.',
         'wc_lokale_h2' => 'Offertes vergelijken zonder appels met peren',
@@ -123,6 +125,7 @@ $special = array(
         'wc_regio' => 'heel Nederland',
         'wc_meta_title' => 'Mijn warmtepomp offerte | Gratis advies van Vakvriend',
         'wc_meta_desc' => 'Vraag uw persoonlijke warmtepomp offerte aan met subsidiecheck, besparingsberekening en advies over Qvantum, Nibe of hybride.',
+        'wc_focus_keyword' => 'warmtepomp offerte',
         'wc_hero_titel' => 'Mijn warmtepomp offerte aanvragen',
         'wc_hero_subtitel' => 'Ontvang een duidelijke offerte die past bij uw woning, verbruik en comfortwensen. Vakvriend rekent subsidie en besparing meteen mee.',
         'wc_lokale_h2' => 'Een offerte die begint bij uw woning',
@@ -147,6 +150,7 @@ $special = array(
         'wc_regio' => 'heel Nederland',
         'wc_meta_title' => 'Qvantum warmtepomp offerte | QA, QE en QG specialist',
         'wc_meta_desc' => 'Vakvriend adviseert over Qvantum QA, QE en QG warmtepompen met thermische batterij, platenwisselaar en ISDE-subsidie.',
+        'wc_focus_keyword' => 'qvantum warmtepomp',
         'wc_hero_titel' => 'Qvantum warmtepomp offerte aanvragen',
         'wc_hero_subtitel' => 'Qvantum gebruikt in QA, QE en QG een thermische batterij. Vakvriend legt uit welk systeem past bij uw woning en tapwatergebruik.',
         'wc_lokale_h2' => 'Qvantum warmtepomp met thermische batterij',
@@ -338,6 +342,7 @@ function vk_local_meta($title, $spec, $index) {
         'wc_ai_content_status' => 'seo-unique-v2',
         'wc_meta_title' => 'Warmtepomp ' . $city . ' | Advies voor ' . $region,
         'wc_meta_desc' => 'Uniek warmtepompadvies in ' . $city . ': woningcheck, ISDE-berekening en vergelijking van Qvantum, Nibe, hybride of bodemwarmte.',
+        'wc_focus_keyword' => 'warmtepomp ' . strtolower($city),
         'wc_hero_kicker' => 'Gratis subsidiecheck en advies in ' . $city,
         'wc_hero_titel' => 'Warmtepomp offerte aanvragen in ' . $city,
         'wc_hero_subtitel' => $hero_sub,
@@ -468,6 +473,9 @@ function vk_apply_meta($post_id, $meta) {
     }
     if (!empty($meta['wc_meta_desc'])) {
         update_post_meta($post_id, '_yoast_wpseo_metadesc', $meta['wc_meta_desc']);
+    }
+    if (!empty($meta['wc_focus_keyword'])) {
+        update_post_meta($post_id, '_yoast_wpseo_focuskw', $meta['wc_focus_keyword']);
     }
 }
 
