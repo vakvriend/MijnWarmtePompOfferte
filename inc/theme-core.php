@@ -65,7 +65,7 @@ function wc_enqueue_assets() {
         'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap',
         [], null
     );
-    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '4.3');
+    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '4.4');
     wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '4.3', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -74,6 +74,14 @@ function wc_enqueue_assets() {
     ));
 }
 add_action('wp_enqueue_scripts', 'wc_enqueue_assets');
+
+function wc_favicon_links() {
+    $favicon = get_template_directory_uri() . '/assets/img/favicon.svg';
+    echo '<link rel="icon" href="' . esc_url($favicon) . '" type="image/svg+xml">' . "\n";
+    echo '<link rel="shortcut icon" href="' . esc_url($favicon) . '" type="image/svg+xml">' . "\n";
+}
+add_action('wp_head', 'wc_favicon_links', 5);
+add_action('admin_head', 'wc_favicon_links', 5);
 
 function wc_seo_title($title) {
     if (defined('WPSEO_VERSION')) {
