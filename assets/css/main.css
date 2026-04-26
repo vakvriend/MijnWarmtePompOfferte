@@ -38,6 +38,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   font-size:13px;font-weight:500;
 }
 .vk-topbar-tekst{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vk-topbar-actions{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.vk-topbar-link{color:rgba(255,255,255,.9);font-size:12px;font-weight:800;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.vk-topbar-link:hover{color:#fff}
 .vk-topbar-btn{
   background:#fff;color:var(--groen);
   padding:5px 16px;border-radius:var(--r-xl);

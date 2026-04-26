@@ -18,7 +18,10 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
 <!-- TOPBAR -->
 <div class="vk-topbar">
   <span class="vk-topbar-tekst">🔥 <?=esc_html($topbar)?></span>
-  <a href="#formulier" class="vk-topbar-btn">Gratis offerte →</a>
+  <div class="vk-topbar-actions">
+    <a href="https://www.vakvriend.nl/" class="vk-topbar-link" target="_blank" rel="noopener">Bekijk wat Vakvriend nog meer doet</a>
+    <a href="#formulier" class="vk-topbar-btn">Gratis offerte →</a>
+  </div>
 </div>
 
 <!-- NAVBAR -->
