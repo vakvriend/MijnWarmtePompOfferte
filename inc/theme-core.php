@@ -76,9 +76,14 @@ function wc_enqueue_assets() {
 add_action('wp_enqueue_scripts', 'wc_enqueue_assets');
 
 function wc_favicon_links() {
-    $favicon = get_template_directory_uri() . '/assets/img/favicon.svg';
-    echo '<link rel="icon" href="' . esc_url($favicon) . '" type="image/svg+xml">' . "\n";
-    echo '<link rel="shortcut icon" href="' . esc_url($favicon) . '" type="image/svg+xml">' . "\n";
+    $base = get_template_directory_uri() . '/assets/img/';
+    echo '<link rel="icon" href="/favicon.ico" sizes="any">' . "\n";
+    echo '<link rel="icon" href="' . esc_url($base . 'favicon.svg') . '" type="image/svg+xml">' . "\n";
+    echo '<link rel="icon" href="' . esc_url($base . 'favicon-48x48.png') . '" type="image/png" sizes="48x48">' . "\n";
+    echo '<link rel="icon" href="' . esc_url($base . 'favicon-96x96.png') . '" type="image/png" sizes="96x96">' . "\n";
+    echo '<link rel="apple-touch-icon" href="' . esc_url($base . 'apple-touch-icon.png') . '" sizes="180x180">' . "\n";
+    echo '<link rel="manifest" href="' . esc_url($base . 'site.webmanifest') . '">' . "\n";
+    echo '<meta name="theme-color" content="#066839">' . "\n";
 }
 add_action('wp_head', 'wc_favicon_links', 5);
 add_action('admin_head', 'wc_favicon_links', 5);
