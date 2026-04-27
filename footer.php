@@ -9,11 +9,11 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
 <section class="vk-section-cta">
   <div class="vk-container">
     <div class="vk-cta-inner">
-      <h2>Klaar om gasloos te wonen?</h2>
-      <p>Vraag nu een gratis en vrijblijvend adviesgesprek aan.<br>Vakvriend komt bij u langs door heel Nederland.</p>
+      <h2>Klaar voor duidelijk warmtepompadvies?</h2>
+      <p>Start met een gratis woningcheck. Vakvriend beoordeelt woning, comfortwens, systeemkeuze en ISDE-subsidie in één keer.</p>
       <div class="vk-cta-knoppen">
-        <a href="#formulier" class="vk-btn vk-btn-wit vk-btn-lg">Gratis adviesgesprek aanvragen →</a>
-        <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-lg">💬 WhatsApp ons</a>
+        <a href="#formulier" class="vk-btn vk-btn-wit vk-btn-lg">Start de woningcheck</a>
+        <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-lg">WhatsApp ons</a>
       </div>
       <p class="vk-cta-note">Of bel direct: <a href="tel:<?=esc_attr($tel_clean)?>"><?=esc_html($telefoon)?></a></p>
     </div>
@@ -26,7 +26,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
     <div class="vk-footer-grid">
       <div class="vk-footer-brand">
         <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/697f2cea571f0e140638c77b_Middel%203%402x.webp" alt="Vakvriend" height="48" loading="lazy">
-        <p>Gecertificeerd installatiebedrijf voor Qvantum en Nibe warmtepompen, CV-ketels, sanitair en meer. Actief door heel Nederland.</p>
+        <p>Gecertificeerd installatiebedrijf voor Qvantum en Nibe warmtepompen, CV-ketels, sanitair en meer.</p>
         <div class="vk-footer-merken">
           <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe6fe0053da7edd61e_Qvantum-logo.avif" alt="Qvantum" height="16" loading="lazy">
           <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe021869f07fdf55a8_nibe-logo-png_seeklogo-188975%20(1).avif" alt="Nibe" height="16" loading="lazy">

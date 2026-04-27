@@ -4,7 +4,7 @@ $regio     = wc_meta('wc_regio',$stad);
 $is_lokaal = ($stad !== 'Nederland' && $stad !== 'uw regio');
 $hero_foto = wc_meta('wc_hero_foto','https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp');
 $hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Ontdek welke warmtepomp past bij uw woning in $stad" : 'Ontdek welke warmtepomp bij uw woning past');
-$hero_s    = wc_meta('wc_hero_subtitel',"Vakvriend is uw gecertificeerde installateur voor Qvantum en Nibe warmtepompen." . ($is_lokaal ? " Actief in $regio en omgeving." : " Actief door heel Nederland.") . " ISDE-subsidie — wij regelen alles voor u.");
+$hero_s    = wc_meta('wc_hero_subtitel',"Vertel ons kort over uw woning en wensen. Vakvriend beoordeelt welke warmtepomp past, welke subsidie mogelijk is en welke installatie praktisch haalbaar is.");
 $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. Gecertificeerd voor Qvantum en Nibe. Eerlijk advies, geen verkooppraatjes — wij kijken wat technisch verstandig is voor uw situatie.");
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
@@ -19,13 +19,13 @@ $form_benefits = wc_meta_rows('wc_form_benefits', [
 ], 1);
 $campaign_proof = wc_meta_rows('wc_campaign_proof', [
   ['Binnen 24 uur','reactie op uw aanvraag'],
-  ['ISDE','subsidie inbegrepen'],
+  ['ISDE','berekening inbegrepen'],
   ['200+','installaties uitgevoerd'],
 ], 2);
 $vv_u1     = wc_meta('wc_vv_usp1','Gecertificeerd Qvantum & Nibe installateur');
 $vv_u2     = wc_meta('wc_vv_usp2','200+ warmtepomp installaties');
 $vv_u3     = wc_meta('wc_vv_usp3','4,6 / 5 sterren beoordeling');
-$vv_u4     = wc_meta('wc_vv_usp4','24/7 bereikbaar — door heel Nederland');
+$vv_u4     = wc_meta('wc_vv_usp4','Installatie en nazorg door Vakvriend');
 $faq_extra = wc_meta('wc_faq_extra','');
 $tel_clean = preg_replace('/\s+/','',$telefoon);
 $qvantum_types = wc_meta_rows('wc_qvantum_types', [
@@ -58,14 +58,14 @@ $vv_props = wc_meta_rows('wc_vv_props', [
 $voordelen = wc_meta_rows('wc_voordelen', [
   ['🔥','Geen boiler nodig (Qvantum)','De Qvantum levert verwarming én warm tapwater in één systeem met geïntegreerde thermische batterij. Compact en efficiënt.'],
   ['⚡','Lager gasverbruik','Een goed gekozen warmtepomp neemt een groot deel van de warmtevraag over. De werkelijke besparing hangt af van isolatie, afgiftesysteem en verbruik.'],
-  ['💶','ISDE-subsidie meegenomen','Vakvriend verwerkt de verwachte ISDE-subsidie apart in de offerte en helpt bij de aanvraagstukken.'],
+  ['💶','ISDE-subsidie meegenomen','Vakvriend verwerkt de verwachte ISDE-subsidie apart in het advies en helpt bij de aanvraagstukken.'],
   ['🌿','100% gasloos wonen','Onafhankelijk van gas en de gasprijs. Toekomstbestendig en klaar voor de energietransitie.'],
   ['🔇','Fluisterstil ook in woonwijken','Speciaal ontworpen voor gebruik in dichtbebouwde gebieden. Nauwelijks hoorbaar voor u en uw buren.'],
   ['🌍','Boringen door heel Nederland','Vakvriend verzorgt grondboringen voor bodemwarmtepompen in heel Nederland, inclusief vergunningsaanvraag.'],
 ], 3);
 $werkwijze = wc_meta_rows('wc_werkwijze', [
-  ['01','Gratis advies aan huis','Vakvriend komt langs, beoordeelt uw woning en adviseert welk systeem (Qvantum of Nibe) het beste past. Volledig vrijblijvend.'],
-  ['02','Heldere offerte','Transparante prijs inclusief ISDE-subsidie, eventuele boringen en vergunningskosten. Geen verborgen kosten.'],
+  ['01','Gratis woningcheck','Vakvriend beoordeelt uw woning en adviseert welk systeem technisch past. Volledig vrijblijvend.'],
+  ['02','Helder advies','Transparante uitleg over toestel, montage, subsidie, eventuele boringen en randwerk. Geen verborgen kosten.'],
   ['03','Boring & installatie','Vakvriend verzorgt grondboringen en vergunning indien nodig. Daarna vakkundige installatie in 1-2 werkdagen.'],
   ['04','Subsidie & uitleg','Wij regelen de ISDE-subsidieaanvraag bij de RVO en leggen alles uit. U hoeft er niets voor te doen.'],
 ], 3);
@@ -88,7 +88,7 @@ $reviews = wc_meta_rows('wc_reviews', [
       <p class="vk-hero-sub"><?=esc_html($hero_s)?></p>
       <div class="vk-trust-row">
         <span class="vk-trust">Gratis & vrijblijvend</span>
-        <span class="vk-trust">ISDE-subsidie aangevraagd</span>
+        <span class="vk-trust">ISDE-subsidie meegenomen</span>
         <span class="vk-trust">Merkonafhankelijk advies</span>
         <span class="vk-trust"><?=$is_lokaal?"Actief in $stad":"Door heel Nederland"?></span>
       </div>
@@ -247,7 +247,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           </div>
           <div class="vk-product-ribbon">Vers warm tapwater via platenwisselaar</div>
         </div>
-        <a href="#formulier" class="vk-btn vk-btn-groen vk-product-cta"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum advies aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-product-cta"><?=esc_html(wc_meta('wc_qvantum_cta','Start de woningcheck'))?></a>
       </div>
       <div class="vk-reveal">
         <div class="vk-brand-head">
@@ -288,7 +288,7 @@ $reviews = wc_meta_rows('wc_reviews', [
             <div><span class="vk-check">✓</span><div><strong><?=esc_html($title)?></strong> — <?=esc_html($text)?></div></div>
           <?php endforeach; ?>
         </div>
-        <a href="#formulier" class="vk-btn vk-btn-groen"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum advies aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-groen"><?=esc_html(wc_meta('wc_qvantum_cta','Start de woningcheck'))?></a>
       </div>
     </div>
   </div>
@@ -324,7 +324,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <?php endforeach; ?>
         </div>
 
-        <a href="#formulier" class="vk-btn vk-btn-outline-groen"><?=esc_html(wc_meta('wc_nibe_cta','Nibe advies aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-outline-groen"><?=esc_html(wc_meta('wc_nibe_cta','Start de woningcheck'))?></a>
       </div>
       <div class="vk-reveal vk-compare-sticky">
         <div class="vk-vergelijk-kaart">
@@ -406,7 +406,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div><span class="vk-check">✓</span><div><strong>ISDE-subsidie</strong> — ook voor hybride systemen beschikbaar</div></div>
           <div><span class="vk-check">✓</span><div><strong>Geen eindstation</strong> — later alsnog door naar volledig elektrisch als de woning klaar is</div></div>
         </div>
-        <a href="#formulier" class="vk-btn vk-btn-groen">Hybride advies aanvragen →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen">Start de woningcheck</a>
       </div>
       <div class="vk-reveal">
         <div class="vk-hybride-kaart">
@@ -422,7 +422,7 @@ $reviews = wc_meta_rows('wc_reviews', [
             <div class="vk-hybride-spec"><span>📦</span><div><strong>Compacte opstelling</strong><p>Beperkte technische ruimte nodig</p></div></div>
             <div class="vk-hybride-spec"><span>💶</span><div><strong>ISDE-subsidie</strong><p>Tot €2.000 beschikbaar</p></div></div>
           </div>
-          <a href="#formulier" class="vk-btn vk-btn-outline-groen">Vrijblijvend advies aanvragen</a>
+          <a href="#formulier" class="vk-btn vk-btn-outline-groen">Start de woningcheck</a>
         </div>
       </div>
     </div>
@@ -482,7 +482,7 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <div class="vk-vv-cta">
           <a href="https://vakvriend.nl" target="_blank" class="vk-btn vk-btn-outline-groen">🌐 vakvriend.nl</a>
-          <a href="#formulier" class="vk-btn vk-btn-groen">Gratis advies →</a>
+          <a href="#formulier" class="vk-btn vk-btn-groen">Start de woningcheck</a>
         </div>
       </div>
     </div>
@@ -563,7 +563,7 @@ $reviews = wc_meta_rows('wc_reviews', [
         </div>
       </div>
       <div class="vk-calc-cta" style="text-align:center;margin-top:24px">
-        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Doe de gratis woningcheck →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Start de woningcheck</a>
       </div>
     </div>
   </div>
@@ -585,7 +585,7 @@ $reviews = wc_meta_rows('wc_reviews', [
       <?php endforeach; ?>
     </div>
     <div class="vk-stats-rij">
-      <?php foreach([['200+','Installaties'],['4,6 / 5','Beoordeling'],['24/7','Bereikbaar'],['Heel NL','Actief']] as [$n,$l]): ?>
+      <?php foreach([['200+','Installaties'],['4,6 / 5','Beoordeling'],['24u','Reactie'],['ISDE','Begeleiding']] as [$n,$l]): ?>
         <div class="vk-stat"><div class="vk-stat-n"><?=$n?></div><div class="vk-stat-l"><?=$l?></div></div>
       <?php endforeach; ?>
     </div>
@@ -620,7 +620,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           </div>
           <div class="vk-boring-subsidie">
             <strong>💶 ISDE-subsidie bodemwarmtepomp</strong>
-            <p>Bij een bodemwarmtepomp ontvangt u significant meer subsidie dan bij een lucht/water warmtepomp. Vakvriend berekent het exacte bedrag in de offerte.</p>
+            <p>Bij een bodemwarmtepomp kan de ISDE-subsidie hoger uitvallen dan bij een lucht/water warmtepomp. Vakvriend berekent het verwachte bedrag in de woningcheck.</p>
           </div>
         </div>
       </div>
@@ -674,7 +674,7 @@ if ($lokale_alinea1 || $lokale_alinea2):
         <?php if ($lokale_alinea1): ?><p><?php echo esc_html($lokale_alinea1); ?></p><?php endif; ?>
         <?php if ($lokale_alinea2): ?><p><?php echo esc_html($lokale_alinea2); ?></p><?php endif; ?>
         <?php if ($lokale_alinea3): ?><p><?php echo esc_html($lokale_alinea3); ?></p><?php endif; ?>
-        <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:24px">Doe de woningcheck in <?php echo esc_html($stad); ?> →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:24px">Start de woningcheck</a>
       </div>
       <?php if ($lokale_faq_v1 && $lokale_faq_a1): ?>
       <div class="vk-lokaal-faq">
@@ -717,12 +717,12 @@ if ($lokale_alinea1 || $lokale_alinea2):
       <?php
       $faqs=[
         ["Wat is het verschil tussen Qvantum en Nibe?","Qvantum werkt met thermische opslag en vers tapwater via een platenwisselaar. Nibe heeft een breed programma voor lucht/water, bodem/water en hybride installaties. De beste keuze hangt af van warmteverlies, tapwater, geluid, ruimte en afgiftesysteem."],
-        ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride en bodemwarmtepompen hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie apart op in de offerte en helpt bij de aanvraagstukken."],
+        ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride en bodemwarmtepompen hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken."],
         ["Hoe werkt de thermische batterij van Qvantum?","Alle Qvantum-systemen werken met thermische opslag: QA, QE en QG. De batterij bewaart warmte voor verwarming en tapwater, maar slaat geen douchewater op. Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het tapwater direct."],
         ["Verzorgt Vakvriend ook grondboringen?","Ja. Vakvriend kan grondboringen voor bodemwarmtepompen verzorgen en de vergunningsaanvraag meenemen. We adviseren een bodemwarmtepomp alleen wanneer perceel, bron, budget en afgiftesysteem daar technisch goed bij passen."],
         ["Is mijn woning" . ($is_lokaal ? " in $stad" : "") . " geschikt voor een warmtepomp?","Dat hangt af van isolatie, warmteverlies, radiatoren of vloerverwarming, tapwatergebruik en beschikbare ruimte. Vakvriend beoordeelt eerst de woning en vergelijkt daarna hybride, lucht/water, ventilatie of bodemwarmte."],
-        ["Hoe lang duurt de installatie?","Een lucht/water of ventilatie warmtepomp kan vaak in enkele werkdagen worden geplaatst. Bij bodemwarmte, extra elektra, leidingwerk of aanpassingen aan het afgiftesysteem duurt het traject langer. Dat wordt vooraf in de offerte uitgewerkt."],
-        ["Regelt Vakvriend de subsidieaanvraag?","Ja. Vakvriend neemt de verwachte ISDE-subsidie mee in de offerte en helpt bij de aanvraagstukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO."],
+        ["Hoe lang duurt de installatie?","Een lucht/water of ventilatie warmtepomp kan vaak in enkele werkdagen worden geplaatst. Bij bodemwarmte, extra elektra, leidingwerk of aanpassingen aan het afgiftesysteem duurt het traject langer. Dat wordt vooraf in de woningcheck besproken."],
+        ["Regelt Vakvriend de subsidieaanvraag?","Ja. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO."],
       ];
       if($faq_extra){foreach(explode("\n",$faq_extra) as $r){if(strpos($r,':::')!==false){[$v,$a]=explode(':::',$r,2);$faqs[]=[trim($v),trim($a)];}}}
       foreach($faqs as [$v,$a]): ?>
