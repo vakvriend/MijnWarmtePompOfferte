@@ -20,7 +20,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
   <span class="vk-topbar-tekst">🔥 <?=esc_html($topbar)?></span>
   <div class="vk-topbar-actions">
     <a href="https://www.vakvriend.nl/" class="vk-topbar-link" target="_blank" rel="noopener">Bekijk wat Vakvriend nog meer doet</a>
-    <a href="#formulier" class="vk-topbar-btn">Gratis advies →</a>
+    <a href="#formulier" class="vk-topbar-btn">Gratis woningcheck →</a>
   </div>
 </div>
 
@@ -39,7 +39,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
     </ul>
     <div class="nav-cta">
       <a href="tel:<?=esc_attr($tel_clean)?>" class="nav-tel-link">📞 <?=esc_html($telefoon)?></a>
-      <a href="#formulier" class="vk-btn vk-btn-groen nav-offerte-btn">Gratis advies</a>
+      <a href="#formulier" class="vk-btn vk-btn-groen nav-offerte-btn">Gratis woningcheck</a>
     </div>
   </div>
 </nav>

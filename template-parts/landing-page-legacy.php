@@ -3,7 +3,7 @@ $stad      = wc_meta('wc_stad','Nederland');
 $regio     = wc_meta('wc_regio',$stad);
 $is_lokaal = ($stad !== 'Nederland' && $stad !== 'uw regio');
 $hero_foto = wc_meta('wc_hero_foto','https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp');
-$hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Warmtepomp advies aanvragen in $stad" : 'Gratis warmtepomp advies aanvragen');
+$hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Ontdek welke warmtepomp past bij uw woning in $stad" : 'Ontdek welke warmtepomp bij uw woning past');
 $hero_s    = wc_meta('wc_hero_subtitel',"Vakvriend is uw gecertificeerde installateur voor Qvantum en Nibe warmtepompen." . ($is_lokaal ? " Actief in $regio en omgeving." : " Actief door heel Nederland.") . " ISDE-subsidie — wij regelen alles voor u.");
 $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. Gecertificeerd voor Qvantum en Nibe. Eerlijk advies, geen verkooppraatjes — wij kijken wat technisch verstandig is voor uw situatie.");
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
@@ -563,7 +563,7 @@ $reviews = wc_meta_rows('wc_reviews', [
         </div>
       </div>
       <div class="vk-calc-cta" style="text-align:center;margin-top:24px">
-        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Bespreek uw wensen gratis →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Doe de gratis woningcheck →</a>
       </div>
     </div>
   </div>
@@ -674,7 +674,7 @@ if ($lokale_alinea1 || $lokale_alinea2):
         <?php if ($lokale_alinea1): ?><p><?php echo esc_html($lokale_alinea1); ?></p><?php endif; ?>
         <?php if ($lokale_alinea2): ?><p><?php echo esc_html($lokale_alinea2); ?></p><?php endif; ?>
         <?php if ($lokale_alinea3): ?><p><?php echo esc_html($lokale_alinea3); ?></p><?php endif; ?>
-        <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:24px">Gratis advies in <?php echo esc_html($stad); ?> →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:24px">Doe de woningcheck in <?php echo esc_html($stad); ?> →</a>
       </div>
       <?php if ($lokale_faq_v1 && $lokale_faq_a1): ?>
       <div class="vk-lokaal-faq">
