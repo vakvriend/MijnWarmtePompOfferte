@@ -189,8 +189,8 @@ STIJL:
 // ── Frontend: chatbot widget ──────────────────────────────────
 add_action('wp_enqueue_scripts', function() {
     if (!get_option('vk_chat_actief', 0) || !get_option('vk_api_key', '')) return;
-    wp_enqueue_style('vk-chat-widget', plugin_dir_url(__FILE__) . 'chatbot.css', [], '1.0.7');
-    wp_enqueue_script('vk-chat-widget', plugin_dir_url(__FILE__) . 'chatbot.js', [], '1.0.7', true);
+    wp_enqueue_style('vk-chat-widget', plugin_dir_url(__FILE__) . 'chatbot.css', [], '1.0.9');
+    wp_enqueue_script('vk-chat-widget', plugin_dir_url(__FILE__) . 'chatbot.js', [], '1.0.9', true);
     wp_localize_script('vk-chat-widget', 'vkChat', [
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('vk_chat_nonce'),

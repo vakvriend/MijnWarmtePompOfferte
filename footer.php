@@ -65,7 +65,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
 </footer>
 
 <div class="vk-mobile-sticky" aria-label="Snelle acties">
-  <a href="#formulier" class="vk-btn vk-btn-oranje">Offerte aanvragen</a>
+  <a href="#formulier" class="vk-btn vk-btn-oranje">Woningcheck starten</a>
   <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen">Bel direct</a>
 </div>
 

@@ -104,13 +104,13 @@
 }
 .vk-cw-stuur:hover{background:#044825}
 
-/* Mobile placement: bottom-left, lifted above the sticky CTA. */
+/* Mobile placement: top-right so it never covers the sticky CTA or form headline. */
 @media(max-width:760px){
   #vk-chat-widget{
-    top:auto!important;
-    right:auto!important;
-    bottom:84px!important;
-    left:12px!important;
+    top:82px!important;
+    right:12px!important;
+    bottom:auto!important;
+    left:auto!important;
     z-index:1002!important;
   }
   .vk-cw-knop{
@@ -127,10 +127,10 @@
     font-size:10px;
   }
   .vk-cw-venster{
-    top:auto!important;
-    right:auto!important;
-    bottom:132px!important;
-    left:12px!important;
+    top:132px!important;
+    right:12px!important;
+    bottom:auto!important;
+    left:auto!important;
     width:min(360px,calc(100vw - 24px));
     max-height:calc(100vh - 238px);
     border-radius:14px;
@@ -155,7 +155,7 @@
   }
   body.vk-form-step-4 #vk-chat-widget,
   body.vk-form-success #vk-chat-widget{
-    bottom:154px!important;
+    top:82px!important;
   }
   body.vk-form-success #vk-chat-widget{
     display:none!important;
@@ -164,10 +164,10 @@
 
 @media(max-width:400px){
   .vk-cw-venster{
-    top:auto!important;
-    right:auto!important;
-    bottom:132px!important;
-    left:12px!important;
+    top:132px!important;
+    right:12px!important;
+    bottom:auto!important;
+    left:auto!important;
     width:calc(100vw - 24px);
   }
 }

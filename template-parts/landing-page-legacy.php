@@ -8,7 +8,7 @@ $hero_s    = wc_meta('wc_hero_subtitel',"Vakvriend is uw gecertificeerde install
 $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. Gecertificeerd voor Qvantum en Nibe. Eerlijk advies, geen verkooppraatjes — wij kijken wat technisch verstandig is voor uw situatie.");
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
-$topbar    = wc_meta('wc_topbar_tekst',"🔥 Gratis warmtepomp advies" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
+$topbar    = wc_meta('wc_topbar_tekst',"Gratis warmtepomp advies" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
 $hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis subsidiecheck en advies in $stad" : 'Gratis subsidiecheck en warmtepomp advies');
 $form_titel = wc_meta('wc_form_titel', 'Ontvang uw gratis warmtepomp advies');
 $form_subtitel = wc_meta('wc_form_subtitel', 'Bereken direct uw besparing en ontvang binnen 24 uur reactie van Vakvriend.');
@@ -83,7 +83,7 @@ $reviews = wc_meta_rows('wc_reviews', [
   <div class="vk-hero-inner">
     <!-- Links: Tekst -->
     <div class="vk-hero-content">
-      <div class="vk-pill">🌿 <?=esc_html($hero_kicker)?></div>
+      <div class="vk-pill"><?=esc_html($hero_kicker)?></div>
       <h1><?=esc_html($hero_t)?></h1>
       <p class="vk-hero-sub"><?=esc_html($hero_s)?></p>
       <div class="vk-trust-row">
@@ -101,8 +101,8 @@ $reviews = wc_meta_rows('wc_reviews', [
         <?php endforeach; ?>
       </div>
       <div class="vk-hero-contact">
-        <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-tel-link">📞 <?=esc_html($telefoon)?></a>
-        <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-wa-link">💬 WhatsApp</a>
+        <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-tel-link"><?=esc_html($telefoon)?></a>
+        <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-wa-link">WhatsApp</a>
       </div>
     </div>
 
@@ -114,7 +114,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <p><?=esc_html($form_subtitel)?></p>
         </div>
         <div class="vk-form-trust-bar">
-          <span>🔒 Veilig</span><span>⚡ Binnen 24u reactie</span><span>✅ Gratis & vrijblijvend</span>
+          <span>Veilig</span><span>Binnen 24u reactie</span><span>Gratis & vrijblijvend</span>
         </div>
         <div class="vk-progress">
           <div class="vk-prog-dot active"></div>
@@ -201,8 +201,8 @@ $reviews = wc_meta_rows('wc_reviews', [
             <div><strong>2</strong><span>Vakvriend rekent mee</span></div>
             <div><strong>3</strong><span>U krijgt advies</span></div>
           </div>
-          <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen vk-btn-full vk-btn-space">📞 Direct bellen: <?=esc_html($telefoon)?></a>
-          <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-full vk-btn-space-sm">💬 WhatsApp sturen</a>
+          <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen vk-btn-full vk-btn-space">Direct bellen: <?=esc_html($telefoon)?></a>
+          <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-full vk-btn-space-sm">WhatsApp sturen</a>
         </div>
       </div>
     </div>
@@ -697,8 +697,8 @@ if ($lokale_alinea1 || $lokale_alinea2):
         <?php endif; ?>
         <div class="vk-lokaal-cta">
           <p>Heeft u een vraag voor <?php echo esc_html($stad); ?>?</p>
-          <a href="tel:<?php echo esc_attr($tel_clean); ?>" class="vk-btn vk-btn-groen">📞 Bel direct</a>
-          <a href="https://wa.me/<?php echo esc_attr($whatsapp); ?>" class="vk-btn vk-btn-wa">💬 WhatsApp</a>
+          <a href="tel:<?php echo esc_attr($tel_clean); ?>" class="vk-btn vk-btn-groen">Bel direct</a>
+          <a href="https://wa.me/<?php echo esc_attr($whatsapp); ?>" class="vk-btn vk-btn-wa">WhatsApp</a>
         </div>
       </div>
       <?php endif; ?>

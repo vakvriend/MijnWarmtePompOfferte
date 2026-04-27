@@ -56,9 +56,13 @@ function wc_shortcode_logos() {
     ?>
     <div class="vk-merken">
       <div class="vk-merken-inner">
-        <?php foreach (array_merge($logos, $logos) as $logo) : ?>
-          <img src="<?php echo esc_url($logo[0]); ?>" alt="<?php echo esc_attr($logo[1]); ?>" height="22" loading="lazy">
-        <?php endforeach; ?>
+        <?php for ($set = 0; $set < 4; $set++) : ?>
+          <div class="vk-merken-set" <?php if ($set > 0) : ?>aria-hidden="true"<?php endif; ?>>
+            <?php foreach ($logos as $logo) : ?>
+              <img src="<?php echo esc_url($logo[0]); ?>" alt="<?php echo esc_attr($logo[1]); ?>" height="22" loading="lazy">
+            <?php endforeach; ?>
+          </div>
+        <?php endfor; ?>
       </div>
     </div>
     <?php
