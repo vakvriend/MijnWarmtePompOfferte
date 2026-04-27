@@ -415,10 +415,10 @@ $reviews = wc_meta_rows('wc_reviews', [
             <span>Hybride optie</span>
           </div>
           <h3>Intergas Xtend Eco</h3>
-          <p class="vk-hybride-intro">De Intergas Xtend Eco is een hybride lucht/water warmtepomp die samenwerkt met een Intergas HR-ketel. De warmtepomp verlaagt het gasverbruik bij normale warmtevraag; de ketel ondersteunt bij hoge temperatuurvraag, tapwater en koude perioden. Vooral interessant wanneer volledig elektrisch nog niet de juiste stap is.</p>
+          <p class="vk-hybride-intro">De Intergas Xtend Eco is een hybride lucht/water warmtepomp die met een cv-ketel samenwerkt. Dat kan met Intergas HR-ketels, maar in veel situaties ook met andere keteltypen wanneer aansturing, vermogen en installatievoorwaarden kloppen. De warmtepomp verlaagt het gasverbruik bij normale warmtevraag; de ketel ondersteunt bij hoge temperatuurvraag, tapwater en koude perioden. Vooral interessant wanneer volledig elektrisch nog niet de juiste stap is.</p>
           <div class="vk-hybride-specs">
             <div class="vk-hybride-spec"><span>⚡</span><div><strong>COP tot 4,0</strong><p>Hoog rendement bij mild weer</p></div></div>
-            <div class="vk-hybride-spec"><span>🔥</span><div><strong>Ketel ondersteunt</strong><p>Voor tapwater en piekvraag</p></div></div>
+            <div class="vk-hybride-spec"><span>🔥</span><div><strong>Werkt met cv-ketel</strong><p>Intergas en vaak ook andere ketels</p></div></div>
             <div class="vk-hybride-spec"><span>📦</span><div><strong>Compacte opstelling</strong><p>Beperkte technische ruimte nodig</p></div></div>
             <div class="vk-hybride-spec"><span>💶</span><div><strong>ISDE-subsidie</strong><p>Tot €2.000 beschikbaar</p></div></div>
           </div>
