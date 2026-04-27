@@ -21,7 +21,8 @@ var SUBSIDIE = {
   lw:      {label: 'Lucht/water warmtepomp · Qvantum QA of Nibe F2040', bedrag: 2800, installatie: 9500},
   vent:    {label: 'Ventilatie warmtepomp · Qvantum QE', bedrag: 1800, installatie: 7500},
   bodem:   {label: 'Bodemwarmtepomp · Nibe S-serie of Qvantum QG', bedrag: 4500, installatie: 16000},
-  hybride: {label: 'Hybride warmtepomp · Intergas Xtend Eco', bedrag: 1800, installatie: 5000}
+  hybride: {label: 'Hybride warmtepomp · Intergas Xtend Eco', bedrag: 1800, installatie: 5000},
+  boiler:  {label: 'Warmtepompboiler · tapwater-oplossing', bedrag: 725, installatie: 3500}
 };
 
 function vkTrack(eventName, payload) {
@@ -95,7 +96,7 @@ window.vkKies = function(btn, key, val) {
   if (key === 'systeem') {
     var tip = document.getElementById('subsidie-tip');
     if (tip) {
-      var s = val.includes('Ventilatie') ? SUBSIDIE.vent : val.includes('Bodem') ? SUBSIDIE.bodem : val.includes('Hybride') ? SUBSIDIE.hybride : val.includes('Weet') ? null : SUBSIDIE.lw;
+      var s = val.includes('Ventilatie') ? SUBSIDIE.vent : val.includes('Bodem') ? SUBSIDIE.bodem : val.includes('Hybride') ? SUBSIDIE.hybride : val.includes('Warmtepompboiler') ? SUBSIDIE.boiler : val.includes('Weet') ? null : SUBSIDIE.lw;
       if (s) { tip.innerHTML = 'Geschatte ISDE-subsidie: <strong>gem. ' + fmt(s.bedrag) + '</strong> — exacte bedrag hangt af van merk, vermogen en energielabel. Vakvriend berekent dit gratis en vrijblijvend voor u.'; tip.style.display = 'block'; }
       else { tip.innerHTML = 'Vakvriend adviseert gratis en vrijblijvend welk systeem past.'; tip.style.display = 'block'; }
     }
@@ -211,8 +212,9 @@ function vkFout(t) {
 
 function vkBereken(g, gp, sys) {
   var s = SUBSIDIE[sys] || SUBSIDIE.lw;
-  var cop = sys === 'bodem' ? 4.5 : sys === 'vent' ? 3.2 : sys === 'hybride' ? 2.8 : 3.8;
-  var b = Math.max(0, g * gp - (g * 9.77 / cop) * 0.27);
+  var cop = sys === 'bodem' ? 4.5 : sys === 'vent' ? 3.2 : sys === 'hybride' ? 2.8 : sys === 'boiler' ? 2.9 : 3.8;
+  var gasFactor = sys === 'boiler' ? 0.22 : 1;
+  var b = Math.max(0, (g * gasFactor) * gp - ((g * gasFactor) * 9.77 / cop) * 0.27);
   var tvt = b > 0 ? (s.installatie - s.bedrag) / b : 0;
   return {b: b, subsidie: s.bedrag, tvt: tvt, label: s.label};
 }
@@ -251,6 +253,7 @@ window.vkUpdateGas = function() {
     if (fd.systeem.includes('Ventilatie')) sys = 'vent';
     else if (fd.systeem.includes('Bodem')) sys = 'bodem';
     else if (fd.systeem.includes('Hybride')) sys = 'hybride';
+    else if (fd.systeem.includes('Warmtepompboiler')) sys = 'boiler';
   }
   var res = vkBereken(g, 1.25, sys);
   var m = document.getElementById('vk-mini-besp'); if (m) m.textContent = fmt(res.b) + ' *';

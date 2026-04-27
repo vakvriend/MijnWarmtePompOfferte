@@ -126,6 +126,7 @@ function wc_shortcode_lead_form($atts = array()) {
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Ventilatie (Qvantum QE)')"><span class="vk-keuze-ico">🌬️</span>Ventilatie</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Bodemwarmtepomp (Nibe / Qvantum QG)')"><span class="vk-keuze-ico">🌍</span>Bodem</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Hybride (Intergas Xtend Eco)')"><span class="vk-keuze-ico">⚡</span>Hybride</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Warmtepompboiler (tapwater)')"><span class="vk-keuze-ico">🚿</span>Warmtepompboiler</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Weet ik nog niet')"><span class="vk-keuze-ico">💡</span>Advies nodig</button>
           </div>
           <div class="vk-subsidie-tip" id="subsidie-tip" style="display:none"></div>

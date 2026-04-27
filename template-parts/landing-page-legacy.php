@@ -48,6 +48,7 @@ $warmtepomp_types = wc_meta_rows('wc_warmtepomp_types', [
   ['💨','Veel toegepast','Lucht/water warmtepomp','Haalt warmte uit de buitenlucht en geeft die via water af aan radiatoren of vloerverwarming. Geen boring nodig, maar vermogen, geluid en afgiftesysteem moeten goed worden ontworpen.','Geen bodembron nodig;Geschikt voor hybride en all-electric;Buitenunitpositie is belangrijk;ISDE-subsidie mogelijk;Warmteverliesberekening nodig','Qvantum QA of Nibe lucht/water'],
   ['🌬️','Zonder buitenunit mogelijk','Ventilatie warmtepomp','Gebruikt warmte uit afvoerventilatielucht. Vooral interessant bij appartementen, compacte technische ruimtes of situaties waar een buitenunit niet wenselijk is.','Geen buitenunit;Ventilatiesysteem moet geschikt zijn;Compacte installatie;Tapwater apart beoordelen;Niet elke woning is geschikt','Qvantum QE'],
   ['🌍','Stabiele bron','Bodemwarmtepomp','Gebruikt warmte uit de bodem via een gesloten bron of boring. Technisch sterk voor de lange termijn, maar vraagt meer voorbereiding en een hogere investering.','Stabiele bron;Hoog rendement mogelijk;Boring en vergunning nodig;Interessant voor lange termijn;Past vooral bij geschikte percelen','Nibe bodem/water of Qvantum QG'],
+  ['🚿','Voor tapwater','Warmtepompboiler','Een warmtepompboiler maakt vooral warm tapwater en vervangt geen volledige verwarmingsinstallatie. Interessant wanneer douchewater de eerste besparingsstap is of wanneer ruimteverwarming nog via cv of hybride loopt.','Voor warm tapwater;Gebruikt omgevings- of ventilatielucht;Boilervat nodig;ISDE vaak mogelijk;Niet hetzelfde als Qvantum zonder boilervat','Nibe, Itho Daalderop of Intergas combinaties'],
 ], 6);
 $vv_props = wc_meta_rows('wc_vv_props', [
   ['🏗️','Allround installatiebedrijf','Warmtepompen, CV-ketels, sanitair, vloerverwarming, dakwerk en ventilatie. Alles in eigen hand.'],
@@ -146,6 +147,7 @@ $reviews = wc_meta_rows('wc_reviews', [
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Ventilatie (Qvantum QE)')"><span class="vk-keuze-ico">🌬️</span>Ventilatie</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Bodemwarmtepomp (Nibe / Qvantum QG)')"><span class="vk-keuze-ico">🌍</span>Bodem</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Hybride (Intergas Xtend Eco)')"><span class="vk-keuze-ico">⚡</span>Hybride</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Warmtepompboiler (tapwater)')"><span class="vk-keuze-ico">🚿</span>Warmtepompboiler</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Weet ik nog niet')"><span class="vk-keuze-ico">💡</span>Advies nodig</button>
           </div>
           <div class="vk-subsidie-tip" id="subsidie-tip" style="display:none"></div>
@@ -371,7 +373,7 @@ $reviews = wc_meta_rows('wc_reviews', [
   <div class="vk-container">
     <div class="vk-eyebrow vk-center"><?=esc_html(wc_meta('wc_types_eyebrow','Kenniscentrum warmtepompen'))?></div>
     <h2 class="vk-center"><?=esc_html(wc_meta('wc_types_titel','Welk type warmtepomp past bij u?'))?></h2>
-    <p class="vk-lead vk-center vk-lead-center"><?=esc_html(wc_meta('wc_types_lead','Er zijn drie typen warmtepompen voor woningen. Elk type heeft zijn eigen voordelen en is geschikt voor een andere situatie.'))?></p>
+    <p class="vk-lead vk-center vk-lead-center"><?=esc_html(wc_meta('wc_types_lead','Er zijn meerdere warmtepomproutes voor woningen. Soms gaat het om volledige ruimteverwarming, soms vooral om tapwater met een warmtepompboiler.'))?></p>
     <div class="vk-type-grid">
       <?php foreach($warmtepomp_types as [$ico,$badge,$title,$text,$items,$brands]): ?>
         <div class="vk-type-card vk-reveal">
@@ -541,6 +543,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <button type="button" class="vk-sys-btn" onclick="vkKiesSysteem(this,'vent')" data-sys="vent">Ventilatie</button>
           <button type="button" class="vk-sys-btn" onclick="vkKiesSysteem(this,'bodem')" data-sys="bodem">Bodem</button>
           <button type="button" class="vk-sys-btn" onclick="vkKiesSysteem(this,'hybride')" data-sys="hybride">Hybride</button>
+          <button type="button" class="vk-sys-btn" onclick="vkKiesSysteem(this,'boiler')" data-sys="boiler">Boiler</button>
         </div>
       </div>
 
@@ -717,7 +720,8 @@ if ($lokale_alinea1 || $lokale_alinea2):
       <?php
       $faqs=[
         ["Wat is het verschil tussen Qvantum en Nibe?","Qvantum werkt met thermische opslag en vers tapwater via een platenwisselaar. Nibe heeft een breed programma voor lucht/water, bodem/water en hybride installaties. De beste keuze hangt af van warmteverlies, tapwater, geluid, ruimte en afgiftesysteem."],
-        ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride en bodemwarmtepompen hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken."],
+        ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride, bodemwarmtepompen en warmtepompboilers hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken."],
+        ["Wanneer is een warmtepompboiler interessant?","Een warmtepompboiler is vooral bedoeld voor warm tapwater. Het kan een logische stap zijn wanneer u douchewater zuiniger wilt maken, maar de woningverwarming nog via cv, hybride of een later warmtepompsysteem loopt."],
         ["Hoe werkt de thermische batterij van Qvantum?","Alle Qvantum-systemen werken met thermische opslag: QA, QE en QG. De batterij bewaart warmte voor verwarming en tapwater, maar slaat geen douchewater op. Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het tapwater direct."],
         ["Verzorgt Vakvriend ook grondboringen?","Ja. Vakvriend kan grondboringen voor bodemwarmtepompen verzorgen en de vergunningsaanvraag meenemen. We adviseren een bodemwarmtepomp alleen wanneer perceel, bron, budget en afgiftesysteem daar technisch goed bij passen."],
         ["Is mijn woning" . ($is_lokaal ? " in $stad" : "") . " geschikt voor een warmtepomp?","Dat hangt af van isolatie, warmteverlies, radiatoren of vloerverwarming, tapwatergebruik en beschikbare ruimte. Vakvriend beoordeelt eerst de woning en vergelijkt daarna hybride, lucht/water, ventilatie of bodemwarmte."],
