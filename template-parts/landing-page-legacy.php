@@ -9,7 +9,7 @@ $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
 $topbar    = wc_meta('wc_topbar_tekst',"Gratis warmtepomp advies" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
-$hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis subsidiecheck en advies in $stad" : 'Gratis subsidiecheck en warmtepomp advies');
+$hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis woningcheck en advies in $stad" : 'Gratis woningcheck en warmtepomp advies');
 $form_titel = wc_meta('wc_form_titel', 'Ontvang uw gratis warmtepomp advies');
 $form_subtitel = wc_meta('wc_form_subtitel', 'Bereken direct uw besparing en ontvang binnen 24 uur reactie van Vakvriend.');
 $form_benefits = wc_meta_rows('wc_form_benefits', [
@@ -19,7 +19,7 @@ $form_benefits = wc_meta_rows('wc_form_benefits', [
 ], 1);
 $campaign_proof = wc_meta_rows('wc_campaign_proof', [
   ['Binnen 24 uur','reactie op uw aanvraag'],
-  ['ISDE','subsidiecheck inbegrepen'],
+  ['ISDE','subsidie inbegrepen'],
   ['200+','installaties uitgevoerd'],
 ], 2);
 $vv_u1     = wc_meta('wc_vv_usp1','Gecertificeerd Qvantum & Nibe installateur');
@@ -173,7 +173,7 @@ $reviews = wc_meta_rows('wc_reviews', [
         <!-- Stap 4: Contactgegevens -->
         <div class="vk-stap" id="stap-4">
           <h3 class="vk-stap-titel">Uw contactgegevens</h3>
-          <p class="vk-stap-sub">Stap 4 van 4 — ontvang uw gratis subsidiecheck en advies</p>
+          <p class="vk-stap-sub">Stap 4 van 4 — ontvang uw gratis woningcheck en advies</p>
           <div class="vk-veld-grid">
             <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
@@ -185,7 +185,7 @@ $reviews = wc_meta_rows('wc_reviews', [
             <span>Advies van installateur</span>
             <span>Reactie binnen 24 uur</span>
           </div>
-          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Ontvang gratis subsidiecheck →</button>
+          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Ontvang gratis woningcheck →</button>
           <p class="vk-disclaimer"><span>Gratis en vrijblijvend</span><span>Reactie binnen 24 uur</span><span>ISDE-hulp inbegrepen</span><br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
           <div class="vk-terug"><button onclick="vkStap(3)">← Terug</button></div>
         </div>
@@ -194,7 +194,7 @@ $reviews = wc_meta_rows('wc_reviews', [
         <div class="vk-stap vk-succes" id="stap-succes">
           <div class="vk-succes-mark">✓</div>
           <div class="vk-succes-pill">Aanvraag compleet</div>
-          <h3>Gelukt, uw subsidiecheck is aangevraagd</h3>
+          <h3>Gelukt, uw woningcheck is aangevraagd</h3>
           <p>Vakvriend heeft uw gegevens ontvangen. We bekijken uw woning, systeemvoorkeur en gasverbruik en nemen binnen 24 uur contact op met praktisch advies.</p>
           <div class="vk-succes-next">
             <div><strong>1</strong><span>Aanvraag ontvangen</span></div>

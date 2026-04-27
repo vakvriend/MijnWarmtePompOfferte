@@ -70,19 +70,19 @@ foreach ($pages as $page) {
         'wc_whatsapp'          => '31752340001',
         'wc_email'             => 'info@vakvriend.nl',
         'wc_ai_content_status' => 'generated-v2',
-        'wc_hero_kicker'       => $is_local ? 'Gratis subsidiecheck en advies in ' . $city : 'Gratis subsidiecheck en warmtepomp advies',
+        'wc_hero_kicker'       => $is_local ? 'Gratis woningcheck en advies in ' . $city : 'Gratis woningcheck en warmtepomp advies',
         'wc_hero_titel'        => $is_local ? 'Ontdek welke warmtepomp past bij uw woning in ' . $city : 'Ontdek welke warmtepomp bij uw woning past',
         'wc_hero_subtitel'     => 'Vertel ons kort over uw woning en wensen. Vakvriend beoordeelt welk systeem past, wat de ISDE-subsidie doet en welke installatie praktisch haalbaar is.',
-        'wc_topbar_tekst'      => ($is_local ? $city . ': ' : '') . 'gratis warmtepomp subsidiecheck - reactie binnen 24 uur',
+        'wc_topbar_tekst'      => ($is_local ? $city . ': ' : '') . 'gratis warmtepomp woningcheck - reactie binnen 24 uur',
         'wc_form_titel'        => $is_local ? 'Gratis woningcheck voor ' . $city : 'Gratis warmtepomp woningcheck',
-        'wc_form_subtitel'     => 'Beantwoord 4 korte vragen over uw woning, verbruik en wensen. U ontvangt praktisch advies met subsidiecheck.',
+        'wc_form_subtitel'     => 'Beantwoord 4 korte vragen over uw woning, verbruik en wensen. U ontvangt praktisch advies met woningcheck.',
         'wc_form_benefits'     => "Gratis woningcheck\nWensen en comfort besproken\nAdvies binnen 24 uur",
-        'wc_campaign_proof'    => "Gratis|woningcheck en advies\nISDE|subsidiecheck inbegrepen\n24u|reactie op uw aanvraag",
-        'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp offerte') . ' | Gratis subsidiecheck | Vakvriend',
+        'wc_campaign_proof'    => "Gratis|woningcheck en advies\nISDE|subsidie inbegrepen\n24u|reactie op uw aanvraag",
+        'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp offerte') . ' | Gratis woningcheck | Vakvriend',
         'wc_meta_desc'         => 'Vraag gratis warmtepomp advies aan' . $in_city . '. Vakvriend berekent subsidie, besparing en installatiekosten voor Qvantum, Nibe en hybride systemen.',
         'wc_focus_keyword'     => $is_local ? 'warmtepomp ' . strtolower($city) : 'warmtepomp offerte',
         'wc_vv_intro'          => 'Vakvriend helpt woningeigenaren' . $in_city . ' met eerlijk warmtepompadvies, vakkundige installatie en begeleiding bij ISDE-subsidie. We kijken eerst naar isolatie, warmteafgifte, verbruik en budget, zodat u een keuze maakt die technisch klopt.',
-        'wc_vv_usp1'           => 'Gratis opname en subsidiecheck',
+        'wc_vv_usp1'           => 'Gratis woningcheck en opname',
         'wc_vv_usp2'           => 'Qvantum, Nibe en hybride advies',
         'wc_vv_usp3'           => 'Duidelijk advies zonder verrassingen',
         'wc_vv_usp4'           => 'Installatie en nazorg door Vakvriend',
@@ -113,7 +113,7 @@ foreach ($pages as $page) {
     if (stripos($page->post_title, 'Vergelijken') !== false) {
         $base['wc_hero_titel'] = 'Warmtepomp offertes vergelijken';
         $base['wc_hero_subtitel'] = 'Vergelijk warmtepompopties op subsidie, besparing, geluid, installatiekosten en geschiktheid voor uw woning.';
-        $base['wc_meta_title'] = 'Warmtepomp offertes vergelijken | Gratis subsidiecheck';
+        $base['wc_meta_title'] = 'Warmtepomp offertes vergelijken | Gratis woningcheck';
         $base['wc_meta_desc'] = 'Vergelijk warmtepomp offertes en krijg gratis advies over subsidie, besparing en het juiste systeem voor uw woning.';
         $base['wc_focus_keyword'] = 'warmtepomp offertes vergelijken';
     }
@@ -126,7 +126,7 @@ foreach ($pages as $page) {
 }
 
 update_option('blogname', 'Gratis warmtepomp offerte | Vakvriend');
-update_option('blogdescription', 'Gratis subsidiecheck, besparing en warmtepomp advies.');
+update_option('blogdescription', 'Gratis woningcheck, besparing en warmtepomp advies.');
 
 delete_site_transient('wc_github_theme_release');
 delete_site_transient('update_themes');

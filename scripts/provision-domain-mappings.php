@@ -119,19 +119,19 @@ function vk_page_meta($spec) {
         'wc_whatsapp'          => '31752340001',
         'wc_email'             => 'info@vakvriend.nl',
         'wc_ai_content_status' => 'generated-domain-provision-v1',
-        'wc_hero_kicker'       => $is_local ? 'Gratis subsidiecheck en advies in ' . $city : 'Gratis subsidiecheck en warmtepomp advies',
+        'wc_hero_kicker'       => $is_local ? 'Gratis woningcheck en advies in ' . $city : 'Gratis woningcheck en warmtepomp advies',
         'wc_hero_titel'        => $is_local ? 'Ontdek welke warmtepomp past bij uw woning in ' . $city : 'Ontdek welke warmtepomp bij uw woning past',
         'wc_hero_subtitel'     => 'Vertel ons kort over uw woning en wensen. Vakvriend beoordeelt welk systeem past, wat de ISDE-subsidie doet en welke installatie praktisch haalbaar is.',
-        'wc_topbar_tekst'      => ($is_local ? $city . ': ' : '') . 'gratis warmtepomp subsidiecheck - reactie binnen 24 uur',
+        'wc_topbar_tekst'      => ($is_local ? $city . ': ' : '') . 'gratis warmtepomp woningcheck - reactie binnen 24 uur',
         'wc_form_titel'        => $is_local ? 'Gratis woningcheck voor ' . $city : 'Gratis warmtepomp woningcheck',
-        'wc_form_subtitel'     => 'Beantwoord 4 korte vragen over uw woning, verbruik en wensen. U ontvangt praktisch advies met subsidiecheck.',
+        'wc_form_subtitel'     => 'Beantwoord 4 korte vragen over uw woning, verbruik en wensen. U ontvangt praktisch advies met woningcheck.',
         'wc_form_benefits'     => "Gratis woningcheck\nWensen en comfort besproken\nAdvies binnen 24 uur",
-        'wc_campaign_proof'    => "Gratis|woningcheck en advies\nISDE|subsidiecheck inbegrepen\n24u|reactie op uw aanvraag",
-        'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp offerte') . ' | Gratis subsidiecheck | Vakvriend',
+        'wc_campaign_proof'    => "Gratis|woningcheck en advies\nISDE|subsidie inbegrepen\n24u|reactie op uw aanvraag",
+        'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp offerte') . ' | Gratis woningcheck | Vakvriend',
         'wc_meta_desc'         => 'Vraag gratis warmtepomp advies aan' . $in_city . '. Vakvriend berekent subsidie, besparing en installatiekosten voor Qvantum, Nibe en hybride systemen.',
         'wc_focus_keyword'     => $is_local ? 'warmtepomp ' . strtolower($city) : 'warmtepomp offerte',
         'wc_vv_intro'          => 'Vakvriend helpt woningeigenaren' . $in_city . ' met eerlijk warmtepompadvies, vakkundige installatie en begeleiding bij ISDE-subsidie. We kijken eerst naar isolatie, warmteafgifte, verbruik en budget, zodat u een keuze maakt die technisch klopt.',
-        'wc_vv_usp1'           => 'Gratis opname en subsidiecheck',
+        'wc_vv_usp1'           => 'Gratis woningcheck en opname',
         'wc_vv_usp2'           => 'Qvantum, Nibe en hybride advies',
         'wc_vv_usp3'           => 'Duidelijk advies zonder verrassingen',
         'wc_vv_usp4'           => 'Installatie en nazorg door Vakvriend',
@@ -160,13 +160,13 @@ function vk_page_meta($spec) {
     } elseif ($type === 'compare') {
         $meta['wc_hero_titel'] = 'Warmtepomp offertes vergelijken';
         $meta['wc_hero_subtitel'] = 'Vergelijk warmtepompopties op subsidie, besparing, geluid, installatiekosten en geschiktheid voor uw woning.';
-        $meta['wc_meta_title'] = 'Warmtepomp offertes vergelijken | Gratis subsidiecheck';
+        $meta['wc_meta_title'] = 'Warmtepomp offertes vergelijken | Gratis woningcheck';
         $meta['wc_meta_desc'] = 'Vergelijk warmtepomp offertes en krijg gratis advies over subsidie, besparing en het juiste systeem voor uw woning.';
         $meta['wc_focus_keyword'] = 'warmtepomp offertes vergelijken';
     } elseif ($type === 'brand') {
         $meta['wc_hero_titel'] = 'Mijn warmtepomp advies aanvragen';
-        $meta['wc_hero_subtitel'] = 'Krijg helder warmtepompadvies van Vakvriend met subsidiecheck, besparingsberekening en een passende offerte voor uw woning.';
-        $meta['wc_meta_title'] = 'Mijn warmtepomp offerte | Gratis subsidiecheck';
+        $meta['wc_hero_subtitel'] = 'Krijg helder warmtepompadvies van Vakvriend met woningcheck, besparingsberekening en een passende offerte voor uw woning.';
+        $meta['wc_meta_title'] = 'Mijn warmtepomp offerte | Gratis woningcheck';
         $meta['wc_meta_desc'] = 'Vraag uw gratis warmtepomp offerte aan. Vakvriend berekent subsidie, besparing en installatiekosten voor uw woning.';
         $meta['wc_focus_keyword'] = 'warmtepomp offerte';
     } elseif ($type === 'without_boiler') {
