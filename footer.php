@@ -10,7 +10,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
   <div class="vk-container">
     <div class="vk-cta-inner">
       <h2>Klaar voor duidelijk warmtepompadvies?</h2>
-      <p>Start met een gratis woningcheck. Vakvriend beoordeelt woning, comfortwens, systeemkeuze en ISDE-subsidie in één keer.</p>
+      <p>Start met een gratis en vrijblijvende woningcheck. Vakvriend beoordeelt woning, comfortwens, systeemkeuze en ISDE-subsidie in één keer.</p>
       <div class="vk-cta-knoppen">
         <a href="#formulier" class="vk-btn vk-btn-wit vk-btn-lg">Start de woningcheck</a>
         <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-lg">WhatsApp ons</a>

@@ -96,8 +96,8 @@ window.vkKies = function(btn, key, val) {
     var tip = document.getElementById('subsidie-tip');
     if (tip) {
       var s = val.includes('Ventilatie') ? SUBSIDIE.vent : val.includes('Bodem') ? SUBSIDIE.bodem : val.includes('Hybride') ? SUBSIDIE.hybride : val.includes('Weet') ? null : SUBSIDIE.lw;
-      if (s) { tip.innerHTML = 'Geschatte ISDE-subsidie: <strong>gem. ' + fmt(s.bedrag) + '</strong> — exacte bedrag hangt af van merk, vermogen en energielabel. Vakvriend berekent dit gratis voor u.'; tip.style.display = 'block'; }
-      else { tip.innerHTML = 'Vakvriend adviseert gratis welk systeem past.'; tip.style.display = 'block'; }
+      if (s) { tip.innerHTML = 'Geschatte ISDE-subsidie: <strong>gem. ' + fmt(s.bedrag) + '</strong> — exacte bedrag hangt af van merk, vermogen en energielabel. Vakvriend berekent dit gratis en vrijblijvend voor u.'; tip.style.display = 'block'; }
+      else { tip.innerHTML = 'Vakvriend adviseert gratis en vrijblijvend welk systeem past.'; tip.style.display = 'block'; }
     }
     // Herbereken mini-besparing direct
     vkUpdateGas();
@@ -171,11 +171,11 @@ window.vkVerstuur = async function() {
     else {
       var msg = json.data && json.data.message ? json.data.message : 'Er ging iets mis. Bel 075 234 0001.';
       vkFout(msg);
-      if (btn) { btn.disabled = false; btn.textContent = 'Ontvang gratis woningcheck \u2192'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Start gratis en vrijblijvend'; }
     }
   } catch(e) {
     vkFout('Er ging iets mis. Bel 075 234 0001 of probeer het opnieuw.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Ontvang gratis woningcheck \u2192'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Start gratis en vrijblijvend'; }
   }
 };
 
