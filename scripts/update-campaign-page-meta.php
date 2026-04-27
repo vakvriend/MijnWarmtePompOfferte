@@ -71,12 +71,12 @@ foreach ($pages as $page) {
         'wc_email'             => 'info@vakvriend.nl',
         'wc_ai_content_status' => 'generated-v2',
         'wc_hero_kicker'       => $is_local ? 'Gratis subsidiecheck en advies in ' . $city : 'Gratis subsidiecheck en warmtepomp advies',
-        'wc_hero_titel'        => $is_local ? 'Warmtepomp offerte aanvragen in ' . $city : 'Gratis warmtepomp offerte aanvragen',
+        'wc_hero_titel'        => $is_local ? 'Warmtepomp advies aanvragen in ' . $city : 'Gratis warmtepomp advies aanvragen',
         'wc_hero_subtitel'     => 'Ontdek welk warmtepompsysteem past bij uw woning' . $in_city . '. Vakvriend berekent uw verwachte besparing, ISDE-subsidie en installatiekosten gratis en vrijblijvend.',
         'wc_topbar_tekst'      => ($is_local ? $city . ': ' : '') . 'gratis warmtepomp subsidiecheck - reactie binnen 24 uur',
         'wc_form_titel'        => $is_local ? 'Gratis advies voor uw woning in ' . $city : 'Ontvang uw gratis warmtepomp advies',
         'wc_form_subtitel'     => 'Beantwoord 4 korte vragen en ontvang een praktische subsidiecheck met persoonlijk advies.',
-        'wc_form_benefits'     => "Gratis woningcheck\nSubsidiebedrag berekend\nOfferte binnen 24 uur",
+        'wc_form_benefits'     => "Gratis woningcheck\nSubsidiebedrag berekend\nAdvies binnen 24 uur",
         'wc_campaign_proof'    => "Binnen 24 uur|reactie op uw aanvraag\nISDE|subsidiecheck inbegrepen\n200+|installaties uitgevoerd",
         'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp offerte') . ' | Gratis subsidiecheck | Vakvriend',
         'wc_meta_desc'         => 'Vraag gratis warmtepomp advies aan' . $in_city . '. Vakvriend berekent subsidie, besparing en installatiekosten voor Qvantum, Nibe en hybride systemen.',
@@ -84,7 +84,7 @@ foreach ($pages as $page) {
         'wc_vv_intro'          => 'Vakvriend helpt woningeigenaren' . $in_city . ' met eerlijk warmtepompadvies, vakkundige installatie en begeleiding bij ISDE-subsidie. We kijken eerst naar isolatie, warmteafgifte, verbruik en budget, zodat u een keuze maakt die technisch klopt.',
         'wc_vv_usp1'           => 'Gratis opname en subsidiecheck',
         'wc_vv_usp2'           => 'Qvantum, Nibe en hybride advies',
-        'wc_vv_usp3'           => 'Heldere offerte zonder verrassingen',
+        'wc_vv_usp3'           => 'Duidelijk advies zonder verrassingen',
         'wc_vv_usp4'           => 'Installatie en nazorg door Vakvriend',
         'wc_qvantum_uitleg_titel' => 'Warm water zonder boilervat',
         'wc_qvantum_uitleg_tekst' => 'Qvantum bewaart warmte in de thermische batterij, niet in een groot vat met douchewater. Zet u de kraan open, dan stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het tapwater direct.',
@@ -103,7 +103,7 @@ foreach ($pages as $page) {
     );
 
     if (stripos($page->post_title, 'Qvantum') !== false) {
-        $base['wc_hero_titel'] = 'Qvantum warmtepomp offerte aanvragen';
+        $base['wc_hero_titel'] = 'Qvantum warmtepomp advies aanvragen';
         $base['wc_hero_subtitel'] = 'Ontdek of een Qvantum warmtepomp met thermische batterij past bij uw woning. QA, QE en QG slaan warmte slim op en leveren warm tapwater vers via een platenwisselaar.';
         $base['wc_meta_title'] = 'Qvantum warmtepomp offerte | Vakvriend installateur';
         $base['wc_meta_desc'] = 'Vraag gratis Qvantum warmtepomp advies aan. Vakvriend berekent subsidie, besparing en installatiekosten voor QA, QE en QG systemen.';

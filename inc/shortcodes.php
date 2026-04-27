@@ -82,7 +82,7 @@ function wc_shortcode_lead_form($atts = array()) {
         'step_4_sub'    => 'Stap 4 van 4',
         'next_label'    => 'Volgende',
         'back_label'    => 'Terug',
-        'submit_label'  => 'Gratis offerte aanvragen',
+        'submit_label'  => 'Gratis advies aanvragen',
         'success_title' => 'Aanvraag ontvangen',
         'success_text'  => 'Bedankt. Vakvriend neemt binnen één werkdag contact op voor een gratis adviesgesprek aan huis.',
     ), $atts, 'warmtepomp_lead_form');

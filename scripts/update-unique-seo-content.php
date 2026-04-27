@@ -126,7 +126,7 @@ $special = array(
         'wc_meta_title' => 'Mijn warmtepomp offerte | Gratis advies van Vakvriend',
         'wc_meta_desc' => 'Vraag uw persoonlijke warmtepomp offerte aan met subsidiecheck, besparingsberekening en advies over Qvantum, Nibe of hybride.',
         'wc_focus_keyword' => 'warmtepomp offerte',
-        'wc_hero_titel' => 'Mijn warmtepomp offerte aanvragen',
+        'wc_hero_titel' => 'Mijn warmtepomp advies aanvragen',
         'wc_hero_subtitel' => 'Ontvang een duidelijke offerte die past bij uw woning, verbruik en comfortwensen. Vakvriend rekent subsidie en besparing meteen mee.',
         'wc_lokale_h2' => 'Een offerte die begint bij uw woning',
         'wc_lokale_intro' => 'Een warmtepomp is geen standaardproduct. De juiste keuze hangt af van isolatie, radiatoren, vloerverwarming, tapwater en beschikbare ruimte.',
@@ -151,7 +151,7 @@ $special = array(
         'wc_meta_title' => 'Qvantum warmtepomp offerte | QA, QE en QG specialist',
         'wc_meta_desc' => 'Vakvriend adviseert over Qvantum QA, QE en QG warmtepompen met thermische batterij, platenwisselaar en ISDE-subsidie.',
         'wc_focus_keyword' => 'qvantum warmtepomp',
-        'wc_hero_titel' => 'Qvantum warmtepomp offerte aanvragen',
+        'wc_hero_titel' => 'Qvantum warmtepomp advies aanvragen',
         'wc_hero_subtitel' => 'Qvantum gebruikt in QA, QE en QG een thermische batterij. Vakvriend legt uit welk systeem past bij uw woning en tapwatergebruik.',
         'wc_lokale_h2' => 'Qvantum warmtepomp met thermische batterij',
         'wc_lokale_intro' => 'Qvantum is interessant voor woningen waar compactheid, slim stroomgebruik en warm tapwater zonder klassiek boilervat belangrijk zijn.',
@@ -324,13 +324,13 @@ function vk_local_meta($title, $spec, $index) {
     $faq = vk_pick($faq_sets, $index);
     $extra_faq = $faq[0] . ':::' . vk_contextual_answer($faq[1], $city) . "\n" . $faq[2] . ':::' . vk_contextual_answer($faq[3], $city) . "\n" . $faq[4] . ':::' . vk_contextual_answer($faq[5], $city);
     $local_intro = 'In ' . $city . ' beoordelen we eerst de woning en pas daarna het merk of type warmtepomp. Bij ' . $area . ' zijn isolatie, afgiftesysteem en plaatsing bepalend voor een goed advies.';
-    $hero_sub = 'Laat uw woning in ' . $city . ' beoordelen op isolatie, warmteafgifte, tapwater en plaatsing. U ontvangt een duidelijke offerte met ISDE-inschatting.';
+    $hero_sub = 'Laat uw woning in ' . $city . ' beoordelen op isolatie, warmteafgifte, tapwater, wensen en plaatsing. U ontvangt praktisch advies met ISDE-inschatting.';
     $alinea1 = 'De belangrijkste afweging is of hybride, lucht/water, ventilatie of bodemwarmte past bij de bestaande installatie. ' . vk_clean_sentence(ucfirst($focus)) . ' Dat beoordelen we tegen de achtergrond van ' . $area . '.';
     $alinea2 = 'Tijdens de opname controleren we onder meer ' . $attention . '. Die punten bepalen of de installatie stil, onderhoudbaar en zuinig kan worden geplaatst.';
     $alinea3 = 'Na de beoordeling ontvangt u voor uw woning in ' . $city . ' een voorstel met systeemkeuze, verwachte subsidie, montagewerk en eventuele voorbereidingen aan elektra, afgifte of ventilatie.';
     $extra = 'Vakvriend kijkt per woning naar warmteverlies, bestaande radiatoren of vloerverwarming, tapwatergebruik en de beschikbare installatieruimte.' . "\n\n" .
         'Voor ' . $region . ' nemen we ook ' . $attention . ' mee, omdat die punten direct invloed hebben op geluid, rendement en montagekosten.' . "\n\n" .
-        'Zo wordt de offerte concreet: welk systeem past, wat moet worden voorbereid en welke investering blijft over na subsidie.';
+        'Zo wordt het advies concreet: welk systeem past, wat moet worden voorbereid en welke investering blijft over na subsidie.';
     $profile = $index % 8;
     $qvantum_titles = array(
         'Qvantum warmtepomp zonder klassiek boilervat',
@@ -449,7 +449,7 @@ function vk_local_meta($title, $spec, $index) {
     $types_lead = 'De juiste warmtepomp hangt af van warmteverlies, isolatie, bestaande radiatoren of vloerverwarming en de beschikbare ruimte. Voor ' . $city . ' nemen we daarnaast ' . $attention . ' mee.';
     $vv_intro_sober = 'Vakvriend adviseert merkonafhankelijk. Voor aanvragen uit ' . $city . ' vergelijken we Qvantum, Nibe, hybride en bodemwarmte op basis van de woning, het verbruik, het afgiftesysteem en de praktische montage.';
     $voordelen_lead_sober = 'Een goede woningcheck voorkomt dat een warmtepomp te groot, te klein of verkeerd geplaatst wordt. Bij ' . $area . ' zijn vooral ' . $attention . ' belangrijk.';
-    $werkwijze_lead_sober = 'We starten met de woninggegevens, controleren de technische ruimte en bepalen daarna welke warmtepomproute past. Voor ' . $city . ' werken we dit uit in een offerte met systeemkeuze, montagewerk en subsidie-inschatting.';
+    $werkwijze_lead_sober = 'We starten met de woninggegevens, controleren de technische ruimte en bespreken uw wensen. Voor ' . $city . ' werken we dit uit in een passend advies met systeemkeuze, montagewerk en subsidie-inschatting.';
     $boringen_lead_sober = 'Een bodemwarmtepomp is alleen zinvol wanneer perceel, bron, afgiftesysteem en investering goed bij elkaar passen. Voor ' . $city . ' beoordelen we dit apart van lucht/water en hybride.';
 
     return array(
@@ -458,10 +458,10 @@ function vk_local_meta($title, $spec, $index) {
         'wc_meta_desc' => 'Uniek warmtepompadvies in ' . $city . ': woningcheck, ISDE-berekening en vergelijking van Qvantum, Nibe, hybride of bodemwarmte.',
         'wc_focus_keyword' => 'warmtepomp ' . strtolower($city),
         'wc_hero_kicker' => 'Gratis subsidiecheck en advies in ' . $city,
-        'wc_hero_titel' => 'Warmtepomp offerte aanvragen in ' . $city,
+        'wc_hero_titel' => 'Warmtepomp advies aanvragen in ' . $city,
         'wc_hero_subtitel' => $hero_sub,
         'wc_form_titel' => 'Advies voor uw woning in ' . $city,
-        'wc_form_subtitel' => 'Beantwoord de vragen en ontvang een check op systeemkeuze, subsidie en plaatsing voor uw situatie in ' . $city . '.',
+        'wc_form_subtitel' => 'Beantwoord de vragen en ontvang advies over systeemkeuze, subsidie, plaatsing en uw wensen in ' . $city . '.',
         'wc_campaign_proof' => "24 uur|eerste reactie op uw aanvraag\nISDE|verwachte subsidie apart berekend\n" . $city . "|advies op basis van woninggegevens",
         'wc_qvantum_eyebrow' => 'Qvantum warmtepomp',
         'wc_qvantum_titel' => 'Qvantum met thermische batterij',
@@ -470,7 +470,7 @@ function vk_local_meta($title, $spec, $index) {
         'wc_qvantum_uitleg_titel' => 'Warm water via platenwisselaar',
         'wc_qvantum_uitleg_tekst' => $qvantum_uitleg,
         'wc_qvantum_usps' => $qvantum_usps,
-        'wc_qvantum_cta' => 'Qvantum check voor ' . $city . ' aanvragen',
+        'wc_qvantum_cta' => 'Qvantum advies voor ' . $city . ' aanvragen',
         'wc_nibe_eyebrow' => 'Nibe warmtepomp',
         'wc_nibe_titel' => 'Nibe als betrouwbare vergelijking',
         'wc_nibe_lead' => $nibe_lead,
@@ -492,7 +492,7 @@ function vk_local_meta($title, $spec, $index) {
         'wc_voordelen_lead' => $voordelen_lead_sober,
         'wc_voordelen' => $voordelen,
         'wc_werkwijze_eyebrow' => 'Aanpak',
-        'wc_werkwijze_titel' => 'Van woningcheck naar offerte',
+        'wc_werkwijze_titel' => 'Van woningcheck naar advies',
         'wc_werkwijze_lead' => $werkwijze_lead_sober,
         'wc_werkwijze' => $werkwijze,
         'wc_boringen_eyebrow' => 'Bodemwarmte in ' . $region,

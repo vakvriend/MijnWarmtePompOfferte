@@ -3,19 +3,19 @@ $stad      = wc_meta('wc_stad','Nederland');
 $regio     = wc_meta('wc_regio',$stad);
 $is_lokaal = ($stad !== 'Nederland' && $stad !== 'uw regio');
 $hero_foto = wc_meta('wc_hero_foto','https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp');
-$hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Warmtepomp offerte aanvragen in $stad" : 'Gratis warmtepomp offerte aanvragen');
+$hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Warmtepomp advies aanvragen in $stad" : 'Gratis warmtepomp advies aanvragen');
 $hero_s    = wc_meta('wc_hero_subtitel',"Vakvriend is uw gecertificeerde installateur voor Qvantum en Nibe warmtepompen." . ($is_lokaal ? " Actief in $regio en omgeving." : " Actief door heel Nederland.") . " ISDE-subsidie — wij regelen alles voor u.");
 $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. Gecertificeerd voor Qvantum en Nibe. Eerlijk advies, geen verkooppraatjes — wij kijken wat technisch verstandig is voor uw situatie.");
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
-$topbar    = wc_meta('wc_topbar_tekst',"🔥 Gratis warmtepomp offerte" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
+$topbar    = wc_meta('wc_topbar_tekst',"🔥 Gratis warmtepomp advies" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
 $hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis subsidiecheck en advies in $stad" : 'Gratis subsidiecheck en warmtepomp advies');
 $form_titel = wc_meta('wc_form_titel', 'Ontvang uw gratis warmtepomp advies');
 $form_subtitel = wc_meta('wc_form_subtitel', 'Bereken direct uw besparing en ontvang binnen 24 uur reactie van Vakvriend.');
 $form_benefits = wc_meta_rows('wc_form_benefits', [
   ['Gratis woningcheck'],
   ['Subsidiebedrag berekend'],
-  ['Offerte binnen 24 uur'],
+  ['Advies binnen 24 uur'],
 ], 1);
 $campaign_proof = wc_meta_rows('wc_campaign_proof', [
   ['Binnen 24 uur','reactie op uw aanvraag'],
@@ -247,7 +247,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           </div>
           <div class="vk-product-ribbon">Vers warm tapwater via platenwisselaar</div>
         </div>
-        <a href="#formulier" class="vk-btn vk-btn-groen vk-product-cta"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum offerte aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-product-cta"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum advies aanvragen →'))?></a>
       </div>
       <div class="vk-reveal">
         <div class="vk-brand-head">
@@ -288,7 +288,7 @@ $reviews = wc_meta_rows('wc_reviews', [
             <div><span class="vk-check">✓</span><div><strong><?=esc_html($title)?></strong> — <?=esc_html($text)?></div></div>
           <?php endforeach; ?>
         </div>
-        <a href="#formulier" class="vk-btn vk-btn-groen"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum offerte aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-groen"><?=esc_html(wc_meta('wc_qvantum_cta','Qvantum advies aanvragen →'))?></a>
       </div>
     </div>
   </div>
@@ -324,7 +324,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <?php endforeach; ?>
         </div>
 
-        <a href="#formulier" class="vk-btn vk-btn-outline-groen"><?=esc_html(wc_meta('wc_nibe_cta','Nibe offerte aanvragen →'))?></a>
+        <a href="#formulier" class="vk-btn vk-btn-outline-groen"><?=esc_html(wc_meta('wc_nibe_cta','Nibe advies aanvragen →'))?></a>
       </div>
       <div class="vk-reveal vk-compare-sticky">
         <div class="vk-vergelijk-kaart">
@@ -406,7 +406,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div><span class="vk-check">✓</span><div><strong>ISDE-subsidie</strong> — ook voor hybride systemen beschikbaar</div></div>
           <div><span class="vk-check">✓</span><div><strong>Geen eindstation</strong> — later alsnog door naar volledig elektrisch als de woning klaar is</div></div>
         </div>
-        <a href="#formulier" class="vk-btn vk-btn-groen">Hybride offerte aanvragen →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen">Hybride advies aanvragen →</a>
       </div>
       <div class="vk-reveal">
         <div class="vk-hybride-kaart">
@@ -482,7 +482,7 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <div class="vk-vv-cta">
           <a href="https://vakvriend.nl" target="_blank" class="vk-btn vk-btn-outline-groen">🌐 vakvriend.nl</a>
-          <a href="#formulier" class="vk-btn vk-btn-groen">Gratis offerte →</a>
+          <a href="#formulier" class="vk-btn vk-btn-groen">Gratis advies →</a>
         </div>
       </div>
     </div>
@@ -563,7 +563,7 @@ $reviews = wc_meta_rows('wc_reviews', [
         </div>
       </div>
       <div class="vk-calc-cta" style="text-align:center;margin-top:24px">
-        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Vraag gratis offerte op maat aan →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Bespreek uw wensen gratis →</a>
       </div>
     </div>
   </div>
@@ -674,7 +674,7 @@ if ($lokale_alinea1 || $lokale_alinea2):
         <?php if ($lokale_alinea1): ?><p><?php echo esc_html($lokale_alinea1); ?></p><?php endif; ?>
         <?php if ($lokale_alinea2): ?><p><?php echo esc_html($lokale_alinea2); ?></p><?php endif; ?>
         <?php if ($lokale_alinea3): ?><p><?php echo esc_html($lokale_alinea3); ?></p><?php endif; ?>
-        <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:24px">Gratis offerte in <?php echo esc_html($stad); ?> →</a>
+        <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:24px">Gratis advies in <?php echo esc_html($stad); ?> →</a>
       </div>
       <?php if ($lokale_faq_v1 && $lokale_faq_a1): ?>
       <div class="vk-lokaal-faq">
