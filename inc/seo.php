@@ -128,6 +128,10 @@ function wc_buffer_rewrite_mapped_page_paths() {
         return;
     }
 
+    if (in_array($post->post_name, array('privacy', 'disclaimer'), true)) {
+        return;
+    }
+
     $origin = untrailingslashit(wc_current_public_origin());
     $site_host = parse_url((string) get_option('home'), PHP_URL_HOST);
     $current_host = parse_url($origin, PHP_URL_HOST);
@@ -341,29 +345,94 @@ function wc_yoast_schema_graph($graph) {
     }
 
     $post_id = get_the_ID();
-    $faqs = wc_get_page_faqs($post_id);
-
-    if (!$faqs) {
-        return $graph;
+    $post = get_post($post_id);
+    if ($post && in_array($post->post_name, array('privacy', 'disclaimer'), true)) {
+        return wc_rewrite_schema_urls($graph, $post_id);
     }
 
+    $faqs = wc_get_page_faqs($post_id);
+    $stad = wc_meta('wc_stad', 'Nederland', $post_id);
+    $regio = wc_meta('wc_regio', $stad, $post_id);
+    $telefoon = wc_meta('wc_telefoon', '075 234 0001', $post_id);
+    $canonical = wc_current_canonical_url();
+    $business_id = $canonical . '#localbusiness';
+    $service_id = $canonical . '#service';
+    $product_id = $canonical . '#product-woningcheck';
+    $offer_id = $canonical . '#offer-woningcheck';
+
     $graph[] = array(
-        '@type'      => 'FAQPage',
-        '@id'        => wc_current_canonical_url() . '#faq',
-        'mainEntity' => array_map(
-            function ($faq) {
-                return array(
-                    '@type'          => 'Question',
-                    'name'           => $faq['question'],
-                    'acceptedAnswer' => array(
-                        '@type' => 'Answer',
-                        'text'  => $faq['answer'],
-                    ),
-                );
-            },
-            $faqs
+        '@type' => array('LocalBusiness', 'HVACBusiness'),
+        '@id' => $business_id,
+        'name' => 'Vakvriend Installatiebedrijf',
+        'url' => $canonical,
+        'telephone' => $telefoon,
+        'image' => wc_rewrite_url_to_current_host('https://mijnwarmtepompofferte.nl/wp-content/uploads/2026/04/6987998276e5008c97c63119_logo-zwart.webp'),
+        'address' => array(
+            '@type' => 'PostalAddress',
+            'streetAddress' => 'Handelsweg 12K',
+            'addressLocality' => 'Wormerveer',
+            'addressCountry' => 'NL',
         ),
+        'areaServed' => array(
+            '@type' => 'AdministrativeArea',
+            'name' => $stad === 'Nederland' ? $regio : $stad . ' en omgeving',
+        ),
+        'priceRange' => 'Vrijblijvende woningcheck',
     );
+
+    $graph[] = array(
+        '@type' => 'Service',
+        '@id' => $service_id,
+        'name' => $stad === 'Nederland' ? 'Warmtepomp advies en installatie' : 'Warmtepomp advies en installatie in ' . $stad,
+        'serviceType' => 'Warmtepomp advies, woningcheck, ISDE-subsidie en installatie',
+        'provider' => array('@id' => $business_id),
+        'areaServed' => $stad === 'Nederland' ? $regio : $stad . ' en omgeving',
+        'url' => $canonical,
+        'offers' => array('@id' => $offer_id),
+    );
+
+    $graph[] = array(
+        '@type' => 'Product',
+        '@id' => $product_id,
+        'name' => 'Vrijblijvende warmtepomp woningcheck',
+        'description' => 'Praktische woningcheck voor warmtepompkeuze, subsidie, tapwater, geluid, plaatsing en installatiekosten.',
+        'brand' => array('@type' => 'Brand', 'name' => 'Vakvriend'),
+        'category' => 'Warmtepomp advies',
+        'url' => $canonical,
+        'offers' => array('@id' => $offer_id),
+    );
+
+    $graph[] = array(
+        '@type' => 'Offer',
+        '@id' => $offer_id,
+        'name' => 'Gratis en vrijblijvende woningcheck',
+        'url' => $canonical . '#formulier',
+        'price' => '0',
+        'priceCurrency' => 'EUR',
+        'availability' => 'https://schema.org/InStock',
+        'seller' => array('@id' => $business_id),
+        'itemOffered' => array('@id' => $service_id),
+    );
+
+    if ($faqs) {
+        $graph[] = array(
+            '@type'      => 'FAQPage',
+            '@id'        => $canonical . '#faq',
+            'mainEntity' => array_map(
+                function ($faq) {
+                    return array(
+                        '@type'          => 'Question',
+                        'name'           => $faq['question'],
+                        'acceptedAnswer' => array(
+                            '@type' => 'Answer',
+                            'text'  => $faq['answer'],
+                        ),
+                    );
+                },
+                $faqs
+            ),
+        );
+    }
 
     return wc_rewrite_schema_urls($graph, $post_id);
 }
