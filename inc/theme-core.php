@@ -325,6 +325,7 @@ function wc_lead_agent_settings_defaults() {
         'sms_enabled' => '0',
         'twilio_sid' => '',
         'twilio_token' => '',
+        'twilio_messaging_service_sid' => '',
         'twilio_from' => '',
         'followup_reminder_enabled' => '1',
     );
@@ -370,6 +371,7 @@ function wc_lead_agent_sanitize_settings($input) {
         'sms_enabled' => !empty($input['sms_enabled']) ? '1' : '0',
         'twilio_sid' => sanitize_text_field($input['twilio_sid'] ?? ''),
         'twilio_token' => sanitize_text_field($input['twilio_token'] ?? ''),
+        'twilio_messaging_service_sid' => sanitize_text_field($input['twilio_messaging_service_sid'] ?? ''),
         'twilio_from' => sanitize_text_field($input['twilio_from'] ?? ''),
         'followup_reminder_enabled' => !empty($input['followup_reminder_enabled']) ? '1' : '0',
     );
@@ -454,8 +456,18 @@ function wc_lead_agent_settings_page() {
                     <td><input id="wc-agent-twilio-token" type="password" class="regular-text" name="wc_lead_agent_settings[twilio_token]" value="<?php echo esc_attr($settings['twilio_token']); ?>" autocomplete="new-password"></td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="wc-agent-twilio-messaging-service">Twilio Messaging Service SID</label></th>
+                    <td>
+                        <input id="wc-agent-twilio-messaging-service" type="text" class="regular-text" name="wc_lead_agent_settings[twilio_messaging_service_sid]" value="<?php echo esc_attr($settings['twilio_messaging_service_sid']); ?>" placeholder="MG...">
+                        <p class="description">Gebruik dit veld als de SMS via een Twilio Messaging Service loopt. Dan is een los afzendernummer niet nodig.</p>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row"><label for="wc-agent-twilio-from">Twilio afzender</label></th>
-                    <td><input id="wc-agent-twilio-from" type="text" class="regular-text" name="wc_lead_agent_settings[twilio_from]" value="<?php echo esc_attr($settings['twilio_from']); ?>" placeholder="+31612345678"></td>
+                    <td>
+                        <input id="wc-agent-twilio-from" type="text" class="regular-text" name="wc_lead_agent_settings[twilio_from]" value="<?php echo esc_attr($settings['twilio_from']); ?>" placeholder="VAKVRIEND of +31612345678">
+                        <p class="description">Alleen nodig als er geen Messaging Service SID is ingevuld.</p>
+                    </td>
                 </tr>
             </table>
             <?php submit_button('Instellingen opslaan'); ?>
@@ -674,11 +686,23 @@ function wc_lead_send_sms($lead_id, $phone, $message) {
 
     $sid = $settings['twilio_sid'];
     $token = $settings['twilio_token'];
+    $messaging_service_sid = $settings['twilio_messaging_service_sid'] ?? '';
     $from = $settings['twilio_from'];
-    if (!$sid || !$token || !$from) {
-        update_post_meta($lead_id, 'sms_status', 'overgeslagen: Twilio niet ingesteld');
-        wc_lead_agent_log($lead_id, 'SMS overgeslagen: Twilio niet ingesteld.');
+    if (!$sid || !$token || (!$messaging_service_sid && !$from)) {
+        update_post_meta($lead_id, 'sms_status', 'overgeslagen: Twilio niet volledig ingesteld');
+        wc_lead_agent_log($lead_id, 'SMS overgeslagen: Twilio niet volledig ingesteld.');
         return false;
+    }
+
+    $body = array(
+        'To' => $to,
+        'Body' => $message,
+    );
+
+    if ($messaging_service_sid) {
+        $body['MessagingServiceSid'] = $messaging_service_sid;
+    } else {
+        $body['From'] = $from;
     }
 
     $response = wp_remote_post('https://api.twilio.com/2010-04-01/Accounts/' . rawurlencode($sid) . '/Messages.json', array(
@@ -686,11 +710,7 @@ function wc_lead_send_sms($lead_id, $phone, $message) {
         'headers' => array(
             'Authorization' => 'Basic ' . base64_encode($sid . ':' . $token),
         ),
-        'body' => array(
-            'From' => $from,
-            'To' => $to,
-            'Body' => $message,
-        ),
+        'body' => $body,
     ));
 
     if (is_wp_error($response)) {
