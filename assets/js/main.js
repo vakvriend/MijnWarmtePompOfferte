@@ -17,6 +17,7 @@ if ('IntersectionObserver' in window) {
 
 var fd = {};
 var calcSysteem = 'lw';
+var vkSessionId = getVkSessionId();
 var SUBSIDIE = {
   lw:      {label: 'Lucht/water warmtepomp · Qvantum QA of Nibe F2040', bedrag: 2800, installatie: 9500},
   vent:    {label: 'Ventilatie warmtepomp · Qvantum QE', bedrag: 1800, installatie: 7500},
@@ -26,13 +27,57 @@ var SUBSIDIE = {
 };
 
 function vkTrack(eventName, payload) {
+  payload = payload || {};
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(Object.assign({
     event: eventName,
     page_location: location.href,
-    page_hostname: location.hostname
-  }, payload || {}));
+    page_hostname: location.hostname,
+    session_id: vkSessionId
+  }, payload));
   vkTrackGa4(eventName, payload);
+  vkTrackBackend(eventName, payload);
+}
+
+function getVkSessionId() {
+  var key = 'vk_lead_session_id';
+  try {
+    var existing = window.sessionStorage.getItem(key);
+    if (existing) return existing;
+    var id = 'vk_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+    window.sessionStorage.setItem(key, id);
+    return id;
+  } catch (e) {
+    return 'vk_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+  }
+}
+
+function vkTrackBackend(eventName, payload) {
+  if (!/^lead_|^calculator_/.test(eventName)) return;
+  if (typeof wcVars === 'undefined' || !wcVars.ajaxUrl || !wcVars.nonce) return;
+
+  var data = new FormData();
+  data.append('action', 'wc_funnel_event');
+  data.append('nonce', wcVars.nonce);
+  data.append('event_name', eventName);
+  data.append('session_id', vkSessionId);
+  data.append('page_location', location.href);
+  data.append('page_hostname', location.hostname);
+  data.append('referrer', document.referrer || '');
+  data.append('stad', (document.getElementById('js-stad') || {}).value || '');
+  data.append('payload', JSON.stringify(payload || {}));
+
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(wcVars.ajaxUrl, data);
+    return;
+  }
+
+  fetch(wcVars.ajaxUrl, {
+    method: 'POST',
+    body: data,
+    keepalive: true,
+    credentials: 'same-origin'
+  }).catch(function() {});
 }
 
 function vkTrackGa4(eventName, payload) {
@@ -148,6 +193,7 @@ window.vkVerstuur = async function() {
   data.append('action', 'wc_lead');
   data.append('nonce', typeof wcVars !== 'undefined' ? wcVars.nonce : '');
   data.append('naam', naam); data.append('email', email);
+  data.append('session_id', vkSessionId);
   data.append('telefoon', tel.trim()); data.append('postcode', pc.trim());
   data.append('woningtype', fd.woningtype || '');
   data.append('situatie', fd.systeem || '');

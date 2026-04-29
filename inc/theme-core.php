@@ -66,7 +66,7 @@ function wc_enqueue_assets() {
         [], null
     );
     wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '6.4');
-    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '4.8', true);
+    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '4.9', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('wc_lead_nonce'),
@@ -339,6 +339,15 @@ function wc_lead_agent_settings() {
 function wc_lead_agent_menu() {
     add_submenu_page(
         'edit.php?post_type=wc_lead',
+        'Lead dashboard',
+        'Dashboard',
+        'manage_options',
+        'wc-lead-dashboard',
+        'wc_lead_dashboard_page'
+    );
+
+    add_submenu_page(
+        'edit.php?post_type=wc_lead',
         'Lead agent',
         'Lead agent',
         'manage_options',
@@ -347,6 +356,266 @@ function wc_lead_agent_menu() {
     );
 }
 add_action('admin_menu', 'wc_lead_agent_menu');
+
+function wc_funnel_events_get() {
+    $events = get_option('wc_funnel_events', array());
+    return is_array($events) ? $events : array();
+}
+
+function wc_funnel_event_store($event) {
+    $events = wc_funnel_events_get();
+    $events[] = $event;
+    if (count($events) > 2500) {
+        $events = array_slice($events, -2500);
+    }
+    update_option('wc_funnel_events', $events, false);
+}
+
+function wc_ajax_funnel_event() {
+    check_ajax_referer('wc_lead_nonce', 'nonce');
+
+    $payload_raw = wp_unslash($_POST['payload'] ?? '{}');
+    $payload = json_decode((string) $payload_raw, true);
+    if (!is_array($payload)) {
+        $payload = array();
+    }
+
+    $safe_payload = array();
+    foreach ($payload as $key => $value) {
+        if (is_scalar($value)) {
+            $safe_payload[sanitize_key($key)] = sanitize_text_field((string) $value);
+        }
+    }
+
+    $event = array(
+        'time' => current_time('mysql'),
+        'ts' => time(),
+        'event' => sanitize_key($_POST['event_name'] ?? ''),
+        'session_id' => sanitize_text_field($_POST['session_id'] ?? ''),
+        'hostname' => sanitize_text_field($_POST['page_hostname'] ?? ''),
+        'page' => esc_url_raw($_POST['page_location'] ?? ''),
+        'referrer' => esc_url_raw($_POST['referrer'] ?? ''),
+        'stad' => sanitize_text_field($_POST['stad'] ?? ''),
+        'payload' => $safe_payload,
+    );
+
+    if (!$event['event'] || !$event['session_id']) {
+        wp_send_json_error(array('message' => 'Ongeldig funnel event.'));
+    }
+
+    wc_funnel_event_store($event);
+    wp_send_json_success(array('stored' => true));
+}
+add_action('wp_ajax_wc_funnel_event', 'wc_ajax_funnel_event');
+add_action('wp_ajax_nopriv_wc_funnel_event', 'wc_ajax_funnel_event');
+
+function wc_lead_dashboard_page() {
+    $range_days = max(1, min(90, (int) ($_GET['range'] ?? 14)));
+    $since = time() - ($range_days * DAY_IN_SECONDS);
+    $events = array_values(array_filter(wc_funnel_events_get(), function ($event) use ($since) {
+        return !empty($event['ts']) && (int) $event['ts'] >= $since;
+    }));
+
+    $sessions = array();
+    $event_counts = array();
+    $step_sessions = array(1 => array(), 2 => array(), 3 => array(), 4 => array());
+    $domain_counts = array();
+
+    foreach ($events as $event) {
+        $session_id = $event['session_id'] ?? '';
+        $event_name = $event['event'] ?? '';
+        if (!$session_id || !$event_name) {
+            continue;
+        }
+
+        if (!isset($sessions[$session_id])) {
+            $sessions[$session_id] = array(
+                'first' => $event['time'] ?? '',
+                'last' => $event['time'] ?? '',
+                'hostname' => $event['hostname'] ?? '',
+                'stad' => $event['stad'] ?? '',
+                'max_step' => 0,
+                'submitted' => false,
+                'success' => false,
+                'error' => false,
+            );
+        }
+
+        $sessions[$session_id]['last'] = $event['time'] ?? $sessions[$session_id]['last'];
+        $event_counts[$event_name] = ($event_counts[$event_name] ?? 0) + 1;
+        $host = $event['hostname'] ?? '';
+        if ($host) {
+            $domain_counts[$host] = ($domain_counts[$host] ?? 0) + 1;
+        }
+
+        $payload = isset($event['payload']) && is_array($event['payload']) ? $event['payload'] : array();
+        if ($event_name === 'lead_form_step') {
+            $step = (int) ($payload['step_number'] ?? 0);
+            if ($step >= 1 && $step <= 4) {
+                $sessions[$session_id]['max_step'] = max($sessions[$session_id]['max_step'], $step);
+                $step_sessions[$step][$session_id] = true;
+            }
+        }
+        if ($event_name === 'lead_form_choice') {
+            $sessions[$session_id]['max_step'] = max($sessions[$session_id]['max_step'], 1);
+            $step_sessions[1][$session_id] = true;
+        }
+        if ($event_name === 'lead_form_submit_attempt') {
+            $sessions[$session_id]['submitted'] = true;
+        }
+        if ($event_name === 'lead_form_success') {
+            $sessions[$session_id]['success'] = true;
+        }
+        if ($event_name === 'lead_form_error') {
+            $sessions[$session_id]['error'] = true;
+        }
+    }
+
+    $lead_query = new WP_Query(array(
+        'post_type' => 'wc_lead',
+        'post_status' => 'private',
+        'posts_per_page' => 20,
+        'date_query' => array(
+            array('after' => $range_days . ' days ago'),
+        ),
+    ));
+
+    $total_sessions = count($sessions);
+    $submitted = count(array_filter($sessions, function ($s) { return !empty($s['submitted']); }));
+    $successes = count(array_filter($sessions, function ($s) { return !empty($s['success']); }));
+    $errors = count(array_filter($sessions, function ($s) { return !empty($s['error']); }));
+    $conversion = $total_sessions ? round(($successes / $total_sessions) * 100, 1) : 0;
+
+    arsort($domain_counts);
+    $recent_events = array_slice(array_reverse($events), 0, 40);
+    ?>
+    <div class="wrap">
+        <h1>Lead dashboard</h1>
+        <p>Inzicht in leads, formulierstappen en afhakers. Data wordt lokaal in WordPress opgeslagen en gebruikt een anonieme sessie-id.</p>
+
+        <form method="get" style="margin:16px 0 22px">
+            <input type="hidden" name="post_type" value="wc_lead">
+            <input type="hidden" name="page" value="wc-lead-dashboard">
+            <label>Periode:
+                <select name="range">
+                    <?php foreach (array(1, 7, 14, 30, 90) as $days): ?>
+                        <option value="<?php echo esc_attr($days); ?>" <?php selected($range_days, $days); ?>><?php echo esc_html($days); ?> dagen</option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <?php submit_button('Bekijken', 'secondary', '', false); ?>
+        </form>
+
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(140px,1fr));gap:14px;margin:18px 0 24px">
+            <?php
+            $cards = array(
+                'Sessies' => $total_sessions,
+                'Verzendpogingen' => $submitted,
+                'Leads' => $successes,
+                'Fouten' => $errors,
+                'Conversie' => $conversion . '%',
+            );
+            foreach ($cards as $label => $value): ?>
+                <div style="background:#fff;border:1px solid #dcdcde;border-radius:10px;padding:18px">
+                    <div style="font-size:13px;color:#646970;font-weight:700"><?php echo esc_html($label); ?></div>
+                    <div style="font-size:30px;font-weight:800;margin-top:8px;color:#1d2327"><?php echo esc_html((string) $value); ?></div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <h2>Formulier funnel</h2>
+        <table class="widefat striped" style="max-width:900px;margin-bottom:24px">
+            <thead><tr><th>Stap</th><th>Sessies</th><th>Vanaf vorige stap</th><th>Indicatie</th></tr></thead>
+            <tbody>
+            <?php
+            $rows = array(
+                1 => 'Stap 1: woningtype gekozen / formulier gestart',
+                2 => 'Stap 2: systeemvoorkeur',
+                3 => 'Stap 3: gasverbruik',
+                4 => 'Stap 4: contactgegevens',
+                5 => 'Verzendpoging',
+                6 => 'Succesvolle lead',
+            );
+            $previous = 0;
+            foreach ($rows as $step => $label) {
+                if ($step <= 4) {
+                    $count = count($step_sessions[$step]);
+                } elseif ($step === 5) {
+                    $count = $submitted;
+                } else {
+                    $count = $successes;
+                }
+                $rate = $previous > 0 ? round(($count / $previous) * 100, 1) . '%' : '-';
+                $hint = $previous > 0 && $count < $previous ? ($previous - $count) . ' afhakers' : 'OK';
+                echo '<tr><td>' . esc_html($label) . '</td><td><strong>' . esc_html((string) $count) . '</strong></td><td>' . esc_html($rate) . '</td><td>' . esc_html($hint) . '</td></tr>';
+                $previous = $count;
+            }
+            ?>
+            </tbody>
+        </table>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">
+            <div>
+                <h2>Recente leads</h2>
+                <table class="widefat striped">
+                    <thead><tr><th>Naam</th><th>Stad</th><th>Systeem</th><th>Score</th><th>Status</th><th>Datum</th></tr></thead>
+                    <tbody>
+                    <?php if ($lead_query->have_posts()): while ($lead_query->have_posts()): $lead_query->the_post(); $id = get_the_ID(); ?>
+                        <tr>
+                            <td><a href="<?php echo esc_url(admin_url('post.php?post=' . $id . '&action=edit')); ?>"><?php echo esc_html(get_post_meta($id, 'naam', true) ?: get_the_title()); ?></a></td>
+                            <td><?php echo esc_html(get_post_meta($id, 'stad', true) ?: '-'); ?></td>
+                            <td><?php echo esc_html(get_post_meta($id, 'situatie', true) ?: '-'); ?></td>
+                            <td><?php echo esc_html((string) ((int) get_post_meta($id, 'lead_score', true))); ?>/100</td>
+                            <td><?php echo esc_html(wc_lead_status_label(get_post_meta($id, 'lead_status', true) ?: 'nieuw')); ?></td>
+                            <td><?php echo esc_html(get_the_date('d-m H:i')); ?></td>
+                        </tr>
+                    <?php endwhile; wp_reset_postdata(); else: ?>
+                        <tr><td colspan="6">Nog geen leads in deze periode.</td></tr>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <h2>Domeinen</h2>
+                <table class="widefat striped">
+                    <thead><tr><th>Domein</th><th>Events</th></tr></thead>
+                    <tbody>
+                    <?php if ($domain_counts): foreach (array_slice($domain_counts, 0, 12, true) as $host => $count): ?>
+                        <tr><td><?php echo esc_html($host); ?></td><td><?php echo esc_html((string) $count); ?></td></tr>
+                    <?php endforeach; else: ?>
+                        <tr><td colspan="2">Nog geen funnel-data.</td></tr>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2 style="margin-top:28px">Recente funnel-events</h2>
+        <table class="widefat striped">
+            <thead><tr><th>Tijd</th><th>Event</th><th>Stap</th><th>Stad</th><th>Domein</th><th>Keuze/Fout</th><th>Sessie</th></tr></thead>
+            <tbody>
+            <?php if ($recent_events): foreach ($recent_events as $event):
+                $payload = isset($event['payload']) && is_array($event['payload']) ? $event['payload'] : array();
+                $detail = $payload['field_value'] ?? $payload['error_message'] ?? $payload['systeem'] ?? '';
+                ?>
+                <tr>
+                    <td><?php echo esc_html($event['time'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($event['event'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($payload['step_number'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($event['stad'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($event['hostname'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($detail ?: '-'); ?></td>
+                    <td><code><?php echo esc_html(substr((string) ($event['session_id'] ?? ''), 0, 18)); ?></code></td>
+                </tr>
+            <?php endforeach; else: ?>
+                <tr><td colspan="7">Nog geen events. Nieuwe bezoekers worden vanaf nu gemeten.</td></tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+}
 
 function wc_lead_agent_register_settings() {
     register_setting('wc_lead_agent', 'wc_lead_agent_settings', 'wc_lead_agent_sanitize_settings');
@@ -777,7 +1046,7 @@ function wc_ajax_lead() {
         'post_status' => 'private',
     ));
     if ($id && !is_wp_error($id)) {
-        $velden = array('naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','domein','stad','utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','landing_page','referrer');
+        $velden = array('naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','domein','stad','session_id','utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','landing_page','referrer');
         $lead_data = array();
         foreach ($velden as $k) {
             $value = sanitize_text_field($_POST[$k] ?? '');
