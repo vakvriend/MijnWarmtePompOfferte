@@ -62,6 +62,111 @@ function wc_current_canonical_url() {
     return wc_current_public_url();
 }
 
+function wc_format_sitemap_lastmod($post_id = null) {
+    if (!$post_id) {
+        return gmdate('c');
+    }
+
+    $modified = get_post_modified_time('U', true, $post_id);
+    return $modified ? gmdate('c', $modified) : gmdate('c');
+}
+
+function wc_get_current_domain_mapped_page_id() {
+    global $wpdb;
+
+    $host = parse_url(wc_current_public_origin(), PHP_URL_HOST);
+    if (!$host) {
+        return 0;
+    }
+
+    $mapping_table = $wpdb->prefix . 'dms_mappings';
+    $values_table = $wpdb->prefix . 'dms_mapping_values';
+
+    $post_id = $wpdb->get_var($wpdb->prepare(
+        "SELECT v.object_id
+         FROM {$mapping_table} m
+         INNER JOIN {$values_table} v ON v.mapping_id = m.id
+         WHERE v.object_type = %s
+           AND REPLACE(m.host, 'www.', '') = REPLACE(%s, 'www.', '')
+         ORDER BY CASE WHEN m.host = %s THEN 0 ELSE 1 END, m.host ASC
+         LIMIT 1",
+        'post',
+        $host,
+        $host
+    ));
+
+    return $post_id ? (int) $post_id : 0;
+}
+
+function wc_sitemap_urls_for_current_domain() {
+    $urls = array();
+    $home_post_id = wc_get_current_domain_mapped_page_id();
+
+    $urls[] = array(
+        'loc' => wc_current_public_origin() . '/',
+        'lastmod' => wc_format_sitemap_lastmod($home_post_id),
+        'changefreq' => 'weekly',
+        'priority' => '1.0',
+    );
+
+    foreach (array('privacy', 'disclaimer') as $slug) {
+        $page = get_page_by_path($slug, OBJECT, 'page');
+        if (!$page || $page->post_status !== 'publish') {
+            continue;
+        }
+
+        $urls[] = array(
+            'loc' => trailingslashit(wc_current_public_origin() . '/' . $slug),
+            'lastmod' => wc_format_sitemap_lastmod($page->ID),
+            'changefreq' => 'monthly',
+            'priority' => '0.3',
+        );
+    }
+
+    return $urls;
+}
+
+function wc_output_domain_sitemap() {
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    if (!in_array($path, array('/sitemap.xml', '/sitemap_index.xml'), true)) {
+        return;
+    }
+
+    status_header(200);
+    nocache_headers();
+    header('Content-Type: application/xml; charset=UTF-8');
+
+    echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+    foreach (wc_sitemap_urls_for_current_domain() as $url) {
+        echo "  <url>\n";
+        echo '    <loc>' . esc_xml($url['loc']) . "</loc>\n";
+        echo '    <lastmod>' . esc_xml($url['lastmod']) . "</lastmod>\n";
+        echo '    <changefreq>' . esc_xml($url['changefreq']) . "</changefreq>\n";
+        echo '    <priority>' . esc_xml($url['priority']) . "</priority>\n";
+        echo "  </url>\n";
+    }
+
+    echo '</urlset>' . "\n";
+    exit;
+}
+add_action('init', 'wc_output_domain_sitemap', 0);
+
+function wc_add_domain_sitemap_to_robots($output, $public) {
+    if (!$public) {
+        return $output;
+    }
+
+    $sitemap = wc_current_public_origin() . '/sitemap.xml';
+    if (strpos($output, $sitemap) !== false) {
+        return $output;
+    }
+
+    return rtrim($output) . "\n\nSitemap: " . $sitemap . "\n";
+}
+add_filter('robots_txt', 'wc_add_domain_sitemap_to_robots', 20, 2);
+
 function wc_output_canonical() {
     if (defined('WPSEO_VERSION')) {
         return;
