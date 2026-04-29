@@ -135,6 +135,7 @@ function wc_lead_columns($c) {
         'lead_tel'     => 'Telefoon',
         'lead_stad'    => 'Stad',
         'lead_systeem' => 'Systeem',
+        'lead_score'   => 'Score',
         'lead_status'  => 'Status',
         'date'         => 'Datum'
     );
@@ -155,6 +156,12 @@ function wc_lead_col($col, $id) {
     }
     if ($col === 'lead_systeem') {
         echo esc_html(get_post_meta($id, 'situatie', true) ?: '-');
+    }
+    if ($col === 'lead_score') {
+        $score = (int) get_post_meta($id, 'lead_score', true);
+        $priority = get_post_meta($id, 'lead_priority', true) ?: 'normaal';
+        $color = $priority === 'hoog' ? '#b45309' : ($priority === 'laag' ? '#64748b' : '#066839');
+        echo '<span style="background:#f8fafc;color:' . esc_attr($color) . ';padding:2px 10px;border-radius:100px;font-size:12px;font-weight:800">' . esc_html($score) . '/100</span>';
     }
     if ($col === 'lead_status') {
         $s = get_post_meta($id, 'lead_status', true) ?: 'nieuw';
@@ -191,6 +198,12 @@ function wc_lead_detail_render($post) {
         'gclid'       => 'Google Ads click ID',
         'gbraid'      => 'Google Ads GBRAID',
         'wbraid'      => 'Google Ads WBRAID',
+        'lead_score'  => 'Leadscore',
+        'lead_priority' => 'Prioriteit',
+        'lead_agent_summary' => 'Agent samenvatting',
+        'customer_email_status' => 'Klantmail',
+        'sms_status'  => 'SMS',
+        'lead_agent_log' => 'Agent log',
         'lead_status' => 'Status',
     );
     $status_options = array(
@@ -217,6 +230,9 @@ function wc_lead_detail_render($post) {
                 echo '<option value="' . esc_attr($status_key) . '"' . selected($current, $status_key, false) . '>' . esc_html($status_label) . '</option>';
             }
             echo '</select>';
+        }
+        elseif ($k === 'lead_agent_summary' || $k === 'lead_agent_log') {
+            echo '<pre style="white-space:pre-wrap;margin:0;background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px;padding:10px;max-height:220px;overflow:auto">' . esc_html($v ?: '-') . '</pre>';
         }
         else echo esc_html($v ?: '-');
         echo '</td></tr>';
@@ -294,6 +310,291 @@ function wc_lead_email_body($lead_id, $data) {
     return $body;
 }
 
+function wc_lead_agent_settings_defaults() {
+    return array(
+        'admin_email' => 'tonny@vakvriend.nl',
+        'customer_email_enabled' => '1',
+        'sms_enabled' => '0',
+        'twilio_sid' => '',
+        'twilio_token' => '',
+        'twilio_from' => '',
+        'followup_reminder_enabled' => '1',
+    );
+}
+
+function wc_lead_agent_settings() {
+    $saved = get_option('wc_lead_agent_settings', array());
+    return wp_parse_args(is_array($saved) ? $saved : array(), wc_lead_agent_settings_defaults());
+}
+
+function wc_lead_agent_menu() {
+    add_submenu_page(
+        'edit.php?post_type=wc_lead',
+        'Lead agent',
+        'Lead agent',
+        'manage_options',
+        'wc-lead-agent',
+        'wc_lead_agent_settings_page'
+    );
+}
+add_action('admin_menu', 'wc_lead_agent_menu');
+
+function wc_lead_agent_register_settings() {
+    register_setting('wc_lead_agent', 'wc_lead_agent_settings', 'wc_lead_agent_sanitize_settings');
+}
+add_action('admin_init', 'wc_lead_agent_register_settings');
+
+function wc_lead_agent_sanitize_settings($input) {
+    $defaults = wc_lead_agent_settings_defaults();
+    $input = is_array($input) ? $input : array();
+
+    return array(
+        'admin_email' => sanitize_email($input['admin_email'] ?? $defaults['admin_email']),
+        'customer_email_enabled' => !empty($input['customer_email_enabled']) ? '1' : '0',
+        'sms_enabled' => !empty($input['sms_enabled']) ? '1' : '0',
+        'twilio_sid' => sanitize_text_field($input['twilio_sid'] ?? ''),
+        'twilio_token' => sanitize_text_field($input['twilio_token'] ?? ''),
+        'twilio_from' => sanitize_text_field($input['twilio_from'] ?? ''),
+        'followup_reminder_enabled' => !empty($input['followup_reminder_enabled']) ? '1' : '0',
+    );
+}
+
+function wc_lead_agent_settings_page() {
+    $settings = wc_lead_agent_settings();
+    ?>
+    <div class="wrap">
+        <h1>Lead agent</h1>
+        <p>Deze agent stuurt bevestigingen, scoort leads en kan SMS versturen via Twilio zodra de gegevens ingevuld zijn.</p>
+        <form method="post" action="options.php">
+            <?php settings_fields('wc_lead_agent'); ?>
+            <table class="form-table" role="presentation">
+                <tr>
+                    <th scope="row"><label for="wc-agent-admin-email">Interne leadmail</label></th>
+                    <td><input id="wc-agent-admin-email" type="email" class="regular-text" name="wc_lead_agent_settings[admin_email]" value="<?php echo esc_attr($settings['admin_email']); ?>"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Klantmail</th>
+                    <td><label><input type="checkbox" name="wc_lead_agent_settings[customer_email_enabled]" value="1" <?php checked($settings['customer_email_enabled'], '1'); ?>> Stuur direct een bevestigingsmail naar de klant</label></td>
+                </tr>
+                <tr>
+                    <th scope="row">Interne reminder</th>
+                    <td><label><input type="checkbox" name="wc_lead_agent_settings[followup_reminder_enabled]" value="1" <?php checked($settings['followup_reminder_enabled'], '1'); ?>> Mail Tonny na 2 uur als de lead nog op Nieuw staat</label></td>
+                </tr>
+                <tr>
+                    <th scope="row">SMS via Twilio</th>
+                    <td><label><input type="checkbox" name="wc_lead_agent_settings[sms_enabled]" value="1" <?php checked($settings['sms_enabled'], '1'); ?>> Stuur direct een korte SMS naar de klant</label></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-twilio-sid">Twilio Account SID</label></th>
+                    <td><input id="wc-agent-twilio-sid" type="text" class="regular-text" name="wc_lead_agent_settings[twilio_sid]" value="<?php echo esc_attr($settings['twilio_sid']); ?>"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-twilio-token">Twilio Auth Token</label></th>
+                    <td><input id="wc-agent-twilio-token" type="password" class="regular-text" name="wc_lead_agent_settings[twilio_token]" value="<?php echo esc_attr($settings['twilio_token']); ?>" autocomplete="new-password"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-twilio-from">Twilio afzender</label></th>
+                    <td><input id="wc-agent-twilio-from" type="text" class="regular-text" name="wc_lead_agent_settings[twilio_from]" value="<?php echo esc_attr($settings['twilio_from']); ?>" placeholder="+31612345678"></td>
+                </tr>
+            </table>
+            <?php submit_button('Instellingen opslaan'); ?>
+        </form>
+    </div>
+    <?php
+}
+
+function wc_lead_agent_log($lead_id, $message) {
+    $existing = (string) get_post_meta($lead_id, 'lead_agent_log', true);
+    $line = '[' . current_time('mysql') . '] ' . $message;
+    update_post_meta($lead_id, 'lead_agent_log', trim($existing . "\n" . $line));
+}
+
+function wc_lead_normalize_phone($phone) {
+    $phone = preg_replace('/[^0-9+]/', '', (string) $phone);
+    if (!$phone) {
+        return '';
+    }
+    if (strpos($phone, '+') === 0) {
+        return $phone;
+    }
+    if (strpos($phone, '00') === 0) {
+        return '+' . substr($phone, 2);
+    }
+    if (strpos($phone, '06') === 0) {
+        return '+31' . substr($phone, 1);
+    }
+    if (strpos($phone, '6') === 0 && strlen($phone) === 9) {
+        return '+31' . $phone;
+    }
+    if (strpos($phone, '0') === 0) {
+        return '+31' . substr($phone, 1);
+    }
+    return $phone;
+}
+
+function wc_lead_agent_score($data) {
+    $score = 35;
+    $notes = array();
+
+    if (!empty($data['telefoon'])) {
+        $score += 20;
+        $notes[] = 'telefoon aanwezig';
+    }
+    if (!empty($data['postcode'])) {
+        $score += 10;
+        $notes[] = 'postcode aanwezig';
+    }
+    if (!empty($data['gasverbruik'])) {
+        $score += 10;
+        $notes[] = 'gasverbruik ingevuld';
+    }
+    if (!empty($data['situatie']) && stripos($data['situatie'], 'weet') === false) {
+        $score += 10;
+        $notes[] = 'systeemvoorkeur gekozen';
+    }
+    if (!empty($data['gclid']) || !empty($data['gbraid']) || !empty($data['wbraid'])) {
+        $score += 10;
+        $notes[] = 'Google Ads klik';
+    }
+    if (!empty($data['woningtype'])) {
+        $score += 5;
+        $notes[] = 'woningtype bekend';
+    }
+
+    $score = max(0, min(100, $score));
+    $priority = $score >= 75 ? 'hoog' : ($score < 55 ? 'laag' : 'normaal');
+
+    return array(
+        'score' => $score,
+        'priority' => $priority,
+        'notes' => $notes,
+    );
+}
+
+function wc_lead_agent_summary($data, $score_data) {
+    $lines = array();
+    $lines[] = 'Prioriteit: ' . ucfirst($score_data['priority']) . ' (' . $score_data['score'] . '/100)';
+    $lines[] = 'Klant: ' . ($data['naam'] ?: '-') . ', ' . ($data['stad'] ?: $data['domein'] ?: '-');
+    $lines[] = 'Contact: ' . ($data['telefoon'] ?: '-') . ' / ' . ($data['email'] ?: '-');
+    $lines[] = 'Woning: ' . ($data['woningtype'] ?: '-') . ', gasverbruik: ' . ($data['gasverbruik'] ?: '-');
+    $lines[] = 'Voorkeur: ' . ($data['situatie'] ?: '-');
+    $lines[] = 'Kanaal: ' . ($data['utm_source'] ?: '-') . ' / ' . ($data['utm_campaign'] ?: '-');
+    if ($score_data['notes']) {
+        $lines[] = 'Waarom deze score: ' . implode(', ', $score_data['notes']) . '.';
+    }
+    $lines[] = 'Advies opvolging: bel snel als telefoon aanwezig is. Anders mailen en vragen naar telefoonnummer, bouwjaar, isolatie en afgiftesysteem.';
+
+    return implode("\n", $lines);
+}
+
+function wc_lead_customer_email_body($data) {
+    $naam = $data['naam'] ?: 'daar';
+    $stad = $data['stad'] ?: 'uw regio';
+    $systeem = $data['situatie'] ?: 'de best passende warmtepompoplossing';
+
+    return "Hallo " . $naam . ",\n\n"
+        . "Bedankt voor uw aanvraag bij Vakvriend. We bekijken uw woningcheck voor " . $stad . " en nemen zo snel mogelijk contact op.\n\n"
+        . "Dit nemen we alvast mee:\n"
+        . "- Woningtype: " . ($data['woningtype'] ?: '-') . "\n"
+        . "- Voorkeur: " . $systeem . "\n"
+        . "- Gasverbruik: " . ($data['gasverbruik'] ?: '-') . "\n\n"
+        . "Handig om alvast klaar te leggen: bouwjaar, huidige ketel, type radiatoren of vloerverwarming en eventuele foto's van de technische ruimte.\n\n"
+        . "U kunt ons ook direct bereiken via 075 234 0001 of info@vakvriend.nl.\n\n"
+        . "Met vriendelijke groet,\n"
+        . "Team Vakvriend";
+}
+
+function wc_lead_customer_sms_body($data) {
+    $stad = $data['stad'] ?: 'uw regio';
+    return 'Vakvriend: bedankt voor uw warmtepomp woningcheck voor ' . $stad . '. We bekijken uw aanvraag en nemen snel contact op. Vragen? Bel 075 234 0001.';
+}
+
+function wc_lead_send_sms($lead_id, $phone, $message) {
+    $settings = wc_lead_agent_settings();
+    if ($settings['sms_enabled'] !== '1') {
+        update_post_meta($lead_id, 'sms_status', 'overgeslagen: SMS staat uit');
+        wc_lead_agent_log($lead_id, 'SMS overgeslagen: SMS staat uit.');
+        return false;
+    }
+
+    $to = wc_lead_normalize_phone($phone);
+    if (!$to) {
+        update_post_meta($lead_id, 'sms_status', 'overgeslagen: geen telefoonnummer');
+        wc_lead_agent_log($lead_id, 'SMS overgeslagen: geen telefoonnummer.');
+        return false;
+    }
+
+    $sid = $settings['twilio_sid'];
+    $token = $settings['twilio_token'];
+    $from = $settings['twilio_from'];
+    if (!$sid || !$token || !$from) {
+        update_post_meta($lead_id, 'sms_status', 'overgeslagen: Twilio niet ingesteld');
+        wc_lead_agent_log($lead_id, 'SMS overgeslagen: Twilio niet ingesteld.');
+        return false;
+    }
+
+    $response = wp_remote_post('https://api.twilio.com/2010-04-01/Accounts/' . rawurlencode($sid) . '/Messages.json', array(
+        'timeout' => 15,
+        'headers' => array(
+            'Authorization' => 'Basic ' . base64_encode($sid . ':' . $token),
+        ),
+        'body' => array(
+            'From' => $from,
+            'To' => $to,
+            'Body' => $message,
+        ),
+    ));
+
+    if (is_wp_error($response)) {
+        update_post_meta($lead_id, 'sms_status', 'mislukt: ' . $response->get_error_message());
+        wc_lead_agent_log($lead_id, 'SMS mislukt: ' . $response->get_error_message());
+        return false;
+    }
+
+    $code = (int) wp_remote_retrieve_response_code($response);
+    if ($code < 200 || $code >= 300) {
+        update_post_meta($lead_id, 'sms_status', 'mislukt: HTTP ' . $code);
+        wc_lead_agent_log($lead_id, 'SMS mislukt: Twilio HTTP ' . $code . '.');
+        return false;
+    }
+
+    update_post_meta($lead_id, 'sms_status', 'verzonden naar ' . $to);
+    wc_lead_agent_log($lead_id, 'SMS verzonden naar ' . $to . '.');
+    return true;
+}
+
+function wc_lead_schedule_followup_reminder($lead_id) {
+    $settings = wc_lead_agent_settings();
+    if ($settings['followup_reminder_enabled'] !== '1') {
+        return;
+    }
+
+    if (!wp_next_scheduled('wc_lead_followup_reminder', array($lead_id))) {
+        wp_schedule_single_event(time() + 2 * HOUR_IN_SECONDS, 'wc_lead_followup_reminder', array($lead_id));
+    }
+}
+
+function wc_lead_followup_reminder($lead_id) {
+    $status = get_post_meta($lead_id, 'lead_status', true) ?: 'nieuw';
+    if ($status !== 'nieuw') {
+        return;
+    }
+
+    $settings = wc_lead_agent_settings();
+    $email = $settings['admin_email'] ?: 'tonny@vakvriend.nl';
+    $naam = get_post_meta($lead_id, 'naam', true) ?: 'onbekende lead';
+    $summary = get_post_meta($lead_id, 'lead_agent_summary', true);
+
+    wp_mail(
+        $email,
+        'Reminder: lead nog niet opgevolgd - ' . $naam,
+        "Deze lead staat na 2 uur nog op Nieuw.\n\n" . $summary . "\n\nBeheer: " . admin_url('post.php?post=' . $lead_id . '&action=edit'),
+        array('From: Vakvriend <info@vakvriend.nl>')
+    );
+    wc_lead_agent_log($lead_id, 'Interne 2-uurs reminder verstuurd.');
+}
+add_action('wc_lead_followup_reminder', 'wc_lead_followup_reminder');
+
 // AJAX lead handler
 function wc_ajax_lead() {
     check_ajax_referer('wc_lead_nonce', 'nonce');
@@ -319,9 +620,30 @@ function wc_ajax_lead() {
         $lead_data['naam'] = $naam;
         $lead_data['email'] = $email;
         $lead_data['stad'] = $stad;
+        $score_data = wc_lead_agent_score($lead_data);
+        $summary = wc_lead_agent_summary($lead_data, $score_data);
+        update_post_meta($id, 'lead_score', $score_data['score']);
+        update_post_meta($id, 'lead_priority', $score_data['priority']);
+        update_post_meta($id, 'lead_agent_summary', $summary);
+        wc_lead_agent_log($id, 'Lead agent gestart. Score: ' . $score_data['score'] . '/100, prioriteit: ' . $score_data['priority'] . '.');
+
+        $settings = wc_lead_agent_settings();
         $body = wc_lead_email_body($id, $lead_data);
-        wp_mail('tonny@vakvriend.nl', 'Nieuwe warmtepomp lead: ' . $naam, $body, array('From: Vakvriend <info@vakvriend.nl>'));
-        wp_mail($email, 'Bedankt voor uw aanvraag - Vakvriend', "Hallo $naam,\n\nBedankt! Wij nemen binnen 1 werkdag contact op.\n\nTel: 075 234 0001\nwww.vakvriend.nl\n\nTeam Vakvriend", array('From: Vakvriend <info@vakvriend.nl>'));
+        $admin_body = "Lead agent samenvatting\n\n" . $summary . "\n\n" . $body;
+        wp_mail($settings['admin_email'] ?: 'tonny@vakvriend.nl', 'Nieuwe warmtepomp lead [' . strtoupper($score_data['priority']) . '] ' . $naam, $admin_body, array('From: Vakvriend <info@vakvriend.nl>'));
+        wc_lead_agent_log($id, 'Interne leadmail verstuurd.');
+
+        if ($settings['customer_email_enabled'] === '1') {
+            $sent = wp_mail($email, 'Uw woningcheck is ontvangen - Vakvriend', wc_lead_customer_email_body($lead_data), array('From: Vakvriend <info@vakvriend.nl>'));
+            update_post_meta($id, 'customer_email_status', $sent ? 'verzonden' : 'mislukt');
+            wc_lead_agent_log($id, $sent ? 'Klantmail verzonden.' : 'Klantmail mislukt.');
+        } else {
+            update_post_meta($id, 'customer_email_status', 'overgeslagen: uitgeschakeld');
+            wc_lead_agent_log($id, 'Klantmail overgeslagen: uitgeschakeld.');
+        }
+
+        wc_lead_send_sms($id, $lead_data['telefoon'] ?? '', wc_lead_customer_sms_body($lead_data));
+        wc_lead_schedule_followup_reminder($id);
     }
     wp_send_json_success(array('message' => 'Bedankt! Vakvriend neemt binnen 1 werkdag contact op.'));
 }
