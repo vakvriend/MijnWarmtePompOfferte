@@ -603,6 +603,7 @@ function wc_lead_customer_email_body($data) {
     $woningtype = trim((string) ($data['woningtype'] ?? '')) ?: 'Nog niet ingevuld';
     $gasverbruik = trim((string) ($data['gasverbruik'] ?? '')) ?: 'Nog niet ingevuld';
     $postcode = trim((string) ($data['postcode'] ?? '')) ?: 'Nog niet ingevuld';
+    $image_url = wc_lead_customer_email_image_url($data);
 
     $rows = array(
         'Woningtype' => $woningtype,
@@ -620,6 +621,7 @@ function wc_lead_customer_email_body($data) {
         . '<div style="display:none;max-height:0;overflow:hidden">We hebben uw woningcheck ontvangen. Vakvriend kijkt met u mee.</div>'
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f7f4;padding:28px 12px"><tr><td align="center">'
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #dfe9e3">'
+        . '<tr><td style="padding:0;background:#dfe9e3"><img src="' . esc_url($image_url) . '" width="640" height="210" alt="Warmtepomp advies van Vakvriend" style="display:block;width:100%;max-width:640px;height:210px;object-fit:cover;border:0"></td></tr>'
         . '<tr><td style="background:#066839;padding:28px 30px;color:#ffffff">'
         . '<div style="font-size:14px;font-weight:800;letter-spacing:.02em;opacity:.9">Vakvriend woningcheck</div>'
         . '<h1 style="margin:12px 0 8px;font-size:30px;line-height:1.12">Gelukt. We gaan voor u aan de slag.</h1>'
@@ -644,6 +646,39 @@ function wc_lead_customer_email_body($data) {
         . '</table>'
         . '</td></tr></table>'
         . '</body></html>';
+}
+
+function wc_lead_customer_email_image_url($data) {
+    $city = trim((string) ($data['stad'] ?? ''));
+    $domain = trim((string) ($data['domein'] ?? ''));
+    $domain = strtolower(preg_replace('/[^a-z0-9\.\-]/', '', $domain));
+    $asset_base = $domain ? 'https://' . $domain . '/wp-content/themes/vakvriend-warmtepomp-campagne-v2/assets/img/' : get_template_directory_uri() . '/assets/img/';
+    $candidates = array();
+
+    if ($city && !in_array(strtolower($city), array('nederland', 'uw regio'), true)) {
+        $slug = sanitize_title($city);
+        $candidates[] = 'warmtepomp-' . $slug . '.jpg';
+        $candidates[] = 'warmtepomp-' . $slug . '.webp';
+    }
+
+    if ($domain) {
+        $domain_slug = sanitize_title(preg_replace('/\.(nl|com|be|de)$/i', '', $domain));
+        $domain_slug = preg_replace('/^warmtepomp-?/', 'warmtepomp-', $domain_slug);
+        $candidates[] = $domain_slug . '.jpg';
+        $candidates[] = $domain_slug . '.webp';
+    }
+
+    $candidates[] = 'mijn-warmtepomp-offerte.webp';
+    $candidates[] = 'warmtepomp-zonder-boiler.jpg';
+
+    foreach (array_unique($candidates) as $file) {
+        $path = get_template_directory() . '/assets/img/landmarks/' . $file;
+        if (file_exists($path)) {
+            return $asset_base . 'landmarks/' . $file;
+        }
+    }
+
+    return $asset_base . 'android-chrome-512x512.png';
 }
 
 function wc_lead_customer_sms_body($data) {
