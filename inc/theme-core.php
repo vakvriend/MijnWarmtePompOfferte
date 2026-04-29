@@ -597,20 +597,53 @@ function wc_lead_agent_summary($data, $score_data) {
 }
 
 function wc_lead_customer_email_body($data) {
-    $naam = $data['naam'] ?: 'daar';
-    $stad = $data['stad'] ?: 'uw regio';
-    $systeem = $data['situatie'] ?: 'de best passende warmtepompoplossing';
+    $naam = trim((string) ($data['naam'] ?? '')) ?: 'daar';
+    $stad = trim((string) ($data['stad'] ?? '')) ?: 'uw regio';
+    $systeem = trim((string) ($data['situatie'] ?? '')) ?: 'Nog te bepalen';
+    $woningtype = trim((string) ($data['woningtype'] ?? '')) ?: 'Nog niet ingevuld';
+    $gasverbruik = trim((string) ($data['gasverbruik'] ?? '')) ?: 'Nog niet ingevuld';
+    $postcode = trim((string) ($data['postcode'] ?? '')) ?: 'Nog niet ingevuld';
 
-    return "Hallo " . $naam . ",\n\n"
-        . "Bedankt voor uw aanvraag bij Vakvriend. We bekijken uw woningcheck voor " . $stad . " en nemen zo snel mogelijk contact op.\n\n"
-        . "Dit nemen we alvast mee:\n"
-        . "- Woningtype: " . ($data['woningtype'] ?: '-') . "\n"
-        . "- Voorkeur: " . $systeem . "\n"
-        . "- Gasverbruik: " . ($data['gasverbruik'] ?: '-') . "\n\n"
-        . "Handig om alvast klaar te leggen: bouwjaar, huidige ketel, type radiatoren of vloerverwarming en eventuele foto's van de technische ruimte.\n\n"
-        . "U kunt ons ook direct bereiken via 075 234 0001 of info@vakvriend.nl.\n\n"
-        . "Met vriendelijke groet,\n"
-        . "Team Vakvriend";
+    $rows = array(
+        'Woningtype' => $woningtype,
+        'Postcode' => $postcode,
+        'Voorkeur' => $systeem,
+        'Gasverbruik' => $gasverbruik,
+    );
+
+    $details = '';
+    foreach ($rows as $label => $value) {
+        $details .= '<tr><td style="padding:10px 0;color:#647064;font-size:14px">' . esc_html($label) . '</td><td style="padding:10px 0;text-align:right;color:#102017;font-weight:700;font-size:14px">' . esc_html($value) . '</td></tr>';
+    }
+
+    return '<!doctype html><html><body style="margin:0;background:#f4f7f4;font-family:Arial,Helvetica,sans-serif;color:#102017">'
+        . '<div style="display:none;max-height:0;overflow:hidden">We hebben uw woningcheck ontvangen. Vakvriend kijkt met u mee.</div>'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f7f4;padding:28px 12px"><tr><td align="center">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid #dfe9e3">'
+        . '<tr><td style="background:#066839;padding:28px 30px;color:#ffffff">'
+        . '<div style="font-size:14px;font-weight:800;letter-spacing:.02em;opacity:.9">Vakvriend woningcheck</div>'
+        . '<h1 style="margin:12px 0 8px;font-size:30px;line-height:1.12">Gelukt. We gaan voor u aan de slag.</h1>'
+        . '<p style="margin:0;color:#dcefe4;font-size:16px;line-height:1.6">We bekijken welke warmtepomp past bij uw woning in ' . esc_html($stad) . '. Gewoon rustig, praktisch en zonder verkooppraatjes.</p>'
+        . '</td></tr>'
+        . '<tr><td style="padding:30px">'
+        . '<p style="margin:0 0 18px;font-size:17px;line-height:1.7">Hallo ' . esc_html($naam) . ',</p>'
+        . '<p style="margin:0 0 20px;font-size:16px;line-height:1.75;color:#344238">Bedankt voor uw aanvraag. Een vakman van Vakvriend kijkt naar uw woningcheck en neemt zo snel mogelijk contact met u op. Vaak kunnen we al aan de telefoon goed inschatten welke richting logisch is.</p>'
+        . '<div style="background:#f7faf7;border:1px solid #e1ebe4;border-radius:14px;padding:18px 20px;margin:24px 0">'
+        . '<h2 style="margin:0 0 8px;font-size:18px;color:#102017">Dit nemen we alvast mee</h2>'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse">' . $details . '</table>'
+        . '</div>'
+        . '<h2 style="margin:26px 0 10px;font-size:20px;color:#102017">Wat gebeurt er nu?</h2>'
+        . '<p style="margin:0 0 10px;font-size:16px;line-height:1.7;color:#344238"><strong>1. We controleren de aanvraag.</strong><br>We kijken naar woningtype, verbruik, systeemvoorkeur en praktische plaatsing.</p>'
+        . '<p style="margin:0 0 10px;font-size:16px;line-height:1.7;color:#344238"><strong>2. We nemen contact op.</strong><br>Als er nog iets mist, vragen we dat kort na. Denk aan bouwjaar, isolatie of foto’s van de technische ruimte.</p>'
+        . '<p style="margin:0 0 22px;font-size:16px;line-height:1.7;color:#344238"><strong>3. U krijgt helder advies.</strong><br>Niet alleen een prijs, maar vooral welke oplossing verstandig is: hybride, lucht/water, Qvantum, Nibe, warmtepompboiler of toch iets anders.</p>'
+        . '<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:16px 18px;margin:24px 0;color:#7c2d12;font-size:15px;line-height:1.65"><strong>Handig om klaar te leggen:</strong> bouwjaar, huidige ketel, type radiatoren of vloerverwarming en eventueel foto’s van de technische ruimte.</div>'
+        . '<p style="margin:26px 0 0;font-size:16px;line-height:1.7;color:#344238">Wilt u ons alvast iets sturen of direct iemand spreken? Bel ons op <a href="tel:0752340001" style="color:#066839;font-weight:800;text-decoration:none">075 234 0001</a> of mail naar <a href="mailto:info@vakvriend.nl" style="color:#066839;font-weight:800;text-decoration:none">info@vakvriend.nl</a>.</p>'
+        . '<p style="margin:28px 0 0;font-size:16px;line-height:1.7;color:#344238">Groet,<br><strong>Team Vakvriend</strong></p>'
+        . '</td></tr>'
+        . '<tr><td style="background:#102017;color:#b8c5bb;padding:20px 30px;font-size:13px;line-height:1.6">Vakvriend Installatiebedrijf · Handelsweg 12K, Wormerveer<br>Deze mail ontvangt u omdat u een vrijblijvende woningcheck heeft aangevraagd.</td></tr>'
+        . '</table>'
+        . '</td></tr></table>'
+        . '</body></html>';
 }
 
 function wc_lead_customer_sms_body($data) {
@@ -743,7 +776,7 @@ function wc_ajax_lead() {
         wc_lead_agent_log($id, 'Interne leadmail verstuurd.');
 
         if ($settings['customer_email_enabled'] === '1') {
-            $sent = wp_mail($email, 'Uw woningcheck is ontvangen - Vakvriend', wc_lead_customer_email_body($lead_data), array('From: Vakvriend <info@vakvriend.nl>'));
+            $sent = wp_mail($email, 'We hebben uw woningcheck ontvangen', wc_lead_customer_email_body($lead_data), array('From: Vakvriend <info@vakvriend.nl>', 'Content-Type: text/html; charset=UTF-8'));
             update_post_meta($id, 'customer_email_status', $sent ? 'verzonden' : 'mislukt');
             wc_lead_agent_log($id, $sent ? 'Klantmail verzonden.' : 'Klantmail mislukt.');
         } else {
