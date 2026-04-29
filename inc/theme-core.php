@@ -822,37 +822,108 @@ function wc_lead_normalize_phone($phone) {
     return $phone;
 }
 
-function wc_lead_agent_score($data) {
-    $score = 35;
-    $notes = array();
+function wc_lead_parse_gasverbruik($value) {
+    $value = (string) $value;
+    if ($value === '') {
+        return 0;
+    }
 
-    if (!empty($data['telefoon'])) {
-        $score += 20;
-        $notes[] = 'telefoon aanwezig';
+    if (!preg_match('/[0-9][0-9.,\s]*/', $value, $match)) {
+        return 0;
     }
-    if (!empty($data['postcode'])) {
+
+    $digits = preg_replace('/[^0-9]/', '', $match[0]);
+    return $digits ? (int) $digits : 0;
+}
+
+function wc_lead_agent_score($data) {
+    $score = 15;
+    $notes = array();
+    $telefoon = wc_lead_normalize_phone($data['telefoon'] ?? '');
+    $postcode = strtoupper(preg_replace('/\s+/', '', (string) ($data['postcode'] ?? '')));
+    $situatie = strtolower((string) ($data['situatie'] ?? ''));
+    $woningtype = strtolower((string) ($data['woningtype'] ?? ''));
+    $gas = wc_lead_parse_gasverbruik($data['gasverbruik'] ?? '');
+
+    if ($telefoon) {
+        $score += 22;
+        $notes[] = 'telefonisch bereikbaar';
+        if (preg_match('/^\+316[0-9]{8}$/', $telefoon)) {
+            $score += 3;
+            $notes[] = 'mobiel nummer';
+        }
+    } else {
+        $notes[] = 'geen telefoonnummer';
+    }
+
+    if ($postcode) {
         $score += 10;
-        $notes[] = 'postcode aanwezig';
+        $notes[] = 'postcode bekend';
     }
-    if (!empty($data['gasverbruik'])) {
-        $score += 10;
-        $notes[] = 'gasverbruik ingevuld';
+
+    if ($gas >= 2200) {
+        $score += 12;
+        $notes[] = 'hoog gasverbruik';
+    } elseif ($gas >= 1600) {
+        $score += 8;
+        $notes[] = 'gemiddeld gasverbruik';
+    } elseif ($gas >= 1000) {
+        $score += 6;
+        $notes[] = 'lager gasverbruik';
+    } elseif ($gas > 0) {
+        $score += 2;
+        $notes[] = 'laag gasverbruik';
     }
-    if (!empty($data['situatie']) && stripos($data['situatie'], 'weet') === false) {
-        $score += 10;
-        $notes[] = 'systeemvoorkeur gekozen';
+
+    if (strpos($situatie, 'bodem') !== false) {
+        $score += 15;
+        $notes[] = 'interesse in bodemwarmtepomp';
+    } elseif (strpos($situatie, 'lucht/water') !== false || strpos($situatie, 'qvantum') !== false || strpos($situatie, 'nibe') !== false) {
+        $score += 11;
+        $notes[] = 'interesse in all-electric oplossing';
+    } elseif (strpos($situatie, 'hybride') !== false || strpos($situatie, 'intergas') !== false) {
+        $score += 7;
+        $notes[] = 'hybride interesse';
+    } elseif (strpos($situatie, 'ventilatie') !== false) {
+        $score += 7;
+        $notes[] = 'ventilatiewarmtepomp interesse';
+    } elseif (strpos($situatie, 'boiler') !== false) {
+        $score += 5;
+        $notes[] = 'warmtepompboiler interesse';
+    } elseif ($situatie && strpos($situatie, 'weet') !== false) {
+        $score += 4;
+        $notes[] = 'wil advies over systeemkeuze';
     }
+
     if (!empty($data['gclid']) || !empty($data['gbraid']) || !empty($data['wbraid'])) {
         $score += 10;
         $notes[] = 'Google Ads klik';
     }
-    if (!empty($data['woningtype'])) {
+
+    if (strpos($woningtype, 'vrijstaand') !== false) {
+        $score += 10;
+        $notes[] = 'vrijstaande woning';
+    } elseif (strpos($woningtype, 'hoek') !== false) {
+        $score += 8;
+        $notes[] = 'hoekwoning';
+    } elseif (strpos($woningtype, 'tussen') !== false) {
+        $score += 6;
+        $notes[] = 'tussenwoning';
+    } elseif (strpos($woningtype, 'appartement') !== false) {
+        $score += 3;
+        $notes[] = 'appartement';
+    } elseif ($woningtype) {
         $score += 5;
         $notes[] = 'woningtype bekend';
     }
 
+    if (!empty($data['stad']) || !empty($data['domein'])) {
+        $score += 2;
+        $notes[] = 'regio bekend';
+    }
+
     $score = max(0, min(100, $score));
-    $priority = $score >= 75 ? 'hoog' : ($score < 55 ? 'laag' : 'normaal');
+    $priority = $score >= 80 ? 'hoog' : ($score < 60 ? 'laag' : 'normaal');
 
     return array(
         'score' => $score,
