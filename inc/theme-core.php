@@ -649,36 +649,7 @@ function wc_lead_customer_email_body($data) {
 }
 
 function wc_lead_customer_email_image_url($data) {
-    $city = trim((string) ($data['stad'] ?? ''));
-    $domain = trim((string) ($data['domein'] ?? ''));
-    $domain = strtolower(preg_replace('/[^a-z0-9\.\-]/', '', $domain));
-    $asset_base = $domain ? 'https://' . $domain . '/wp-content/themes/vakvriend-warmtepomp-campagne-v2/assets/img/' : get_template_directory_uri() . '/assets/img/';
-    $candidates = array();
-
-    if ($city && !in_array(strtolower($city), array('nederland', 'uw regio'), true)) {
-        $slug = sanitize_title($city);
-        $candidates[] = 'warmtepomp-' . $slug . '.jpg';
-        $candidates[] = 'warmtepomp-' . $slug . '.webp';
-    }
-
-    if ($domain) {
-        $domain_slug = sanitize_title(preg_replace('/\.(nl|com|be|de)$/i', '', $domain));
-        $domain_slug = preg_replace('/^warmtepomp-?/', 'warmtepomp-', $domain_slug);
-        $candidates[] = $domain_slug . '.jpg';
-        $candidates[] = $domain_slug . '.webp';
-    }
-
-    $candidates[] = 'mijn-warmtepomp-offerte.webp';
-    $candidates[] = 'warmtepomp-zonder-boiler.jpg';
-
-    foreach (array_unique($candidates) as $file) {
-        $path = get_template_directory() . '/assets/img/landmarks/' . $file;
-        if (file_exists($path)) {
-            return $asset_base . 'landmarks/' . $file;
-        }
-    }
-
-    return $asset_base . 'android-chrome-512x512.png';
+    return 'https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp';
 }
 
 function wc_lead_customer_sms_body($data) {
