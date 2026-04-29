@@ -314,6 +314,14 @@ function wc_lead_agent_settings_defaults() {
     return array(
         'admin_email' => 'tonny@vakvriend.nl',
         'customer_email_enabled' => '1',
+        'smtp_enabled' => '0',
+        'smtp_host' => '',
+        'smtp_port' => '587',
+        'smtp_encryption' => 'tls',
+        'smtp_username' => '',
+        'smtp_password' => '',
+        'smtp_from_email' => 'info@vakvriend.nl',
+        'smtp_from_name' => 'Vakvriend',
         'sms_enabled' => '0',
         'twilio_sid' => '',
         'twilio_token' => '',
@@ -351,6 +359,14 @@ function wc_lead_agent_sanitize_settings($input) {
     return array(
         'admin_email' => sanitize_email($input['admin_email'] ?? $defaults['admin_email']),
         'customer_email_enabled' => !empty($input['customer_email_enabled']) ? '1' : '0',
+        'smtp_enabled' => !empty($input['smtp_enabled']) ? '1' : '0',
+        'smtp_host' => sanitize_text_field($input['smtp_host'] ?? ''),
+        'smtp_port' => (string) max(1, min(65535, (int) ($input['smtp_port'] ?? 587))),
+        'smtp_encryption' => in_array(($input['smtp_encryption'] ?? 'tls'), array('none', 'ssl', 'tls'), true) ? $input['smtp_encryption'] : 'tls',
+        'smtp_username' => sanitize_text_field($input['smtp_username'] ?? ''),
+        'smtp_password' => sanitize_text_field($input['smtp_password'] ?? ''),
+        'smtp_from_email' => sanitize_email($input['smtp_from_email'] ?? $defaults['smtp_from_email']),
+        'smtp_from_name' => sanitize_text_field($input['smtp_from_name'] ?? $defaults['smtp_from_name']),
         'sms_enabled' => !empty($input['sms_enabled']) ? '1' : '0',
         'twilio_sid' => sanitize_text_field($input['twilio_sid'] ?? ''),
         'twilio_token' => sanitize_text_field($input['twilio_token'] ?? ''),
@@ -365,6 +381,13 @@ function wc_lead_agent_settings_page() {
     <div class="wrap">
         <h1>Lead agent</h1>
         <p>Deze agent stuurt bevestigingen, scoort leads en kan SMS versturen via Twilio zodra de gegevens ingevuld zijn.</p>
+        <?php if (!empty($_GET['wc_test_mail'])): ?>
+            <?php if ($_GET['wc_test_mail'] === 'sent'): ?>
+                <div class="notice notice-success"><p>Testmail aangeboden aan WordPress. Controleer de inbox en spammap.</p></div>
+            <?php else: ?>
+                <div class="notice notice-error"><p>Testmail kon niet worden verstuurd. Controleer SMTP host, poort, gebruikersnaam en wachtwoord.</p></div>
+            <?php endif; ?>
+        <?php endif; ?>
         <form method="post" action="options.php">
             <?php settings_fields('wc_lead_agent'); ?>
             <table class="form-table" role="presentation">
@@ -379,6 +402,44 @@ function wc_lead_agent_settings_page() {
                 <tr>
                     <th scope="row">Interne reminder</th>
                     <td><label><input type="checkbox" name="wc_lead_agent_settings[followup_reminder_enabled]" value="1" <?php checked($settings['followup_reminder_enabled'], '1'); ?>> Mail Tonny na 2 uur als de lead nog op Nieuw staat</label></td>
+                </tr>
+                <tr>
+                    <th scope="row">SMTP mail</th>
+                    <td><label><input type="checkbox" name="wc_lead_agent_settings[smtp_enabled]" value="1" <?php checked($settings['smtp_enabled'], '1'); ?>> Verstuur WordPress mail via SMTP</label></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-smtp-host">SMTP host</label></th>
+                    <td><input id="wc-agent-smtp-host" type="text" class="regular-text" name="wc_lead_agent_settings[smtp_host]" value="<?php echo esc_attr($settings['smtp_host']); ?>" placeholder="smtp.provider.nl"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-smtp-port">SMTP poort</label></th>
+                    <td><input id="wc-agent-smtp-port" type="number" class="small-text" name="wc_lead_agent_settings[smtp_port]" value="<?php echo esc_attr($settings['smtp_port']); ?>"> <span class="description">Meestal 587 met TLS, of 465 met SSL.</span></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-smtp-encryption">Versleuteling</label></th>
+                    <td>
+                        <select id="wc-agent-smtp-encryption" name="wc_lead_agent_settings[smtp_encryption]">
+                            <option value="tls" <?php selected($settings['smtp_encryption'], 'tls'); ?>>TLS</option>
+                            <option value="ssl" <?php selected($settings['smtp_encryption'], 'ssl'); ?>>SSL</option>
+                            <option value="none" <?php selected($settings['smtp_encryption'], 'none'); ?>>Geen</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-smtp-username">SMTP gebruikersnaam</label></th>
+                    <td><input id="wc-agent-smtp-username" type="text" class="regular-text" name="wc_lead_agent_settings[smtp_username]" value="<?php echo esc_attr($settings['smtp_username']); ?>" autocomplete="off"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-smtp-password">SMTP wachtwoord</label></th>
+                    <td><input id="wc-agent-smtp-password" type="password" class="regular-text" name="wc_lead_agent_settings[smtp_password]" value="<?php echo esc_attr($settings['smtp_password']); ?>" autocomplete="new-password"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-smtp-from-email">Afzender e-mail</label></th>
+                    <td><input id="wc-agent-smtp-from-email" type="email" class="regular-text" name="wc_lead_agent_settings[smtp_from_email]" value="<?php echo esc_attr($settings['smtp_from_email']); ?>"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wc-agent-smtp-from-name">Afzender naam</label></th>
+                    <td><input id="wc-agent-smtp-from-name" type="text" class="regular-text" name="wc_lead_agent_settings[smtp_from_name]" value="<?php echo esc_attr($settings['smtp_from_name']); ?>"></td>
                 </tr>
                 <tr>
                     <th scope="row">SMS via Twilio</th>
@@ -399,9 +460,57 @@ function wc_lead_agent_settings_page() {
             </table>
             <?php submit_button('Instellingen opslaan'); ?>
         </form>
+        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:18px">
+            <?php wp_nonce_field('wc_lead_agent_test_mail'); ?>
+            <input type="hidden" name="action" value="wc_lead_agent_test_mail">
+            <?php submit_button('Testmail sturen naar interne leadmail', 'secondary', 'submit', false); ?>
+        </form>
     </div>
     <?php
 }
+
+function wc_lead_agent_configure_phpmailer($phpmailer) {
+    $settings = wc_lead_agent_settings();
+    if ($settings['smtp_enabled'] !== '1' || !$settings['smtp_host']) {
+        return;
+    }
+
+    $phpmailer->isSMTP();
+    $phpmailer->Host = $settings['smtp_host'];
+    $phpmailer->Port = (int) $settings['smtp_port'];
+    $phpmailer->SMTPAuth = !empty($settings['smtp_username']);
+    if ($phpmailer->SMTPAuth) {
+        $phpmailer->Username = $settings['smtp_username'];
+        $phpmailer->Password = $settings['smtp_password'];
+    }
+    if ($settings['smtp_encryption'] !== 'none') {
+        $phpmailer->SMTPSecure = $settings['smtp_encryption'];
+    }
+    if (!empty($settings['smtp_from_email'])) {
+        $phpmailer->setFrom($settings['smtp_from_email'], $settings['smtp_from_name'] ?: 'Vakvriend', false);
+    }
+}
+add_action('phpmailer_init', 'wc_lead_agent_configure_phpmailer');
+
+function wc_lead_agent_test_mail_action() {
+    if (!current_user_can('manage_options')) {
+        wp_die('Geen toegang.');
+    }
+    check_admin_referer('wc_lead_agent_test_mail');
+
+    $settings = wc_lead_agent_settings();
+    $to = $settings['admin_email'] ?: 'tonny@vakvriend.nl';
+    $sent = wp_mail(
+        $to,
+        'Testmail Vakvriend lead agent',
+        "Dit is een testmail van de Vakvriend lead agent.\n\nAls deze binnenkomt, werkt SMTP/WordPress mail.",
+        array('From: ' . ($settings['smtp_from_name'] ?: 'Vakvriend') . ' <' . ($settings['smtp_from_email'] ?: 'info@vakvriend.nl') . '>')
+    );
+
+    wp_safe_redirect(admin_url('edit.php?post_type=wc_lead&page=wc-lead-agent&wc_test_mail=' . ($sent ? 'sent' : 'failed')));
+    exit;
+}
+add_action('admin_post_wc_lead_agent_test_mail', 'wc_lead_agent_test_mail_action');
 
 function wc_lead_agent_log($lead_id, $message) {
     $existing = (string) get_post_meta($lead_id, 'lead_agent_log', true);
