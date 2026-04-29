@@ -123,7 +123,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div class="vk-prog-dot"></div>
           <div class="vk-prog-dot"></div>
         </div>
-        <div class="vk-prog-labels"><span>Woning</span><span>Systeem</span><span>Verbruik</span><span>Gegevens</span></div>
+        <div class="vk-prog-labels"><span>Woning</span><span>Systeem</span><span>Wens</span><span>Gegevens</span></div>
 
         <!-- Stap 1: Woningtype -->
         <div class="vk-stap active" id="stap-1">
@@ -155,9 +155,9 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div class="vk-terug"><button onclick="vkStap(1)">← Terug</button></div>
         </div>
 
-        <!-- Stap 3: Gasverbruik -->
+        <!-- Stap 3: Gasverbruik en wens -->
         <div class="vk-stap" id="stap-3">
-          <h3 class="vk-stap-titel">Huidig gasverbruik?</h3>
+          <h3 class="vk-stap-titel">Wat is uw situatie?</h3>
           <p class="vk-stap-sub">Stap 3 van 4</p>
           <label class="vk-slider-lbl">Gasverbruik per jaar</label>
           <input type="range" class="vk-slider" id="vk-gas" min="500" max="4000" step="100" value="1800" oninput="vkUpdateGas()">
@@ -167,6 +167,20 @@ $reviews = wc_meta_rows('wc_reviews', [
             <div class="vk-mini-val" id="vk-mini-besp">€1.350</div>
             <div class="vk-mini-sub" id="vk-mini-sub">Max. ISDE-subsidie: <strong id="vk-mini-isde">max. €2.125</strong></div>
           <div style="font-size:11px;opacity:.7;margin-top:4px">* Schatting op basis van gemiddelden. Exacte subsidie afhankelijk van merk en vermogen.</div>
+          </div>
+          <label class="vk-slider-lbl vk-choice-label">Wat is de belangrijkste reden?</label>
+          <div class="vk-keuze-grid vk-keuze-grid-compact">
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Gas besparen')"><span class="vk-keuze-ico">↓</span>Gas besparen</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Cv-ketel vervangen')"><span class="vk-keuze-ico">⚙</span>Cv-ketel vervangen</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Van het gas af')"><span class="vk-keuze-ico">✓</span>Van het gas af</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Warm water verbeteren')"><span class="vk-keuze-ico">≈</span>Warm water</button>
+          </div>
+          <label class="vk-slider-lbl vk-choice-label">Wanneer wilt u stappen zetten?</label>
+          <div class="vk-keuze-grid vk-keuze-grid-compact">
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Zo snel mogelijk')"><span class="vk-keuze-ico">!</span>Zo snel mogelijk</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Binnen 3 maanden')"><span class="vk-keuze-ico">3</span>Binnen 3 maanden</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Dit jaar')"><span class="vk-keuze-ico">12</span>Dit jaar</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Ik oriënteer mij nog')"><span class="vk-keuze-ico">?</span>Oriënteren</button>
           </div>
           <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)">Volgende →</button>
           <div class="vk-terug"><button onclick="vkStap(2)">← Terug</button></div>
@@ -179,7 +193,7 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div class="vk-veld-grid">
             <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
-            <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"></div>
+            <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"><small>Alleen voor korte afstemming als iets onduidelijk is.</small></div>
             <div class="vk-veld"><label>Postcode</label><input type="text" id="vk-pc" placeholder="1234 AB"></div>
           </div>
           <div class="vk-final-proof">

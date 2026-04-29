@@ -169,6 +169,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 .vk-keuze:hover,.vk-keuze.actief{border-color:var(--groen);background:var(--groen-xl);color:var(--groen)}
 .vk-keuze-ico{font-size:24px;display:block}
+.vk-keuze-grid-compact{margin-bottom:16px}
+.vk-keuze-grid-compact .vk-keuze{padding:10px 8px;font-size:12px;min-height:74px}
+.vk-keuze-grid-compact .vk-keuze-ico{font-size:18px;font-weight:900;line-height:1}
+.vk-choice-label{margin-top:15px;margin-bottom:8px}
 .vk-terug{text-align:center;margin-top:8px}
 .vk-terug button{font-size:13px;color:var(--grijs);text-decoration:underline;cursor:pointer}
 .vk-veld-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
@@ -177,6 +181,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-veld label{font-size:12px;font-weight:600;color:var(--tekst)}
 .vk-veld input{padding:11px 13px;border:1.5px solid #ddd;border-radius:var(--r);font-size:15px;font-family:var(--font-b);transition:border-color .2s;background:#fff}
 .vk-veld input:focus{border-color:var(--groen);outline:none;box-shadow:0 0 0 3px rgba(6,104,57,.1)}
+.vk-veld small{font-size:10px;line-height:1.35;color:var(--grijs);margin-top:-1px}
 .vk-disclaimer{font-size:11px;color:var(--grijs);text-align:center;margin-top:10px;line-height:1.6}
 .vk-disclaimer span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
 .vk-disclaimer span::before{content:'✓';color:var(--groen);font-weight:800}

@@ -155,6 +155,8 @@ window.vkStap = function(n) {
   if (fout) fout.remove();
   if (n === 2 && !fd.woningtype) { vkFout('Selecteer eerst uw woningtype.'); return; }
   if (n === 3 && !fd.systeem) { vkFout('Selecteer eerst uw systeemvoorkeur.'); return; }
+  if (n === 4 && !fd.aanleiding) { vkFout('Selecteer eerst uw belangrijkste reden.'); return; }
+  if (n === 4 && !fd.termijn) { vkFout('Selecteer eerst wanneer u stappen wilt zetten.'); return; }
   document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
   var s = document.getElementById('stap-' + n);
   if (s) s.classList.add('active');
@@ -165,7 +167,9 @@ window.vkStap = function(n) {
     form_name: 'warmtepomp_offerte',
     step_number: n,
     woningtype: fd.woningtype || '',
-    systeem: fd.systeem || ''
+    systeem: fd.systeem || '',
+    aanleiding: fd.aanleiding || '',
+    termijn: fd.termijn || ''
   });
   var f = document.getElementById('formulier');
   if (f && window.innerWidth < 1020) setTimeout(function() { f.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 100);
@@ -184,7 +188,9 @@ window.vkVerstuur = async function() {
     form_name: 'warmtepomp_offerte',
     woningtype: fd.woningtype || '',
     systeem: fd.systeem || '',
-    gasverbruik: fd.gasverbruik || ''
+    gasverbruik: fd.gasverbruik || '',
+    aanleiding: fd.aanleiding || '',
+    termijn: fd.termijn || ''
   });
   var btn = document.querySelector('.vk-btn-oranje');
   if (btn) { btn.disabled = true; btn.textContent = 'Bezig...'; }
@@ -198,6 +204,8 @@ window.vkVerstuur = async function() {
   data.append('woningtype', fd.woningtype || '');
   data.append('situatie', fd.systeem || '');
   data.append('gasverbruik', fd.gasverbruik || '');
+  data.append('aanleiding', fd.aanleiding || '');
+  data.append('termijn', fd.termijn || '');
   data.append('stad', (document.getElementById('js-stad') || {}).value || '');
   data.append('domein', location.hostname);
   data.append('utm_source', p.get('utm_source') || '');
@@ -238,6 +246,8 @@ function vkSucces() {
     woningtype: fd.woningtype || '',
     systeem: fd.systeem || '',
     gasverbruik: fd.gasverbruik || '',
+    aanleiding: fd.aanleiding || '',
+    termijn: fd.termijn || '',
     stad: (document.getElementById('js-stad') || {}).value || ''
   });
   vkTrackAdsLeadConversion();

@@ -104,7 +104,7 @@ function wc_shortcode_lead_form($atts = array()) {
           <div class="vk-prog-dot"></div>
           <div class="vk-prog-dot"></div>
         </div>
-        <div class="vk-prog-labels"><span>Woning</span><span>Systeem</span><span>Verbruik</span><span>Gegevens</span></div>
+        <div class="vk-prog-labels"><span>Woning</span><span>Systeem</span><span>Wens</span><span>Gegevens</span></div>
 
         <div class="vk-stap active" id="stap-1">
           <h3 class="vk-stap-titel"><?php echo esc_html($atts['step_1_title']); ?></h3>
@@ -146,6 +146,20 @@ function wc_shortcode_lead_form($atts = array()) {
             <div class="vk-mini-sub">ISDE-subsidie: <strong id="vk-mini-isde">gem. €2.800</strong></div>
             <div class="vk-form-note">Schatting op basis van gemiddelden. Exacte subsidie afhankelijk van merk en vermogen.</div>
           </div>
+          <label class="vk-slider-lbl vk-choice-label">Wat is de belangrijkste reden?</label>
+          <div class="vk-keuze-grid vk-keuze-grid-compact">
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Gas besparen')"><span class="vk-keuze-ico">↓</span>Gas besparen</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Cv-ketel vervangen')"><span class="vk-keuze-ico">⚙</span>Cv-ketel vervangen</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Van het gas af')"><span class="vk-keuze-ico">✓</span>Van het gas af</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Warm water verbeteren')"><span class="vk-keuze-ico">≈</span>Warm water</button>
+          </div>
+          <label class="vk-slider-lbl vk-choice-label">Wanneer wilt u stappen zetten?</label>
+          <div class="vk-keuze-grid vk-keuze-grid-compact">
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Zo snel mogelijk')"><span class="vk-keuze-ico">!</span>Zo snel mogelijk</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Binnen 3 maanden')"><span class="vk-keuze-ico">3</span>Binnen 3 maanden</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Dit jaar')"><span class="vk-keuze-ico">12</span>Dit jaar</button>
+            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Ik oriënteer mij nog')"><span class="vk-keuze-ico">?</span>Oriënteren</button>
+          </div>
           <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)"><?php echo esc_html($atts['next_label']); ?></button>
           <div class="vk-terug"><button onclick="vkStap(2)"><?php echo esc_html($atts['back_label']); ?></button></div>
         </div>
@@ -156,7 +170,7 @@ function wc_shortcode_lead_form($atts = array()) {
           <div class="vk-veld-grid">
             <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
-            <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"></div>
+            <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"><small>Alleen voor korte afstemming als iets onduidelijk is.</small></div>
             <div class="vk-veld"><label>Postcode</label><input type="text" id="vk-pc" placeholder="1234 AB"></div>
           </div>
           <div class="vk-final-proof">
