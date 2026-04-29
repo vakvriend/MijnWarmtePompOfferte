@@ -64,6 +64,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   height:68px;
   display:flex;align-items:center;justify-content:space-between;gap:32px;
 }
+.nav-logo{display:flex;align-items:center;flex:0 0 auto}
 .nav-logo img{height:34px;width:auto}
 .nav-links{display:flex;gap:24px;list-style:none}
 .nav-links a{font-size:14px;font-weight:500;color:var(--tekst);transition:color .2s}
@@ -78,7 +79,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .nav-tel-link:hover{background:var(--groen);color:#fff}
 .nav-offerte-btn{font-size:14px;padding:9px 18px}
 @media(max-width:900px){.nav-links{display:none}}
-@media(max-width:640px){.navbar{top:0}.nav-tel-link{display:none}.nav-container{padding:0 16px}}
+@media(max-width:640px){
+  .navbar{top:0;height:64px}
+  .nav-container{height:64px;padding:0 16px;gap:14px;align-items:center}
+  .nav-logo img{height:28px}
+  .nav-cta{margin-left:auto;align-items:center}
+  .nav-tel-link{display:none}
+  .nav-offerte-btn{
+    min-height:40px;
+    min-width:132px;
+    max-width:150px;
+    padding:9px 14px;
+    border-radius:999px;
+    font-size:0;
+    line-height:1.05;
+  }
+  .nav-offerte-btn::after{content:"Woningcheck";font-size:14px}
+}
 
 /* ── HERO ── */
 .vk-hero{
@@ -209,6 +226,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-btn-lg{padding:18px 40px;font-size:17px}
 .vk-btn-full{width:100%;justify-content:center;white-space:normal;min-height:50px;text-align:center}
 @media(max-width:640px){.vk-btn{white-space:normal;text-align:center}.vk-btn-lg{padding:16px 18px;font-size:16px}}
+@media(max-width:640px){.nav-offerte-btn{font-size:0;white-space:nowrap;text-align:center}.nav-offerte-btn::after{content:"Woningcheck";font-size:14px}}
 .vk-btn-space{margin-top:20px}
 .vk-btn-space-sm{margin-top:10px}
 .vk-form-note{font-size:11px;opacity:.7;margin-top:4px}
