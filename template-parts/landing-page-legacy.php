@@ -188,21 +188,21 @@ $reviews = wc_meta_rows('wc_reviews', [
 
         <!-- Stap 4: Contactgegevens -->
         <div class="vk-stap" id="stap-4">
-          <h3 class="vk-stap-titel">Uw contactgegevens</h3>
-          <p class="vk-stap-sub">Stap 4 van 4 — ontvang uw gratis en vrijblijvende woningcheck</p>
+          <h3 class="vk-stap-titel">Waar mogen we de woningcheck naartoe sturen?</h3>
+          <p class="vk-stap-sub">Stap 4 van 4 — u krijgt eerst een technische inschatting per mail. We bellen alleen als iets onduidelijk is.</p>
           <div class="vk-veld-grid">
             <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
-            <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"><small>Alleen voor korte afstemming als iets onduidelijk is.</small></div>
-            <div class="vk-veld"><label>Postcode</label><input type="text" id="vk-pc" placeholder="1234 AB"></div>
+            <div class="vk-veld"><label>Telefoon <span>belangrijk</span></label><input type="tel" id="vk-tel" placeholder="06 12345678"><small>Helpt ons om snel door te vragen als de woningcheck extra context nodig heeft.</small></div>
+            <div class="vk-veld"><label>Postcode <span>lokale subsidiecheck</span></label><input type="text" id="vk-pc" placeholder="1234 AB"><small>Voor lokale ISDE-, geluid- en plaatsingscontrole.</small></div>
           </div>
           <div class="vk-final-proof">
             <span>Geen verplichting</span>
-            <span>Advies van installateur</span>
-            <span>Reactie binnen 24 uur</span>
+            <span>Eerst advies</span>
+            <span>Geen verkoopdruk</span>
           </div>
-          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Start gratis en vrijblijvend</button>
-          <p class="vk-disclaimer"><span>Gratis en vrijblijvend</span><span>Reactie binnen 24 uur</span><span>ISDE-hulp inbegrepen</span><br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
+          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Ontvang mijn woningcheck</button>
+          <p class="vk-disclaimer"><span>Vrijblijvend advies</span><span>Reactie binnen 24 uur</span><span>Lokale subsidiecheck</span><br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
           <div class="vk-terug"><button onclick="vkStap(3)">← Terug</button></div>
         </div>
 

@@ -82,11 +82,11 @@ function wc_shortcode_lead_form($atts = array()) {
         'step_2_sub'    => 'Stap 2 van 4',
         'step_3_title'  => 'Huidig gasverbruik?',
         'step_3_sub'    => 'Stap 3 van 4',
-        'step_4_title'  => 'Uw contactgegevens',
-        'step_4_sub'    => 'Stap 4 van 4',
+        'step_4_title'  => 'Waar mogen we de woningcheck naartoe sturen?',
+        'step_4_sub'    => 'Stap 4 van 4 - u krijgt eerst een technische inschatting per mail. We bellen alleen als iets onduidelijk is.',
         'next_label'    => 'Volgende',
         'back_label'    => 'Terug',
-        'submit_label'  => 'Gratis advies aanvragen',
+        'submit_label'  => 'Ontvang mijn woningcheck',
         'success_title' => 'Aanvraag ontvangen',
         'success_text'  => 'Bedankt. Vakvriend neemt binnen één werkdag contact op voor een gratis adviesgesprek aan huis.',
     ), $atts, 'warmtepomp_lead_form');
@@ -170,16 +170,16 @@ function wc_shortcode_lead_form($atts = array()) {
           <div class="vk-veld-grid">
             <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
-            <div class="vk-veld"><label>Telefoon</label><input type="tel" id="vk-tel" placeholder="06 12345678"><small>Alleen voor korte afstemming als iets onduidelijk is.</small></div>
-            <div class="vk-veld"><label>Postcode</label><input type="text" id="vk-pc" placeholder="1234 AB"></div>
+            <div class="vk-veld"><label>Telefoon <span>belangrijk</span></label><input type="tel" id="vk-tel" placeholder="06 12345678"><small>Helpt ons om snel door te vragen als de woningcheck extra context nodig heeft.</small></div>
+            <div class="vk-veld"><label>Postcode <span>lokale subsidiecheck</span></label><input type="text" id="vk-pc" placeholder="1234 AB"><small>Voor lokale ISDE-, geluid- en plaatsingscontrole.</small></div>
           </div>
           <div class="vk-final-proof">
             <span>Geen verplichting</span>
-            <span>Advies van installateur</span>
-            <span>Reactie binnen 24 uur</span>
+            <span>Eerst advies</span>
+            <span>Geen verkoopdruk</span>
           </div>
           <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()"><?php echo esc_html($atts['submit_label']); ?></button>
-          <p class="vk-disclaimer">Gratis en vrijblijvend. Door te versturen gaat u akkoord met onze <a href="<?php echo esc_url(home_url('/privacy')); ?>">privacyverklaring</a>.</p>
+          <p class="vk-disclaimer"><span>Vrijblijvend advies</span><span>Reactie binnen 24 uur</span><span>Lokale subsidiecheck</span><br>Door te versturen gaat u akkoord met onze <a href="<?php echo esc_url(home_url('/privacy')); ?>">privacyverklaring</a>.</p>
           <div class="vk-terug"><button onclick="vkStap(3)"><?php echo esc_html($atts['back_label']); ?></button></div>
         </div>
 

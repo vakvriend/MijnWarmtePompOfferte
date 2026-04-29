@@ -226,11 +226,11 @@ window.vkVerstuur = async function() {
     else {
       var msg = json.data && json.data.message ? json.data.message : 'Er ging iets mis. Bel 075 234 0001.';
       vkFout(msg);
-      if (btn) { btn.disabled = false; btn.textContent = 'Start gratis en vrijblijvend'; }
+      if (btn) { btn.disabled = false; btn.textContent = 'Ontvang mijn woningcheck'; }
     }
   } catch(e) {
     vkFout('Er ging iets mis. Bel 075 234 0001 of probeer het opnieuw.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Start gratis en vrijblijvend'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Ontvang mijn woningcheck'; }
   }
 };
 

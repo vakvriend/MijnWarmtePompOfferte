@@ -179,6 +179,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 @media(max-width:640px){.vk-veld-grid{grid-template-columns:1fr}.vk-veld input{font-size:16px;padding:12px 13px}}
 .vk-veld{display:flex;flex-direction:column;gap:5px}
 .vk-veld label{font-size:12px;font-weight:600;color:var(--tekst)}
+.vk-veld label span{display:inline-flex;margin-left:5px;padding:2px 6px;border-radius:999px;background:var(--groen-xl);color:var(--groen);font-size:9px;font-weight:900;vertical-align:middle}
 .vk-veld input{padding:11px 13px;border:1.5px solid #ddd;border-radius:var(--r);font-size:15px;font-family:var(--font-b);transition:border-color .2s;background:#fff}
 .vk-veld input:focus{border-color:var(--groen);outline:none;box-shadow:0 0 0 3px rgba(6,104,57,.1)}
 .vk-veld small{font-size:10px;line-height:1.35;color:var(--grijs);margin-top:-1px}
