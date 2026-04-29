@@ -4,6 +4,10 @@ $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
 $topbar    = wc_meta('wc_topbar_tekst',"Vrijblijvend warmtepompadvies — Qvantum & Nibe specialist — ISDE-subsidie");
 $tel_clean = preg_replace('/\s+/','',$telefoon);
+$post      = get_post();
+$is_legal  = $post && in_array($post->post_name, array('privacy', 'disclaimer'), true);
+$anchor_base = $is_legal ? home_url('/') : '';
+$form_href = $is_legal ? home_url('/#formulier') : '#formulier';
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -20,7 +24,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
   <span class="vk-topbar-tekst"><?=esc_html($topbar)?></span>
   <div class="vk-topbar-actions">
     <a href="https://www.vakvriend.nl/" class="vk-topbar-link" target="_blank" rel="noopener">Bekijk wat Vakvriend nog meer doet</a>
-    <a href="#formulier" class="vk-topbar-btn">Vrijblijvende woningcheck</a>
+    <a href="<?=esc_url($form_href)?>" class="vk-topbar-btn">Vrijblijvende woningcheck</a>
   </div>
 </div>
 
@@ -31,15 +35,15 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
       <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/6987998276e5008c97c63119_logo-zwart.webp" alt="Vakvriend" width="140" height="40">
     </a>
     <ul class="nav-links">
-      <li><a href="#waarom">Voordelen</a></li>
-      <li><a href="#vakvriend">Over Vakvriend</a></li>
-      <li><a href="#calculator">Besparing</a></li>
-      <li><a href="#werkwijze">Werkwijze</a></li>
-      <li><a href="#faq">FAQ</a></li>
+      <li><a href="<?=esc_url($anchor_base . '#waarom')?>">Voordelen</a></li>
+      <li><a href="<?=esc_url($anchor_base . '#vakvriend')?>">Over Vakvriend</a></li>
+      <li><a href="<?=esc_url($anchor_base . '#calculator')?>">Besparing</a></li>
+      <li><a href="<?=esc_url($anchor_base . '#werkwijze')?>">Werkwijze</a></li>
+      <li><a href="<?=esc_url($anchor_base . '#faq')?>">FAQ</a></li>
     </ul>
     <div class="nav-cta">
       <a href="tel:<?=esc_attr($tel_clean)?>" class="nav-tel-link"><?=esc_html($telefoon)?></a>
-      <a href="#formulier" class="vk-btn vk-btn-groen nav-offerte-btn">Vrijblijvende woningcheck</a>
+      <a href="<?=esc_url($form_href)?>" class="vk-btn vk-btn-groen nav-offerte-btn">Vrijblijvende woningcheck</a>
     </div>
   </div>
 </nav>

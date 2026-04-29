@@ -3,6 +3,9 @@ $telefoon = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp = wc_meta('wc_whatsapp','31752340001');
 $email    = wc_meta('wc_email','info@vakvriend.nl');
 $tel_clean = preg_replace('/\s+/','',$telefoon);
+$post = get_post();
+$is_legal = $post && in_array($post->post_name, array('privacy', 'disclaimer'), true);
+$form_href = $is_legal ? home_url('/#formulier') : '#formulier';
 ?>
 
 <!-- CTA SECTIE -->
@@ -12,7 +15,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
       <h2>Klaar voor duidelijk warmtepompadvies?</h2>
       <p>Start met een gratis en vrijblijvende woningcheck. Vakvriend beoordeelt woning, comfortwens, systeemkeuze en ISDE-subsidie in één keer.</p>
       <div class="vk-cta-knoppen">
-        <a href="#formulier" class="vk-btn vk-btn-wit vk-btn-lg">Start de woningcheck</a>
+        <a href="<?=esc_url($form_href)?>" class="vk-btn vk-btn-wit vk-btn-lg">Start de woningcheck</a>
         <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-lg">WhatsApp ons</a>
       </div>
       <p class="vk-cta-note">Of bel direct: <a href="tel:<?=esc_attr($tel_clean)?>"><?=esc_html($telefoon)?></a></p>
@@ -65,7 +68,7 @@ $tel_clean = preg_replace('/\s+/','',$telefoon);
 </footer>
 
 <div class="vk-mobile-sticky" aria-label="Snelle acties">
-  <a href="#formulier" class="vk-btn vk-btn-oranje">Woningcheck starten</a>
+  <a href="<?=esc_url($form_href)?>" class="vk-btn vk-btn-oranje">Woningcheck starten</a>
   <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen">Bel direct</a>
 </div>
 
