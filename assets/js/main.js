@@ -19,11 +19,11 @@ var fd = {};
 var calcSysteem = 'lw';
 var vkSessionId = getVkSessionId();
 var SUBSIDIE = {
-  lw:      {label: 'Lucht/water warmtepomp · Qvantum QA of Nibe F2040', bedrag: 2800, installatie: 9500},
-  vent:    {label: 'Ventilatie warmtepomp · Qvantum QE', bedrag: 1800, installatie: 7500},
-  bodem:   {label: 'Bodemwarmtepomp · Nibe S-serie of Qvantum QG', bedrag: 4500, installatie: 16000},
-  hybride: {label: 'Hybride warmtepomp · Intergas Xtend Eco', bedrag: 1800, installatie: 5000},
-  boiler:  {label: 'Warmtepompboiler · tapwater-oplossing', bedrag: 725, installatie: 3500}
+  lw:      {label: 'Lucht/water warmtepomp · Qvantum QA of Nibe F2040', bedrag: 2800, installatie: 9500, cop: 3.8, dekking: 0.90},
+  vent:    {label: 'Ventilatie warmtepomp · Qvantum QE', bedrag: 1800, installatie: 7500, cop: 3.2, dekking: 0.35},
+  bodem:   {label: 'Bodemwarmtepomp · Nibe S-serie of Qvantum QG', bedrag: 4500, installatie: 16000, cop: 4.5, dekking: 0.95},
+  hybride: {label: 'Hybride warmtepomp · Intergas Xtend Eco', bedrag: 1800, installatie: 5000, cop: 2.8, dekking: 0.70},
+  boiler:  {label: 'Warmtepompboiler · tapwater-oplossing', bedrag: 725, installatie: 3500, cop: 2.9, dekking: 0.22}
 };
 
 function vkTrack(eventName, payload) {
@@ -268,9 +268,8 @@ function vkFout(t) {
 
 function vkBereken(g, gp, sys) {
   var s = SUBSIDIE[sys] || SUBSIDIE.lw;
-  var cop = sys === 'bodem' ? 4.5 : sys === 'vent' ? 3.2 : sys === 'hybride' ? 2.8 : sys === 'boiler' ? 2.9 : 3.8;
-  var gasFactor = sys === 'boiler' ? 0.22 : 1;
-  var b = Math.max(0, (g * gasFactor) * gp - ((g * gasFactor) * 9.77 / cop) * 0.27);
+  var gasBespaard = g * (s.dekking || 1);
+  var b = Math.max(0, gasBespaard * gp - (gasBespaard * 9.77 / s.cop) * 0.27);
   var tvt = b > 0 ? (s.installatie - s.bedrag) / b : 0;
   return {b: b, subsidie: s.bedrag, tvt: tvt, label: s.label};
 }

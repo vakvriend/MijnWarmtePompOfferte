@@ -164,8 +164,8 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div class="vk-slider-vals"><span>500 m³</span><strong id="vk-gas-val">1.800 m³</strong><span>4.000 m³</span></div>
           <div class="vk-mini-res">
             <div class="vk-mini-lbl">Geschatte besparing per jaar</div>
-            <div class="vk-mini-val" id="vk-mini-besp">€1.350</div>
-            <div class="vk-mini-sub" id="vk-mini-sub">Max. ISDE-subsidie: <strong id="vk-mini-isde">max. €2.125</strong></div>
+            <div class="vk-mini-val" id="vk-mini-besp">€900</div>
+            <div class="vk-mini-sub" id="vk-mini-sub">ISDE-subsidie: <strong id="vk-mini-isde">gem. €2.800</strong></div>
           <div style="font-size:11px;opacity:.7;margin-top:4px">* Schatting op basis van gemiddelden. Exacte subsidie afhankelijk van merk en vermogen.</div>
           </div>
           <label class="vk-slider-lbl vk-choice-label">Wat is de belangrijkste reden?</label>
@@ -574,7 +574,7 @@ $reviews = wc_meta_rows('wc_reviews', [
       <div class="vk-calc-res">
         <div class="vk-calc-res-lbl" id="calc-sys-lbl">Lucht/water warmtepomp · Qvantum QA of Nibe F2040</div>
         <div class="vk-calc-res-grid">
-          <div><div class="vk-res-n" id="c-besp">€1.350</div><div class="vk-res-u">Besparing/jaar</div></div>
+          <div><div class="vk-res-n" id="c-besp">€900</div><div class="vk-res-u">Besparing/jaar</div></div>
           <div><div class="vk-res-n" id="c-sub">€2.125</div><div class="vk-res-u">ISDE-subsidie</div></div>
           <div><div class="vk-res-n" id="c-tvt">5,1 jr</div><div class="vk-res-u">Terugverdientijd</div></div>
         </div>

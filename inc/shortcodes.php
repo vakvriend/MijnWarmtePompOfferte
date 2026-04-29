@@ -142,7 +142,7 @@ function wc_shortcode_lead_form($atts = array()) {
           <div class="vk-slider-vals"><span>500 m³</span><strong id="vk-gas-val">1.800 m³</strong><span>4.000 m³</span></div>
           <div class="vk-mini-res">
             <div class="vk-mini-lbl">Geschatte besparing per jaar</div>
-            <div class="vk-mini-val" id="vk-mini-besp">€1.350</div>
+            <div class="vk-mini-val" id="vk-mini-besp">€900</div>
             <div class="vk-mini-sub">ISDE-subsidie: <strong id="vk-mini-isde">gem. €2.800</strong></div>
             <div class="vk-form-note">Schatting op basis van gemiddelden. Exacte subsidie afhankelijk van merk en vermogen.</div>
           </div>
