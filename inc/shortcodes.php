@@ -146,13 +146,6 @@ function wc_shortcode_lead_form($atts = array()) {
             <div class="vk-mini-sub">ISDE-subsidie: <strong id="vk-mini-isde">gem. €2.800</strong></div>
             <div class="vk-form-note">Schatting op basis van gemiddelden. Exacte subsidie afhankelijk van merk en vermogen.</div>
           </div>
-          <label class="vk-slider-lbl vk-choice-label">Wat is de belangrijkste reden?</label>
-          <div class="vk-keuze-grid vk-keuze-grid-compact">
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Gas besparen')"><span class="vk-keuze-ico">↓</span>Gas besparen</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Cv-ketel vervangen')"><span class="vk-keuze-ico">⚙</span>Cv-ketel vervangen</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Van het gas af')"><span class="vk-keuze-ico">✓</span>Van het gas af</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'aanleiding','Warm water verbeteren')"><span class="vk-keuze-ico">≈</span>Warm water</button>
-          </div>
           <label class="vk-slider-lbl vk-choice-label">Wanneer wilt u stappen zetten?</label>
           <div class="vk-keuze-grid vk-keuze-grid-compact">
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Zo snel mogelijk')"><span class="vk-keuze-ico">!</span>Zo snel mogelijk</button>

@@ -155,7 +155,6 @@ window.vkStap = function(n) {
   if (fout) fout.remove();
   if (n === 2 && !fd.woningtype) { vkFout('Selecteer eerst uw woningtype.'); return; }
   if (n === 3 && !fd.systeem) { vkFout('Selecteer eerst uw systeemvoorkeur.'); return; }
-  if (n === 4 && !fd.aanleiding) { vkFout('Selecteer eerst uw belangrijkste reden.'); return; }
   if (n === 4 && !fd.termijn) { vkFout('Selecteer eerst wanneer u stappen wilt zetten.'); return; }
   document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
   var s = document.getElementById('stap-' + n);
@@ -168,7 +167,6 @@ window.vkStap = function(n) {
     step_number: n,
     woningtype: fd.woningtype || '',
     systeem: fd.systeem || '',
-    aanleiding: fd.aanleiding || '',
     termijn: fd.termijn || ''
   });
   var f = document.getElementById('formulier');
@@ -189,7 +187,6 @@ window.vkVerstuur = async function() {
     woningtype: fd.woningtype || '',
     systeem: fd.systeem || '',
     gasverbruik: fd.gasverbruik || '',
-    aanleiding: fd.aanleiding || '',
     termijn: fd.termijn || ''
   });
   var btn = document.querySelector('.vk-btn-oranje');
@@ -204,7 +201,6 @@ window.vkVerstuur = async function() {
   data.append('woningtype', fd.woningtype || '');
   data.append('situatie', fd.systeem || '');
   data.append('gasverbruik', fd.gasverbruik || '');
-  data.append('aanleiding', fd.aanleiding || '');
   data.append('termijn', fd.termijn || '');
   data.append('stad', (document.getElementById('js-stad') || {}).value || '');
   data.append('domein', location.hostname);
@@ -246,7 +242,6 @@ function vkSucces() {
     woningtype: fd.woningtype || '',
     systeem: fd.systeem || '',
     gasverbruik: fd.gasverbruik || '',
-    aanleiding: fd.aanleiding || '',
     termijn: fd.termijn || '',
     stad: (document.getElementById('js-stad') || {}).value || ''
   });

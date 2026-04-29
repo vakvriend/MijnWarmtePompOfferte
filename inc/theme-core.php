@@ -66,7 +66,7 @@ function wc_enqueue_assets() {
         [], null
     );
     wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '6.7');
-    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '5.2', true);
+    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '5.3', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('wc_lead_nonce'),
@@ -187,7 +187,6 @@ function wc_lead_detail_render($post) {
         'woningtype'  => 'Woningtype',
         'situatie'    => 'Systeem voorkeur',
         'gasverbruik' => 'Gasverbruik',
-        'aanleiding'  => 'Belangrijkste reden',
         'termijn'     => 'Gewenste termijn',
         'domein'      => 'Domein',
         'landing_page'=> 'Landing page',
@@ -287,7 +286,6 @@ function wc_lead_email_body($lead_id, $data) {
         'woningtype'   => 'Woningtype',
         'situatie'     => 'Systeem voorkeur',
         'gasverbruik'  => 'Gasverbruik',
-        'aanleiding'   => 'Belangrijkste reden',
         'termijn'      => 'Gewenste termijn',
         'domein'       => 'Domein',
         'landing_page' => 'Landing page',
@@ -847,7 +845,6 @@ function wc_lead_agent_score($data) {
     $postcode = strtoupper(preg_replace('/\s+/', '', (string) ($data['postcode'] ?? '')));
     $situatie = strtolower((string) ($data['situatie'] ?? ''));
     $woningtype = strtolower((string) ($data['woningtype'] ?? ''));
-    $aanleiding = strtolower((string) ($data['aanleiding'] ?? ''));
     $termijn = strtolower((string) ($data['termijn'] ?? ''));
     $gas = wc_lead_parse_gasverbruik($data['gasverbruik'] ?? '');
 
@@ -920,20 +917,6 @@ function wc_lead_agent_score($data) {
         $notes[] = 'orienterende fase';
     }
 
-    if (strpos($aanleiding, 'gas af') !== false) {
-        $score += 7;
-        $notes[] = 'wil richting gasloos';
-    } elseif (strpos($aanleiding, 'ketel') !== false) {
-        $score += 6;
-        $notes[] = 'cv-ketel speelt mee';
-    } elseif (strpos($aanleiding, 'gas besparen') !== false) {
-        $score += 5;
-        $notes[] = 'besparen als aanleiding';
-    } elseif (strpos($aanleiding, 'warm water') !== false) {
-        $score += 4;
-        $notes[] = 'tapwaterwens';
-    }
-
     if (strpos($woningtype, 'vrijstaand') !== false) {
         $score += 10;
         $notes[] = 'vrijstaande woning';
@@ -973,7 +956,7 @@ function wc_lead_agent_summary($data, $score_data) {
     $lines[] = 'Contact: ' . ($data['telefoon'] ?: '-') . ' / ' . ($data['email'] ?: '-');
     $lines[] = 'Woning: ' . ($data['woningtype'] ?: '-') . ', gasverbruik: ' . ($data['gasverbruik'] ?: '-');
     $lines[] = 'Voorkeur: ' . ($data['situatie'] ?: '-');
-    $lines[] = 'Aanleiding en termijn: ' . ($data['aanleiding'] ?: '-') . ' / ' . ($data['termijn'] ?: '-');
+    $lines[] = 'Gewenste termijn: ' . ($data['termijn'] ?: '-');
     $lines[] = 'Kanaal: ' . ($data['utm_source'] ?: '-') . ' / ' . ($data['utm_campaign'] ?: '-');
     if ($score_data['notes']) {
         $lines[] = 'Waarom deze score: ' . implode(', ', $score_data['notes']) . '.';
@@ -989,7 +972,6 @@ function wc_lead_customer_email_body($data) {
     $systeem = trim((string) ($data['situatie'] ?? '')) ?: 'Nog te bepalen';
     $woningtype = trim((string) ($data['woningtype'] ?? '')) ?: 'Nog niet ingevuld';
     $gasverbruik = trim((string) ($data['gasverbruik'] ?? '')) ?: 'Nog niet ingevuld';
-    $aanleiding = trim((string) ($data['aanleiding'] ?? '')) ?: 'Nog niet ingevuld';
     $termijn = trim((string) ($data['termijn'] ?? '')) ?: 'Nog niet ingevuld';
     $postcode = trim((string) ($data['postcode'] ?? '')) ?: 'Nog niet ingevuld';
     $image_url = wc_lead_customer_email_image_url($data);
@@ -999,7 +981,6 @@ function wc_lead_customer_email_body($data) {
         'Postcode' => $postcode,
         'Voorkeur' => $systeem,
         'Gasverbruik' => $gasverbruik,
-        'Reden' => $aanleiding,
         'Termijn' => $termijn,
     );
 
@@ -1156,7 +1137,7 @@ function wc_ajax_lead() {
         'post_status' => 'private',
     ));
     if ($id && !is_wp_error($id)) {
-        $velden = array('naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','aanleiding','termijn','domein','stad','session_id','utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','landing_page','referrer');
+        $velden = array('naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','termijn','domein','stad','session_id','utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid','landing_page','referrer');
         $lead_data = array();
         foreach ($velden as $k) {
             $value = sanitize_text_field($_POST[$k] ?? '');
