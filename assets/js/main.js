@@ -80,6 +80,65 @@ function vkTrackBackend(eventName, payload) {
   }).catch(function() {});
 }
 
+function vkDraftData(stage) {
+  var p = new URLSearchParams(location.search);
+  return {
+    stage: stage || 'contact',
+    naam: ((document.getElementById('vk-naam') || {}).value || '').trim(),
+    email: ((document.getElementById('vk-email') || {}).value || '').trim(),
+    telefoon: ((document.getElementById('vk-tel') || {}).value || '').trim(),
+    postcode: ((document.getElementById('vk-pc') || {}).value || '').trim(),
+    woningtype: fd.woningtype || '',
+    situatie: fd.systeem || '',
+    gasverbruik: fd.gasverbruik || '',
+    termijn: fd.termijn || '',
+    stad: (document.getElementById('js-stad') || {}).value || '',
+    domein: location.hostname,
+    landing_page: location.href,
+    referrer: document.referrer || '',
+    utm_source: p.get('utm_source') || '',
+    utm_medium: p.get('utm_medium') || '',
+    utm_campaign: p.get('utm_campaign') || '',
+    utm_term: p.get('utm_term') || '',
+    utm_content: p.get('utm_content') || '',
+    gclid: p.get('gclid') || '',
+    gbraid: p.get('gbraid') || '',
+    wbraid: p.get('wbraid') || ''
+  };
+}
+
+function vkSaveDraft(stage) {
+  if (typeof wcVars === 'undefined' || !wcVars.ajaxUrl || !wcVars.nonce) return;
+  var draft = vkDraftData(stage);
+  var hasValue = ['naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','termijn'].some(function(key) {
+    return !!draft[key];
+  });
+  if (!hasValue) return;
+
+  var data = new FormData();
+  data.append('action', 'wc_lead_draft');
+  data.append('nonce', wcVars.nonce);
+  data.append('session_id', vkSessionId);
+  Object.keys(draft).forEach(function(key) {
+    data.append(key, draft[key]);
+  });
+
+  fetch(wcVars.ajaxUrl, {
+    method: 'POST',
+    body: data,
+    keepalive: true,
+    credentials: 'same-origin'
+  }).catch(function() {});
+}
+
+var vkDraftTimer = null;
+function vkQueueDraft(stage) {
+  clearTimeout(vkDraftTimer);
+  vkDraftTimer = setTimeout(function() {
+    vkSaveDraft(stage);
+  }, 500);
+}
+
 function vkTrackGa4(eventName, payload) {
   if (!window.vkGa4MeasurementId || typeof window.gtag !== 'function') return;
 
@@ -133,6 +192,7 @@ window.vkKies = function(btn, key, val) {
   btn.closest('.vk-keuze-grid').querySelectorAll('.vk-keuze').forEach(function(b) { b.classList.remove('actief'); });
   btn.classList.add('actief');
   fd[key] = val;
+  vkQueueDraft(key);
   vkTrack('lead_form_choice', {
     form_name: 'warmtepomp_offerte',
     field_name: key,
@@ -158,6 +218,7 @@ window.vkStap = function(n) {
   document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
   var s = document.getElementById('stap-' + n);
   if (s) s.classList.add('active');
+  if (n === 4) vkSaveDraft('contact');
   document.body.classList.toggle('vk-form-step-4', n === 4);
   document.body.classList.remove('vk-form-success');
   document.querySelectorAll('.vk-prog-dot').forEach(function(d, i) { d.classList.toggle('active', i < n); });
@@ -179,6 +240,7 @@ window.vkVerstuur = async function() {
   email = email.trim();
   var tel = (document.getElementById('vk-tel') || {}).value || '';
   var pc = (document.getElementById('vk-pc') || {}).value || '';
+  vkSaveDraft('submit_attempt');
   if (!naam) { vkFout('Vul uw naam in.'); return; }
   if (!email || !email.includes('@')) { vkFout('Vul een geldig e-mailadres in.'); return; }
   vkTrack('lead_form_submit_attempt', {
@@ -390,6 +452,13 @@ document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
   a.addEventListener('click', function() {
     vkTrack('whatsapp_click', {link_url: this.href});
   });
+});
+
+['vk-naam','vk-email','vk-tel','vk-pc'].forEach(function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', function() { vkQueueDraft('contact_input'); });
+  el.addEventListener('blur', function() { vkSaveDraft('contact_blur'); });
 });
 
 if (document.getElementById('vk-gas')) vkUpdateGas();

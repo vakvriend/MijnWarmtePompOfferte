@@ -66,7 +66,7 @@ function wc_enqueue_assets() {
         [], null
     );
     wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '6.7');
-    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '5.4', true);
+    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '5.5', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('wc_lead_nonce'),
@@ -350,6 +350,15 @@ function wc_lead_agent_menu() {
 
     add_submenu_page(
         'edit.php?post_type=wc_lead',
+        'Onbevestigde leads',
+        'Onbevestigde leads',
+        'manage_options',
+        'wc-unconfirmed-leads',
+        'wc_unconfirmed_leads_page'
+    );
+
+    add_submenu_page(
+        'edit.php?post_type=wc_lead',
         'Lead agent',
         'Lead agent',
         'manage_options',
@@ -410,6 +419,184 @@ function wc_ajax_funnel_event() {
 }
 add_action('wp_ajax_wc_funnel_event', 'wc_ajax_funnel_event');
 add_action('wp_ajax_nopriv_wc_funnel_event', 'wc_ajax_funnel_event');
+
+function wc_unconfirmed_leads_get() {
+    $leads = get_option('wc_unconfirmed_leads', array());
+    return is_array($leads) ? $leads : array();
+}
+
+function wc_unconfirmed_leads_save($leads) {
+    if (count($leads) > 1000) {
+        uasort($leads, function ($a, $b) {
+            return (int) ($b['updated_ts'] ?? 0) <=> (int) ($a['updated_ts'] ?? 0);
+        });
+        $leads = array_slice($leads, 0, 1000, true);
+    }
+    update_option('wc_unconfirmed_leads', $leads, false);
+}
+
+function wc_unconfirmed_lead_fields() {
+    return array('naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','termijn','domein','stad','landing_page','referrer','utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','gbraid','wbraid');
+}
+
+function wc_unconfirmed_lead_store($session_id, $data, $stage = 'contact') {
+    $session_id = sanitize_text_field((string) $session_id);
+    if (!$session_id) {
+        return false;
+    }
+
+    $leads = wc_unconfirmed_leads_get();
+    $existing = isset($leads[$session_id]) && is_array($leads[$session_id]) ? $leads[$session_id] : array();
+    $fields = wc_unconfirmed_lead_fields();
+    $clean = array();
+    foreach ($fields as $field) {
+        $value = isset($data[$field]) ? sanitize_text_field((string) $data[$field]) : '';
+        if ($value !== '' || !isset($existing[$field])) {
+            $clean[$field] = $value;
+        }
+    }
+
+    $now = current_time('mysql');
+    $lead = array_merge($existing, $clean, array(
+        'session_id' => $session_id,
+        'stage' => sanitize_key($stage ?: 'contact'),
+        'updated_at' => $now,
+        'updated_ts' => time(),
+        'converted' => !empty($existing['converted']),
+        'converted_lead_id' => (int) ($existing['converted_lead_id'] ?? 0),
+    ));
+    if (empty($lead['created_at'])) {
+        $lead['created_at'] = $now;
+        $lead['created_ts'] = time();
+    }
+
+    $leads[$session_id] = $lead;
+    wc_unconfirmed_leads_save($leads);
+    return true;
+}
+
+function wc_unconfirmed_lead_mark_converted($session_id, $lead_id) {
+    $session_id = sanitize_text_field((string) $session_id);
+    if (!$session_id) {
+        return;
+    }
+    $leads = wc_unconfirmed_leads_get();
+    if (empty($leads[$session_id]) || !is_array($leads[$session_id])) {
+        return;
+    }
+    $leads[$session_id]['converted'] = true;
+    $leads[$session_id]['converted_lead_id'] = (int) $lead_id;
+    $leads[$session_id]['converted_at'] = current_time('mysql');
+    $leads[$session_id]['updated_at'] = current_time('mysql');
+    $leads[$session_id]['updated_ts'] = time();
+    wc_unconfirmed_leads_save($leads);
+}
+
+function wc_ajax_lead_draft() {
+    check_ajax_referer('wc_lead_nonce', 'nonce');
+
+    $session_id = sanitize_text_field($_POST['session_id'] ?? '');
+    $stage = sanitize_key($_POST['stage'] ?? 'contact');
+    $data = array();
+    foreach (wc_unconfirmed_lead_fields() as $field) {
+        $data[$field] = sanitize_text_field($_POST[$field] ?? '');
+    }
+
+    $has_value = false;
+    foreach (array('naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','termijn') as $field) {
+        if (!empty($data[$field])) {
+            $has_value = true;
+            break;
+        }
+    }
+    if (!$session_id || !$has_value) {
+        wp_send_json_error(array('message' => 'Geen conceptlead opgeslagen.'));
+    }
+
+    wc_unconfirmed_lead_store($session_id, $data, $stage);
+    wp_send_json_success(array('stored' => true));
+}
+add_action('wp_ajax_wc_lead_draft', 'wc_ajax_lead_draft');
+add_action('wp_ajax_nopriv_wc_lead_draft', 'wc_ajax_lead_draft');
+
+function wc_unconfirmed_leads_page() {
+    $range_days = max(1, min(90, (int) ($_GET['range'] ?? 14)));
+    $since = time() - ($range_days * DAY_IN_SECONDS);
+    $all = wc_unconfirmed_leads_get();
+    $leads = array_filter($all, function ($lead) use ($since) {
+        return empty($lead['converted']) && !empty($lead['updated_ts']) && (int) $lead['updated_ts'] >= $since;
+    });
+    uasort($leads, function ($a, $b) {
+        return (int) ($b['updated_ts'] ?? 0) <=> (int) ($a['updated_ts'] ?? 0);
+    });
+
+    $with_email = count(array_filter($leads, function ($lead) { return !empty($lead['email']); }));
+    $with_phone = count(array_filter($leads, function ($lead) { return !empty($lead['telefoon']); }));
+    $with_postcode = count(array_filter($leads, function ($lead) { return !empty($lead['postcode']); }));
+    ?>
+    <div class="wrap">
+        <h1>Onbevestigde leads</h1>
+        <p>Concepten van bezoekers die gegevens hebben ingevuld, maar nog geen complete lead hebben verzonden. Zodra een lead succesvol binnenkomt, verdwijnt het concept uit deze lijst.</p>
+
+        <form method="get" style="margin:16px 0 22px">
+            <input type="hidden" name="post_type" value="wc_lead">
+            <input type="hidden" name="page" value="wc-unconfirmed-leads">
+            <label>Periode:
+                <select name="range">
+                    <?php foreach (array(1, 7, 14, 30, 90) as $days): ?>
+                        <option value="<?php echo esc_attr($days); ?>" <?php selected($range_days, $days); ?>><?php echo esc_html($days); ?> dagen</option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <?php submit_button('Bekijken', 'secondary', '', false); ?>
+        </form>
+
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(140px,1fr));gap:14px;margin:18px 0 24px">
+            <?php foreach (array('Concepten' => count($leads), 'Met e-mail' => $with_email, 'Met telefoon' => $with_phone, 'Met postcode' => $with_postcode) as $label => $value): ?>
+                <div style="background:#fff;border:1px solid #dcdcde;border-radius:10px;padding:18px">
+                    <div style="font-size:13px;color:#646970;font-weight:700"><?php echo esc_html($label); ?></div>
+                    <div style="font-size:30px;font-weight:800;margin-top:8px;color:#1d2327"><?php echo esc_html((string) $value); ?></div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <table class="widefat striped">
+            <thead>
+                <tr>
+                    <th>Laatst gezien</th>
+                    <th>Naam</th>
+                    <th>E-mail</th>
+                    <th>Telefoon</th>
+                    <th>Postcode</th>
+                    <th>Stad</th>
+                    <th>Systeem</th>
+                    <th>Termijn</th>
+                    <th>Domein</th>
+                    <th>Sessie</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php if ($leads): foreach ($leads as $lead): ?>
+                <tr>
+                    <td><?php echo esc_html($lead['updated_at'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($lead['naam'] ?? '-'); ?></td>
+                    <td><?php echo !empty($lead['email']) ? '<a href="mailto:' . esc_attr($lead['email']) . '">' . esc_html($lead['email']) . '</a>' : '-'; ?></td>
+                    <td><?php echo !empty($lead['telefoon']) ? '<a href="tel:' . esc_attr($lead['telefoon']) . '">' . esc_html($lead['telefoon']) . '</a>' : '-'; ?></td>
+                    <td><?php echo esc_html($lead['postcode'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($lead['stad'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($lead['situatie'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($lead['termijn'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($lead['domein'] ?? '-'); ?></td>
+                    <td><code><?php echo esc_html(substr((string) ($lead['session_id'] ?? ''), 0, 18)); ?></code></td>
+                </tr>
+            <?php endforeach; else: ?>
+                <tr><td colspan="10">Nog geen onbevestigde leads in deze periode.</td></tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+}
 
 function wc_lead_dashboard_page() {
     $range_days = max(1, min(90, (int) ($_GET['range'] ?? 14)));
@@ -1153,6 +1340,7 @@ function wc_ajax_lead() {
         update_post_meta($id, 'lead_score', $score_data['score']);
         update_post_meta($id, 'lead_priority', $score_data['priority']);
         update_post_meta($id, 'lead_agent_summary', $summary);
+        wc_unconfirmed_lead_mark_converted($lead_data['session_id'] ?? '', $id);
         wc_lead_agent_log($id, 'Lead agent gestart. Score: ' . $score_data['score'] . '/100, prioriteit: ' . $score_data['priority'] . '.');
 
         $settings = wc_lead_agent_settings();
