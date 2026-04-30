@@ -2,8 +2,16 @@
   "name": "Vakvriend Warmtepomp Woningcheck",
   "short_name": "Vakvriend",
   "icons": [
-    { "src": "/wp-content/themes/vakvriend-warmtepomp-campagne-v2/assets/img/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/wp-content/themes/vakvriend-warmtepomp-campagne-v2/assets/img/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ],
   "theme_color": "#066839",
   "background_color": "#ffffff",

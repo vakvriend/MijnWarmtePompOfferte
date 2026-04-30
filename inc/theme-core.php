@@ -76,17 +76,30 @@ function wc_enqueue_assets() {
 add_action('wp_enqueue_scripts', 'wc_enqueue_assets');
 
 function wc_favicon_links() {
-    $base = get_template_directory_uri() . '/assets/img/';
-    echo '<link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48">' . "\n";
-    echo '<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">' . "\n";
-    echo '<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32">' . "\n";
-    echo '<link rel="icon" href="' . esc_url($base . 'favicon.svg') . '" type="image/svg+xml">' . "\n";
-    echo '<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">' . "\n";
-    echo '<link rel="manifest" href="' . esc_url($base . 'site.webmanifest') . '">' . "\n";
+    echo '<link rel="icon" href="' . esc_url(home_url('/favicon-48x48.png')) . '" type="image/png" sizes="48x48">' . "\n";
+    echo '<link rel="icon" href="' . esc_url(home_url('/favicon-96x96.png')) . '" type="image/png" sizes="96x96">' . "\n";
+    echo '<link rel="icon" href="' . esc_url(home_url('/favicon-192x192.png')) . '" type="image/png" sizes="192x192">' . "\n";
+    echo '<link rel="shortcut icon" href="' . esc_url(home_url('/favicon.ico')) . '" type="image/x-icon">' . "\n";
+    echo '<link rel="apple-touch-icon" href="' . esc_url(home_url('/apple-touch-icon.png')) . '" sizes="180x180">' . "\n";
+    echo '<link rel="manifest" href="' . esc_url(home_url('/site.webmanifest')) . '">' . "\n";
     echo '<meta name="theme-color" content="#066839">' . "\n";
 }
 add_action('wp_head', 'wc_favicon_links', 5);
 add_action('admin_head', 'wc_favicon_links', 5);
+
+function wc_site_icon_url($url, $size = 512, $blog_id = 0) {
+    if ($size <= 48) {
+        return home_url('/favicon-48x48.png');
+    }
+    if ($size <= 96) {
+        return home_url('/favicon-96x96.png');
+    }
+    if ($size <= 192) {
+        return home_url('/favicon-192x192.png');
+    }
+    return home_url('/favicon-512x512.png');
+}
+add_filter('get_site_icon_url', 'wc_site_icon_url', 10, 3);
 
 function wc_seo_title($title) {
     if (defined('WPSEO_VERSION')) {
