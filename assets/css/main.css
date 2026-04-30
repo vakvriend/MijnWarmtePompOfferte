@@ -188,6 +188,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-disclaimer span::before{content:'✓';color:var(--groen);font-weight:800}
 .vk-disclaimer a{color:var(--groen)}
 @media(max-width:640px){.vk-disclaimer{font-size:10px}.vk-disclaimer span{display:inline-flex;margin:0 4px 3px;white-space:normal}}
+.vk-contact-fallback{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:10px 0 2px;font-size:11px;color:var(--grijs)}
+.vk-contact-fallback a{display:inline-flex;align-items:center;justify-content:center;border:1px solid #dcefe2;background:#f7fbf8;color:var(--groen);border-radius:999px;padding:6px 9px;font-weight:800;text-decoration:none}
+.vk-contact-fallback span{font-weight:700}
+@media(max-width:640px){.vk-contact-fallback{font-size:10px;gap:5px}.vk-contact-fallback a{padding:6px 8px}}
 .vk-succes{text-align:center;padding:8px 0}
 .vk-succes-mark{width:76px;height:76px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border-radius:50%;background:var(--groen);color:#fff;font-size:38px;font-weight:900;box-shadow:0 16px 38px rgba(6,104,57,.22)}
 .vk-succes-pill{display:inline-flex;align-items:center;justify-content:center;background:var(--groen-xl);color:var(--groen);border:1px solid #cfe8d7;border-radius:999px;padding:6px 12px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}

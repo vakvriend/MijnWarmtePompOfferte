@@ -65,7 +65,7 @@ function wc_enqueue_assets() {
         'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap',
         [], null
     );
-    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '6.7');
+    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '6.8');
     wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '5.5', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -472,6 +472,11 @@ function wc_unconfirmed_lead_store($session_id, $data, $stage = 'contact') {
 
     $leads[$session_id] = $lead;
     wc_unconfirmed_leads_save($leads);
+
+    if (!empty($lead['email']) && empty($lead['converted']) && empty($lead['followup_sent_at'])) {
+        wc_unconfirmed_lead_schedule_followup($session_id);
+    }
+
     return true;
 }
 
@@ -519,6 +524,78 @@ function wc_ajax_lead_draft() {
 add_action('wp_ajax_wc_lead_draft', 'wc_ajax_lead_draft');
 add_action('wp_ajax_nopriv_wc_lead_draft', 'wc_ajax_lead_draft');
 
+function wc_unconfirmed_lead_followup_body($lead) {
+    $naam = trim((string) ($lead['naam'] ?? '')) ?: 'daar';
+    $stad = trim((string) ($lead['stad'] ?? '')) ?: 'uw regio';
+    $systeem = trim((string) ($lead['situatie'] ?? '')) ?: 'uw warmtepompkeuze';
+    $postcode = trim((string) ($lead['postcode'] ?? '')) ?: 'nog niet ingevuld';
+    $url = !empty($lead['landing_page']) ? esc_url_raw($lead['landing_page']) : home_url('/');
+
+    return '<!doctype html><html><body style="margin:0;background:#f4f7f4;font-family:Arial,Helvetica,sans-serif;color:#102017">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f7f4;padding:28px 12px"><tr><td align="center">'
+        . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #dfe9e3">'
+        . '<tr><td style="background:#066839;padding:26px 28px;color:#ffffff">'
+        . '<div style="font-size:13px;font-weight:800;opacity:.9">Vakvriend woningcheck</div>'
+        . '<h1 style="margin:10px 0 6px;font-size:28px;line-height:1.15">Uw woningcheck stond bijna klaar</h1>'
+        . '<p style="margin:0;color:#dcefe4;font-size:15px;line-height:1.6">We zagen dat u al gegevens had ingevuld voor een warmtepompadvies in ' . esc_html($stad) . '.</p>'
+        . '</td></tr>'
+        . '<tr><td style="padding:28px">'
+        . '<p style="margin:0 0 16px;font-size:16px;line-height:1.7">Hallo ' . esc_html($naam) . ',</p>'
+        . '<p style="margin:0 0 18px;font-size:15px;line-height:1.75;color:#344238">Als u wilt, kunt u de woningcheck alsnog afronden. Dan kijken we naar uw woning, systeemvoorkeur, lokale subsidiecheck en praktische haalbaarheid. Vrijblijvend, zonder verkoopdruk.</p>'
+        . '<div style="background:#f7faf7;border:1px solid #e1ebe4;border-radius:12px;padding:16px 18px;margin:20px 0">'
+        . '<p style="margin:0 0 8px;font-size:14px;color:#344238"><strong>Systeem:</strong> ' . esc_html($systeem) . '</p>'
+        . '<p style="margin:0;font-size:14px;color:#344238"><strong>Postcode:</strong> ' . esc_html($postcode) . '</p>'
+        . '</div>'
+        . '<p style="margin:22px 0"><a href="' . esc_url($url) . '#formulier" style="display:inline-block;background:#f97316;color:#fff;text-decoration:none;padding:13px 18px;border-radius:10px;font-weight:800">Woningcheck afronden</a></p>'
+        . '<p style="margin:0;font-size:13px;line-height:1.6;color:#647064">Liever direct overleggen? Bel Vakvriend op 075 234 0001.</p>'
+        . '</td></tr>'
+        . '<tr><td style="background:#102017;color:#b8c5bb;padding:18px 28px;font-size:12px;line-height:1.6">U ontvangt deze mail omdat u uw e-mailadres invulde in de vrijblijvende woningcheck van Vakvriend.</td></tr>'
+        . '</table></td></tr></table></body></html>';
+}
+
+function wc_unconfirmed_lead_schedule_followup($session_id) {
+    $session_id = sanitize_text_field((string) $session_id);
+    if (!$session_id) {
+        return;
+    }
+    if (!wp_next_scheduled('wc_unconfirmed_lead_followup', array($session_id))) {
+        wp_schedule_single_event(time() + 10 * MINUTE_IN_SECONDS, 'wc_unconfirmed_lead_followup', array($session_id));
+    }
+}
+
+function wc_unconfirmed_lead_followup($session_id) {
+    $session_id = sanitize_text_field((string) $session_id);
+    $leads = wc_unconfirmed_leads_get();
+    if (empty($leads[$session_id]) || !is_array($leads[$session_id])) {
+        return;
+    }
+
+    $lead = $leads[$session_id];
+    if (!empty($lead['converted']) || !empty($lead['followup_sent_at']) || empty($lead['email']) || !is_email($lead['email'])) {
+        return;
+    }
+
+    $updated_ts = (int) ($lead['updated_ts'] ?? 0);
+    if ($updated_ts && $updated_ts > time() - 10 * MINUTE_IN_SECONDS) {
+        wc_unconfirmed_lead_schedule_followup($session_id);
+        return;
+    }
+
+    $sent = wp_mail(
+        $lead['email'],
+        'Uw woningcheck stond bijna klaar',
+        wc_unconfirmed_lead_followup_body($lead),
+        array('From: Vakvriend <info@vakvriend.nl>', 'Content-Type: text/html; charset=UTF-8')
+    );
+
+    $leads[$session_id]['followup_sent_at'] = current_time('mysql');
+    $leads[$session_id]['followup_status'] = $sent ? 'verzonden' : 'mislukt';
+    $leads[$session_id]['updated_at'] = current_time('mysql');
+    $leads[$session_id]['updated_ts'] = time();
+    wc_unconfirmed_leads_save($leads);
+}
+add_action('wc_unconfirmed_lead_followup', 'wc_unconfirmed_lead_followup');
+
 function wc_unconfirmed_leads_page() {
     $range_days = max(1, min(90, (int) ($_GET['range'] ?? 14)));
     $since = time() - ($range_days * DAY_IN_SECONDS);
@@ -533,6 +610,7 @@ function wc_unconfirmed_leads_page() {
     $with_email = count(array_filter($leads, function ($lead) { return !empty($lead['email']); }));
     $with_phone = count(array_filter($leads, function ($lead) { return !empty($lead['telefoon']); }));
     $with_postcode = count(array_filter($leads, function ($lead) { return !empty($lead['postcode']); }));
+    $followed_up = count(array_filter($leads, function ($lead) { return !empty($lead['followup_sent_at']); }));
     ?>
     <div class="wrap">
         <h1>Onbevestigde leads</h1>
@@ -551,8 +629,8 @@ function wc_unconfirmed_leads_page() {
             <?php submit_button('Bekijken', 'secondary', '', false); ?>
         </form>
 
-        <div style="display:grid;grid-template-columns:repeat(4,minmax(140px,1fr));gap:14px;margin:18px 0 24px">
-            <?php foreach (array('Concepten' => count($leads), 'Met e-mail' => $with_email, 'Met telefoon' => $with_phone, 'Met postcode' => $with_postcode) as $label => $value): ?>
+        <div style="display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:14px;margin:18px 0 24px">
+            <?php foreach (array('Concepten' => count($leads), 'Met e-mail' => $with_email, 'Met telefoon' => $with_phone, 'Met postcode' => $with_postcode, 'Follow-up mail' => $followed_up) as $label => $value): ?>
                 <div style="background:#fff;border:1px solid #dcdcde;border-radius:10px;padding:18px">
                     <div style="font-size:13px;color:#646970;font-weight:700"><?php echo esc_html($label); ?></div>
                     <div style="font-size:30px;font-weight:800;margin-top:8px;color:#1d2327"><?php echo esc_html((string) $value); ?></div>
@@ -572,6 +650,7 @@ function wc_unconfirmed_leads_page() {
                     <th>Systeem</th>
                     <th>Termijn</th>
                     <th>Domein</th>
+                    <th>Follow-up</th>
                     <th>Sessie</th>
                 </tr>
             </thead>
@@ -587,10 +666,11 @@ function wc_unconfirmed_leads_page() {
                     <td><?php echo esc_html($lead['situatie'] ?? '-'); ?></td>
                     <td><?php echo esc_html($lead['termijn'] ?? '-'); ?></td>
                     <td><?php echo esc_html($lead['domein'] ?? '-'); ?></td>
+                    <td><?php echo esc_html($lead['followup_status'] ?? '-'); ?></td>
                     <td><code><?php echo esc_html(substr((string) ($lead['session_id'] ?? ''), 0, 18)); ?></code></td>
                 </tr>
             <?php endforeach; else: ?>
-                <tr><td colspan="10">Nog geen onbevestigde leads in deze periode.</td></tr>
+                <tr><td colspan="11">Nog geen onbevestigde leads in deze periode.</td></tr>
             <?php endif; ?>
             </tbody>
         </table>
@@ -609,6 +689,7 @@ function wc_lead_dashboard_page() {
     $event_counts = array();
     $step_sessions = array(1 => array(), 2 => array(), 3 => array(), 4 => array());
     $domain_counts = array();
+    $domain_metrics = array();
 
     foreach ($events as $event) {
         $session_id = $event['session_id'] ?? '';
@@ -669,13 +750,45 @@ function wc_lead_dashboard_page() {
         ),
     ));
 
+    foreach ($sessions as $session) {
+        $host = $session['hostname'] ?: 'onbekend';
+        if (!isset($domain_metrics[$host])) {
+            $domain_metrics[$host] = array('sessions' => 0, 'step4' => 0, 'submitted' => 0, 'success' => 0, 'drafts' => 0);
+        }
+        $domain_metrics[$host]['sessions']++;
+        if ((int) ($session['max_step'] ?? 0) >= 4) {
+            $domain_metrics[$host]['step4']++;
+        }
+        if (!empty($session['submitted'])) {
+            $domain_metrics[$host]['submitted']++;
+        }
+        if (!empty($session['success'])) {
+            $domain_metrics[$host]['success']++;
+        }
+    }
+
+    $drafts = array_filter(wc_unconfirmed_leads_get(), function ($lead) use ($since) {
+        return empty($lead['converted']) && !empty($lead['updated_ts']) && (int) $lead['updated_ts'] >= $since;
+    });
+    foreach ($drafts as $draft) {
+        $host = $draft['domein'] ?: 'onbekend';
+        if (!isset($domain_metrics[$host])) {
+            $domain_metrics[$host] = array('sessions' => 0, 'step4' => 0, 'submitted' => 0, 'success' => 0, 'drafts' => 0);
+        }
+        $domain_metrics[$host]['drafts']++;
+    }
+
     $total_sessions = count($sessions);
     $submitted = count(array_filter($sessions, function ($s) { return !empty($s['submitted']); }));
     $successes = count(array_filter($sessions, function ($s) { return !empty($s['success']); }));
     $errors = count(array_filter($sessions, function ($s) { return !empty($s['error']); }));
     $conversion = $total_sessions ? round(($successes / $total_sessions) * 100, 1) : 0;
+    $draft_count = count($drafts);
 
     arsort($domain_counts);
+    uasort($domain_metrics, function ($a, $b) {
+        return (($b['sessions'] ?? 0) + ($b['drafts'] ?? 0)) <=> (($a['sessions'] ?? 0) + ($a['drafts'] ?? 0));
+    });
     $recent_events = array_slice(array_reverse($events), 0, 40);
     ?>
     <div class="wrap">
@@ -701,6 +814,7 @@ function wc_lead_dashboard_page() {
                 'Sessies' => $total_sessions,
                 'Verzendpogingen' => $submitted,
                 'Leads' => $successes,
+                'Conceptleads' => $draft_count,
                 'Fouten' => $errors,
                 'Conversie' => $conversion . '%',
             );
@@ -768,12 +882,19 @@ function wc_lead_dashboard_page() {
             <div>
                 <h2>Domeinen</h2>
                 <table class="widefat striped">
-                    <thead><tr><th>Domein</th><th>Events</th></tr></thead>
+                    <thead><tr><th>Domein</th><th>Sessies</th><th>Stap 4</th><th>Concepten</th><th>Verzendpogingen</th><th>Leads</th></tr></thead>
                     <tbody>
-                    <?php if ($domain_counts): foreach (array_slice($domain_counts, 0, 12, true) as $host => $count): ?>
-                        <tr><td><?php echo esc_html($host); ?></td><td><?php echo esc_html((string) $count); ?></td></tr>
+                    <?php if ($domain_metrics): foreach (array_slice($domain_metrics, 0, 12, true) as $host => $metrics): ?>
+                        <tr>
+                            <td><?php echo esc_html($host); ?></td>
+                            <td><?php echo esc_html((string) ($metrics['sessions'] ?? 0)); ?></td>
+                            <td><?php echo esc_html((string) ($metrics['step4'] ?? 0)); ?></td>
+                            <td><?php echo esc_html((string) ($metrics['drafts'] ?? 0)); ?></td>
+                            <td><?php echo esc_html((string) ($metrics['submitted'] ?? 0)); ?></td>
+                            <td><?php echo esc_html((string) ($metrics['success'] ?? 0)); ?></td>
+                        </tr>
                     <?php endforeach; else: ?>
-                        <tr><td colspan="2">Nog geen funnel-data.</td></tr>
+                        <tr><td colspan="6">Nog geen funnel-data.</td></tr>
                     <?php endif; ?>
                     </tbody>
                 </table>

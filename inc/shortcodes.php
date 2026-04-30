@@ -173,6 +173,11 @@ function wc_shortcode_lead_form($atts = array()) {
           </div>
           <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()"><?php echo esc_html($atts['submit_label']); ?></button>
           <p class="vk-disclaimer"><span>Vrijblijvend advies</span><span>Reactie binnen 24 uur</span><span>Lokale subsidiecheck</span><br>Door te versturen gaat u akkoord met onze <a href="<?php echo esc_url(home_url('/privacy')); ?>">privacyverklaring</a>.</p>
+          <div class="vk-contact-fallback">
+            <span>Liever direct overleggen?</span>
+            <a href="tel:<?php echo esc_attr($ctx['tel_clean']); ?>">Bel <?php echo esc_html($ctx['telefoon']); ?></a>
+            <a href="https://wa.me/<?php echo esc_attr($ctx['whatsapp']); ?>">WhatsApp</a>
+          </div>
           <div class="vk-terug"><button onclick="vkStap(3)"><?php echo esc_html($atts['back_label']); ?></button></div>
         </div>
 

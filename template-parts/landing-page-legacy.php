@@ -196,6 +196,11 @@ $reviews = wc_meta_rows('wc_reviews', [
           </div>
           <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Ontvang mijn woningcheck</button>
           <p class="vk-disclaimer"><span>Vrijblijvend advies</span><span>Reactie binnen 24 uur</span><span>Lokale subsidiecheck</span><br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
+          <div class="vk-contact-fallback">
+            <span>Liever direct overleggen?</span>
+            <a href="tel:<?=esc_attr($tel_clean)?>">Bel <?=esc_html($telefoon)?></a>
+            <a href="https://wa.me/<?=esc_attr($whatsapp)?>">WhatsApp</a>
+          </div>
           <div class="vk-terug"><button onclick="vkStap(3)">← Terug</button></div>
         </div>
 

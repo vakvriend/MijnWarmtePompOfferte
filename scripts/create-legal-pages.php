@@ -61,6 +61,10 @@ $privacy = <<<HTML
 <p>Wij kunnen naam, e-mailadres, telefoonnummer, adresgegevens, woningtype, gasverbruik, systeemvoorkeur en aanvullende opmerkingen verwerken. Deze gegevens worden alleen gebruikt voor advies, opvolging van uw aanvraag, planning en administratie.</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:paragraph -->
+<p>Als u gegevens invult maar de woningcheck nog niet definitief verstuurt, kunnen wij deze tijdelijk opslaan als conceptaanvraag. Wanneer u uw e-mailadres heeft ingevuld, kunnen wij eenmalig een korte herinnering sturen om de woningcheck alsnog af te ronden.</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading {"level":3} -->
 <h3>Analytics en advertentiemeting</h3>
 <!-- /wp:heading -->
