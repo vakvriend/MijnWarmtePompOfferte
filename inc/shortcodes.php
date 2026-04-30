@@ -146,14 +146,14 @@ function wc_shortcode_lead_form($atts = array()) {
             <div class="vk-mini-sub">ISDE-subsidie: <strong id="vk-mini-isde">gem. €2.800</strong></div>
             <div class="vk-form-note">Schatting op basis van gemiddelden. Exacte subsidie afhankelijk van merk en vermogen.</div>
           </div>
-          <label class="vk-slider-lbl vk-choice-label">Wanneer wilt u stappen zetten?</label>
+          <label class="vk-slider-lbl vk-choice-label">Wanneer wilt u stappen zetten? <span style="font-weight:600;color:#7b8a80">(optioneel)</span></label>
           <div class="vk-keuze-grid vk-keuze-grid-compact">
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Zo snel mogelijk')"><span class="vk-keuze-ico">!</span>Zo snel mogelijk</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Binnen 3 maanden')"><span class="vk-keuze-ico">3</span>Binnen 3 maanden</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Dit jaar')"><span class="vk-keuze-ico">12</span>Dit jaar</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Ik oriënteer mij nog')"><span class="vk-keuze-ico">?</span>Oriënteren</button>
           </div>
-          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)"><?php echo esc_html($atts['next_label']); ?></button>
+          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)">Naar laatste stap</button>
           <div class="vk-terug"><button onclick="vkStap(2)"><?php echo esc_html($atts['back_label']); ?></button></div>
         </div>
 

@@ -155,7 +155,6 @@ window.vkStap = function(n) {
   if (fout) fout.remove();
   if (n === 2 && !fd.woningtype) { vkFout('Selecteer eerst uw woningtype.'); return; }
   if (n === 3 && !fd.systeem) { vkFout('Selecteer eerst uw systeemvoorkeur.'); return; }
-  if (n === 4 && !fd.termijn) { vkFout('Selecteer eerst wanneer u stappen wilt zetten.'); return; }
   document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
   var s = document.getElementById('stap-' + n);
   if (s) s.classList.add('active');
