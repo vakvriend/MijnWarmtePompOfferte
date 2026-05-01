@@ -125,6 +125,65 @@ function wc_ads_builder_negative_keywords() {
     );
 }
 
+function wc_ads_builder_ab_variants($city, $focus) {
+    $city = trim((string) $city);
+    $base = array(
+        'advies' => array(
+            'label' => 'A - Advies',
+            'utm_content' => 'a_advies_woningcheck',
+            'angle' => 'advies',
+            'headlines' => array(
+                'Advies voor uw woning',
+                'Vrijblijvende woningcheck',
+                'Eerst checken, dan kiezen',
+                'Merkonafhankelijk advies',
+            ),
+            'descriptions' => array(
+                'Vakvriend kijkt eerst naar uw woning, verbruik en wensen. Daarna pas een passend advies.',
+                'Vrijblijvende woningcheck voor ' . $city . '. Geen verkoopdruk, wel praktisch advies.',
+            ),
+        ),
+        'subsidie' => array(
+            'label' => 'B - Subsidie',
+            'utm_content' => 'b_subsidie_isde',
+            'angle' => 'subsidie',
+            'headlines' => array(
+                'ISDE subsidie meegenomen',
+                'Subsidie helder uitgelegd',
+                'Warmtepompcheck ' . $city,
+                'Vakvriend rekent mee',
+            ),
+            'descriptions' => array(
+                'Krijg inzicht in warmtepomp, ISDE-subsidie en praktische haalbaarheid voor uw woning.',
+                'Wij rekenen subsidie en plaatsing mee, zodat u vooraf weet wat realistisch is.',
+            ),
+        ),
+    );
+
+    if ($focus === 'hybride') {
+        $base['subsidie']['headlines'][] = 'Hybride subsidiecheck';
+    } elseif ($focus === 'qvantum-nibe') {
+        $base['advies']['headlines'][] = 'Qvantum of Nibe?';
+    } elseif ($focus === 'boiler') {
+        $base['advies']['headlines'][] = 'Tapwater slim regelen';
+    }
+
+    return $base;
+}
+
+function wc_ads_builder_final_url($plan, $group_name = '', $variant = array()) {
+    $campaign = sanitize_title($plan['campaign']);
+    $content = sanitize_title($variant['utm_content'] ?? 'basis');
+    $term = sanitize_title($group_name ?: 'campagne');
+    return add_query_arg(array(
+        'utm_source' => 'google',
+        'utm_medium' => 'cpc',
+        'utm_campaign' => $campaign,
+        'utm_content' => $content,
+        'utm_term' => $term,
+    ), $plan['url']);
+}
+
 function wc_ads_builder_plan($args) {
     $city = trim((string) ($args['city'] ?? 'Den Haag'));
     $domain = strtolower(trim((string) ($args['domain'] ?? 'warmtepompdenhaag.nl')));
@@ -219,6 +278,7 @@ function wc_ads_builder_plan($args) {
         'budget' => $budget,
         'focus' => $focus,
         'groups' => $groups,
+        'variants' => wc_ads_builder_ab_variants($city, $focus),
         'negatives' => wc_ads_builder_negative_keywords(),
         'sitelinks' => array('Woningcheck', 'ISDE subsidie', 'Qvantum vs Nibe', 'Werkwijze'),
         'callouts' => array('Vrijblijvende woningcheck', 'Merkonafhankelijk advies', 'ISDE meegenomen', 'Geen verkoopdruk'),
@@ -233,7 +293,11 @@ function wc_ads_builder_csv_rows($plan) {
         foreach ($group['keywords'] as $keyword) {
             $rows[] = array('Type' => 'Keyword', 'Campaign' => $plan['campaign'], 'Ad group' => $group_name, 'Keyword' => $keyword, 'Headline' => '', 'Description' => '', 'Final URL' => $plan['url'], 'Budget' => '', 'Status' => 'Enabled');
         }
-        $rows[] = array('Type' => 'Responsive search ad', 'Campaign' => $plan['campaign'], 'Ad group' => $group_name, 'Keyword' => '', 'Headline' => implode(' | ', $group['headlines']), 'Description' => implode(' | ', $group['descriptions']), 'Final URL' => $plan['url'], 'Budget' => '', 'Status' => 'Paused');
+        foreach ($plan['variants'] as $variant_key => $variant) {
+            $headlines = array_values(array_unique(array_merge($group['headlines'], $variant['headlines'])));
+            $descriptions = array_values(array_unique(array_merge($group['descriptions'], $variant['descriptions'])));
+            $rows[] = array('Type' => 'Responsive search ad', 'Campaign' => $plan['campaign'], 'Ad group' => $group_name, 'Keyword' => '', 'Headline' => implode(' | ', $headlines), 'Description' => implode(' | ', $descriptions), 'Final URL' => wc_ads_builder_final_url($plan, $group_name, $variant), 'Budget' => '', 'Status' => 'Paused');
+        }
     }
     foreach ($plan['negatives'] as $negative) {
         $rows[] = array('Type' => 'Negative keyword', 'Campaign' => $plan['campaign'], 'Ad group' => '', 'Keyword' => $negative, 'Headline' => '', 'Description' => '', 'Final URL' => '', 'Budget' => '', 'Status' => 'Enabled');
@@ -323,6 +387,178 @@ function wc_ads_builder_api_get_accessible_customers() {
     return $body;
 }
 
+function wc_ads_builder_api_search($query) {
+    $settings = wc_ads_builder_settings();
+    if (!$settings['developer_token'] || !$settings['customer_id']) {
+        return new WP_Error('missing_google_ads_settings', 'Developer token of customer ID ontbreekt.');
+    }
+    $token = wc_ads_builder_access_token();
+    if (is_wp_error($token)) {
+        return $token;
+    }
+    $customer_id = preg_replace('/[^0-9]/', '', $settings['customer_id']);
+    $url = 'https://googleads.googleapis.com/' . rawurlencode($settings['api_version']) . '/customers/' . rawurlencode($customer_id) . '/googleAds:searchStream';
+    $response = wp_remote_post($url, array(
+        'timeout' => 35,
+        'headers' => wc_ads_builder_api_headers($token, true),
+        'body' => wp_json_encode(array('query' => $query)),
+    ));
+    if (is_wp_error($response)) {
+        return $response;
+    }
+    $code = wp_remote_retrieve_response_code($response);
+    $body_raw = wp_remote_retrieve_body($response);
+    $body = json_decode($body_raw, true);
+    if ($code < 200 || $code >= 300) {
+        return new WP_Error('google_ads_report_failed', 'Google Ads API HTTP ' . $code . ': ' . $body_raw);
+    }
+    $rows = array();
+    foreach ((array) $body as $chunk) {
+        foreach ((array) ($chunk['results'] ?? array()) as $row) {
+            $rows[] = $row;
+        }
+    }
+    return $rows;
+}
+
+function wc_ads_builder_fetch_ad_results($range_days = 14) {
+    $range_days = max(1, min(90, (int) $range_days));
+    $since = gmdate('Y-m-d', time() - $range_days * DAY_IN_SECONDS);
+    $query = "
+        SELECT
+          segments.date,
+          campaign.name,
+          ad_group.name,
+          ad_group_ad.ad.id,
+          ad_group_ad.status,
+          ad_group_ad.ad.final_urls,
+          metrics.impressions,
+          metrics.clicks,
+          metrics.cost_micros,
+          metrics.conversions,
+          metrics.ctr
+        FROM ad_group_ad
+        WHERE segments.date >= '{$since}'
+          AND campaign.advertising_channel_type = 'SEARCH'
+        ORDER BY segments.date DESC
+        LIMIT 200
+    ";
+    return wc_ads_builder_api_search($query);
+}
+
+function wc_ads_builder_fetch_keyword_results($range_days = 14) {
+    $range_days = max(1, min(90, (int) $range_days));
+    $since = gmdate('Y-m-d', time() - $range_days * DAY_IN_SECONDS);
+    $query = "
+        SELECT
+          campaign.name,
+          ad_group.name,
+          ad_group_criterion.keyword.text,
+          ad_group_criterion.keyword.match_type,
+          metrics.impressions,
+          metrics.clicks,
+          metrics.cost_micros,
+          metrics.conversions,
+          metrics.ctr
+        FROM keyword_view
+        WHERE segments.date >= '{$since}'
+          AND campaign.advertising_channel_type = 'SEARCH'
+        ORDER BY metrics.cost_micros DESC
+        LIMIT 200
+    ";
+    return wc_ads_builder_api_search($query);
+}
+
+function wc_ads_builder_refresh_results_action() {
+    if (!current_user_can('manage_options')) {
+        wp_die('Geen toegang.');
+    }
+    check_admin_referer('wc_ads_builder_refresh_results');
+    $range = max(1, min(90, (int) ($_POST['range'] ?? 14)));
+    $ads = wc_ads_builder_fetch_ad_results($range);
+    $keywords = wc_ads_builder_fetch_keyword_results($range);
+    $result = array(
+        'ok' => !is_wp_error($ads) && !is_wp_error($keywords),
+        'range' => $range,
+        'fetched_at' => current_time('mysql'),
+        'ads' => is_wp_error($ads) ? array() : $ads,
+        'keywords' => is_wp_error($keywords) ? array() : $keywords,
+        'message' => is_wp_error($ads) ? $ads->get_error_message() : (is_wp_error($keywords) ? $keywords->get_error_message() : 'Resultaten opgehaald.'),
+    );
+    update_option('wc_ads_builder_last_results', $result, false);
+    wp_safe_redirect(admin_url('admin.php?page=wc-ads-builder&tab=results&range=' . $range));
+    exit;
+}
+add_action('admin_post_wc_ads_builder_refresh_results', 'wc_ads_builder_refresh_results_action');
+
+function wc_ads_builder_local_lead_results($range_days = 14) {
+    $query = new WP_Query(array(
+        'post_type' => 'wc_lead',
+        'post_status' => 'private',
+        'posts_per_page' => 500,
+        'date_query' => array(array('after' => max(1, (int) $range_days) . ' days ago')),
+    ));
+    $rows = array();
+    while ($query->have_posts()) {
+        $query->the_post();
+        $id = get_the_ID();
+        $campaign = get_post_meta($id, 'utm_campaign', true) ?: 'zonder-campagne';
+        $content = get_post_meta($id, 'utm_content', true) ?: 'zonder-variant';
+        $domain = get_post_meta($id, 'domein', true) ?: parse_url((string) get_post_meta($id, 'landing_page', true), PHP_URL_HOST);
+        $key = $campaign . '|' . $content . '|' . $domain;
+        if (!isset($rows[$key])) {
+            $rows[$key] = array(
+                'campaign' => $campaign,
+                'variant' => $content,
+                'domain' => $domain ?: '-',
+                'leads' => 0,
+                'score_total' => 0,
+                'with_phone' => 0,
+                'with_postcode' => 0,
+            );
+        }
+        $rows[$key]['leads']++;
+        $rows[$key]['score_total'] += (int) get_post_meta($id, 'lead_score', true);
+        if (get_post_meta($id, 'telefoon', true)) {
+            $rows[$key]['with_phone']++;
+        }
+        if (get_post_meta($id, 'postcode', true)) {
+            $rows[$key]['with_postcode']++;
+        }
+    }
+    wp_reset_postdata();
+    foreach ($rows as &$row) {
+        $row['avg_score'] = $row['leads'] ? round($row['score_total'] / $row['leads']) : 0;
+    }
+    unset($row);
+    uasort($rows, function ($a, $b) {
+        return ($b['leads'] <=> $a['leads']) ?: ($b['avg_score'] <=> $a['avg_score']);
+    });
+    return $rows;
+}
+
+function wc_ads_builder_variant_from_url($url) {
+    $query = parse_url((string) $url, PHP_URL_QUERY);
+    if (!$query) {
+        return 'zonder-variant';
+    }
+    parse_str($query, $params);
+    return sanitize_text_field($params['utm_content'] ?? 'zonder-variant');
+}
+
+function wc_ads_builder_campaign_from_url($url) {
+    $query = parse_url((string) $url, PHP_URL_QUERY);
+    if (!$query) {
+        return '';
+    }
+    parse_str($query, $params);
+    return sanitize_text_field($params['utm_campaign'] ?? '');
+}
+
+function wc_ads_builder_report_number($value, $decimals = 0) {
+    return number_format((float) $value, $decimals, ',', '.');
+}
+
 function wc_ads_builder_keyword_payload($keyword) {
     $keyword = trim((string) $keyword);
     $match_type = 'BROAD';
@@ -399,19 +635,23 @@ function wc_ads_builder_api_create_campaign($plan) {
                 'keyword' => wc_ads_builder_keyword_payload($keyword),
             )));
         }
-        $ops[] = array('adGroupAdOperation' => array('create' => array(
-            'adGroup' => $ad_group_resource,
-            'status' => 'PAUSED',
-            'ad' => array(
-                'finalUrls' => array($plan['url'] . '?utm_source=google&utm_medium=cpc&utm_campaign=' . rawurlencode(sanitize_title($plan['campaign']))),
-                'responsiveSearchAd' => array(
-                    'headlines' => wc_ads_builder_ad_text_assets($group['headlines']),
-                    'descriptions' => wc_ads_builder_ad_text_assets($group['descriptions']),
-                    'path1' => 'woningcheck',
-                    'path2' => sanitize_title($plan['city']),
+        foreach ($plan['variants'] as $variant) {
+            $headlines = array_values(array_unique(array_merge($group['headlines'], $variant['headlines'])));
+            $descriptions = array_values(array_unique(array_merge($group['descriptions'], $variant['descriptions'])));
+            $ops[] = array('adGroupAdOperation' => array('create' => array(
+                'adGroup' => $ad_group_resource,
+                'status' => 'PAUSED',
+                'ad' => array(
+                    'finalUrls' => array(wc_ads_builder_final_url($plan, $group_name, $variant)),
+                    'responsiveSearchAd' => array(
+                        'headlines' => wc_ads_builder_ad_text_assets($headlines),
+                        'descriptions' => wc_ads_builder_ad_text_assets($descriptions),
+                        'path1' => 'woningcheck',
+                        'path2' => sanitize_title($plan['city']),
+                    ),
                 ),
-            ),
-        )));
+            )));
+        }
         $ad_group_temp--;
     }
 
@@ -495,6 +735,7 @@ function wc_ads_builder_page() {
         <h1>Vakvriend Ads Builder</h1>
         <h2 class="nav-tab-wrapper">
             <a class="nav-tab <?php echo $tab === 'builder' ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url(admin_url('admin.php?page=wc-ads-builder')); ?>">Campagne bouwen</a>
+            <a class="nav-tab <?php echo $tab === 'results' ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url(admin_url('admin.php?page=wc-ads-builder&tab=results')); ?>">Resultaten & A/B</a>
             <a class="nav-tab <?php echo $tab === 'api' ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url(admin_url('admin.php?page=wc-ads-builder&tab=api')); ?>">Google Ads API</a>
         </h2>
 
@@ -522,6 +763,124 @@ function wc_ads_builder_page() {
                 <div class="notice <?php echo !empty($last['ok']) ? 'notice-success' : 'notice-error'; ?>"><p><strong>API test:</strong> <code><?php echo esc_html($last['message']); ?></code></p></div>
             <?php endif; ?>
             <p>Automatisch campagne-aanmaken blijft bewust gepauzeerd-by-default. Zodra OAuth werkt, voegen we de knop toe om de gegenereerde structuur als gepauzeerde campagne te plaatsen.</p>
+        <?php elseif ($tab === 'results'): ?>
+            <?php
+            $range = max(1, min(90, (int) ($_GET['range'] ?? 14)));
+            $last_results = get_option('wc_ads_builder_last_results', array());
+            $local_results = wc_ads_builder_local_lead_results($range);
+            $ads_rows = is_array($last_results) ? ($last_results['ads'] ?? array()) : array();
+            $keyword_rows = is_array($last_results) ? ($last_results['keywords'] ?? array()) : array();
+            $variant_metrics = array();
+            foreach ($ads_rows as $row) {
+                $final_urls = $row['adGroupAd']['ad']['finalUrls'] ?? array();
+                $final_url = is_array($final_urls) ? (string) reset($final_urls) : '';
+                $variant = wc_ads_builder_variant_from_url($final_url);
+                $campaign_name = $row['campaign']['name'] ?? wc_ads_builder_campaign_from_url($final_url);
+                if (!isset($variant_metrics[$variant])) {
+                    $variant_metrics[$variant] = array('campaign' => $campaign_name, 'impressions' => 0, 'clicks' => 0, 'cost' => 0, 'conversions' => 0);
+                }
+                $metrics = $row['metrics'] ?? array();
+                $variant_metrics[$variant]['impressions'] += (int) ($metrics['impressions'] ?? 0);
+                $variant_metrics[$variant]['clicks'] += (int) ($metrics['clicks'] ?? 0);
+                $variant_metrics[$variant]['cost'] += ((float) ($metrics['costMicros'] ?? 0)) / 1000000;
+                $variant_metrics[$variant]['conversions'] += (float) ($metrics['conversions'] ?? 0);
+            }
+            ?>
+            <form method="get" style="margin:16px 0 12px">
+                <input type="hidden" name="page" value="wc-ads-builder">
+                <input type="hidden" name="tab" value="results">
+                <label>Periode:
+                    <select name="range">
+                        <?php foreach (array(1, 7, 14, 30, 90) as $days): ?>
+                            <option value="<?php echo esc_attr($days); ?>" <?php selected($range, $days); ?>><?php echo esc_html($days); ?> dagen</option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <?php submit_button('Bekijken', 'secondary', '', false); ?>
+            </form>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-bottom:18px">
+                <?php wp_nonce_field('wc_ads_builder_refresh_results'); ?>
+                <input type="hidden" name="action" value="wc_ads_builder_refresh_results">
+                <input type="hidden" name="range" value="<?php echo esc_attr($range); ?>">
+                <?php submit_button('Google Ads resultaten ophalen', 'primary', 'submit', false); ?>
+                <?php if (!empty($last_results['fetched_at'])): ?>
+                    <span class="description">Laatst opgehaald: <?php echo esc_html($last_results['fetched_at']); ?>. <?php echo esc_html($last_results['message'] ?? ''); ?></span>
+                <?php endif; ?>
+            </form>
+
+            <h2>A/B varianten uit Google Ads</h2>
+            <table class="widefat striped" style="max-width:1100px;margin-bottom:24px">
+                <thead><tr><th>Variant</th><th>Campagne</th><th>Vertoningen</th><th>Klikken</th><th>CTR</th><th>Kosten</th><th>Google conversies</th><th>Advies</th></tr></thead>
+                <tbody>
+                <?php if ($variant_metrics): foreach ($variant_metrics as $variant => $metric):
+                    $ctr = $metric['impressions'] ? ($metric['clicks'] / $metric['impressions']) * 100 : 0;
+                    $advice = $metric['clicks'] < 20 ? 'Nog te weinig data' : ($ctr < 3 ? 'Kop/zoekwoord aanscherpen' : 'Door laten lopen');
+                    ?>
+                    <tr>
+                        <td><code><?php echo esc_html($variant); ?></code></td>
+                        <td><?php echo esc_html($metric['campaign']); ?></td>
+                        <td><?php echo esc_html((string) $metric['impressions']); ?></td>
+                        <td><?php echo esc_html((string) $metric['clicks']); ?></td>
+                        <td><?php echo esc_html(wc_ads_builder_report_number($ctr, 2)); ?>%</td>
+                        <td>€<?php echo esc_html(wc_ads_builder_report_number($metric['cost'], 2)); ?></td>
+                        <td><?php echo esc_html(wc_ads_builder_report_number($metric['conversions'], 1)); ?></td>
+                        <td><?php echo esc_html($advice); ?></td>
+                    </tr>
+                <?php endforeach; else: ?>
+                    <tr><td colspan="8">Nog geen Google Ads API-data opgehaald.</td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
+
+            <h2>Leads gekoppeld aan advertentievariant</h2>
+            <table class="widefat striped" style="max-width:1100px;margin-bottom:24px">
+                <thead><tr><th>Campagne</th><th>Variant</th><th>Domein</th><th>Leads</th><th>Gem. score</th><th>Met telefoon</th><th>Met postcode</th></tr></thead>
+                <tbody>
+                <?php if ($local_results): foreach ($local_results as $row): ?>
+                    <tr>
+                        <td><code><?php echo esc_html($row['campaign']); ?></code></td>
+                        <td><code><?php echo esc_html($row['variant']); ?></code></td>
+                        <td><?php echo esc_html($row['domain']); ?></td>
+                        <td><strong><?php echo esc_html((string) $row['leads']); ?></strong></td>
+                        <td><?php echo esc_html((string) $row['avg_score']); ?>/100</td>
+                        <td><?php echo esc_html((string) $row['with_phone']); ?></td>
+                        <td><?php echo esc_html((string) $row['with_postcode']); ?></td>
+                    </tr>
+                <?php endforeach; else: ?>
+                    <tr><td colspan="7">Nog geen leads met UTM-data in deze periode.</td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
+
+            <h2>Zoekwoorden met kosten</h2>
+            <table class="widefat striped" style="max-width:1200px">
+                <thead><tr><th>Campagne</th><th>Advertentiegroep</th><th>Zoekwoord</th><th>Type</th><th>Vertoningen</th><th>Klikken</th><th>CTR</th><th>Kosten</th><th>Conversies</th><th>Actie</th></tr></thead>
+                <tbody>
+                <?php if ($keyword_rows): foreach (array_slice($keyword_rows, 0, 60) as $row):
+                    $metrics = $row['metrics'] ?? array();
+                    $clicks = (int) ($metrics['clicks'] ?? 0);
+                    $cost = ((float) ($metrics['costMicros'] ?? 0)) / 1000000;
+                    $conversions = (float) ($metrics['conversions'] ?? 0);
+                    $ctr = isset($metrics['ctr']) ? ((float) $metrics['ctr']) * 100 : 0;
+                    $action = ($clicks >= 5 && $conversions <= 0) ? 'Controleer zoekterm / bieding' : 'OK';
+                    ?>
+                    <tr>
+                        <td><?php echo esc_html($row['campaign']['name'] ?? '-'); ?></td>
+                        <td><?php echo esc_html($row['adGroup']['name'] ?? '-'); ?></td>
+                        <td><code><?php echo esc_html($row['adGroupCriterion']['keyword']['text'] ?? '-'); ?></code></td>
+                        <td><?php echo esc_html($row['adGroupCriterion']['keyword']['matchType'] ?? '-'); ?></td>
+                        <td><?php echo esc_html((string) ($metrics['impressions'] ?? 0)); ?></td>
+                        <td><?php echo esc_html((string) $clicks); ?></td>
+                        <td><?php echo esc_html(wc_ads_builder_report_number($ctr, 2)); ?>%</td>
+                        <td>€<?php echo esc_html(wc_ads_builder_report_number($cost, 2)); ?></td>
+                        <td><?php echo esc_html(wc_ads_builder_report_number($conversions, 1)); ?></td>
+                        <td><?php echo esc_html($action); ?></td>
+                    </tr>
+                <?php endforeach; else: ?>
+                    <tr><td colspan="10">Nog geen zoekwoorddata opgehaald.</td></tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
         <?php else: ?>
             <form method="post" style="display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:14px;max-width:1100px;align-items:end">
                 <label>Domein<br><select name="domain" class="regular-text" onchange="this.form.submit()">
@@ -541,6 +900,20 @@ function wc_ads_builder_page() {
             <hr>
             <h2><?php echo esc_html($plan['campaign']); ?></h2>
             <p><strong>Final URL:</strong> <a href="<?php echo esc_url($plan['url']); ?>" target="_blank" rel="noopener"><?php echo esc_html($plan['url']); ?></a> · <strong>Budget:</strong> €<?php echo esc_html(number_format($plan['budget'], 2, ',', '.')); ?> per dag · <strong>Status:</strong> gepauzeerd bij aanmaak</p>
+            <h2>A/B testopzet</h2>
+            <table class="widefat striped" style="max-width:900px;margin-bottom:18px">
+                <thead><tr><th>Variant</th><th>Hoek</th><th>UTM content</th><th>Voorbeeld URL</th></tr></thead>
+                <tbody>
+                <?php foreach ($plan['variants'] as $variant): ?>
+                    <tr>
+                        <td><?php echo esc_html($variant['label']); ?></td>
+                        <td><?php echo esc_html($variant['angle']); ?></td>
+                        <td><code><?php echo esc_html($variant['utm_content']); ?></code></td>
+                        <td><code><?php echo esc_html(wc_ads_builder_final_url($plan, 'Warmtepomp ' . $plan['city'], $variant)); ?></code></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                 <?php wp_nonce_field('wc_ads_builder_export'); ?>
                 <input type="hidden" name="action" value="wc_ads_builder_export">
