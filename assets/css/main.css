@@ -396,8 +396,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-voordeel p{font-size:14px;color:var(--grijs);line-height:1.65}
 
 /* ── WARMTEPOMP TYPES ── */
-.vk-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
-@media(max-width:860px){.vk-type-grid{grid-template-columns:1fr}}
+.vk-type-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:48px}
+@media(max-width:1180px){.vk-type-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.vk-type-grid{grid-template-columns:1fr}}
 .vk-type-card{background:#fff;border:1px solid #e0e0e0;border-radius:var(--r-lg);padding:32px;position:relative;transition:all .25s}
 .vk-type-card:hover{box-shadow:var(--sh-md);transform:translateY(-4px)}
 .vk-type-icon{font-size:36px;margin-bottom:14px}
