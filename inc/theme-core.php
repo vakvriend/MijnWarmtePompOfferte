@@ -65,8 +65,8 @@ function wc_enqueue_assets() {
         'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap',
         [], null
     );
-    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '6.8');
-    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '5.6', true);
+    wp_enqueue_style('wc-main', get_template_directory_uri() . '/assets/css/main.css', ['wc-fonts'], '6.9');
+    wp_enqueue_script('wc-main', get_template_directory_uri() . '/assets/js/main.js', [], '5.7', true);
     wp_localize_script('wc-main', 'wcVars', array(
         'ajaxUrl' => admin_url('admin-ajax.php'),
         'nonce'   => wp_create_nonce('wc_lead_nonce'),
@@ -1499,6 +1499,67 @@ function wc_ajax_lead() {
 }
 add_action('wp_ajax_wc_lead', 'wc_ajax_lead');
 add_action('wp_ajax_nopriv_wc_lead', 'wc_ajax_lead');
+
+function wc_ajax_lead_contact_update() {
+    check_ajax_referer('wc_lead_nonce', 'nonce');
+
+    $session_id = sanitize_text_field($_POST['session_id'] ?? '');
+    $telefoon = sanitize_text_field($_POST['telefoon'] ?? '');
+    $postcode = sanitize_text_field($_POST['postcode'] ?? '');
+    if (!$session_id || (!$telefoon && !$postcode)) {
+        wp_send_json_error(array('message' => 'Geen aanvullende gegevens ontvangen.'));
+    }
+
+    $lead_ids = get_posts(array(
+        'post_type' => 'wc_lead',
+        'post_status' => 'private',
+        'posts_per_page' => 1,
+        'fields' => 'ids',
+        'orderby' => 'date',
+        'order' => 'DESC',
+        'meta_query' => array(
+            array(
+                'key' => 'session_id',
+                'value' => $session_id,
+            ),
+        ),
+    ));
+    if (!$lead_ids) {
+        wp_send_json_error(array('message' => 'Lead niet gevonden.'));
+    }
+
+    $lead_id = (int) $lead_ids[0];
+    if ($telefoon) {
+        update_post_meta($lead_id, 'telefoon', $telefoon);
+    }
+    if ($postcode) {
+        update_post_meta($lead_id, 'postcode', $postcode);
+    }
+    wc_lead_agent_log($lead_id, 'Aanvullende contactgegevens toegevoegd na verzending.');
+
+    $naam = get_post_meta($lead_id, 'naam', true);
+    $email = get_post_meta($lead_id, 'email', true);
+    $stad = get_post_meta($lead_id, 'stad', true);
+    $settings = wc_lead_agent_settings();
+    wp_mail(
+        $settings['admin_email'] ?: 'tonny@vakvriend.nl',
+        'Aanvulling op warmtepomp lead - ' . ($naam ?: 'onbekend'),
+        "Er zijn aanvullende contactgegevens toegevoegd.\n\nNaam: {$naam}\nE-mail: {$email}\nTelefoon: {$telefoon}\nPostcode: {$postcode}\nStad: {$stad}\n\nBeheer: " . admin_url('post.php?post=' . $lead_id . '&action=edit'),
+        array('From: Vakvriend <info@vakvriend.nl>')
+    );
+
+    if ($telefoon) {
+        $lead_data = array(
+            'naam' => $naam,
+            'stad' => $stad,
+        );
+        wc_lead_send_sms($lead_id, $telefoon, wc_lead_customer_sms_body($lead_data));
+    }
+
+    wp_send_json_success(array('updated' => true));
+}
+add_action('wp_ajax_wc_lead_contact_update', 'wc_ajax_lead_contact_update');
+add_action('wp_ajax_nopriv_wc_lead_contact_update', 'wc_ajax_lead_contact_update');
 
 // Meta box voor campagne pagina instellingen
 function wc_meta_box_register() {

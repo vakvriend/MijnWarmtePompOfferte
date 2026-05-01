@@ -82,12 +82,14 @@ function vkTrackBackend(eventName, payload) {
 
 function vkDraftData(stage) {
   var p = new URLSearchParams(location.search);
+  var telEl = document.getElementById('vk-tel') || document.getElementById('vk-tel-extra');
+  var pcEl = document.getElementById('vk-pc') || document.getElementById('vk-pc-extra');
   return {
     stage: stage || 'contact',
     naam: ((document.getElementById('vk-naam') || {}).value || '').trim(),
     email: ((document.getElementById('vk-email') || {}).value || '').trim(),
-    telefoon: ((document.getElementById('vk-tel') || {}).value || '').trim(),
-    postcode: ((document.getElementById('vk-pc') || {}).value || '').trim(),
+    telefoon: ((telEl || {}).value || '').trim(),
+    postcode: ((pcEl || {}).value || '').trim(),
     woningtype: fd.woningtype || '',
     situatie: fd.systeem || '',
     gasverbruik: fd.gasverbruik || '',
@@ -238,8 +240,8 @@ window.vkVerstuur = async function(submitBtn) {
   naam = naam.trim();
   var email = (document.getElementById('vk-email') || {}).value || '';
   email = email.trim();
-  var tel = (document.getElementById('vk-tel') || {}).value || '';
-  var pc = (document.getElementById('vk-pc') || {}).value || '';
+  var tel = '';
+  var pc = '';
   vkSaveDraft('submit_attempt');
   vkTrack('lead_form_submit_attempt', {
     form_name: 'warmtepomp_offerte',
@@ -314,6 +316,45 @@ function vkSucces() {
   });
   vkTrackAdsLeadConversion();
 }
+
+window.vkAanvullen = async function(btn) {
+  var tel = ((document.getElementById('vk-tel-extra') || {}).value || '').trim();
+  var pc = ((document.getElementById('vk-pc-extra') || {}).value || '').trim();
+  var status = document.getElementById('vk-extra-status');
+  if (!tel && !pc) {
+    if (status) status.textContent = 'Vul telefoonnummer of postcode in.';
+    vkTrack('lead_form_error', {
+      form_name: 'warmtepomp_offerte',
+      error_message: 'Geen aanvullende gegevens ingevuld.',
+      error_field: 'extra_contact'
+    });
+    return;
+  }
+  if (btn) { btn.disabled = true; btn.textContent = 'Opslaan...'; }
+  var data = new FormData();
+  data.append('action', 'wc_lead_contact_update');
+  data.append('nonce', typeof wcVars !== 'undefined' ? wcVars.nonce : '');
+  data.append('session_id', vkSessionId);
+  data.append('telefoon', tel);
+  data.append('postcode', pc);
+  try {
+    var url = typeof wcVars !== 'undefined' ? wcVars.ajaxUrl : '/wp-admin/admin-ajax.php';
+    var res = await fetch(url, {method: 'POST', body: data});
+    var json = await res.json();
+    if (!json.success) throw new Error((json.data && json.data.message) || 'Opslaan mislukt.');
+    if (status) status.textContent = 'Dank u, de extra gegevens zijn toegevoegd.';
+    var box = document.getElementById('vk-success-contact');
+    if (box) box.classList.add('is-saved');
+    vkTrack('lead_form_contact_extra', {
+      form_name: 'warmtepomp_offerte',
+      telefoon_ingevuld: tel ? 'ja' : 'nee',
+      postcode_ingevuld: pc ? 'ja' : 'nee'
+    });
+  } catch (e) {
+    if (status) status.textContent = 'Opslaan lukt niet. U kunt ook direct bellen of WhatsApp sturen.';
+    if (btn) { btn.disabled = false; btn.textContent = 'Gegevens aanvullen'; }
+  }
+};
 
 function vkFout(t, fieldName) {
   var e = document.querySelector('.vk-fout'); if (e) e.remove();
@@ -461,7 +502,7 @@ document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
   });
 });
 
-['vk-naam','vk-email','vk-tel','vk-pc'].forEach(function(id) {
+['vk-naam','vk-email','vk-tel','vk-pc','vk-tel-extra','vk-pc-extra'].forEach(function(id) {
   var el = document.getElementById(id);
   if (!el) return;
   el.addEventListener('input', function() { vkQueueDraft('contact_input'); });

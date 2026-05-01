@@ -186,8 +186,6 @@ $reviews = wc_meta_rows('wc_reviews', [
           <div class="vk-veld-grid">
             <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
             <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
-            <div class="vk-veld"><label>Telefoon <span>belangrijk</span></label><input type="tel" id="vk-tel" placeholder="06 12345678"><small>Helpt ons om snel door te vragen als de woningcheck extra context nodig heeft.</small></div>
-            <div class="vk-veld"><label>Postcode <span>lokale subsidiecheck</span></label><input type="text" id="vk-pc" placeholder="1234 AB"><small>Voor lokale ISDE-, geluid- en plaatsingscontrole.</small></div>
           </div>
           <div class="vk-final-proof">
             <span>Geen verplichting</span>
@@ -214,6 +212,16 @@ $reviews = wc_meta_rows('wc_reviews', [
             <div><strong>1</strong><span>Aanvraag ontvangen</span></div>
             <div><strong>2</strong><span>Vakvriend rekent mee</span></div>
             <div><strong>3</strong><span>U krijgt advies</span></div>
+          </div>
+          <div class="vk-success-contact" id="vk-success-contact">
+            <h4>Sneller geholpen worden?</h4>
+            <p>Laat optioneel uw telefoonnummer en postcode achter. Dan kunnen we gerichter meekijken en bellen we alleen als iets onduidelijk is.</p>
+            <div class="vk-veld-grid">
+              <div class="vk-veld"><label>Telefoon <span>optioneel</span></label><input type="tel" id="vk-tel-extra" placeholder="06 12345678"></div>
+              <div class="vk-veld"><label>Postcode <span>woningcheck</span></label><input type="text" id="vk-pc-extra" placeholder="1234 AB"></div>
+            </div>
+            <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkAanvullen(this)">Gegevens aanvullen</button>
+            <div class="vk-extra-status" id="vk-extra-status" aria-live="polite"></div>
           </div>
           <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-btn vk-btn-groen vk-btn-full vk-btn-space">Direct bellen: <?=esc_html($telefoon)?></a>
           <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-full vk-btn-space-sm">WhatsApp sturen</a>
