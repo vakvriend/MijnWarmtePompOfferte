@@ -233,7 +233,7 @@ window.vkStap = function(n) {
   if (f && window.innerWidth < 1020) setTimeout(function() { f.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 100);
 };
 
-window.vkVerstuur = async function() {
+window.vkVerstuur = async function(submitBtn) {
   var naam = (document.getElementById('vk-naam') || {}).value || '';
   naam = naam.trim();
   var email = (document.getElementById('vk-email') || {}).value || '';
@@ -241,16 +241,22 @@ window.vkVerstuur = async function() {
   var tel = (document.getElementById('vk-tel') || {}).value || '';
   var pc = (document.getElementById('vk-pc') || {}).value || '';
   vkSaveDraft('submit_attempt');
-  if (!naam) { vkFout('Vul uw naam in.'); return; }
-  if (!email || !email.includes('@')) { vkFout('Vul een geldig e-mailadres in.'); return; }
   vkTrack('lead_form_submit_attempt', {
     form_name: 'warmtepomp_offerte',
     woningtype: fd.woningtype || '',
     systeem: fd.systeem || '',
     gasverbruik: fd.gasverbruik || '',
-    termijn: fd.termijn || ''
+    termijn: fd.termijn || '',
+    naam_ingevuld: naam ? 'ja' : 'nee',
+    email_ingevuld: email ? 'ja' : 'nee',
+    email_geldig: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'ja' : 'nee',
+    telefoon_ingevuld: tel.trim() ? 'ja' : 'nee',
+    postcode_ingevuld: pc.trim() ? 'ja' : 'nee'
   });
-  var btn = document.querySelector('.vk-btn-oranje');
+  if (!naam) { vkFout('Vul uw naam in.', 'naam'); return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { vkFout('Vul een geldig e-mailadres in.', 'email'); return; }
+  var btn = submitBtn || document.querySelector('.vk-stap.active .vk-btn-oranje');
+  var btnLabel = btn ? btn.textContent : 'Ontvang mijn woningcheck';
   if (btn) { btn.disabled = true; btn.textContent = 'Bezig...'; }
   var p = new URLSearchParams(location.search);
   var data = new FormData();
@@ -283,11 +289,11 @@ window.vkVerstuur = async function() {
     else {
       var msg = json.data && json.data.message ? json.data.message : 'Er ging iets mis. Bel 075 234 0001.';
       vkFout(msg);
-      if (btn) { btn.disabled = false; btn.textContent = 'Ontvang mijn woningcheck'; }
+      if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
     }
   } catch(e) {
     vkFout('Er ging iets mis. Bel 075 234 0001 of probeer het opnieuw.');
-    if (btn) { btn.disabled = false; btn.textContent = 'Ontvang mijn woningcheck'; }
+    if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
   }
 };
 
@@ -309,7 +315,7 @@ function vkSucces() {
   vkTrackAdsLeadConversion();
 }
 
-function vkFout(t) {
+function vkFout(t, fieldName) {
   var e = document.querySelector('.vk-fout'); if (e) e.remove();
   var d = document.createElement('div');
   d.className = 'vk-fout'; d.textContent = '\u26a0\ufe0f ' + t;
@@ -317,7 +323,8 @@ function vkFout(t) {
   if (a) a.insertBefore(d, a.firstChild);
   vkTrack('lead_form_error', {
     form_name: 'warmtepomp_offerte',
-    error_message: t
+    error_message: t,
+    error_field: fieldName || ''
   });
   setTimeout(function() { if(d.parentNode) d.remove(); }, 4000);
 }

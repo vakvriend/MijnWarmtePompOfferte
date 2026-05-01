@@ -135,7 +135,7 @@ $reviews = wc_meta_rows('wc_reviews', [
             <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Hoekwoning')"><span class="vk-keuze-ico">🏠</span>Hoekwoning</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Appartement')"><span class="vk-keuze-ico">🏢</span>Appartement</button>
           </div>
-          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(2)">Volgende →</button>
+          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(2)">Volgende →</button>
         </div>
 
         <!-- Stap 2: Systeem voorkeur -->
@@ -151,8 +151,8 @@ $reviews = wc_meta_rows('wc_reviews', [
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Weet ik nog niet')"><span class="vk-keuze-ico">💡</span>Advies nodig</button>
           </div>
           <div class="vk-subsidie-tip" id="subsidie-tip" style="display:none"></div>
-          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(3)">Volgende →</button>
-          <div class="vk-terug"><button onclick="vkStap(1)">← Terug</button></div>
+          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(3)">Volgende →</button>
+          <div class="vk-terug"><button type="button" onclick="vkStap(1)">← Terug</button></div>
         </div>
 
         <!-- Stap 3: Gasverbruik en wens -->
@@ -175,8 +175,8 @@ $reviews = wc_meta_rows('wc_reviews', [
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Dit jaar')"><span class="vk-keuze-ico">12</span>Dit jaar</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Ik oriënteer mij nog')"><span class="vk-keuze-ico">?</span>Oriënteren</button>
           </div>
-          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)">Naar laatste stap →</button>
-          <div class="vk-terug"><button onclick="vkStap(2)">← Terug</button></div>
+          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)">Naar laatste stap →</button>
+          <div class="vk-terug"><button type="button" onclick="vkStap(2)">← Terug</button></div>
         </div>
 
         <!-- Stap 4: Contactgegevens -->
@@ -194,14 +194,14 @@ $reviews = wc_meta_rows('wc_reviews', [
             <span>Eerst advies</span>
             <span>Geen verkoopdruk</span>
           </div>
-          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()">Ontvang mijn woningcheck</button>
+          <button type="button" class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur(this)">Ontvang mijn woningcheck</button>
           <p class="vk-disclaimer"><span>Vrijblijvend advies</span><span>Reactie binnen 24 uur</span><span>Lokale subsidiecheck</span><br>Door te versturen gaat u akkoord met onze <a href="<?=home_url('/privacy')?>">privacyverklaring</a>.</p>
           <div class="vk-contact-fallback">
             <span>Liever direct overleggen?</span>
             <a href="tel:<?=esc_attr($tel_clean)?>">Bel <?=esc_html($telefoon)?></a>
             <a href="https://wa.me/<?=esc_attr($whatsapp)?>">WhatsApp</a>
           </div>
-          <div class="vk-terug"><button onclick="vkStap(3)">← Terug</button></div>
+          <div class="vk-terug"><button type="button" onclick="vkStap(3)">← Terug</button></div>
         </div>
 
         <!-- Succes -->

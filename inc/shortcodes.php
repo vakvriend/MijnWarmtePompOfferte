@@ -115,7 +115,7 @@ function wc_shortcode_lead_form($atts = array()) {
             <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Hoekwoning')"><span class="vk-keuze-ico">🏠</span>Hoekwoning</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Appartement')"><span class="vk-keuze-ico">🏢</span>Appartement</button>
           </div>
-          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(2)"><?php echo esc_html($atts['next_label']); ?></button>
+          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(2)"><?php echo esc_html($atts['next_label']); ?></button>
         </div>
 
         <div class="vk-stap" id="stap-2">
@@ -130,8 +130,8 @@ function wc_shortcode_lead_form($atts = array()) {
             <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Weet ik nog niet')"><span class="vk-keuze-ico">💡</span>Advies nodig</button>
           </div>
           <div class="vk-subsidie-tip" id="subsidie-tip" style="display:none"></div>
-          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(3)"><?php echo esc_html($atts['next_label']); ?></button>
-          <div class="vk-terug"><button onclick="vkStap(1)"><?php echo esc_html($atts['back_label']); ?></button></div>
+          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(3)"><?php echo esc_html($atts['next_label']); ?></button>
+          <div class="vk-terug"><button type="button" onclick="vkStap(1)"><?php echo esc_html($atts['back_label']); ?></button></div>
         </div>
 
         <div class="vk-stap" id="stap-3">
@@ -153,8 +153,8 @@ function wc_shortcode_lead_form($atts = array()) {
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Dit jaar')"><span class="vk-keuze-ico">12</span>Dit jaar</button>
             <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Ik oriënteer mij nog')"><span class="vk-keuze-ico">?</span>Oriënteren</button>
           </div>
-          <button class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)">Naar laatste stap</button>
-          <div class="vk-terug"><button onclick="vkStap(2)"><?php echo esc_html($atts['back_label']); ?></button></div>
+          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)">Naar laatste stap</button>
+          <div class="vk-terug"><button type="button" onclick="vkStap(2)"><?php echo esc_html($atts['back_label']); ?></button></div>
         </div>
 
         <div class="vk-stap" id="stap-4">
@@ -171,14 +171,14 @@ function wc_shortcode_lead_form($atts = array()) {
             <span>Eerst advies</span>
             <span>Geen verkoopdruk</span>
           </div>
-          <button class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur()"><?php echo esc_html($atts['submit_label']); ?></button>
+          <button type="button" class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur(this)"><?php echo esc_html($atts['submit_label']); ?></button>
           <p class="vk-disclaimer"><span>Vrijblijvend advies</span><span>Reactie binnen 24 uur</span><span>Lokale subsidiecheck</span><br>Door te versturen gaat u akkoord met onze <a href="<?php echo esc_url(home_url('/privacy')); ?>">privacyverklaring</a>.</p>
           <div class="vk-contact-fallback">
             <span>Liever direct overleggen?</span>
             <a href="tel:<?php echo esc_attr($ctx['tel_clean']); ?>">Bel <?php echo esc_html($ctx['telefoon']); ?></a>
             <a href="https://wa.me/<?php echo esc_attr($ctx['whatsapp']); ?>">WhatsApp</a>
           </div>
-          <div class="vk-terug"><button onclick="vkStap(3)"><?php echo esc_html($atts['back_label']); ?></button></div>
+          <div class="vk-terug"><button type="button" onclick="vkStap(3)"><?php echo esc_html($atts['back_label']); ?></button></div>
         </div>
 
         <div class="vk-stap vk-succes" id="stap-succes">
