@@ -69,6 +69,13 @@ $reviews = wc_meta_rows('wc_reviews', [
   ['"Eerlijk, transparant en snelle service! Zal ze zeker aanbevelen aan vrienden."','Maud','Waterleiding & sanitair','5'],
   ['"Vakvriend heeft een mooie klus afgeleverd. Onder de indruk van hun extra inzet om alles op tijd af te krijgen."','Steffen','Vloerverwarming','5'],
 ], 4);
+$praktijk_base = get_template_directory_uri() . '/assets/img/praktijk/';
+$praktijk_images = [
+  'lucht'   => $praktijk_base . 'lucht-water-installatie.webp',
+  'boring'  => $praktijk_base . 'bodemwater-boring.webp',
+  'contact' => $praktijk_base . 'contact-opvolging.webp',
+  'pv5'     => $praktijk_base . 'kia-pv5-vakvriend.webp',
+];
 ?>
 
 <!-- HERO -->
@@ -287,6 +294,42 @@ $reviews = wc_meta_rows('wc_reviews', [
   </div>
 </section>
 
+<!-- PRAKTIJKBEELDEN -->
+<section class="vk-section vk-praktijk-section">
+  <div class="vk-container">
+    <div class="vk-praktijk-head">
+      <div>
+        <div class="vk-eyebrow"><?=esc_html(wc_meta('wc_praktijk_eyebrow','Praktijkbeelden'))?></div>
+        <h2><?=esc_html(wc_meta('wc_praktijk_titel','Vakvriend komt niet alleen adviseren, maar ook uitvoeren'))?></h2>
+      </div>
+      <p class="vk-lead"><?=esc_html(wc_meta('wc_praktijk_lead','Een warmtepompkeuze wordt pas betrouwbaar als techniek, woning en uitvoering samen worden bekeken. Daarom tonen we liever hoe het werk er in de praktijk uitziet.'))?></p>
+    </div>
+    <div class="vk-praktijk-grid">
+      <article class="vk-praktijk-card vk-praktijk-card-wide vk-reveal">
+        <img src="<?=esc_url($praktijk_images['lucht'])?>" alt="Vakvriend monteur bij een lucht/water warmtepomp buitenunit" loading="lazy">
+        <div>
+          <span>Lucht/water</span>
+          <h3>Buitenunit, leidingroute en geluidspositie vooraf bekeken</h3>
+        </div>
+      </article>
+      <article class="vk-praktijk-card vk-reveal">
+        <img src="<?=esc_url($praktijk_images['boring'])?>" alt="Bodemwarmtepomp boring met professionele boorstelling" loading="lazy">
+        <div>
+          <span>Bodem/water</span>
+          <h3>Boring en bronontwerp vragen voorbereiding</h3>
+        </div>
+      </article>
+      <article class="vk-praktijk-card vk-reveal">
+        <img src="<?=esc_url($praktijk_images['contact'])?>" alt="Vakvriend werkt een woningcheck zorgvuldig uit" loading="lazy">
+        <div>
+          <span>Opvolging</span>
+          <h3>Uw scan wordt persoonlijk beoordeeld</h3>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 
 <!-- HYBRIDE SECTIE -->
 <section class="vk-section vk-bg-licht vk-hybride-section">
@@ -339,7 +382,7 @@ $reviews = wc_meta_rows('wc_reviews', [
             <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/6995dd7d47d2227b3da4b62e_DSC00879.avif" alt="Vakvriend team" loading="lazy">
           </div>
           <div class="vk-vv-klein">
-            <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/697e62c6417ae0b4b70477a6_pv5-crew-1b-mvakvriend.webp" alt="Vakvriend elektrisch wagenpark" loading="lazy">
+            <img src="<?=esc_url($praktijk_images['pv5'])?>" alt="Vakvriend elektrisch wagenpark" loading="lazy">
           </div>
         </div>
         <div class="vk-rating-badge">
@@ -410,12 +453,12 @@ $reviews = wc_meta_rows('wc_reviews', [
     <h2 class="vk-center">Vakvriend aan het werk<?php if($is_lokaal) echo " in $regio"; ?></h2>
     <div class="vk-galerij vk-reveal">
       <div class="vk-gal-groot">
-        <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp" alt="Vakvriend monteurs aan het werk" loading="lazy">
+        <img src="<?=esc_url($praktijk_images['lucht'])?>" alt="Lucht/water warmtepomp installatie door Vakvriend" loading="lazy">
       </div>
       <div class="vk-gal-sm"><img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/6995dd7d47d2227b3da4b62e_DSC00879.avif" alt="Vakvriend team" loading="lazy"></div>
-      <div class="vk-gal-sm"><img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/697e62c6417ae0b4b70477a6_pv5-crew-1b-mvakvriend.webp" alt="Vakvriend elektrisch wagenpark" loading="lazy"></div>
-      <div class="vk-gal-sm"><img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a2e6/6993df49fc20c715b47b509e_69866c04643ac05fa325bccd_DSC00999-2-p-2000.avif" alt="Warmtepomp installatie" loading="lazy"></div>
-      <div class="vk-gal-sm"><img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a2e6/6993e076b7eec8e454e49559_DSC00699.avif" alt="Installatie detail" loading="lazy"></div>
+      <div class="vk-gal-sm"><img src="<?=esc_url($praktijk_images['pv5'])?>" alt="Vakvriend elektrisch wagenpark" loading="lazy"></div>
+      <div class="vk-gal-sm"><img src="<?=esc_url($praktijk_images['boring'])?>" alt="Professionele boring voor bodemwarmtepomp" loading="lazy"></div>
+      <div class="vk-gal-sm"><img src="<?=esc_url($praktijk_images['contact'])?>" alt="Persoonlijke opvolging van de woningcheck" loading="lazy"></div>
     </div>
   </div>
 </section>
