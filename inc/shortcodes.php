@@ -83,7 +83,9 @@ function wc_homezero_scan_widget($show_head = true) {
             <p>Vul woningtype, systeemwens en verbruik in en ontvang een advies dat bij uw huis past.</p>
           </div>
           <div class="vk-form-adviser" aria-label="Vakvriend kijkt persoonlijk mee">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/vakvriend-chat-monteur.png'); ?>" alt="" loading="lazy" decoding="async">
+            <figure class="vk-form-adviser-portrait" aria-hidden="true">
+              <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/vakvriend-chat-monteur.png'); ?>" alt="" loading="lazy" decoding="async">
+            </figure>
             <div>
               <em>Persoonlijk advies</em>
               <strong>Vakvriend kijkt mee</strong>
