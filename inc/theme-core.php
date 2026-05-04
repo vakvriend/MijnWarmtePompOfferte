@@ -83,7 +83,7 @@ add_action('wp_head', 'wc_favicon_links', 5);
 add_action('admin_head', 'wc_favicon_links', 5);
 
 function wc_contentsquare_tracking_script() {
-    echo '<script async src="https://t.contentsquare.net/uxa/fae1cd197e624.js"></script>' . "\n";
+    echo '<script src="https://t.contentsquare.net/uxa/fae1cd197e624.js"></script>' . "\n";
 }
 add_action('wp_head', 'wc_contentsquare_tracking_script', 20);
 
