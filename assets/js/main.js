@@ -22,6 +22,10 @@ var vkMaxScroll = 0;
 var vkLastSection = 'hero';
 var vkHeartbeatTimer = null;
 var vkScrollMarks = {};
+var vkClickHistory = [];
+var vkLastClickKey = '';
+var vkLastClickAt = 0;
+var vkUtmData = getVkUtmData();
 var SUBSIDIE = {
   lw:      {label: 'Lucht/water warmtepomp · Qvantum QA of Nibe F2040', bedrag: 2800, installatie: 9500, cop: 3.8, dekking: 0.90},
   vent:    {label: 'Ventilatie warmtepomp · Qvantum QE', bedrag: 1800, installatie: 7500, cop: 3.2, dekking: 0.35},
@@ -92,6 +96,21 @@ function vkTrackWp(eventName, payload) {
     hostname: location.hostname,
     referrer: document.referrer || '',
     section: vkLastSection,
+    device_type: getVkDeviceType(),
+    browser: getVkBrowser(),
+    viewport_width: window.innerWidth || 0,
+    viewport_height: window.innerHeight || 0,
+    screen_width: window.screen ? window.screen.width : 0,
+    screen_height: window.screen ? window.screen.height : 0,
+    timezone: Intl.DateTimeFormat ? Intl.DateTimeFormat().resolvedOptions().timeZone : '',
+    language: navigator.language || '',
+    utm_source: vkUtmData.utm_source || '',
+    utm_medium: vkUtmData.utm_medium || '',
+    utm_campaign: vkUtmData.utm_campaign || '',
+    utm_content: vkUtmData.utm_content || '',
+    utm_term: vkUtmData.utm_term || '',
+    gclid: vkUtmData.gclid || '',
+    landing_page: vkUtmData.landing_page || '',
     duration_ms: Date.now() - vkPageStartedAt,
     scroll_depth: getVkScrollDepth()
   }, payload || {});
@@ -114,6 +133,46 @@ function vkTrackWp(eventName, payload) {
   }).catch(function(){});
 }
 
+function getVkUtmData() {
+  var key = 'vk_campaign_attribution';
+  var params = new URLSearchParams(location.search || '');
+  var fields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid'];
+  var found = {};
+  fields.forEach(function(field) {
+    var value = params.get(field);
+    if (value) found[field] = value.slice(0, 190);
+  });
+  try {
+    var stored = JSON.parse(window.sessionStorage.getItem(key) || '{}');
+    var data = Object.assign({}, stored, found);
+    if (!data.landing_page) data.landing_page = location.href;
+    if (Object.keys(found).length || !stored.landing_page) {
+      window.sessionStorage.setItem(key, JSON.stringify(data));
+    }
+    return data;
+  } catch (e) {
+    found.landing_page = location.href;
+    return found;
+  }
+}
+
+function getVkDeviceType() {
+  var w = window.innerWidth || 0;
+  var ua = navigator.userAgent || '';
+  if (/ipad|tablet/i.test(ua) || (w >= 768 && w <= 1180 && /mobile|android/i.test(ua))) return 'tablet';
+  if (w < 768 || /mobi|iphone|android/i.test(ua)) return 'mobile';
+  return 'desktop';
+}
+
+function getVkBrowser() {
+  var ua = navigator.userAgent || '';
+  if (/Edg\//.test(ua)) return 'Edge';
+  if (/Chrome\//.test(ua) && !/Chromium|Edg\//.test(ua)) return 'Chrome';
+  if (/Safari\//.test(ua) && !/Chrome\//.test(ua)) return 'Safari';
+  if (/Firefox\//.test(ua)) return 'Firefox';
+  return 'Other';
+}
+
 function getVkScrollDepth() {
   var doc = document.documentElement;
   var body = document.body;
@@ -133,6 +192,30 @@ function getVkSectionName(el) {
   return el.tagName ? el.tagName.toLowerCase() : 'unknown';
 }
 
+function getVkElementInfo(el, event) {
+  var target = el && el.closest ? el.closest('a,button,input,select,textarea,summary,[role="button"],hz-embed,.vk-type-card,.vk-praktijk-card,.vk-faq') : el;
+  target = target || el;
+  var rect = target && target.getBoundingClientRect ? target.getBoundingClientRect() : {left: 0, top: 0, width: 0, height: 0};
+  var text = '';
+  if (target) {
+    text = (target.getAttribute && (target.getAttribute('aria-label') || target.getAttribute('title') || target.getAttribute('data-analytics-label'))) || target.textContent || target.value || '';
+  }
+  text = String(text || '').replace(/\s+/g, ' ').trim().slice(0, 140);
+  return {
+    target_text: text,
+    target_tag: target && target.tagName ? target.tagName.toLowerCase() : '',
+    target_id: target && target.id ? target.id : '',
+    target_classes: target && target.className && typeof target.className === 'string' ? target.className.split(/\s+/).slice(0, 5).join(' ') : '',
+    link_url: target && target.href ? target.href : '',
+    click_x: event ? Math.round(event.clientX || 0) : 0,
+    click_y: event ? Math.round(event.clientY || 0) : 0,
+    element_x: Math.round(rect.left || 0),
+    element_y: Math.round(rect.top || 0),
+    element_width: Math.round(rect.width || 0),
+    element_height: Math.round(rect.height || 0)
+  };
+}
+
 function initVkAnalytics() {
   vkTrack('page_view', {
     title: document.title || '',
@@ -149,6 +232,61 @@ function initVkAnalytics() {
     });
   }, {passive: true});
 
+  document.addEventListener('click', function(event) {
+    var info = getVkElementInfo(event.target, event);
+    var interactive = event.target.closest && event.target.closest('a,button,input,select,textarea,summary,[role="button"],hz-embed');
+    var now = Date.now();
+    var clickKey = [info.target_tag, info.target_text, Math.round(info.click_x / 20), Math.round(info.click_y / 20)].join('|');
+    vkClickHistory = vkClickHistory.filter(function(click) { return now - click.time < 1600; });
+    vkClickHistory.push({time: now, key: clickKey});
+    var repeated = vkClickHistory.filter(function(click) { return click.key === clickKey; }).length;
+
+    if (interactive) {
+      vkTrack('element_click', info);
+    } else {
+      vkTrack('dead_click', info);
+    }
+
+    if (repeated >= 3 || (vkLastClickKey === clickKey && now - vkLastClickAt < 500)) {
+      vkTrack('rage_click', Object.assign({clicks_in_burst: repeated}, info));
+    }
+    vkLastClickKey = clickKey;
+    vkLastClickAt = now;
+
+    if (info.link_url && info.link_url.indexOf(location.hostname) === -1 && /^https?:/i.test(info.link_url)) {
+      vkTrack('outbound_click', info);
+    }
+  }, true);
+
+  document.querySelectorAll('details.vk-faq, details').forEach(function(details) {
+    details.addEventListener('toggle', function() {
+      if (!details.open) return;
+      vkTrack('faq_open', getVkElementInfo(details, null));
+    });
+  });
+
+  document.querySelectorAll('input,select,textarea').forEach(function(field) {
+    var tracked = false;
+    field.addEventListener('focus', function() {
+      if (tracked) return;
+      tracked = true;
+      vkTrack('field_focus', {
+        field_name: field.name || field.id || field.getAttribute('aria-label') || '',
+        field_type: field.type || field.tagName.toLowerCase()
+      });
+    });
+  });
+
+  document.querySelectorAll('hz-embed').forEach(function(widget) {
+    vkTrack('homezero_widget_visible', {
+      widget_title: widget.getAttribute('data-title') || '',
+      widget_src: widget.getAttribute('src') || ''
+    });
+    widget.addEventListener('click', function(event) {
+      vkTrack('homezero_widget_click', getVkElementInfo(widget, event));
+    });
+  });
+
   if ('IntersectionObserver' in window) {
     var sectionObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
@@ -163,7 +301,9 @@ function initVkAnalytics() {
   }
 
   vkHeartbeatTimer = window.setInterval(function() {
-    vkTrack('heartbeat');
+    vkTrack('heartbeat', {
+      engagement_score: getVkEngagementScore()
+    });
   }, 15000);
 
   function sendExit() {
@@ -178,6 +318,11 @@ function initVkAnalytics() {
   document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'hidden') sendExit();
   });
+}
+
+function getVkEngagementScore() {
+  var seconds = Math.min(300, Math.round((Date.now() - vkPageStartedAt) / 1000));
+  return Math.min(100, Math.round((seconds / 3) + (getVkScrollDepth() * 0.55)));
 }
 
 function vkBereken(g, gp, sys) {
@@ -212,6 +357,18 @@ window.vkCalc = function() {
   var r2 = document.getElementById('c-sub'); if (r2) r2.textContent = 'gem. ' + fmt(res.subsidie) + ' *';
   var r3 = document.getElementById('c-tvt'); if (r3) r3.textContent = res.tvt > 0 ? res.tvt.toFixed(1) + ' jr' : '\u2014';
   var lb = document.getElementById('calc-sys-lbl'); if (lb) lb.textContent = res.label;
+  window.clearTimeout(window.vkCalcTrackTimer);
+  window.vkCalcTrackTimer = window.setTimeout(function() {
+    vkTrack('calculator_change', {
+      calculator_name: 'warmtepomp_besparing',
+      gas_usage: g,
+      gas_price: gp,
+      systeem: calcSysteem,
+      savings_estimate: Math.round(res.b),
+      subsidy_estimate: Math.round(res.subsidie),
+      payback_years: res.tvt > 0 ? Number(res.tvt.toFixed(1)) : 0
+    });
+  }, 600);
 };
 
 var chatGeschiedenis = [];
