@@ -579,6 +579,7 @@ function vk_special_support_meta($title) {
     $topics = array(
         'Warmtepomp Zonder Boiler' => array(
             'label' => 'zonder boilervat',
+            'types_title' => 'Welke warmtepomp past zonder groot boilervat?',
             'angle' => 'ruimtebesparing, vers tapwater en uitleg over de thermische batterij',
             'qvantum' => 'Op deze pagina leggen we Qvantum concreet uit: warmte wordt opgeslagen in de thermische batterij, terwijl tapwater pas via de platenwisselaar wordt verwarmd op het moment dat u warm water vraagt.',
             'nibe' => 'Nibe blijft hier de vergelijkingsbasis voor bezoekers die willen weten wanneer een systeem met boiler, buffervat of hybride opbouw verstandiger is.',
@@ -586,6 +587,7 @@ function vk_special_support_meta($title) {
         ),
         'Warmtepomp Vergelijken' => array(
             'label' => 'offertes vergelijken',
+            'types_title' => 'Welke warmtepomp past bij uw woning?',
             'angle' => 'prijsverschillen, ontbrekend installatiewerk en appels-met-appels vergelijken',
             'qvantum' => 'Bij Qvantum letten we in vergelijkingen vooral op thermische batterij, platenwisselaar, tapwatercomfort en de vraag of QA, QE of QG eerlijk naast een ander merk is gezet.',
             'nibe' => 'Bij Nibe kijken we naar modelkeuze, bewezen techniek, geluidswaarden, boilerconfiguratie en of het voorgestelde vermogen past bij de woning.',
@@ -593,6 +595,7 @@ function vk_special_support_meta($title) {
         ),
         'Mijn Warmtepomp Offerte' => array(
             'label' => 'persoonlijke offerte',
+            'types_title' => 'Welke warmtepomp past bij mijn woning?',
             'angle' => 'woninggegevens, verbruik, subsidie en een offerte die technisch klopt',
             'qvantum' => 'Voor een persoonlijke offerte bekijken we of Qvantum past bij de beschikbare ruimte, tapwaterwens, ventilatie en het idee van warmteopslag zonder groot boilervat.',
             'nibe' => 'Nibe nemen we mee wanneer betrouwbaarheid, brede configuratiekeuze en een rustige route naar hybride of all-electric belangrijk zijn.',
@@ -600,6 +603,7 @@ function vk_special_support_meta($title) {
         ),
         'Warmtepomp Qvantum' => array(
             'label' => 'Qvantum warmtepomp',
+            'types_title' => 'Welke Qvantum warmtepomp past bij uw woning?',
             'angle' => 'QA, QE, QG, thermische batterij en vers tapwater via platenwisselaar',
             'qvantum' => 'Alle Qvantum-systemen gebruiken thermische opslag. De QA gebruikt buitenlucht, de QE ventilatielucht en de QG een bodem- of waterbron; het tapwater wordt vers verwarmd via een platenwisselaar.',
             'nibe' => 'Nibe staat hier vooral als eerlijke tegenhanger: soms is een Nibe-configuratie logischer wanneer ruimte, tapwaterprofiel of afgiftesysteem daarom vraagt.',
@@ -618,7 +622,7 @@ function vk_special_support_meta($title) {
         'wc_nibe_titel' => 'Nibe als nuchtere vergelijking voor ' . $topic['label'],
         'wc_nibe_lead' => $topic['nibe'],
         'wc_types_eyebrow' => 'Keuzehulp · ' . $topic['label'],
-        'wc_types_titel' => 'Welke warmtepomp hoort bij ' . $topic['label'] . '?',
+        'wc_types_titel' => $topic['types_title'] ?? 'Welke warmtepomp past bij uw situatie?',
         'wc_types_lead' => 'Deze pagina focust op ' . $topic['angle'] . '. Daarom bekijken we lucht/water, ventilatie, hybride en bodemwarmte vanuit dat specifieke vertrekpunt.',
         'wc_vv_eyebrow' => 'Vakvriend advies',
         'wc_vv_titel' => 'Waarom Vakvriend bij ' . $topic['label'] . '?',
