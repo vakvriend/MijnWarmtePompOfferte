@@ -95,11 +95,11 @@ function wc_homezero_scan_widget($show_head = true) {
             data-phone-required="false"
             data-show-email="true"
             data-email-required="true"
-            data-button-text="Start Scan"
+            data-button-text="Start verduurzamingsscan"
             data-button-radius="7px"
             data-color="#066939"
-            data-title="Start uw verduurzamingsscan"
-            data-subtitle="Vul woningtype, systeemwens en verbruik in en ontvang een advies dat bij uw huis past."
+            data-title=""
+            data-subtitle=""
         ></hz-embed>
       </div>
     </div>
