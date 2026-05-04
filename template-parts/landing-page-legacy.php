@@ -456,7 +456,7 @@ $praktijk_images = [
         <img src="<?=esc_url($praktijk_images['lucht'])?>" alt="Lucht/water warmtepomp installatie door Vakvriend" loading="lazy">
       </div>
       <div class="vk-gal-sm"><img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/6995dd7d47d2227b3da4b62e_DSC00879.avif" alt="Vakvriend team" loading="lazy"></div>
-      <div class="vk-gal-sm"><img src="<?=esc_url($praktijk_images['pv5'])?>" alt="Vakvriend elektrisch wagenpark" loading="lazy"></div>
+      <div class="vk-gal-sm vk-gal-bus"><img src="<?=esc_url($praktijk_images['pv5'])?>" alt="Vakvriend elektrisch wagenpark" loading="lazy"></div>
       <div class="vk-gal-sm"><img src="<?=esc_url($praktijk_images['boring'])?>" alt="Professionele boring voor bodemwarmtepomp" loading="lazy"></div>
       <div class="vk-gal-sm"><img src="<?=esc_url($praktijk_images['contact'])?>" alt="Persoonlijke opvolging van de woningcheck" loading="lazy"></div>
     </div>

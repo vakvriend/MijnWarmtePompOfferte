@@ -457,6 +457,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-gal-groot img{width:100%;height:100%;object-fit:cover;display:block}
 .vk-gal-sm{border-radius:var(--r);overflow:hidden}
 .vk-gal-sm img{width:100%;height:100%;object-fit:cover;display:block}
+.vk-gal-bus img{object-position:right center}
 @media(max-width:760px){
   .vk-galerij{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .vk-gal-groot{grid-row:auto;grid-column:1/-1}
