@@ -82,6 +82,13 @@ function wc_homezero_scan_widget($show_head = true) {
             <h2>Start uw verduurzamingsscan</h2>
             <p>Vul woningtype, systeemwens en verbruik in en ontvang een advies dat bij uw huis past.</p>
           </div>
+          <div class="vk-form-adviser" aria-label="Vakvriend kijkt persoonlijk mee">
+            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/vakvriend-chat-monteur.png'); ?>" alt="" loading="lazy" decoding="async">
+            <div>
+              <strong>Vakvriend kijkt persoonlijk mee</strong>
+              <span>Praktisch advies zonder verkoopdruk.</span>
+            </div>
+          </div>
         <?php endif; ?>
         <?php if (!$script_loaded): ?>
           <script defer src="https://homezerotech.github.io/Widget/Production/embed.js"></script>
