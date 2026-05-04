@@ -318,7 +318,7 @@ function wc_get_page_faqs($post_id = null) {
         ),
         array(
             'question' => 'Hoeveel ISDE-subsidie kan ik ontvangen?',
-            'answer'   => 'De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Vakvriend neemt de verwachte ISDE-subsidie apart op in de offerte en helpt bij de aanvraagstukken.',
+            'answer'   => 'De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken.',
         ),
         array(
             'question' => 'Is mijn woning' . ($is_lokaal ? ' in ' . $stad : '') . ' geschikt voor een warmtepomp?',
@@ -326,7 +326,7 @@ function wc_get_page_faqs($post_id = null) {
         ),
         array(
             'question' => 'Regelt Vakvriend de subsidieaanvraag?',
-            'answer'   => 'Ja. Vakvriend neemt de verwachte ISDE-subsidie mee in de offerte en helpt bij de aanvraagstukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO.',
+            'answer'   => 'Ja. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO.',
         ),
     );
 

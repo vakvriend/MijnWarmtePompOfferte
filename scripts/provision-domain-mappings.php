@@ -167,9 +167,9 @@ function vk_page_meta($spec) {
     } elseif ($type === 'brand') {
         $meta['wc_hero_titel'] = 'Mijn warmtepomp woningcheck starten';
         $meta['wc_hero_subtitel'] = 'Krijg helder warmtepompadvies van Vakvriend met woningcheck, besparingsberekening en een passend advies voor uw woning.';
-        $meta['wc_meta_title'] = 'Mijn warmtepomp offerte | Gratis en vrijblijvende woningcheck';
+        $meta['wc_meta_title'] = 'Warmtepomp advies | Gratis en vrijblijvende woningcheck';
         $meta['wc_meta_desc'] = 'Vraag uw vrijblijvende warmtepomp woningcheck aan. Vakvriend berekent subsidie, besparing en installatiekosten voor uw woning.';
-        $meta['wc_focus_keyword'] = 'warmtepomp offerte';
+        $meta['wc_focus_keyword'] = 'warmtepomp advies';
     } elseif ($type === 'without_boiler') {
         $meta['wc_hero_titel'] = 'Warmtepomp zonder boiler aanvragen';
         $meta['wc_hero_subtitel'] = 'Ontdek Qvantum warmtepompen met thermische batterij: warm tapwater via een platenwisselaar, zonder groot boilervat met stilstaand water.';

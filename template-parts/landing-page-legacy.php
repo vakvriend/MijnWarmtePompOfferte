@@ -70,7 +70,7 @@ $werkwijze = wc_meta_rows('wc_werkwijze', [
 ], 3);
 $reviews = wc_meta_rows('wc_reviews', [
   ['"Vakmensen. En denken mee als je een probleem hebt. Ook prima nazorg. Aanrader!"','Michiel','Warmtepomp installatie','5'],
-  ['"Erg prettige samenwerking. Uitgebreide offerte, houdt je op de hoogte van planning. Goed werk en goede nazorg."','Berend','Qvantum installatie','5'],
+  ['"Erg prettige samenwerking. Duidelijk advies, goede planning en nette nazorg."','Berend','Qvantum installatie','5'],
   ['"Eerlijk, transparant en snelle service! Zal ze zeker aanbevelen aan vrienden."','Maud','Waterleiding & sanitair','5'],
   ['"Vakvriend heeft een mooie klus afgeleverd. Onder de indruk van hun extra inzet om alles op tijd af te krijgen."','Steffen','Vloerverwarming','5'],
 ], 4);
