@@ -87,6 +87,13 @@ function wc_favicon_links() {
 add_action('wp_head', 'wc_favicon_links', 5);
 add_action('admin_head', 'wc_favicon_links', 5);
 
+function wc_disable_default_site_icon_links() {
+    remove_action('wp_head', 'wp_site_icon', 99);
+    remove_action('admin_head', 'wp_site_icon', 99);
+    remove_action('login_head', 'wp_site_icon', 99);
+}
+add_action('init', 'wc_disable_default_site_icon_links');
+
 function wc_site_icon_url($url, $size = 512, $blog_id = 0) {
     if ($size <= 48) {
         return home_url('/favicon-48x48.png');
