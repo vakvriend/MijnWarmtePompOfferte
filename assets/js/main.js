@@ -17,6 +17,11 @@ if ('IntersectionObserver' in window) {
 
 var calcSysteem = 'lw';
 var vkSessionId = getVkSessionId();
+var vkPageStartedAt = Date.now();
+var vkMaxScroll = 0;
+var vkLastSection = 'hero';
+var vkHeartbeatTimer = null;
+var vkScrollMarks = {};
 var SUBSIDIE = {
   lw:      {label: 'Lucht/water warmtepomp · Qvantum QA of Nibe F2040', bedrag: 2800, installatie: 9500, cop: 3.8, dekking: 0.90},
   vent:    {label: 'Ventilatie warmtepomp · Qvantum QE', bedrag: 1800, installatie: 7500, cop: 3.2, dekking: 0.35},
@@ -27,6 +32,9 @@ var SUBSIDIE = {
 
 function vkTrack(eventName, payload) {
   payload = payload || {};
+  payload.duration_ms = payload.duration_ms || (Date.now() - vkPageStartedAt);
+  payload.scroll_depth = payload.scroll_depth || getVkScrollDepth();
+  payload.section = payload.section || vkLastSection;
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push(Object.assign({
     event: eventName,
@@ -35,6 +43,7 @@ function vkTrack(eventName, payload) {
     session_id: vkSessionId
   }, payload));
   vkTrackGa4(eventName, payload);
+  vkTrackWp(eventName, payload);
 }
 
 function getVkSessionId() {
@@ -70,6 +79,105 @@ function vkTrackGa4(eventName, payload) {
   }, payload || {});
 
   window.gtag('event', gaEventName, params);
+}
+
+function vkTrackWp(eventName, payload) {
+  if (!window.vkAnalytics || !window.vkAnalytics.ajaxUrl || !window.vkAnalytics.nonce) return;
+
+  var data = Object.assign({
+    event_name: eventName,
+    session_id: vkSessionId,
+    page_url: location.href,
+    page_path: location.pathname || '/',
+    hostname: location.hostname,
+    referrer: document.referrer || '',
+    section: vkLastSection,
+    duration_ms: Date.now() - vkPageStartedAt,
+    scroll_depth: getVkScrollDepth()
+  }, payload || {});
+
+  var body = new URLSearchParams();
+  body.append('action', 'wc_analytics_event');
+  body.append('nonce', window.vkAnalytics.nonce);
+  body.append('payload', JSON.stringify(data));
+
+  if (navigator.sendBeacon && (eventName === 'page_exit' || eventName === 'heartbeat')) {
+    navigator.sendBeacon(window.vkAnalytics.ajaxUrl, body);
+    return;
+  }
+
+  fetch(window.vkAnalytics.ajaxUrl, {
+    method: 'POST',
+    body: body,
+    credentials: 'same-origin',
+    keepalive: eventName === 'page_exit'
+  }).catch(function(){});
+}
+
+function getVkScrollDepth() {
+  var doc = document.documentElement;
+  var body = document.body;
+  var scrollTop = window.scrollY || doc.scrollTop || body.scrollTop || 0;
+  var height = Math.max(body.scrollHeight, doc.scrollHeight, body.offsetHeight, doc.offsetHeight) - window.innerHeight;
+  var depth = height > 0 ? Math.round((scrollTop / height) * 100) : 100;
+  vkMaxScroll = Math.max(vkMaxScroll, Math.min(100, Math.max(0, depth)));
+  return vkMaxScroll;
+}
+
+function getVkSectionName(el) {
+  if (!el) return 'unknown';
+  if (el.id) return el.id;
+  var heading = el.querySelector('h1,h2,h3');
+  if (heading && heading.textContent) return heading.textContent.trim().slice(0, 90);
+  if (el.className && typeof el.className === 'string') return el.className.split(/\s+/).slice(0, 2).join('.');
+  return el.tagName ? el.tagName.toLowerCase() : 'unknown';
+}
+
+function initVkAnalytics() {
+  vkTrack('page_view', {
+    title: document.title || '',
+    landing_referrer: document.referrer || ''
+  });
+
+  window.addEventListener('scroll', function() {
+    var depth = getVkScrollDepth();
+    [25, 50, 75, 90].forEach(function(mark) {
+      if (depth >= mark && !vkScrollMarks[mark]) {
+        vkScrollMarks[mark] = true;
+        vkTrack('scroll_depth', {scroll_depth: mark});
+      }
+    });
+  }, {passive: true});
+
+  if ('IntersectionObserver' in window) {
+    var sectionObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        vkLastSection = getVkSectionName(entry.target);
+        vkTrack('section_view', {section: vkLastSection});
+      });
+    }, {threshold: 0.55});
+    document.querySelectorAll('section,.vk-hero,.vk-form-card,.vk-product-section').forEach(function(el) {
+      sectionObserver.observe(el);
+    });
+  }
+
+  vkHeartbeatTimer = window.setInterval(function() {
+    vkTrack('heartbeat');
+  }, 15000);
+
+  function sendExit() {
+    if (vkHeartbeatTimer) window.clearInterval(vkHeartbeatTimer);
+    vkTrack('page_exit', {
+      duration_ms: Date.now() - vkPageStartedAt,
+      scroll_depth: getVkScrollDepth(),
+      section: vkLastSection
+    });
+  }
+  window.addEventListener('pagehide', sendExit);
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') sendExit();
+  });
 }
 
 function vkBereken(g, gp, sys) {
@@ -190,5 +298,6 @@ document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
 
 if (document.getElementById('calc-gas')) vkCalc();
 
+initVkAnalytics();
 
 })();
