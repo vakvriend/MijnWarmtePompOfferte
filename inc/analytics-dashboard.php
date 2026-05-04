@@ -143,7 +143,9 @@ function wc_analytics_dashboard_page() {
     $table = wc_analytics_table_name();
     $days = wc_analytics_days_filter();
     $since = gmdate('Y-m-d H:i:s', time() - ($days * DAY_IN_SECONDS));
+    $active_since = gmdate('Y-m-d H:i:s', time() - (3 * MINUTE_IN_SECONDS));
 
+    $active_now = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT session_id) FROM {$table} WHERE created_at >= %s AND event_name IN ('page_view', 'heartbeat', 'section_view', 'element_click', 'homezero_widget_click', 'calculator_change', 'field_focus')", $active_since));
     $sessions = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT session_id) FROM {$table} WHERE created_at >= %s", $since));
     $pageviews = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE event_name = 'page_view' AND created_at >= %s", $since));
     $cta_clicks = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE event_name = 'lead_cta_click' AND created_at >= %s", $since));
@@ -166,6 +168,7 @@ function wc_analytics_dashboard_page() {
     $dropoff_chart = $wpdb->get_results($wpdb->prepare("SELECT section label, COUNT(*) value FROM {$table} WHERE event_name = 'page_exit' AND created_at >= %s GROUP BY section ORDER BY value DESC LIMIT 8", $since));
     $event_chart = $wpdb->get_results($wpdb->prepare("SELECT event_name label, COUNT(*) value FROM {$table} WHERE created_at >= %s GROUP BY event_name ORDER BY value DESC LIMIT 8", $since));
     $domain_chart = $wpdb->get_results($wpdb->prepare("SELECT hostname label, COUNT(DISTINCT session_id) value FROM {$table} WHERE created_at >= %s GROUP BY hostname ORDER BY value DESC LIMIT 8", $since));
+    $active_sessions = $wpdb->get_results($wpdb->prepare("SELECT session_id, MAX(hostname) hostname, MAX(page_path) page_path, MAX(device_type) device_type, MAX(browser) browser, MAX(section) section, COUNT(*) events, MAX(created_at) last_seen FROM {$table} WHERE created_at >= %s GROUP BY session_id ORDER BY last_seen DESC LIMIT 10", $active_since));
 
     ?>
     <div class="wrap">
@@ -179,10 +182,12 @@ function wc_analytics_dashboard_page() {
         </p>
 
         <style>
-            .wc-kpis{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px;margin:18px 0}
+            .wc-kpis{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:12px;margin:18px 0}
             .wc-kpi,.wc-panel{background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:16px}
             .wc-kpi strong{display:block;font-size:24px;line-height:1.2}
             .wc-kpi span{color:#646970}
+            .wc-kpi-live{border-color:#066939;background:#f0fbf4}
+            .wc-kpi-live strong{color:#066939}
             .wc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
             .wc-panel table{width:100%;border-collapse:collapse}
             .wc-panel th,.wc-panel td{padding:8px;border-bottom:1px solid #f0f0f1;text-align:left}
@@ -203,6 +208,7 @@ function wc_analytics_dashboard_page() {
         </style>
 
         <div class="wc-kpis">
+            <div class="wc-kpi wc-kpi-live"><strong><?php echo esc_html(number_format_i18n($active_now)); ?></strong><span>Nu actief</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($sessions)); ?></strong><span>Sessies</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($pageviews)); ?></strong><span>Pageviews</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html(gmdate('i:s', max(0, (int) ($avg_duration / 1000)))); ?></strong><span>Gem. sessieduur</span></div>
@@ -234,6 +240,11 @@ function wc_analytics_dashboard_page() {
             <div class="wc-chart-card">
                 <h2>Sessies per domein</h2>
                 <?php wc_analytics_bar_chart($domain_chart, 'Nog geen domeindata gemeten.'); ?>
+            </div>
+            <div class="wc-chart-card">
+                <h2>Nu actief op de site</h2>
+                <p class="wc-chart-muted">Sessies met activiteit in de laatste 3 minuten.</p>
+                <?php wc_analytics_plain_table(array('Sessie', 'Domein', 'Pad', 'Device', 'Browser', 'Sectie', 'Events', 'Laatst gezien'), $active_sessions, array('session_id', 'hostname', 'page_path', 'device_type', 'browser', 'section', 'events', 'last_seen')); ?>
             </div>
         </div>
 
@@ -321,6 +332,28 @@ function wc_analytics_bar_chart($rows, $empty_message) {
         echo '</div>';
     }
     echo '</div>';
+}
+
+function wc_analytics_plain_table($headers, $rows, $fields) {
+    ?>
+    <table>
+        <thead><tr><?php foreach ($headers as $header) : ?><th><?php echo esc_html($header); ?></th><?php endforeach; ?></tr></thead>
+        <tbody>
+        <?php if (!$rows) : ?>
+            <tr><td colspan="<?php echo esc_attr(count($headers)); ?>">Niemand actief in de laatste 3 minuten.</td></tr>
+        <?php else : ?>
+            <?php foreach ($rows as $row) : ?>
+                <tr>
+                <?php foreach ($fields as $field) : ?>
+                    <?php $value = $row->{$field} ?? ''; ?>
+                    <td><?php echo esc_html((string) ($value !== '' ? $value : 'Onbekend')); ?></td>
+                <?php endforeach; ?>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </tbody>
+    </table>
+    <?php
 }
 
 function wc_analytics_table_panel($title, $headers, $rows, $fields, $format_dropoff = false) {
