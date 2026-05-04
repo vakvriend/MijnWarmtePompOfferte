@@ -192,6 +192,13 @@ function vk_contextual_rows($rows, $city) {
     return implode("\n", $out);
 }
 
+function vk_ensure_warmtepompboiler_type($rows) {
+    if (stripos($rows, 'warmtepompboiler') !== false) {
+        return $rows;
+    }
+    return rtrim($rows) . "\n🚿|Voor tapwater|Warmtepompboiler|Een tapwater-oplossing voor douche en kraan, niet voor volledige ruimteverwarming. Interessant als warm water eerst aangepakt wordt of als de cv-ketel voorlopig blijft.|Voor tapwater;Boilervat nodig;ISDE vaak mogelijk;Ruimte en geluid beoordelen;Past naast cv of hybride|Nibe, Itho Daalderop of Intergas combinaties";
+}
+
 function vk_add_row_context($rows, $text_index, $context) {
     $out = array();
     $done = false;
@@ -486,7 +493,7 @@ function vk_local_meta($title, $spec, $index) {
     $qvantum_types = vk_pick($qvantum_type_clean, $profile);
     $qvantum_usps = vk_pick($qvantum_usp_clean, $profile);
     $nibe_types = vk_pick($nibe_type_clean, $profile);
-    $warmtepomp_types = vk_pick($warmtepomp_type_clean, $profile);
+    $warmtepomp_types = vk_ensure_warmtepompboiler_type(vk_pick($warmtepomp_type_clean, $profile));
     $vv_props = vk_pick($vv_props_clean, $profile);
     $werkwijze = vk_pick($workflow_clean, $profile);
     $voordelen = vk_contextual_rows(vk_pick($benefit_sets, $index), $city);

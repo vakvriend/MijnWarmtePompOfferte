@@ -37,12 +37,16 @@ $nibe_types = wc_meta_rows('wc_nibe_types', [
   ['🌍','Nibe bodem/water warmtepomp','Een bodem/water systeem gebruikt een stabiele bron in de bodem. Het rendement is sterk, maar boring, vergunning, bronontwerp en afgiftesysteem moeten vooraf goed worden uitgewerkt.'],
   ['⚡','Nibe hybride oplossing','Een hybride opstelling werkt samen met de cv-ketel. Dat is vooral zinvol wanneer radiatoren, isolatie of tapwater nog niet klaar zijn voor volledig elektrisch verwarmen.'],
 ], 3);
+$warmtepompboiler_type = ['🚿','Voor tapwater','Warmtepompboiler','Een warmtepompboiler maakt vooral warm tapwater en vervangt geen volledige verwarmingsinstallatie. Interessant wanneer douchewater de eerste besparingsstap is of wanneer ruimteverwarming nog via cv of hybride loopt.','Voor warm tapwater;Gebruikt omgevings- of ventilatielucht;Boilervat nodig;ISDE vaak mogelijk;Niet hetzelfde als Qvantum zonder boilervat','Nibe, Itho Daalderop of Intergas combinaties'];
 $warmtepomp_types = wc_meta_rows('wc_warmtepomp_types', [
   ['💨','Veel toegepast','Lucht/water warmtepomp','Haalt warmte uit de buitenlucht en geeft die via water af aan radiatoren of vloerverwarming. Geen boring nodig, maar vermogen, geluid en afgiftesysteem moeten goed worden ontworpen.','Geen bodembron nodig;Geschikt voor hybride en all-electric;Buitenunitpositie is belangrijk;ISDE-subsidie mogelijk;Warmteverliesberekening nodig','Qvantum QA of Nibe lucht/water'],
   ['🌬️','Zonder buitenunit mogelijk','Ventilatie warmtepomp','Gebruikt warmte uit afvoerventilatielucht. Vooral interessant bij appartementen, compacte technische ruimtes of situaties waar een buitenunit niet wenselijk is.','Geen buitenunit;Ventilatiesysteem moet geschikt zijn;Compacte installatie;Tapwater apart beoordelen;Niet elke woning is geschikt','Qvantum QE'],
   ['🌍','Stabiele bron','Bodemwarmtepomp','Gebruikt warmte uit de bodem via een gesloten bron of boring. Technisch sterk voor de lange termijn, maar vraagt meer voorbereiding en een hogere investering.','Stabiele bron;Hoog rendement mogelijk;Boring en vergunning nodig;Interessant voor lange termijn;Past vooral bij geschikte percelen','Nibe bodem/water of Qvantum QG'],
-  ['🚿','Voor tapwater','Warmtepompboiler','Een warmtepompboiler maakt vooral warm tapwater en vervangt geen volledige verwarmingsinstallatie. Interessant wanneer douchewater de eerste besparingsstap is of wanneer ruimteverwarming nog via cv of hybride loopt.','Voor warm tapwater;Gebruikt omgevings- of ventilatielucht;Boilervat nodig;ISDE vaak mogelijk;Niet hetzelfde als Qvantum zonder boilervat','Nibe, Itho Daalderop of Intergas combinaties'],
+  $warmtepompboiler_type,
 ], 6);
+if (!array_filter($warmtepomp_types, static fn($type) => isset($type[2]) && stripos($type[2], 'boiler') !== false)) {
+  $warmtepomp_types[] = $warmtepompboiler_type;
+}
 $vv_props = wc_meta_rows('wc_vv_props', [
   ['🏗️','Allround installatiebedrijf','Warmtepompen, CV-ketels, sanitair, vloerverwarming, dakwerk en ventilatie. Alles in eigen hand.'],
   ['🚗','Volledig elektrisch wagenpark','Vakvriend rijdt de KIA PV5 — bewust duurzaam in elk opzicht.'],
