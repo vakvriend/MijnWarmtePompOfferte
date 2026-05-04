@@ -284,7 +284,7 @@ $praktijk_images = [
           <p><?=esc_html($text)?></p>
           <ul class="vk-type-list">
             <?php foreach(array_filter(array_map('trim', explode(';',$items))) as $item): ?>
-              <li>✓ <?=esc_html($item)?></li>
+              <li><?=esc_html($item)?></li>
             <?php endforeach; ?>
           </ul>
           <?php if($brands): ?><div class="vk-type-merken"><?=esc_html($brands)?></div><?php endif; ?>

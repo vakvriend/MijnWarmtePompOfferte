@@ -420,16 +420,19 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-type-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:48px}
 @media(max-width:1180px){.vk-type-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.vk-type-grid{grid-template-columns:1fr}}
-.vk-type-card{background:#fff;border:1px solid #e0e0e0;border-radius:var(--r-lg);padding:32px;position:relative;transition:all .25s}
+.vk-type-card{background:#fff;border:1px solid #e0e0e0;border-radius:var(--r-lg);padding:32px;position:relative;transition:all .25s;display:flex;flex-direction:column;min-height:100%}
 .vk-type-card:hover{box-shadow:var(--sh-md);transform:translateY(-4px)}
-.vk-type-icon{font-size:36px;margin-bottom:14px}
-.vk-type-badge{position:absolute;top:20px;right:20px;font-size:11px;font-weight:700;background:var(--oranje);color:#fff;padding:4px 10px;border-radius:100px}
+.vk-type-icon{font-size:36px;margin-bottom:18px;min-height:44px;display:flex;align-items:center}
+.vk-type-badge{position:absolute;top:20px;right:20px;max-width:132px;text-align:center;font-size:11px;line-height:1.15;font-weight:800;background:var(--oranje);color:#fff;padding:6px 10px;border-radius:100px}
 .vk-type-badge.vk-badge-blauw{background:var(--blauw)}
 .vk-type-badge.vk-badge-groen{background:var(--groen)}
-.vk-type-card h3{font-size:20px;margin-bottom:10px}
-.vk-type-card p{font-size:14px;color:var(--grijs);line-height:1.65;margin-bottom:16px}
-.vk-type-list{list-style:none;display:flex;flex-direction:column;gap:7px;font-size:13px;margin-bottom:16px;color:var(--tekst)}
-.vk-type-merken{font-size:12px;color:var(--grijs);border-top:1px solid #eee;padding-top:12px}
+.vk-type-card h3{font-size:20px;line-height:1.35;margin-bottom:12px;min-height:54px}
+.vk-type-card p{font-size:14px;color:var(--grijs);line-height:1.65;margin-bottom:18px}
+.vk-type-list{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:13px;margin:0 0 18px;color:var(--tekst);padding:0}
+.vk-type-list li{position:relative;padding-left:24px;line-height:1.45}
+.vk-type-list li:before{content:"✓";position:absolute;left:0;top:1px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--groen);color:#fff;font-size:10px;font-weight:900;line-height:1}
+.vk-type-merken{font-size:12px;color:var(--grijs);border-top:1px solid #eee;padding-top:14px;margin-top:auto;line-height:1.55}
+@media(max-width:640px){.vk-type-card{padding:26px}.vk-type-card h3{min-height:0}.vk-type-badge{top:18px;right:18px}.vk-type-icon{margin-bottom:14px}}
 
 /* ── PRAKTIJKBEELDEN ── */
 .vk-praktijk-section{background:#fff;padding-top:0}
