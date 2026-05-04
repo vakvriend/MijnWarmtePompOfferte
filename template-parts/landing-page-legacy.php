@@ -648,7 +648,7 @@ if ($lokale_alinea1 || $lokale_alinea2):
         </details>
         <?php endif; ?>
         <div class="vk-lokaal-cta">
-          <p>Heeft u een vraag voor <?php echo esc_html($stad); ?>?</p>
+          <p><?php echo $is_lokaal ? 'Heeft u een vraag voor ' . esc_html($stad) . '?' : 'Heeft u een vraag over warmtepompadvies?'; ?></p>
           <a href="tel:<?php echo esc_attr($tel_clean); ?>" class="vk-btn vk-btn-groen">Bel direct</a>
           <a href="https://wa.me/<?php echo esc_attr($whatsapp); ?>" class="vk-btn vk-btn-wa">WhatsApp</a>
         </div>
