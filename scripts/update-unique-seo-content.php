@@ -501,8 +501,9 @@ function vk_local_meta($title, $spec, $index) {
     $qvantum_lead = vk_pick($qvantum_leads_clean, $profile);
     $qvantum_uitleg = vk_pick($qvantum_uitleg_clean, $profile);
     $nibe_lead = 'Nibe is een degelijke keuze wanneer brede configuratiemogelijkheden, betrouwbaarheid en service belangrijk zijn. Vakvriend vergelijkt lucht/water, bodem/water en hybride op vermogen, geluid, tapwater en montage-impact.';
-    $types_lead = 'Er is geen warmtepomp die voor iedere woning automatisch goed is. Het juiste systeem hangt af van warmteverlies, isolatie, afgiftesysteem, warmwatergebruik, plaatsing en budget. Ook een warmtepompboiler kan logisch zijn wanneer vooral tapwater de eerste stap is.';
-    $vv_intro_sober = 'Vakvriend adviseert merkonafhankelijk. We vergelijken Qvantum, Nibe, hybride, warmtepompboilers en bodemwarmte op basis van woning, verbruik, comfortwens en praktische montage. Het advies moet technisch kloppen voordat er een merk wordt gekozen.';
+    $types_lead = 'Er is geen warmtepomp die voor iedere woning automatisch goed is. Het juiste systeem hangt af van warmteverlies, isolatie, afgiftesysteem, warmwatergebruik, plaatsing en budget. Qvantum en Nibe zijn bekende routes, maar ook Itho Daalderop, Daikin, Intergas of een ander A-merk kan technisch beter passen.';
+    $vv_intro_sober = 'Vakvriend adviseert merkonafhankelijk. We vergelijken Qvantum, Nibe, Itho Daalderop, Daikin, Intergas, hybride, warmtepompboilers en bodemwarmte op basis van woning, verbruik, comfortwens en praktische montage. Het advies moet technisch kloppen voordat er een merk wordt gekozen.';
+    $other_brand_note = 'Heeft u al een warmtepomp op het oog of staat er al een toestel? Vakvriend ondersteunt ook andere merken, waaronder Itho Daalderop, Daikin, Intergas en vergelijkbare A-merken. We beoordelen per woning welk systeem technisch klopt.';
     $voordelen_lead_sober = 'Een goede woningcheck voorkomt dat een warmtepomp te groot, te klein of verkeerd geplaatst wordt. We kijken naar comfort, geluid, tapwater, subsidie en de werkzaamheden die nodig zijn voor een nette installatie.';
     $werkwijze_lead_sober = 'We starten met uw woning en wensen, niet met een merk. Daarna bepalen we welke warmtepomproute past en wat er nodig is voor een betrouwbare installatie.';
     $boringen_lead_sober = 'Een bodemwarmtepomp is alleen zinvol wanneer perceel, bron, afgiftesysteem en investering goed bij elkaar passen. We beoordelen dit apart van lucht/water en hybride.';
@@ -536,6 +537,7 @@ function vk_local_meta($title, $spec, $index) {
         'wc_types_eyebrow' => 'Systeemkeuze',
         'wc_types_titel' => 'Welke warmtepomp past bij uw woning?',
         'wc_types_lead' => $types_lead,
+        'wc_other_brand_note' => $other_brand_note,
         'wc_warmtepomp_types' => $warmtepomp_types,
         'wc_vv_eyebrow' => 'Vakvriend advies',
         'wc_vv_titel' => 'Merkonafhankelijk warmtepompadvies',

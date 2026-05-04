@@ -206,6 +206,7 @@ function wc_ads_builder_plan($args) {
                 'Vrijblijvende woningcheck',
                 'ISDE subsidie meegenomen',
                 'Merkonafhankelijk advies',
+                'Ook Daikin en Itho',
                 'Vakvriend helpt lokaal',
             ),
             'descriptions' => array(
@@ -258,7 +259,7 @@ function wc_ads_builder_plan($args) {
         $groups['Qvantum Nibe ' . $city] = array(
             'keywords' => array('"qvantum warmtepomp ' . strtolower($city) . '"', '"nibe warmtepomp ' . strtolower($city) . '"', '[nibe warmtepomp ' . strtolower($city) . ']'),
             'headlines' => array('Qvantum of Nibe?', 'Merkonafhankelijk advies', 'Warmtepomp ' . $city, 'Technische woningcheck'),
-            'descriptions' => array('We vergelijken Qvantum, Nibe en alternatieven op woning, geluid, tapwater en subsidie.'),
+            'descriptions' => array('Qvantum, Nibe, Daikin en Itho vergeleken op woning, geluid, tapwater en subsidie.'),
         );
     }
 
@@ -281,7 +282,7 @@ function wc_ads_builder_plan($args) {
         'variants' => wc_ads_builder_ab_variants($city, $focus),
         'negatives' => wc_ads_builder_negative_keywords(),
         'sitelinks' => array('Woningcheck', 'ISDE subsidie', 'Qvantum vs Nibe', 'Werkwijze'),
-        'callouts' => array('Vrijblijvende woningcheck', 'Merkonafhankelijk advies', 'ISDE meegenomen', 'Eerlijk advies'),
+        'callouts' => array('Vrijblijvende woningcheck', 'Merkonafhankelijk advies', 'Ook Daikin en Itho', 'Eerlijk advies'),
     );
 }
 

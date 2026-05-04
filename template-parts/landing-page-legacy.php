@@ -5,7 +5,7 @@ $is_lokaal = ($stad !== 'Nederland' && $stad !== 'uw regio');
 $hero_foto = wc_meta('wc_hero_foto','https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp');
 $hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Ontdek welke warmtepomp past bij uw woning in $stad" : 'Ontdek welke warmtepomp bij uw woning past');
 $hero_s    = wc_meta('wc_hero_subtitel',"Vertel ons kort over uw woning en wensen. Vakvriend beoordeelt welke warmtepomp past, welke subsidie mogelijk is en welke installatie praktisch haalbaar is.");
-$vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. Gecertificeerd voor Qvantum en Nibe. Eerlijk advies, geen verkooppraatjes — wij kijken wat technisch verstandig is voor uw situatie.");
+$vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. We werken merkonafhankelijk: Qvantum en Nibe kennen we goed, maar ook Itho Daalderop, Daikin, Intergas en andere merken nemen we gewoon mee wanneer dat beter past. Eerlijk advies, geen verkooppraatjes — wij kijken wat technisch verstandig is voor uw situatie.");
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
 $topbar    = wc_meta('wc_topbar_tekst',"Vrijblijvend warmtepompadvies" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
@@ -47,6 +47,7 @@ $warmtepomp_types = wc_meta_rows('wc_warmtepomp_types', [
 if (!array_filter($warmtepomp_types, static fn($type) => isset($type[2]) && stripos($type[2], 'boiler') !== false)) {
   $warmtepomp_types[] = $warmtepompboiler_type;
 }
+$other_brand_note = wc_meta('wc_other_brand_note', 'Heeft u al een warmtepomp op het oog of staat er al een toestel? Vakvriend ondersteunt ook andere merken, waaronder Itho Daalderop, Daikin, Intergas en vergelijkbare A-merken. We beoordelen per woning welk systeem technisch klopt.');
 $vv_props = wc_meta_rows('wc_vv_props', [
   ['🏗️','Allround installatiebedrijf','Warmtepompen, CV-ketels, sanitair, vloerverwarming, dakwerk en ventilatie. Alles in eigen hand.'],
   ['🚗','Volledig elektrisch wagenpark','Vakvriend rijdt de KIA PV5 — bewust duurzaam in elk opzicht.'],
@@ -96,6 +97,7 @@ $praktijk_images = [
         <span class="vk-trust">Gratis & vrijblijvend</span>
         <span class="vk-trust">ISDE-subsidie meegenomen</span>
         <span class="vk-trust">Merkonafhankelijk advies</span>
+        <span class="vk-trust">Ook Itho Daalderop & Daikin</span>
         <span class="vk-trust"><?=$is_lokaal?"Actief in $stad":"Door heel Nederland"?></span>
       </div>
       <div class="vk-proof-row">
@@ -280,6 +282,7 @@ $praktijk_images = [
     <div class="vk-eyebrow vk-center"><?=esc_html(wc_meta('wc_types_eyebrow','Kenniscentrum warmtepompen'))?></div>
     <h2 class="vk-center"><?=esc_html(wc_meta('wc_types_titel','Welk type warmtepomp past bij u?'))?></h2>
     <p class="vk-lead vk-center vk-lead-center"><?=esc_html(wc_meta('wc_types_lead','Er zijn meerdere warmtepomproutes voor woningen. Soms gaat het om volledige ruimteverwarming, soms vooral om tapwater met een warmtepompboiler.'))?></p>
+    <p class="vk-brand-note vk-center"><?=esc_html($other_brand_note)?></p>
     <div class="vk-type-grid">
       <?php foreach($warmtepomp_types as [$ico,$badge,$title,$text,$items,$brands]): ?>
         <div class="vk-type-card vk-reveal">
@@ -666,6 +669,7 @@ if ($lokale_alinea1 || $lokale_alinea2):
       <?php
       $faqs=[
         ["Wat is het verschil tussen Qvantum en Nibe?","Qvantum werkt met thermische opslag en vers tapwater via een platenwisselaar. Nibe heeft een breed programma voor lucht/water, bodem/water en hybride installaties. De beste keuze hangt af van warmteverlies, tapwater, geluid, ruimte en afgiftesysteem."],
+        ["Ondersteunt Vakvriend ook andere merken?","Ja. Vakvriend werkt merkonafhankelijk en kan ook warmtepompen van onder andere Itho Daalderop, Daikin, Intergas en vergelijkbare A-merken beoordelen. We kijken eerst naar woning, verbruik, tapwater, geluid en plaatsing; daarna pas naar het merk en model."],
         ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride, bodemwarmtepompen en warmtepompboilers hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken."],
         ["Wanneer is een warmtepompboiler interessant?","Een warmtepompboiler is vooral bedoeld voor warm tapwater. Het kan een logische stap zijn wanneer u douchewater zuiniger wilt maken, maar de woningverwarming nog via cv, hybride of een later warmtepompsysteem loopt."],
         ["Hoe werkt de thermische batterij van Qvantum?","Alle Qvantum-systemen werken met thermische opslag: QA, QE en QG. De batterij bewaart warmte voor verwarming en tapwater, maar slaat geen douchewater op. Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het tapwater direct."],
