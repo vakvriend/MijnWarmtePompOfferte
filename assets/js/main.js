@@ -15,7 +15,6 @@ if ('IntersectionObserver' in window) {
   document.querySelectorAll('.reveal,.vk-reveal').forEach(function(el) { obs.observe(el); });
 }
 
-var fd = {};
 var calcSysteem = 'lw';
 var vkSessionId = getVkSessionId();
 var SUBSIDIE = {
@@ -36,11 +35,10 @@ function vkTrack(eventName, payload) {
     session_id: vkSessionId
   }, payload));
   vkTrackGa4(eventName, payload);
-  vkTrackBackend(eventName, payload);
 }
 
 function getVkSessionId() {
-  var key = 'vk_lead_session_id';
+  var key = 'vk_campaign_session_id';
   try {
     var existing = window.sessionStorage.getItem(key);
     if (existing) return existing;
@@ -52,104 +50,10 @@ function getVkSessionId() {
   }
 }
 
-function vkTrackBackend(eventName, payload) {
-  if (!/^lead_|^calculator_/.test(eventName)) return;
-  if (typeof wcVars === 'undefined' || !wcVars.ajaxUrl || !wcVars.nonce) return;
-
-  var data = new FormData();
-  data.append('action', 'wc_funnel_event');
-  data.append('nonce', wcVars.nonce);
-  data.append('event_name', eventName);
-  data.append('session_id', vkSessionId);
-  data.append('page_location', location.href);
-  data.append('page_hostname', location.hostname);
-  data.append('referrer', document.referrer || '');
-  data.append('stad', (document.getElementById('js-stad') || {}).value || '');
-  data.append('payload', JSON.stringify(payload || {}));
-
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(wcVars.ajaxUrl, data);
-    return;
-  }
-
-  fetch(wcVars.ajaxUrl, {
-    method: 'POST',
-    body: data,
-    keepalive: true,
-    credentials: 'same-origin'
-  }).catch(function() {});
-}
-
-function vkDraftData(stage) {
-  var p = new URLSearchParams(location.search);
-  var telEl = document.getElementById('vk-tel') || document.getElementById('vk-tel-extra');
-  var pcEl = document.getElementById('vk-pc') || document.getElementById('vk-pc-extra');
-  return {
-    stage: stage || 'contact',
-    naam: ((document.getElementById('vk-naam') || {}).value || '').trim(),
-    email: ((document.getElementById('vk-email') || {}).value || '').trim(),
-    telefoon: ((telEl || {}).value || '').trim(),
-    postcode: ((pcEl || {}).value || '').trim(),
-    woningtype: fd.woningtype || '',
-    situatie: fd.systeem || '',
-    gasverbruik: fd.gasverbruik || '',
-    termijn: fd.termijn || '',
-    stad: (document.getElementById('js-stad') || {}).value || '',
-    domein: location.hostname,
-    landing_page: location.href,
-    referrer: document.referrer || '',
-    utm_source: p.get('utm_source') || '',
-    utm_medium: p.get('utm_medium') || '',
-    utm_campaign: p.get('utm_campaign') || '',
-    utm_term: p.get('utm_term') || '',
-    utm_content: p.get('utm_content') || '',
-    gclid: p.get('gclid') || '',
-    gbraid: p.get('gbraid') || '',
-    wbraid: p.get('wbraid') || ''
-  };
-}
-
-function vkSaveDraft(stage) {
-  if (typeof wcVars === 'undefined' || !wcVars.ajaxUrl || !wcVars.nonce) return;
-  var draft = vkDraftData(stage);
-  var hasValue = ['naam','email','telefoon','postcode','woningtype','situatie','gasverbruik','termijn'].some(function(key) {
-    return !!draft[key];
-  });
-  if (!hasValue) return;
-
-  var data = new FormData();
-  data.append('action', 'wc_lead_draft');
-  data.append('nonce', wcVars.nonce);
-  data.append('session_id', vkSessionId);
-  Object.keys(draft).forEach(function(key) {
-    data.append(key, draft[key]);
-  });
-
-  fetch(wcVars.ajaxUrl, {
-    method: 'POST',
-    body: data,
-    keepalive: true,
-    credentials: 'same-origin'
-  }).catch(function() {});
-}
-
-var vkDraftTimer = null;
-function vkQueueDraft(stage) {
-  clearTimeout(vkDraftTimer);
-  vkDraftTimer = setTimeout(function() {
-    vkSaveDraft(stage);
-  }, 500);
-}
-
 function vkTrackGa4(eventName, payload) {
   if (!window.vkGa4MeasurementId || typeof window.gtag !== 'function') return;
 
   var eventMap = {
-    lead_form_choice: 'lead_form_choice',
-    lead_form_step: 'lead_form_step',
-    lead_form_submit_attempt: 'lead_form_submit_attempt',
-    lead_form_success: 'generate_lead',
-    lead_form_error: 'lead_form_error',
     calculator_system_select: 'calculator_system_select',
     lead_cta_click: 'lead_cta_click',
     phone_click: 'phone_click',
@@ -165,209 +69,7 @@ function vkTrackGa4(eventName, payload) {
     page_hostname: location.hostname
   }, payload || {});
 
-  if (eventName === 'lead_form_success') {
-    params.value = 100;
-    params.currency = 'EUR';
-  }
-
   window.gtag('event', gaEventName, params);
-
-  if (eventName === 'lead_form_success') {
-    window.gtag('event', 'qualify_lead', params);
-  }
-}
-
-function vkTrackAdsLeadConversion() {
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function() {
-    window.dataLayer.push(arguments);
-  };
-
-  window.gtag('event', 'conversion', {
-    send_to: 'AW-18103465341/9j_GCMTd-qIcEP3qs7hD',
-    value: 100,
-    currency: 'EUR'
-  });
-}
-
-window.vkKies = function(btn, key, val) {
-  btn.closest('.vk-keuze-grid').querySelectorAll('.vk-keuze').forEach(function(b) { b.classList.remove('actief'); });
-  btn.classList.add('actief');
-  fd[key] = val;
-  vkQueueDraft(key);
-  vkTrack('lead_form_choice', {
-    form_name: 'warmtepomp_offerte',
-    field_name: key,
-    field_value: val
-  });
-  if (key === 'systeem') {
-    var tip = document.getElementById('subsidie-tip');
-    if (tip) {
-      var s = val.includes('Ventilatie') ? SUBSIDIE.vent : val.includes('Bodem') ? SUBSIDIE.bodem : val.includes('Hybride') ? SUBSIDIE.hybride : val.includes('Warmtepompboiler') ? SUBSIDIE.boiler : val.includes('Weet') ? null : SUBSIDIE.lw;
-      if (s) { tip.innerHTML = 'Geschatte ISDE-subsidie: <strong>gem. ' + fmt(s.bedrag) + '</strong> — exacte bedrag hangt af van merk, vermogen en energielabel. Vakvriend berekent dit gratis en vrijblijvend voor u.'; tip.style.display = 'block'; }
-      else { tip.innerHTML = 'Vakvriend adviseert gratis en vrijblijvend welk systeem past.'; tip.style.display = 'block'; }
-    }
-    // Herbereken mini-besparing direct
-    vkUpdateGas();
-  }
-};
-
-window.vkStap = function(n) {
-  var fout = document.querySelector('.vk-fout');
-  if (fout) fout.remove();
-  if (n === 2 && !fd.woningtype) { vkFout('Selecteer eerst uw woningtype.'); return; }
-  if (n === 3 && !fd.systeem) { vkFout('Selecteer eerst uw systeemvoorkeur.'); return; }
-  document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
-  var s = document.getElementById('stap-' + n);
-  if (s) s.classList.add('active');
-  if (n === 4) vkSaveDraft('contact');
-  document.body.classList.toggle('vk-form-step-4', n === 4);
-  document.body.classList.remove('vk-form-success');
-  document.querySelectorAll('.vk-prog-dot').forEach(function(d, i) { d.classList.toggle('active', i < n); });
-  vkTrack('lead_form_step', {
-    form_name: 'warmtepomp_offerte',
-    step_number: n,
-    woningtype: fd.woningtype || '',
-    systeem: fd.systeem || '',
-    termijn: fd.termijn || ''
-  });
-  var f = document.getElementById('formulier');
-  if (f && window.innerWidth < 1020) setTimeout(function() { f.scrollIntoView({behavior: 'smooth', block: 'start'}); }, 100);
-};
-
-window.vkVerstuur = async function(submitBtn) {
-  var naam = (document.getElementById('vk-naam') || {}).value || '';
-  naam = naam.trim();
-  var email = (document.getElementById('vk-email') || {}).value || '';
-  email = email.trim();
-  var tel = '';
-  var pc = '';
-  vkSaveDraft('submit_attempt');
-  vkTrack('lead_form_submit_attempt', {
-    form_name: 'warmtepomp_offerte',
-    woningtype: fd.woningtype || '',
-    systeem: fd.systeem || '',
-    gasverbruik: fd.gasverbruik || '',
-    termijn: fd.termijn || '',
-    naam_ingevuld: naam ? 'ja' : 'nee',
-    email_ingevuld: email ? 'ja' : 'nee',
-    email_geldig: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? 'ja' : 'nee',
-    telefoon_ingevuld: tel.trim() ? 'ja' : 'nee',
-    postcode_ingevuld: pc.trim() ? 'ja' : 'nee'
-  });
-  if (!naam) { vkFout('Vul uw naam in.', 'naam'); return; }
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { vkFout('Vul een geldig e-mailadres in.', 'email'); return; }
-  var btn = submitBtn || document.querySelector('.vk-stap.active .vk-btn-oranje');
-  var btnLabel = btn ? btn.textContent : 'Ontvang mijn woningcheck';
-  if (btn) { btn.disabled = true; btn.textContent = 'Bezig...'; }
-  var p = new URLSearchParams(location.search);
-  var data = new FormData();
-  data.append('action', 'wc_lead');
-  data.append('nonce', typeof wcVars !== 'undefined' ? wcVars.nonce : '');
-  data.append('naam', naam); data.append('email', email);
-  data.append('session_id', vkSessionId);
-  data.append('telefoon', tel.trim()); data.append('postcode', pc.trim());
-  data.append('woningtype', fd.woningtype || '');
-  data.append('situatie', fd.systeem || '');
-  data.append('gasverbruik', fd.gasverbruik || '');
-  data.append('termijn', fd.termijn || '');
-  data.append('stad', (document.getElementById('js-stad') || {}).value || '');
-  data.append('domein', location.hostname);
-  data.append('utm_source', p.get('utm_source') || '');
-  data.append('utm_medium', p.get('utm_medium') || '');
-  data.append('utm_campaign', p.get('utm_campaign') || '');
-  data.append('utm_term', p.get('utm_term') || '');
-  data.append('utm_content', p.get('utm_content') || '');
-  data.append('gclid', p.get('gclid') || '');
-  data.append('gbraid', p.get('gbraid') || '');
-  data.append('wbraid', p.get('wbraid') || '');
-  data.append('landing_page', location.href);
-  data.append('referrer', document.referrer || '');
-  try {
-    var url = typeof wcVars !== 'undefined' ? wcVars.ajaxUrl : '/wp-admin/admin-ajax.php';
-    var res = await fetch(url, {method: 'POST', body: data});
-    var json = await res.json();
-    if (json.success) { vkSucces(); }
-    else {
-      var msg = json.data && json.data.message ? json.data.message : 'Er ging iets mis. Bel 075 234 0001.';
-      vkFout(msg);
-      if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
-    }
-  } catch(e) {
-    vkFout('Er ging iets mis. Bel 075 234 0001 of probeer het opnieuw.');
-    if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
-  }
-};
-
-function vkSucces() {
-  document.querySelectorAll('.vk-stap').forEach(function(s) { s.classList.remove('active'); });
-  document.body.classList.remove('vk-form-step-4');
-  document.body.classList.add('vk-form-success');
-  var s = document.getElementById('stap-succes');
-  if (s) s.classList.add('active');
-  document.querySelectorAll('.vk-prog-dot').forEach(function(d) { d.classList.add('active'); });
-  vkTrack('lead_form_success', {
-    form_name: 'warmtepomp_offerte',
-    woningtype: fd.woningtype || '',
-    systeem: fd.systeem || '',
-    gasverbruik: fd.gasverbruik || '',
-    termijn: fd.termijn || '',
-    stad: (document.getElementById('js-stad') || {}).value || ''
-  });
-  vkTrackAdsLeadConversion();
-}
-
-window.vkAanvullen = async function(btn) {
-  var tel = ((document.getElementById('vk-tel-extra') || {}).value || '').trim();
-  var pc = ((document.getElementById('vk-pc-extra') || {}).value || '').trim();
-  var status = document.getElementById('vk-extra-status');
-  if (!tel && !pc) {
-    if (status) status.textContent = 'Vul telefoonnummer of postcode in.';
-    vkTrack('lead_form_error', {
-      form_name: 'warmtepomp_offerte',
-      error_message: 'Geen aanvullende gegevens ingevuld.',
-      error_field: 'extra_contact'
-    });
-    return;
-  }
-  if (btn) { btn.disabled = true; btn.textContent = 'Opslaan...'; }
-  var data = new FormData();
-  data.append('action', 'wc_lead_contact_update');
-  data.append('nonce', typeof wcVars !== 'undefined' ? wcVars.nonce : '');
-  data.append('session_id', vkSessionId);
-  data.append('telefoon', tel);
-  data.append('postcode', pc);
-  try {
-    var url = typeof wcVars !== 'undefined' ? wcVars.ajaxUrl : '/wp-admin/admin-ajax.php';
-    var res = await fetch(url, {method: 'POST', body: data});
-    var json = await res.json();
-    if (!json.success) throw new Error((json.data && json.data.message) || 'Opslaan mislukt.');
-    if (status) status.textContent = 'Dank u, de extra gegevens zijn toegevoegd.';
-    var box = document.getElementById('vk-success-contact');
-    if (box) box.classList.add('is-saved');
-    vkTrack('lead_form_contact_extra', {
-      form_name: 'warmtepomp_offerte',
-      telefoon_ingevuld: tel ? 'ja' : 'nee',
-      postcode_ingevuld: pc ? 'ja' : 'nee'
-    });
-  } catch (e) {
-    if (status) status.textContent = 'Opslaan lukt niet. U kunt ook direct bellen of WhatsApp sturen.';
-    if (btn) { btn.disabled = false; btn.textContent = 'Gegevens aanvullen'; }
-  }
-};
-
-function vkFout(t, fieldName) {
-  var e = document.querySelector('.vk-fout'); if (e) e.remove();
-  var d = document.createElement('div');
-  d.className = 'vk-fout'; d.textContent = '\u26a0\ufe0f ' + t;
-  var a = document.querySelector('.vk-stap.active');
-  if (a) a.insertBefore(d, a.firstChild);
-  vkTrack('lead_form_error', {
-    form_name: 'warmtepomp_offerte',
-    error_message: t,
-    error_field: fieldName || ''
-  });
-  setTimeout(function() { if(d.parentNode) d.remove(); }, 4000);
 }
 
 function vkBereken(g, gp, sys) {
@@ -402,22 +104,6 @@ window.vkCalc = function() {
   var r2 = document.getElementById('c-sub'); if (r2) r2.textContent = 'gem. ' + fmt(res.subsidie) + ' *';
   var r3 = document.getElementById('c-tvt'); if (r3) r3.textContent = res.tvt > 0 ? res.tvt.toFixed(1) + ' jr' : '\u2014';
   var lb = document.getElementById('calc-sys-lbl'); if (lb) lb.textContent = res.label;
-};
-
-window.vkUpdateGas = function() {
-  var g = parseInt((document.getElementById('vk-gas') || {value: 1800}).value);
-  var v = document.getElementById('vk-gas-val'); if (v) v.textContent = g.toLocaleString('nl-NL') + ' m\u00b3';
-  var sys = 'lw';
-  if (fd.systeem) {
-    if (fd.systeem.includes('Ventilatie')) sys = 'vent';
-    else if (fd.systeem.includes('Bodem')) sys = 'bodem';
-    else if (fd.systeem.includes('Hybride')) sys = 'hybride';
-    else if (fd.systeem.includes('Warmtepompboiler')) sys = 'boiler';
-  }
-  var res = vkBereken(g, 1.25, sys);
-  var m = document.getElementById('vk-mini-besp'); if (m) m.textContent = fmt(res.b) + ' *';
-  var isde = document.getElementById('vk-mini-isde'); if (isde) isde.textContent = 'gem. ' + fmt(res.subsidie) + ' *';
-  fd.gasverbruik = g.toLocaleString('nl-NL') + ' m\u00b3';
 };
 
 var chatGeschiedenis = [];
@@ -502,14 +188,6 @@ document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
   });
 });
 
-['vk-naam','vk-email','vk-tel','vk-pc','vk-tel-extra','vk-pc-extra'].forEach(function(id) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  el.addEventListener('input', function() { vkQueueDraft('contact_input'); });
-  el.addEventListener('blur', function() { vkSaveDraft('contact_blur'); });
-});
-
-if (document.getElementById('vk-gas')) vkUpdateGas();
 if (document.getElementById('calc-gas')) vkCalc();
 
 

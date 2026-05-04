@@ -491,52 +491,6 @@ function wc_ads_builder_refresh_results_action() {
 }
 add_action('admin_post_wc_ads_builder_refresh_results', 'wc_ads_builder_refresh_results_action');
 
-function wc_ads_builder_local_lead_results($range_days = 14) {
-    $query = new WP_Query(array(
-        'post_type' => 'wc_lead',
-        'post_status' => 'private',
-        'posts_per_page' => 500,
-        'date_query' => array(array('after' => max(1, (int) $range_days) . ' days ago')),
-    ));
-    $rows = array();
-    while ($query->have_posts()) {
-        $query->the_post();
-        $id = get_the_ID();
-        $campaign = get_post_meta($id, 'utm_campaign', true) ?: 'zonder-campagne';
-        $content = get_post_meta($id, 'utm_content', true) ?: 'zonder-variant';
-        $domain = get_post_meta($id, 'domein', true) ?: parse_url((string) get_post_meta($id, 'landing_page', true), PHP_URL_HOST);
-        $key = $campaign . '|' . $content . '|' . $domain;
-        if (!isset($rows[$key])) {
-            $rows[$key] = array(
-                'campaign' => $campaign,
-                'variant' => $content,
-                'domain' => $domain ?: '-',
-                'leads' => 0,
-                'score_total' => 0,
-                'with_phone' => 0,
-                'with_postcode' => 0,
-            );
-        }
-        $rows[$key]['leads']++;
-        $rows[$key]['score_total'] += (int) get_post_meta($id, 'lead_score', true);
-        if (get_post_meta($id, 'telefoon', true)) {
-            $rows[$key]['with_phone']++;
-        }
-        if (get_post_meta($id, 'postcode', true)) {
-            $rows[$key]['with_postcode']++;
-        }
-    }
-    wp_reset_postdata();
-    foreach ($rows as &$row) {
-        $row['avg_score'] = $row['leads'] ? round($row['score_total'] / $row['leads']) : 0;
-    }
-    unset($row);
-    uasort($rows, function ($a, $b) {
-        return ($b['leads'] <=> $a['leads']) ?: ($b['avg_score'] <=> $a['avg_score']);
-    });
-    return $rows;
-}
-
 function wc_ads_builder_variant_from_url($url) {
     $query = parse_url((string) $url, PHP_URL_QUERY);
     if (!$query) {
@@ -767,7 +721,6 @@ function wc_ads_builder_page() {
             <?php
             $range = max(1, min(90, (int) ($_GET['range'] ?? 14)));
             $last_results = get_option('wc_ads_builder_last_results', array());
-            $local_results = wc_ads_builder_local_lead_results($range);
             $ads_rows = is_array($last_results) ? ($last_results['ads'] ?? array()) : array();
             $keyword_rows = is_array($last_results) ? ($last_results['keywords'] ?? array()) : array();
             $variant_metrics = array();
@@ -828,26 +781,6 @@ function wc_ads_builder_page() {
                     </tr>
                 <?php endforeach; else: ?>
                     <tr><td colspan="8">Nog geen Google Ads API-data opgehaald.</td></tr>
-                <?php endif; ?>
-                </tbody>
-            </table>
-
-            <h2>Leads gekoppeld aan advertentievariant</h2>
-            <table class="widefat striped" style="max-width:1100px;margin-bottom:24px">
-                <thead><tr><th>Campagne</th><th>Variant</th><th>Domein</th><th>Leads</th><th>Gem. score</th><th>Met telefoon</th><th>Met postcode</th></tr></thead>
-                <tbody>
-                <?php if ($local_results): foreach ($local_results as $row): ?>
-                    <tr>
-                        <td><code><?php echo esc_html($row['campaign']); ?></code></td>
-                        <td><code><?php echo esc_html($row['variant']); ?></code></td>
-                        <td><?php echo esc_html($row['domain']); ?></td>
-                        <td><strong><?php echo esc_html((string) $row['leads']); ?></strong></td>
-                        <td><?php echo esc_html((string) $row['avg_score']); ?>/100</td>
-                        <td><?php echo esc_html((string) $row['with_phone']); ?></td>
-                        <td><?php echo esc_html((string) $row['with_postcode']); ?></td>
-                    </tr>
-                <?php endforeach; else: ?>
-                    <tr><td colspan="7">Nog geen leads met UTM-data in deze periode.</td></tr>
                 <?php endif; ?>
                 </tbody>
             </table>

@@ -10,13 +10,6 @@ $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
 $topbar    = wc_meta('wc_topbar_tekst',"Vrijblijvend warmtepompadvies" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
 $hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis en vrijblijvend woningadvies in $stad" : 'Gratis en vrijblijvend warmtepompadvies');
-$form_titel = wc_meta('wc_form_titel', 'Gratis en vrijblijvende woningcheck');
-$form_subtitel = wc_meta('wc_form_subtitel', 'Bereken direct uw besparing en ontvang binnen 24 uur reactie van Vakvriend.');
-$form_benefits = wc_meta_rows('wc_form_benefits', [
-  ['Vrijblijvend advies'],
-  ['Subsidiebedrag berekend'],
-  ['Advies binnen 24 uur'],
-], 1);
 $campaign_proof = wc_meta_rows('wc_campaign_proof', [
   ['Binnen 24 uur','reactie op uw aanvraag'],
   ['ISDE','berekening inbegrepen'],
