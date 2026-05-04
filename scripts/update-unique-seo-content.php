@@ -596,6 +596,7 @@ function vk_special_support_meta($title) {
         'Mijn Warmtepomp Offerte' => array(
             'label' => 'persoonlijke offerte',
             'types_title' => 'Welke warmtepomp past bij mijn woning?',
+            'types_lead' => 'We beginnen bij uw woning, verbruik en comfortwensen. Daarna vergelijken we pas welke route logisch is: lucht/water, ventilatie, hybride, bodemwarmte of een warmtepompboiler.',
             'angle' => 'woninggegevens, verbruik, subsidie en een offerte die technisch klopt',
             'qvantum' => 'Voor een persoonlijke offerte bekijken we of Qvantum past bij de beschikbare ruimte, tapwaterwens, ventilatie en het idee van warmteopslag zonder groot boilervat.',
             'nibe' => 'Nibe nemen we mee wanneer betrouwbaarheid, brede configuratiekeuze en een rustige route naar hybride of all-electric belangrijk zijn.',
@@ -623,7 +624,7 @@ function vk_special_support_meta($title) {
         'wc_nibe_lead' => $topic['nibe'],
         'wc_types_eyebrow' => 'Keuzehulp · ' . $topic['label'],
         'wc_types_titel' => $topic['types_title'] ?? 'Welke warmtepomp past bij uw situatie?',
-        'wc_types_lead' => 'Deze pagina focust op ' . $topic['angle'] . '. Daarom bekijken we lucht/water, ventilatie, hybride en bodemwarmte vanuit dat specifieke vertrekpunt.',
+        'wc_types_lead' => $topic['types_lead'] ?? 'We bekijken welke route technisch past: lucht/water, ventilatie, hybride, bodemwarmte of een warmtepompboiler. De woning bepaalt wat logisch is, niet het merk of een standaardpakket.',
         'wc_vv_eyebrow' => 'Vakvriend advies',
         'wc_vv_titel' => 'Waarom Vakvriend bij ' . $topic['label'] . '?',
         'wc_vv_intro' => 'Vakvriend vertaalt ' . $topic['label'] . ' naar een praktisch plan met merkonafhankelijk systeemadvies, installatiewerk, ISDE-subsidie en heldere uitleg. U ziet waarom een systeem past, welke randvoorwaarden gelden en welke alternatieven logisch zijn.',
