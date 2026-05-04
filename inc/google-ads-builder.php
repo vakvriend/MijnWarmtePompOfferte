@@ -140,7 +140,7 @@ function wc_ads_builder_ab_variants($city, $focus) {
             ),
             'descriptions' => array(
                 'Vakvriend kijkt eerst naar uw woning, verbruik en wensen. Daarna pas een passend advies.',
-                'Vrijblijvende woningcheck voor ' . $city . '. Geen verkoopdruk, wel praktisch advies.',
+                'Vrijblijvende woningcheck voor ' . $city . '. Eerlijk en praktisch advies.',
             ),
         ),
         'subsidie' => array(
@@ -211,7 +211,7 @@ function wc_ads_builder_plan($args) {
             'descriptions' => array(
                 'Ontdek welke warmtepomp bij uw woning past. Eerst advies, daarna pas een offerte.',
                 'Vakvriend kijkt naar woning, gasverbruik, subsidie en praktische plaatsing.',
-                'Vrijblijvende woningcheck voor ' . $city . ' en omgeving. Geen verkoopdruk.',
+                'Vrijblijvende woningcheck voor ' . $city . ' en omgeving. Eerlijk advies.',
             ),
         ),
         'Hybride warmtepomp ' . $city => array(
@@ -281,7 +281,7 @@ function wc_ads_builder_plan($args) {
         'variants' => wc_ads_builder_ab_variants($city, $focus),
         'negatives' => wc_ads_builder_negative_keywords(),
         'sitelinks' => array('Woningcheck', 'ISDE subsidie', 'Qvantum vs Nibe', 'Werkwijze'),
-        'callouts' => array('Vrijblijvende woningcheck', 'Merkonafhankelijk advies', 'ISDE meegenomen', 'Geen verkoopdruk'),
+        'callouts' => array('Vrijblijvende woningcheck', 'Merkonafhankelijk advies', 'ISDE meegenomen', 'Eerlijk advies'),
     );
 }
 

@@ -89,7 +89,7 @@ function wc_homezero_scan_widget($show_head = true) {
             <div>
               <em>Persoonlijk advies</em>
               <strong>Vakvriend kijkt mee</strong>
-              <span>Een vakman beoordeelt uw scan, zonder verkoopdruk.</span>
+              <span>Een vakman beoordeelt uw scan met eerlijk en praktisch advies.</span>
             </div>
           </div>
         <?php endif; ?>
@@ -115,7 +115,7 @@ function wc_homezero_scan_widget($show_head = true) {
         <div class="vk-scan-usps" aria-label="Voordelen van de scan">
           <span>ISDE meegenomen</span>
           <span>Merkonafhankelijk</span>
-          <span>Geen verkoopdruk</span>
+          <span>Eerlijk advies</span>
         </div>
       </div>
     </div>
