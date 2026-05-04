@@ -144,7 +144,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* ── FORMULIER ── */
 .vk-form-wrap{position:sticky;top:120px;width:100%;max-width:500px;justify-self:end}
 .vk-form-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#f6fbf7 100%);border:1px solid rgba(255,255,255,.78);border-radius:18px;padding:36px 32px 28px;box-shadow:0 30px 76px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.92) inset}
-.vk-form-card:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,var(--groen),#10a762 45%,var(--oranje));z-index:1}
+.vk-form-card:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,var(--groen) 0%,#10a762 22%,#f7b955 42%,var(--oranje) 50%,#f7b955 58%,#10a762 78%,var(--groen) 100%);background-size:220% 100%;animation:vkFormGlow 7s ease-in-out infinite;z-index:1}
 .vk-form-card:after{content:"";position:absolute;right:-74px;top:-94px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(6,105,57,.16),rgba(6,105,57,0) 69%);pointer-events:none}
 .vk-form-card hz-embed{display:block;width:100%;margin-top:16px;position:relative;z-index:2}
 @media(max-width:1020px){.vk-form-wrap{position:relative;top:auto;max-width:620px;justify-self:stretch;margin:0 auto}}
@@ -164,6 +164,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-scan-badge span:before,.vk-scan-badge span:after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(249,115,22,.42);animation:vkScanPulse 2.1s ease-out infinite}
 .vk-scan-badge span:after{animation-delay:.7s}
 @keyframes vkScanPulse{0%{transform:scale(.55);opacity:.8}70%,100%{transform:scale(1.95);opacity:0}}
+@keyframes vkFormGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .vk-form-head h2{font-family:var(--font-b);font-size:22px;font-weight:900;letter-spacing:0;line-height:1.15;color:var(--zwart);margin-bottom:7px}
 .vk-form-head p{font-size:13px;color:var(--grijs);line-height:1.55;margin:0 auto;max-width:340px}
 .vk-scan-usps{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;padding-top:15px;border-top:1px solid #e5eee8}
