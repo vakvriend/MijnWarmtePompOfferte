@@ -70,141 +70,44 @@ function wc_shortcode_logos() {
 }
 add_shortcode('warmtepomp_logos', 'wc_shortcode_logos');
 
-function wc_shortcode_lead_form($atts = array()) {
-    $ctx = wc_landing_context();
-    $atts = shortcode_atts(array(
-        'trust_1'       => 'Veilig',
-        'trust_2'       => 'Binnen 24u reactie',
-        'trust_3'       => 'Gratis en vrijblijvend',
-        'step_1_title'  => 'Wat voor woning heeft u?',
-        'step_1_sub'    => 'Stap 1 van 4',
-        'step_2_title'  => 'Welk systeem heeft uw voorkeur?',
-        'step_2_sub'    => 'Stap 2 van 4',
-        'step_3_title'  => 'Huidig gasverbruik?',
-        'step_3_sub'    => 'Stap 3 van 4',
-        'step_4_title'  => 'Waar mogen we de woningcheck naartoe sturen?',
-        'step_4_sub'    => 'Stap 4 van 4 - u krijgt eerst een technische inschatting per mail. We bellen alleen als iets onduidelijk is.',
-        'next_label'    => 'Volgende',
-        'back_label'    => 'Terug',
-        'submit_label'  => 'Ontvang mijn woningcheck',
-        'success_title' => 'Aanvraag ontvangen',
-        'success_text'  => 'Bedankt. Vakvriend neemt binnen één werkdag contact op voor een gratis adviesgesprek aan huis.',
-    ), $atts, 'warmtepomp_lead_form');
-
+function wc_homezero_scan_widget($show_head = true) {
+    static $script_loaded = false;
     ob_start();
     ?>
     <div class="vk-form-wrap" id="formulier">
       <div class="vk-form-card">
-        <div class="vk-form-trust-bar">
-          <span><?php echo esc_html($atts['trust_1']); ?></span><span><?php echo esc_html($atts['trust_2']); ?></span><span><?php echo esc_html($atts['trust_3']); ?></span>
-        </div>
-        <div class="vk-progress">
-          <div class="vk-prog-dot active"></div>
-          <div class="vk-prog-dot"></div>
-          <div class="vk-prog-dot"></div>
-          <div class="vk-prog-dot"></div>
-        </div>
-        <div class="vk-prog-labels"><span>Woning</span><span>Systeem</span><span>Wens</span><span>Gegevens</span></div>
-
-        <div class="vk-stap active" id="stap-1">
-          <h3 class="vk-stap-titel"><?php echo esc_html($atts['step_1_title']); ?></h3>
-          <p class="vk-stap-sub"><?php echo esc_html($atts['step_1_sub']); ?></p>
-          <div class="vk-keuze-grid">
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Vrijstaande woning')"><span class="vk-keuze-ico">🏡</span>Vrijstaand</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Tussenwoning')"><span class="vk-keuze-ico">🏘️</span>Tussenwoning</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Hoekwoning')"><span class="vk-keuze-ico">🏠</span>Hoekwoning</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'woningtype','Appartement')"><span class="vk-keuze-ico">🏢</span>Appartement</button>
+        <?php if ($show_head): ?>
+          <div class="vk-form-head">
+            <h2>Start uw verduurzamingsscan</h2>
+            <p>Vul woningtype, systeemwens en verbruik in en ontvang een advies dat bij uw huis past.</p>
           </div>
-          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(2)"><?php echo esc_html($atts['next_label']); ?></button>
-        </div>
-
-        <div class="vk-stap" id="stap-2">
-          <h3 class="vk-stap-titel"><?php echo esc_html($atts['step_2_title']); ?></h3>
-          <p class="vk-stap-sub"><?php echo esc_html($atts['step_2_sub']); ?></p>
-          <div class="vk-keuze-grid">
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Lucht/water (Qvantum QA / Nibe)')"><span class="vk-keuze-ico">💨</span>Lucht/water</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Ventilatie (Qvantum QE)')"><span class="vk-keuze-ico">🌬️</span>Ventilatie</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Bodemwarmtepomp (Nibe / Qvantum QG)')"><span class="vk-keuze-ico">🌍</span>Bodem</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Hybride (Intergas Xtend Eco)')"><span class="vk-keuze-ico">⚡</span>Hybride</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Warmtepompboiler (tapwater)')"><span class="vk-keuze-ico">🚿</span>Warmtepompboiler</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'systeem','Weet ik nog niet')"><span class="vk-keuze-ico">💡</span>Advies nodig</button>
-          </div>
-          <div class="vk-subsidie-tip" id="subsidie-tip" style="display:none"></div>
-          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(3)"><?php echo esc_html($atts['next_label']); ?></button>
-          <div class="vk-terug"><button type="button" onclick="vkStap(1)"><?php echo esc_html($atts['back_label']); ?></button></div>
-        </div>
-
-        <div class="vk-stap" id="stap-3">
-          <h3 class="vk-stap-titel"><?php echo esc_html($atts['step_3_title']); ?></h3>
-          <p class="vk-stap-sub"><?php echo esc_html($atts['step_3_sub']); ?></p>
-          <label class="vk-slider-lbl">Gasverbruik per jaar</label>
-          <input type="range" class="vk-slider" id="vk-gas" min="500" max="4000" step="100" value="1800" oninput="vkUpdateGas()">
-          <div class="vk-slider-vals"><span>500 m³</span><strong id="vk-gas-val">1.800 m³</strong><span>4.000 m³</span></div>
-          <div class="vk-mini-res">
-            <div class="vk-mini-lbl">Geschatte besparing per jaar</div>
-            <div class="vk-mini-val" id="vk-mini-besp">€900</div>
-            <div class="vk-mini-sub">ISDE-subsidie: <strong id="vk-mini-isde">gem. €2.800</strong></div>
-            <div class="vk-form-note">Schatting op basis van gemiddelden. Exacte subsidie afhankelijk van merk en vermogen.</div>
-          </div>
-          <label class="vk-slider-lbl vk-choice-label">Wanneer wilt u stappen zetten? <span style="font-weight:600;color:#7b8a80">(optioneel)</span></label>
-          <div class="vk-keuze-grid vk-keuze-grid-compact">
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Zo snel mogelijk')"><span class="vk-keuze-ico">!</span>Zo snel mogelijk</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Binnen 3 maanden')"><span class="vk-keuze-ico">3</span>Binnen 3 maanden</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Dit jaar')"><span class="vk-keuze-ico">12</span>Dit jaar</button>
-            <button type="button" class="vk-keuze" onclick="vkKies(this,'termijn','Ik oriënteer mij nog')"><span class="vk-keuze-ico">?</span>Oriënteren</button>
-          </div>
-          <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkStap(4)">Naar laatste stap</button>
-          <div class="vk-terug"><button type="button" onclick="vkStap(2)"><?php echo esc_html($atts['back_label']); ?></button></div>
-        </div>
-
-        <div class="vk-stap" id="stap-4">
-          <h3 class="vk-stap-titel"><?php echo esc_html($atts['step_4_title']); ?></h3>
-          <p class="vk-stap-sub"><?php echo esc_html($atts['step_4_sub']); ?></p>
-          <div class="vk-veld-grid">
-            <div class="vk-veld"><label>Naam *</label><input type="text" id="vk-naam" placeholder="Jan de Vries"></div>
-            <div class="vk-veld"><label>E-mail *</label><input type="email" id="vk-email" placeholder="jan@voorbeeld.nl"></div>
-          </div>
-          <div class="vk-final-proof">
-            <span>Geen verplichting</span>
-            <span>Eerst advies</span>
-            <span>Geen verkoopdruk</span>
-          </div>
-          <button type="button" class="vk-btn vk-btn-oranje vk-btn-full vk-btn-lg" onclick="vkVerstuur(this)"><?php echo esc_html($atts['submit_label']); ?></button>
-          <p class="vk-disclaimer"><span>Vrijblijvend advies</span><span>Reactie binnen 24 uur</span><span>Lokale subsidiecheck</span><br>Door te versturen gaat u akkoord met onze <a href="<?php echo esc_url(home_url('/privacy')); ?>">privacyverklaring</a>.</p>
-          <div class="vk-contact-fallback">
-            <span>Liever direct overleggen?</span>
-            <a href="tel:<?php echo esc_attr($ctx['tel_clean']); ?>">Bel <?php echo esc_html($ctx['telefoon']); ?></a>
-            <a href="https://wa.me/<?php echo esc_attr($ctx['whatsapp']); ?>">WhatsApp</a>
-          </div>
-          <div class="vk-terug"><button type="button" onclick="vkStap(3)"><?php echo esc_html($atts['back_label']); ?></button></div>
-        </div>
-
-        <div class="vk-stap vk-succes" id="stap-succes">
-          <div class="vk-succes-mark">✓</div>
-          <div class="vk-succes-pill">Aanvraag compleet</div>
-          <h3><?php echo esc_html($atts['success_title']); ?></h3>
-          <p><?php echo esc_html($atts['success_text']); ?></p>
-          <div class="vk-succes-next">
-            <div><strong>1</strong><span>Aanvraag ontvangen</span></div>
-            <div><strong>2</strong><span>Vakvriend rekent mee</span></div>
-            <div><strong>3</strong><span>U krijgt advies</span></div>
-          </div>
-          <div class="vk-success-contact" id="vk-success-contact">
-            <h4>Sneller geholpen worden?</h4>
-            <p>Laat optioneel uw telefoonnummer en postcode achter. Dan kunnen we gerichter meekijken en bellen we alleen als iets onduidelijk is.</p>
-            <div class="vk-veld-grid">
-              <div class="vk-veld"><label>Telefoon <span>optioneel</span></label><input type="tel" id="vk-tel-extra" placeholder="06 12345678"></div>
-              <div class="vk-veld"><label>Postcode <span>woningcheck</span></label><input type="text" id="vk-pc-extra" placeholder="1234 AB"></div>
-            </div>
-            <button type="button" class="vk-btn vk-btn-groen vk-btn-full" onclick="vkAanvullen(this)">Gegevens aanvullen</button>
-            <div class="vk-extra-status" id="vk-extra-status" aria-live="polite"></div>
-          </div>
-          <a href="tel:<?php echo esc_attr($ctx['tel_clean']); ?>" class="vk-btn vk-btn-groen vk-btn-full vk-btn-space">Direct bellen: <?php echo esc_html($ctx['telefoon']); ?></a>
-          <a href="https://wa.me/<?php echo esc_attr($ctx['whatsapp']); ?>" class="vk-btn vk-btn-wa vk-btn-full vk-btn-space-sm">WhatsApp sturen</a>
-        </div>
+        <?php endif; ?>
+        <?php if (!$script_loaded): ?>
+          <script defer src="https://homezerotech.github.io/Widget/Production/embed.js"></script>
+          <?php $script_loaded = true; ?>
+        <?php endif; ?>
+        <hz-embed
+            src="https://scan.vakvriend.nl/link/start?id=22c68b1d-2179-4fbb-93a2-4991451ced41"
+            data-address-format="dutch"
+            data-language="nl"
+            data-open-new-tab="true"
+            data-show-phone="false"
+            data-phone-required="false"
+            data-show-email="true"
+            data-email-required="true"
+            data-button-text="Start Scan"
+            data-button-radius="7px"
+            data-color="#066939"
+            data-title="Start uw verduurzamingsscan"
+            data-subtitle="Vul woningtype, systeemwens en verbruik in en ontvang een advies dat bij uw huis past."
+        ></hz-embed>
       </div>
     </div>
     <?php
     return ob_get_clean();
+}
+
+function wc_shortcode_lead_form($atts = array()) {
+    return wc_homezero_scan_widget(false);
 }
 add_shortcode('warmtepomp_lead_form', 'wc_shortcode_lead_form');

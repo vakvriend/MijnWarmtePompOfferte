@@ -144,6 +144,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* ── FORMULIER ── */
 .vk-form-wrap{position:sticky;top:120px;width:100%;max-width:500px;justify-self:end}
 .vk-form-card{background:#fff;border:1px solid #edf1ee;border-radius:var(--r-lg);padding:32px;box-shadow:0 22px 54px rgba(0,0,0,.18)}
+.vk-form-card hz-embed{display:block;width:100%;margin-top:14px}
 @media(max-width:1020px){.vk-form-wrap{position:relative;top:auto;max-width:620px;justify-self:stretch;margin:0 auto}}
 @media(max-width:640px){.vk-form-card{padding:24px}.vk-form-wrap{max-width:none}}
 @media(max-width:640px){.vk-form-card{padding:20px 16px;border-radius:8px}.vk-form-head h2{font-size:20px}.vk-form-head p{font-size:12px}}
