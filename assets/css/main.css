@@ -563,6 +563,10 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-stat-l{font-size:13px;color:rgba(255,255,255,.5)}
 
 /* ── BORINGEN ── */
+.vk-boring-photo{position:relative;margin:0 0 18px;border-radius:var(--r-lg);overflow:hidden;border:1px solid #dfe8df;background:#10261b;box-shadow:var(--sh)}
+.vk-boring-photo img{display:block;width:100%;height:320px;object-fit:cover;filter:saturate(.96) contrast(1.02)}
+.vk-boring-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,23,15,0) 42%,rgba(8,23,15,.72) 100%);pointer-events:none}
+.vk-boring-photo figcaption{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;margin:0;color:#fff;font-size:14px;font-weight:800;line-height:1.35;text-shadow:0 1px 12px rgba(0,0,0,.35)}
 .vk-boring-kaart-licht{background:#fff;border:1px solid #e0e0e0;border-radius:var(--r-lg);padding:28px;text-align:center;box-shadow:var(--sh)}
 .vk-boring-kaart-licht h3{font-size:20px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-provincies-licht{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 20px}
@@ -585,6 +589,7 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-boring-step div:last-child{font-size:14px;color:var(--tekst);line-height:1.6}
 .vk-boring-step div:last-child strong{color:var(--zwart);display:block;margin-bottom:2px;font-weight:700}
 .vk-boring-step div:last-child p{margin:0;color:var(--grijs);font-size:13px}
+@media(max-width:640px){.vk-boring-photo img{height:240px}.vk-boring-photo figcaption{left:14px;right:14px;bottom:13px;font-size:13px}}
 
 /* ── REVIEWS ── */
 .vk-reviews-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}

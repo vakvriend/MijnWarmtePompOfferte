@@ -73,6 +73,7 @@ $praktijk_base = get_template_directory_uri() . '/assets/img/praktijk/';
 $praktijk_images = [
   'lucht'   => $praktijk_base . 'lucht-water-installatie.webp',
   'boring'  => $praktijk_base . 'bodemwater-boring.webp',
+  'grondboring' => $praktijk_base . 'grondboring-boorstelling.webp',
   'contact' => $praktijk_base . 'contact-opvolging.webp',
   'pv5'     => $praktijk_base . 'kia-pv5-vakvriend.webp',
 ];
@@ -549,6 +550,10 @@ $praktijk_images = [
         <a href="#formulier" class="vk-btn vk-btn-groen" style="margin-top:32px"><?=esc_html(wc_meta('wc_boringen_cta','Meer info over boringen →'))?></a>
       </div>
       <div class="vk-reveal">
+        <figure class="vk-boring-photo">
+          <img src="<?=esc_url($praktijk_images['grondboring'])?>" alt="Professionele grondboring voor een bodemwarmtepomp" loading="lazy">
+          <figcaption>Bronboring voor een bodemwarmtepomp, met voorbereiding op het buitenterrein.</figcaption>
+        </figure>
         <div class="vk-boring-kaart-licht">
           <div style="font-size:48px;margin-bottom:16px">🗺️</div>
           <h3><?=esc_html(wc_meta('wc_boringen_kaart_titel','Actief in alle provincies'))?></h3>
