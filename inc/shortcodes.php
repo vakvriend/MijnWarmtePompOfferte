@@ -84,7 +84,7 @@ function wc_homezero_scan_widget($show_head = true) {
           </div>
           <div class="vk-form-adviser" aria-label="Vakvriend kijkt persoonlijk mee">
             <figure class="vk-form-adviser-portrait" aria-hidden="true">
-              <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/vakvriend-chat-monteur.png'); ?>" alt="" loading="lazy" decoding="async">
+              <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/vakvriend-chat-monteur.png'); ?>" alt="" loading="eager" fetchpriority="high">
             </figure>
             <div>
               <em>Persoonlijk advies</em>
