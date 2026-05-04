@@ -143,14 +143,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* ── FORMULIER ── */
 .vk-form-wrap{position:sticky;top:120px;width:100%;max-width:500px;justify-self:end}
-.vk-form-card{background:#fff;border:1px solid #edf1ee;border-radius:var(--r-lg);padding:32px;box-shadow:0 22px 54px rgba(0,0,0,.18)}
-.vk-form-card hz-embed{display:block;width:100%;margin-top:14px}
+.vk-form-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#f8fbf8 100%);border:1px solid rgba(255,255,255,.74);border-radius:var(--r-lg);padding:34px 32px 28px;box-shadow:0 24px 64px rgba(0,0,0,.24),0 1px 0 rgba(255,255,255,.8) inset}
+.vk-form-card:before{content:"";position:absolute;inset:0 0 auto;height:6px;background:linear-gradient(90deg,var(--groen),#12a365 52%,var(--oranje));z-index:1}
+.vk-form-card:after{content:"";position:absolute;right:-70px;top:-90px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(6,105,57,.12),rgba(6,105,57,0) 68%);pointer-events:none}
+.vk-form-card hz-embed{display:block;width:100%;margin-top:16px;position:relative;z-index:2}
 @media(max-width:1020px){.vk-form-wrap{position:relative;top:auto;max-width:620px;justify-self:stretch;margin:0 auto}}
 @media(max-width:640px){.vk-form-card{padding:24px}.vk-form-wrap{max-width:none}}
 @media(max-width:640px){.vk-form-card{padding:20px 16px;border-radius:8px}.vk-form-head h2{font-size:20px}.vk-form-head p{font-size:12px}}
-.vk-form-head{text-align:center;margin-bottom:18px}
+.vk-form-head{position:relative;z-index:2;text-align:center;margin-bottom:18px}
+.vk-scan-badge{display:inline-flex;align-items:center;gap:7px;margin:0 auto 12px;padding:7px 12px;border-radius:999px;background:#edf8f1;color:var(--groen);font-size:12px;font-weight:900;box-shadow:0 1px 0 rgba(255,255,255,.9) inset}
+.vk-scan-badge span{width:8px;height:8px;border-radius:50%;background:var(--oranje);box-shadow:0 0 0 5px rgba(249,115,22,.14)}
 .vk-form-head h2{font-family:var(--font-b);font-size:22px;font-weight:900;letter-spacing:0;line-height:1.15;color:var(--zwart);margin-bottom:7px}
 .vk-form-head p{font-size:13px;color:var(--grijs);line-height:1.55;margin:0 auto;max-width:340px}
+.vk-scan-usps{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px;padding-top:15px;border-top:1px solid #e5eee8}
+.vk-scan-usps span{display:flex;align-items:center;justify-content:center;min-height:34px;padding:8px 7px;border-radius:8px;background:#fff;color:#405044;border:1px solid #e5eee8;font-size:11px;font-weight:800;text-align:center;line-height:1.2}
+.vk-scan-usps span:before{content:"✓";margin-right:5px;color:var(--groen);font-weight:900}
+@media(max-width:420px){.vk-scan-usps{grid-template-columns:1fr;gap:6px}.vk-scan-usps span{min-height:30px}}
 .vk-form-trust-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #eee}
 .vk-form-trust-bar span{font-size:11px;font-weight:600;color:var(--grijs)}
 .vk-progress{display:flex;gap:6px;margin-bottom:6px}

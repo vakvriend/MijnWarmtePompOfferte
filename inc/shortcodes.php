@@ -78,6 +78,7 @@ function wc_homezero_scan_widget($show_head = true) {
       <div class="vk-form-card">
         <?php if ($show_head): ?>
           <div class="vk-form-head">
+            <div class="vk-scan-badge"><span></span> Vrijblijvende scan</div>
             <h2>Start uw verduurzamingsscan</h2>
             <p>Vul woningtype, systeemwens en verbruik in en ontvang een advies dat bij uw huis past.</p>
           </div>
@@ -101,6 +102,11 @@ function wc_homezero_scan_widget($show_head = true) {
             data-title=""
             data-subtitle=""
         ></hz-embed>
+        <div class="vk-scan-usps" aria-label="Voordelen van de scan">
+          <span>ISDE meegenomen</span>
+          <span>Merkonafhankelijk</span>
+          <span>Geen verkoopdruk</span>
+        </div>
       </div>
     </div>
     <?php
