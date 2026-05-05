@@ -510,7 +510,7 @@ function wc_yoast_schema_graph($graph) {
     $graph[] = array(
         '@type' => 'Offer',
         '@id' => $offer_id,
-        'name' => 'Gratis en vrijblijvende woningcheck',
+        'name' => 'Vrijblijvende woningcheck',
         'url' => $canonical . '#formulier',
         'price' => '0',
         'priceCurrency' => 'EUR',

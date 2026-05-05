@@ -78,7 +78,7 @@ function wc_homezero_scan_widget($show_head = true) {
       <div class="vk-form-card">
         <?php if ($show_head): ?>
           <div class="vk-form-head">
-            <div class="vk-scan-badge"><span></span> Vrijblijvende scan</div>
+            <div class="vk-scan-badge"><span></span> Vrijblijvende woningcheck</div>
             <h2>Start uw woningcheck</h2>
             <p>Postcode en huisnummer zijn genoeg om te beginnen. Daarna ziet u welke route logisch is voor uw woning.</p>
           </div>
@@ -89,7 +89,7 @@ function wc_homezero_scan_widget($show_head = true) {
             <div>
               <em>Persoonlijk advies</em>
               <strong>Vakvriend kijkt mee</strong>
-              <span>Een vakman beoordeelt uw scan met eerlijk en praktisch advies.</span>
+              <span>Een vakman beoordeelt uw woningcheck met eerlijk en praktisch advies.</span>
             </div>
           </div>
         <?php endif; ?>
@@ -112,9 +112,10 @@ function wc_homezero_scan_widget($show_head = true) {
             data-title=""
             data-subtitle=""
         ></hz-embed>
-        <div class="vk-scan-usps" aria-label="Voordelen van de scan">
+        <div class="vk-scan-usps" aria-label="Voordelen van de woningcheck">
           <span>ISDE meegenomen</span>
           <span>Merkonafhankelijk</span>
+          <span>Reactie binnen 24 uur</span>
           <span>Eerlijk advies</span>
         </div>
       </div>

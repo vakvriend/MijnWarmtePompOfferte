@@ -13,7 +13,7 @@ $form_href = $is_legal ? home_url('/#formulier') : '#formulier';
   <div class="vk-container">
     <div class="vk-cta-inner">
       <h2>Klaar voor duidelijk warmtepompadvies?</h2>
-      <p>Start met een gratis en vrijblijvende woningcheck. Vakvriend beoordeelt woning, comfortwens, systeemkeuze en ISDE-subsidie in één keer.</p>
+      <p>Start met een vrijblijvende woningcheck. Vakvriend beoordeelt woning, comfortwens, systeemkeuze en ISDE-subsidie in één keer.</p>
       <div class="vk-cta-knoppen">
         <a href="<?=esc_url($form_href)?>" class="vk-btn vk-btn-wit vk-btn-lg">Start de woningcheck</a>
         <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-btn vk-btn-wa vk-btn-lg">WhatsApp ons</a>
@@ -29,7 +29,7 @@ $form_href = $is_legal ? home_url('/#formulier') : '#formulier';
     <div class="vk-footer-grid">
       <div class="vk-footer-brand">
         <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/697f2cea571f0e140638c77b_Middel%203%402x.webp" alt="Vakvriend" height="48" loading="lazy">
-        <p>Gecertificeerd installatiebedrijf voor Qvantum en Nibe warmtepompen, CV-ketels, sanitair en meer.</p>
+        <p>Merkonafhankelijk installatiebedrijf voor Qvantum, Nibe, Itho Daalderop, Daikin, Intergas en andere warmtepompen.</p>
         <div class="vk-footer-merken">
           <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe6fe0053da7edd61e_Qvantum-logo.avif" alt="Qvantum" height="16" loading="lazy">
           <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/699e60fe021869f07fdf55a8_nibe-logo-png_seeklogo-188975%20(1).avif" alt="Nibe" height="16" loading="lazy">

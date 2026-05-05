@@ -4,14 +4,14 @@ $regio     = wc_meta('wc_regio',$stad);
 $is_lokaal = ($stad !== 'Nederland' && $stad !== 'uw regio');
 $hero_foto = wc_meta('wc_hero_foto','https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp');
 $hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Ontdek welke warmtepomp past bij uw woning in $stad" : 'Ontdek welke warmtepomp bij uw woning past');
-$hero_s    = wc_meta('wc_hero_subtitel',"Vertel ons kort over uw woning en wensen. Vakvriend beoordeelt welke warmtepomp past, welke subsidie mogelijk is en welke installatie praktisch haalbaar is.");
-$vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. We werken merkonafhankelijk: Qvantum en Nibe kennen we goed, maar ook Itho Daalderop, Daikin, Intergas en andere merken nemen we gewoon mee wanneer dat beter past. Eerlijk advies, geen verkooppraatjes — wij kijken wat technisch verstandig is voor uw situatie.");
+$hero_s    = wc_meta('wc_hero_subtitel',"Start met postcode en huisnummer. Vakvriend beoordeelt welke warmtepomp past, welke subsidie mogelijk is en welke installatie praktisch haalbaar is.");
+$vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. We werken merkonafhankelijk: Qvantum en Nibe kennen we goed, maar ook Itho Daalderop, Daikin, Intergas en andere merken nemen we gewoon mee wanneer dat beter past. Eerlijk en praktisch advies: wij kijken wat technisch verstandig is voor uw situatie.");
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
-$topbar    = wc_meta('wc_topbar_tekst',"Vrijblijvend warmtepompadvies" . ($is_lokaal ? " in $stad" : "") . " — Qvantum & Nibe specialist — ISDE-subsidie");
-$hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Gratis en vrijblijvend woningadvies in $stad" : 'Gratis en vrijblijvend warmtepompadvies');
+$topbar    = wc_meta('wc_topbar_tekst',"Vrijblijvende woningcheck" . ($is_lokaal ? " in $stad" : "") . " - merkonafhankelijk advies - ISDE meegenomen");
+$hero_kicker = wc_meta('wc_hero_kicker', $is_lokaal ? "Vrijblijvend woningadvies in $stad" : 'Vrijblijvend warmtepompadvies');
 $campaign_proof = wc_meta_rows('wc_campaign_proof', [
-  ['Binnen 24 uur','reactie op uw aanvraag'],
+  ['24u','reactie op uw woningcheck'],
   ['ISDE','berekening inbegrepen'],
   ['200+','installaties uitgevoerd'],
 ], 2);
@@ -51,7 +51,7 @@ $other_brand_note = wc_meta('wc_other_brand_note', 'Heeft u al een warmtepomp op
 $vv_props = wc_meta_rows('wc_vv_props', [
   ['🏗️','Allround installatiebedrijf','Warmtepompen, CV-ketels, sanitair, vloerverwarming, dakwerk en ventilatie. Alles in eigen hand.'],
   ['🚗','Volledig elektrisch wagenpark','Vakvriend rijdt de KIA PV5 — bewust duurzaam in elk opzicht.'],
-  ['📋','Eerlijk advies, geen verkooppraatjes','Wij adviseren wat technisch verstandig is voor uw woning — ook als dat soms een goedkopere oplossing is.'],
+  ['📋','Eerlijk en praktisch advies','Wij adviseren wat technisch verstandig is voor uw woning — ook als dat soms een goedkopere oplossing is.'],
   ['💶','ISDE-subsidie van A tot Z geregeld','Vakvriend begeleidt de volledige aanvraag bij de RVO. U hoeft er niets voor te doen.'],
 ], 3);
 $voordelen = wc_meta_rows('wc_voordelen', [
@@ -63,7 +63,7 @@ $voordelen = wc_meta_rows('wc_voordelen', [
   ['🌍','Boringen door heel Nederland','Vakvriend verzorgt grondboringen voor bodemwarmtepompen in heel Nederland, inclusief vergunningsaanvraag.'],
 ], 3);
 $werkwijze = wc_meta_rows('wc_werkwijze', [
-  ['01','Gratis en vrijblijvende woningcheck','Vakvriend beoordeelt uw woning en adviseert welk systeem technisch past. Volledig vrijblijvend.'],
+  ['01','Vrijblijvende woningcheck','Vakvriend beoordeelt uw woning en adviseert welk systeem technisch past. Volledig vrijblijvend.'],
   ['02','Helder advies','Transparante uitleg over toestel, montage, subsidie, eventuele boringen en randwerk. Geen verborgen kosten.'],
   ['03','Boring & installatie','Vakvriend verzorgt grondboringen en vergunning indien nodig. Daarna vakkundige installatie in 1-2 werkdagen.'],
   ['04','Subsidie & uitleg','Wij regelen de ISDE-subsidieaanvraag bij de RVO en leggen alles uit. U hoeft er niets voor te doen.'],
@@ -94,7 +94,7 @@ $praktijk_images = [
       <h1><?=esc_html($hero_t)?></h1>
       <p class="vk-hero-sub"><?=esc_html($hero_s)?></p>
       <div class="vk-trust-row">
-        <span class="vk-trust">Gratis & vrijblijvend</span>
+        <span class="vk-trust">Vrijblijvend advies</span>
         <span class="vk-trust">ISDE-subsidie meegenomen</span>
         <span class="vk-trust">Merkonafhankelijk advies</span>
         <span class="vk-trust">Ook Itho Daalderop & Daikin</span>
@@ -331,7 +331,7 @@ $praktijk_images = [
         <img src="<?=esc_url($praktijk_images['contact'])?>" alt="Vakvriend werkt een woningcheck zorgvuldig uit" loading="lazy">
         <div>
           <span>Opvolging</span>
-          <h3>Uw scan wordt persoonlijk beoordeeld</h3>
+          <h3>Uw woningcheck wordt persoonlijk beoordeeld</h3>
         </div>
       </article>
     </div>
