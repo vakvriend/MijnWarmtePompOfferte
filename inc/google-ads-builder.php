@@ -210,7 +210,7 @@ function wc_ads_builder_plan($args) {
                 'Vakvriend helpt lokaal',
             ),
             'descriptions' => array(
-                'Ontdek welke warmtepomp bij uw woning past. Eerst advies, daarna pas een offerte.',
+                'Ontdek welke warmtepomp bij uw woning past. Eerst duidelijk advies en een praktische woningcheck.',
                 'Vakvriend kijkt naar woning, gasverbruik, subsidie en praktische plaatsing.',
                 'Vrijblijvende woningcheck voor ' . $city . ' en omgeving. Eerlijk advies.',
             ),

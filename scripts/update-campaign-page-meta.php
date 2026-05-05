@@ -78,9 +78,9 @@ foreach ($pages as $page) {
         'wc_form_subtitel'     => 'Beantwoord 4 korte vragen over uw woning, verbruik en wensen. U ontvangt na de woningcheck praktisch advies.',
         'wc_form_benefits'     => "Gratis en vrijblijvende woningcheck\nWensen en comfort besproken\nAdvies binnen 24 uur",
         'wc_campaign_proof'    => "Vrijblijvend|woningcheck en advies\nISDE|berekening inbegrepen\n24u|reactie op uw aanvraag",
-        'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp offerte') . ' | Vrijblijvende woningcheck | Vakvriend',
+        'wc_meta_title'        => ($is_local ? 'Warmtepomp ' . $city : 'Warmtepomp advies') . ' | Vrijblijvende woningcheck | Vakvriend',
         'wc_meta_desc'         => 'Vraag vrijblijvend warmtepompadvies aan' . $in_city . '. Vakvriend berekent subsidie, besparing en installatiekosten voor Qvantum, Nibe, Daikin, Itho Daalderop en hybride systemen.',
-        'wc_focus_keyword'     => $is_local ? 'warmtepomp ' . strtolower($city) : 'warmtepomp offerte',
+        'wc_focus_keyword'     => $is_local ? 'warmtepomp ' . strtolower($city) : 'warmtepomp advies',
         'wc_vv_intro'          => 'Vakvriend helpt woningeigenaren' . $in_city . ' met eerlijk warmtepompadvies, vakkundige installatie en begeleiding bij ISDE-subsidie. We werken merkonafhankelijk en nemen Qvantum, Nibe, Itho Daalderop, Daikin, Intergas en andere A-merken mee wanneer dat technisch beter past.',
         'wc_vv_usp1'           => 'Vrijblijvende woningcheck en opname',
         'wc_vv_usp2'           => 'Qvantum, Nibe, Daikin en Itho advies',
@@ -95,28 +95,28 @@ foreach ($pages as $page) {
         'wc_lokale_alinea2'    => 'Vakvriend rekent niet met standaardpraatjes, maar met uw situatie: huidig gasverbruik, radiatoren of vloerverwarming, beschikbare ruimte, geluidspositie en de actuele ISDE-regels.',
         'wc_lokale_alinea3'    => 'Na de aanvraag ontvangt u snel duidelijkheid over het passende systeem, de verwachte investering en de subsidie die u kunt aanvragen.',
         'wc_lokale_faq_v1'     => $is_local ? 'Welke warmtepomp past bij mijn woning in ' . $city . '?' : 'Welke warmtepomp past bij mijn woning?',
-        'wc_lokale_faq_a1'     => 'Dat hangt af van isolatie, warmteafgifte, verbruik en beschikbare ruimte. Vakvriend beoordeelt dit gratis en vrijblijvend en adviseert een passend systeem.',
+        'wc_lokale_faq_a1'     => 'Dat hangt af van isolatie, warmteafgifte, verbruik en beschikbare ruimte. Vakvriend beoordeelt dit vrijblijvend en adviseert een passend systeem.',
         'wc_lokale_faq_v2'     => 'Kan Vakvriend de ISDE-subsidie meenemen?',
         'wc_lokale_faq_a2'     => 'Ja. We berekenen het verwachte subsidiebedrag en begeleiden de aanvraag, zodat u weet wat de netto investering wordt.',
         'wc_lokale_faq_v3'     => 'Hoe snel krijg ik reactie?',
         'wc_lokale_faq_a3'     => 'Na uw aanvraag neemt Vakvriend meestal binnen 1 werkdag contact op om uw woning en wensen door te nemen.',
-        'wc_faq_extra'         => ($is_local ? 'Werkt Vakvriend ook in ' . $city . '?:::Ja, Vakvriend helpt woningeigenaren in ' . $city . ' en ' . $region_label . ' met advies, offerte en installatie.' : ''),
+        'wc_faq_extra'         => ($is_local ? 'Werkt Vakvriend ook in ' . $city . '?:::Ja, Vakvriend helpt woningeigenaren in ' . $city . ' en ' . $region_label . ' met advies, woningcheck en installatie.' : ''),
     );
 
     if (stripos($page->post_title, 'Qvantum') !== false) {
         $base['wc_hero_titel'] = 'Qvantum warmtepomp woningcheck starten';
         $base['wc_hero_subtitel'] = 'Ontdek of een Qvantum warmtepomp met thermische batterij past bij uw woning. QA, QE en QG slaan warmte slim op en leveren warm tapwater vers via een platenwisselaar.';
-        $base['wc_meta_title'] = 'Qvantum warmtepomp offerte | Vakvriend installateur';
+        $base['wc_meta_title'] = 'Qvantum warmtepomp advies | Vakvriend installateur';
         $base['wc_meta_desc'] = 'Vraag vrijblijvend Qvantum warmtepompadvies aan. Vakvriend berekent subsidie, besparing en installatiekosten voor QA, QE en QG systemen.';
         $base['wc_focus_keyword'] = 'qvantum warmtepomp';
     }
 
     if (stripos($page->post_title, 'Vergelijken') !== false) {
-        $base['wc_hero_titel'] = 'Warmtepomp offertes vergelijken';
+        $base['wc_hero_titel'] = 'Warmtepomp advies vergelijken';
         $base['wc_hero_subtitel'] = 'Vergelijk warmtepompopties op subsidie, besparing, geluid, installatiekosten en geschiktheid voor uw woning.';
-        $base['wc_meta_title'] = 'Warmtepomp offertes vergelijken | Gratis en vrijblijvende woningcheck';
-        $base['wc_meta_desc'] = 'Vergelijk warmtepomp offertes en krijg vrijblijvend advies over subsidie, besparing en het juiste systeem voor uw woning.';
-        $base['wc_focus_keyword'] = 'warmtepomp offertes vergelijken';
+        $base['wc_meta_title'] = 'Warmtepomp advies vergelijken | Gratis en vrijblijvende woningcheck';
+        $base['wc_meta_desc'] = 'Vergelijk warmtepomp adviess en krijg vrijblijvend advies over subsidie, besparing en het juiste systeem voor uw woning.';
+        $base['wc_focus_keyword'] = 'warmtepomp adviess vergelijken';
     }
 
     vk_campaign_update($page->ID, $base);

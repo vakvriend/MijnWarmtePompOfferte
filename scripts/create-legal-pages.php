@@ -62,7 +62,7 @@ $privacy = <<<HTML
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Als u gegevens invult maar de woningcheck nog niet definitief verstuurt, kunnen wij deze tijdelijk opslaan als conceptaanvraag. Wanneer u uw e-mailadres heeft ingevuld, kunnen wij eenmalig een korte herinnering sturen om de woningcheck alsnog af te ronden.</p>
+<p>Als u gegevens invult maar de woningcheck nog niet definitief verstuurt, kunnen wij de ingevulde velden tijdelijk opslaan als onbevestigde woningcheck. Dit helpt ons te zien waar bezoekers afhaken en maakt het mogelijk om de woningcheck later te hervatten of, wanneer u contactgegevens heeft ingevuld, zorgvuldig op te volgen.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -70,7 +70,7 @@ $privacy = <<<HTML
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Deze website gebruikt Google Tag Manager, Google Analytics en Google Ads om bezoek, formulierstappen en conversies te meten. Daarmee verbeteren wij campagnes en de werking van de website. Waar mogelijk gebruiken wij instellingen die privacyvriendelijk zijn.</p>
+<p>Deze website gebruikt Google Tag Manager, Google Analytics, Google Ads en Contentsquare om bezoek, formulierstappen, klikgedrag, scrollgedrag, technische fouten, heatmaps en sessie-opnames te meten. Daarmee verbeteren wij campagnes, pagina-inhoud en de werking van de woningcheck. Waar mogelijk gebruiken wij instellingen die privacyvriendelijk zijn en gevoelige invoer beperken of afschermen.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->

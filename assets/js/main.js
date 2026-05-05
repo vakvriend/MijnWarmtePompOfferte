@@ -26,6 +26,11 @@ var vkClickHistory = [];
 var vkLastClickKey = '';
 var vkLastClickAt = 0;
 var vkUtmData = getVkUtmData();
+var vkLeadDraft = getVkStoredLeadDraft();
+var vkLeadDraftTimer = null;
+var vkLeadStarted = false;
+var vkLeadSubmitted = false;
+var vkExitSent = false;
 var SUBSIDIE = {
   lw:      {label: 'Lucht/water warmtepomp · Qvantum QA of Nibe F2040', bedrag: 2800, installatie: 9500, cop: 3.8, dekking: 0.90},
   vent:    {label: 'Ventilatie warmtepomp · Qvantum QE', bedrag: 1800, installatie: 7500, cop: 3.2, dekking: 0.35},
@@ -69,6 +74,12 @@ function vkTrackGa4(eventName, payload) {
   var eventMap = {
     calculator_system_select: 'calculator_system_select',
     lead_cta_click: 'lead_cta_click',
+    lead_field_started: 'lead_field_started',
+    lead_field_change: 'lead_field_change',
+    lead_draft_saved: 'lead_draft_saved',
+    lead_abandoned_snapshot: 'lead_abandoned_snapshot',
+    homezero_widget_visible: 'homezero_widget_visible',
+    homezero_widget_click: 'homezero_widget_click',
     phone_click: 'phone_click',
     whatsapp_click: 'whatsapp_click'
   };
@@ -173,6 +184,91 @@ function getVkBrowser() {
   return 'Other';
 }
 
+function getVkStoredLeadDraft() {
+  try {
+    return JSON.parse(window.sessionStorage.getItem('vk_lead_draft') || '{}') || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function setVkStoredLeadDraft(draft) {
+  vkLeadDraft = draft || {};
+  try {
+    window.sessionStorage.setItem('vk_lead_draft', JSON.stringify(vkLeadDraft));
+  } catch (e) {}
+}
+
+function getVkLeadFieldKey(field) {
+  var label = '';
+  var id = field.id || '';
+  var name = field.name || '';
+  var placeholder = field.getAttribute('placeholder') || '';
+  var aria = field.getAttribute('aria-label') || '';
+  var wrapperText = '';
+  var wrap = field.closest && field.closest('label,div,p,form,hz-embed');
+  if (wrap) wrapperText = (wrap.textContent || '').slice(0, 120);
+  label = [name, id, placeholder, aria, wrapperText].join(' ').toLowerCase();
+
+  if (/postcode|1234ab|postal/.test(label)) return 'postcode';
+  if (/huisnummer|house.?number|\\bnummer\\b/.test(label)) return 'huisnummer';
+  if (/toevoeging|addition|suffix/.test(label)) return 'toevoeging';
+  if (/e-?mail|email/.test(label) || field.type === 'email') return 'email';
+  if (/telefoon|phone|tel/.test(label) || field.type === 'tel') return 'telefoon';
+  if (/gas|m3|m³/.test(label)) return 'gasverbruik';
+  if (/stroom|kwh/.test(label)) return 'stroomverbruik';
+  return '';
+}
+
+function getVkSafeFieldValue(field, key) {
+  var value = String(field.value || '').trim();
+  if (!value) return '';
+  if (key === 'postcode') return value.toUpperCase().replace(/[^0-9A-Z ]/g, '').slice(0, 8);
+  if (key === 'huisnummer') return value.replace(/[^0-9A-Z -]/gi, '').slice(0, 12);
+  if (key === 'toevoeging') return value.replace(/[^0-9A-Z -]/gi, '').slice(0, 12);
+  if (key === 'email') return value.slice(0, 120);
+  if (key === 'telefoon') return value.replace(/[^0-9+ ]/g, '').slice(0, 24);
+  if (key === 'gasverbruik' || key === 'stroomverbruik') return value.replace(/[^0-9.,]/g, '').slice(0, 12);
+  return value.slice(0, 80);
+}
+
+function scheduleVkLeadDraftEvent(field, key) {
+  if (!key) return;
+  var value = getVkSafeFieldValue(field, key);
+  if (!value) return;
+
+  var previous = vkLeadDraft[key] || '';
+  var draft = Object.assign({}, vkLeadDraft, {
+    last_field: key,
+    last_updated: new Date().toISOString()
+  });
+  draft[key] = value;
+  setVkStoredLeadDraft(draft);
+
+  if (!vkLeadStarted) {
+    vkLeadStarted = true;
+    vkTrack('lead_field_started', {
+      field_name: key,
+      draft_fields: Object.keys(draft).filter(function(k) { return !/^last_/.test(k); }).join(',')
+    });
+  }
+
+  window.clearTimeout(vkLeadDraftTimer);
+  vkLeadDraftTimer = window.setTimeout(function() {
+    vkTrack('lead_field_change', {
+      field_name: key,
+      field_value: value,
+      had_previous_value: previous ? 1 : 0,
+      draft_fields: Object.keys(vkLeadDraft).filter(function(k) { return !/^last_/.test(k); }).join(','),
+      draft_json: JSON.stringify(vkLeadDraft)
+    });
+    vkTrack('lead_draft_saved', {
+      last_field: key,
+      draft_json: JSON.stringify(vkLeadDraft)
+    });
+  }, 700);
+}
+
 function getVkScrollDepth() {
   var doc = document.documentElement;
   var body = document.body;
@@ -268,14 +364,33 @@ function initVkAnalytics() {
   document.querySelectorAll('input,select,textarea').forEach(function(field) {
     var tracked = false;
     field.addEventListener('focus', function() {
+      var leadKey = getVkLeadFieldKey(field);
       if (tracked) return;
       tracked = true;
       vkTrack('field_focus', {
-        field_name: field.name || field.id || field.getAttribute('aria-label') || '',
+        field_name: leadKey || field.name || field.id || field.getAttribute('aria-label') || '',
         field_type: field.type || field.tagName.toLowerCase()
       });
     });
+    field.addEventListener('input', function() {
+      scheduleVkLeadDraftEvent(field, getVkLeadFieldKey(field));
+    });
+    field.addEventListener('change', function() {
+      scheduleVkLeadDraftEvent(field, getVkLeadFieldKey(field));
+    });
   });
+
+  document.addEventListener('input', function(event) {
+    var field = event.target;
+    if (!field || !field.matches || !field.matches('input,select,textarea')) return;
+    scheduleVkLeadDraftEvent(field, getVkLeadFieldKey(field));
+  }, true);
+
+  document.addEventListener('change', function(event) {
+    var field = event.target;
+    if (!field || !field.matches || !field.matches('input,select,textarea')) return;
+    scheduleVkLeadDraftEvent(field, getVkLeadFieldKey(field));
+  }, true);
 
   document.querySelectorAll('hz-embed').forEach(function(widget) {
     vkTrack('homezero_widget_visible', {
@@ -317,7 +432,18 @@ function initVkAnalytics() {
   }, 15000);
 
   function sendExit() {
+    if (vkExitSent) return;
+    vkExitSent = true;
     if (vkHeartbeatTimer) window.clearInterval(vkHeartbeatTimer);
+    if (Object.keys(vkLeadDraft || {}).length && !vkLeadSubmitted) {
+      vkTrack('lead_abandoned_snapshot', {
+        draft_json: JSON.stringify(vkLeadDraft),
+        draft_fields: Object.keys(vkLeadDraft).filter(function(k) { return !/^last_/.test(k); }).join(','),
+        duration_ms: Date.now() - vkPageStartedAt,
+        scroll_depth: getVkScrollDepth(),
+        section: vkLastSection
+      });
+    }
     vkTrack('page_exit', {
       duration_ms: Date.now() - vkPageStartedAt,
       scroll_depth: getVkScrollDepth(),

@@ -128,6 +128,14 @@ function wc_analytics_menu() {
         'dashicons-chart-area',
         57
     );
+    add_submenu_page(
+        'wc-lead-analytics',
+        'Onbevestigde Leads',
+        'Onbevestigde Leads',
+        'manage_options',
+        'wc-unconfirmed-leads',
+        'wc_analytics_unconfirmed_leads_page'
+    );
 }
 add_action('admin_menu', 'wc_analytics_menu');
 
@@ -150,6 +158,8 @@ function wc_analytics_dashboard_page() {
     $pageviews = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE event_name = 'page_view' AND created_at >= %s", $since));
     $cta_clicks = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE event_name = 'lead_cta_click' AND created_at >= %s", $since));
     $contact_clicks = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE event_name IN ('phone_click', 'whatsapp_click') AND created_at >= %s", $since));
+    $lead_starts = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT session_id) FROM {$table} WHERE event_name IN ('lead_field_started', 'lead_field_change', 'lead_draft_saved') AND created_at >= %s", $since));
+    $lead_abandons = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(DISTINCT session_id) FROM {$table} WHERE event_name = 'lead_abandoned_snapshot' AND created_at >= %s", $since));
     $avg_duration = (int) $wpdb->get_var($wpdb->prepare("SELECT AVG(duration_ms) FROM {$table} WHERE event_name = 'page_exit' AND duration_ms > 0 AND created_at >= %s", $since));
     $avg_scroll = (int) $wpdb->get_var($wpdb->prepare("SELECT AVG(scroll_depth) FROM {$table} WHERE event_name = 'page_exit' AND scroll_depth > 0 AND created_at >= %s", $since));
     $rage_clicks = (int) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$table} WHERE event_name = 'rage_click' AND created_at >= %s", $since));
@@ -168,6 +178,22 @@ function wc_analytics_dashboard_page() {
     $dropoff_chart = $wpdb->get_results($wpdb->prepare("SELECT section label, COUNT(*) value FROM {$table} WHERE event_name = 'page_exit' AND created_at >= %s GROUP BY section ORDER BY value DESC LIMIT 8", $since));
     $event_chart = $wpdb->get_results($wpdb->prepare("SELECT event_name label, COUNT(*) value FROM {$table} WHERE created_at >= %s GROUP BY event_name ORDER BY value DESC LIMIT 8", $since));
     $domain_chart = $wpdb->get_results($wpdb->prepare("SELECT hostname label, COUNT(DISTINCT session_id) value FROM {$table} WHERE created_at >= %s GROUP BY hostname ORDER BY value DESC LIMIT 8", $since));
+    $lead_funnel = $wpdb->get_results($wpdb->prepare("SELECT CASE
+            WHEN event_name = 'page_view' THEN '1. Pagina bekeken'
+            WHEN event_name = 'homezero_widget_visible' THEN '2. Formulier gezien'
+            WHEN event_name = 'lead_field_started' THEN '3. Gegevens begonnen'
+            WHEN event_name = 'lead_field_change' AND JSON_UNQUOTE(JSON_EXTRACT(meta_json, '$.field_name')) = 'postcode' THEN '4. Postcode ingevuld'
+            WHEN event_name = 'lead_field_change' AND JSON_UNQUOTE(JSON_EXTRACT(meta_json, '$.field_name')) = 'huisnummer' THEN '5. Huisnummer ingevuld'
+            WHEN event_name = 'homezero_widget_click' THEN '6. Woningcheck gestart'
+            WHEN event_name = 'lead_abandoned_snapshot' THEN '7. Afgehaakt met data'
+            ELSE NULL
+        END label,
+        COUNT(DISTINCT session_id) value
+        FROM {$table}
+        WHERE created_at >= %s
+        GROUP BY label
+        HAVING label IS NOT NULL
+        ORDER BY label ASC", $since));
     $active_sessions = $wpdb->get_results($wpdb->prepare("SELECT session_id, MAX(hostname) hostname, MAX(page_path) page_path, MAX(device_type) device_type, MAX(browser) browser, MAX(section) section, COUNT(*) events, MAX(created_at) last_seen FROM {$table} WHERE created_at >= %s GROUP BY session_id ORDER BY last_seen DESC LIMIT 10", $active_since));
 
     ?>
@@ -182,7 +208,7 @@ function wc_analytics_dashboard_page() {
         </p>
 
         <style>
-            .wc-kpis{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:12px;margin:18px 0}
+            .wc-kpis{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:12px;margin:18px 0}
             .wc-kpi,.wc-panel{background:#fff;border:1px solid #dcdcde;border-radius:8px;padding:16px}
             .wc-kpi strong{display:block;font-size:24px;line-height:1.2}
             .wc-kpi span{color:#646970}
@@ -214,6 +240,8 @@ function wc_analytics_dashboard_page() {
             <div class="wc-kpi"><strong><?php echo esc_html(gmdate('i:s', max(0, (int) ($avg_duration / 1000)))); ?></strong><span>Gem. sessieduur</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html($avg_scroll); ?>%</strong><span>Gem. scroll</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($cta_clicks)); ?></strong><span>Woningcheck CTA's</span></div>
+            <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($lead_starts)); ?></strong><span>Formulier gestart</span></div>
+            <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($lead_abandons)); ?></strong><span>Onbevestigd</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($contact_clicks)); ?></strong><span>Bel/WhatsApp</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($rage_clicks)); ?></strong><span>Rage clicks</span></div>
             <div class="wc-kpi"><strong><?php echo esc_html(number_format_i18n($dead_clicks)); ?></strong><span>Dead clicks</span></div>
@@ -238,6 +266,10 @@ function wc_analytics_dashboard_page() {
                 <?php wc_analytics_bar_chart($event_chart, 'Nog geen events gemeten.'); ?>
             </div>
             <div class="wc-chart-card">
+                <h2>Woningcheck funnel</h2>
+                <?php wc_analytics_bar_chart($lead_funnel, 'Nog geen formulierdata gevonden.'); ?>
+            </div>
+            <div class="wc-chart-card">
                 <h2>Sessies per domein</h2>
                 <?php wc_analytics_bar_chart($domain_chart, 'Nog geen domeindata gemeten.'); ?>
             </div>
@@ -257,6 +289,97 @@ function wc_analytics_dashboard_page() {
             <?php wc_analytics_table_panel('Campagnes en UTM’s', array('Source', 'Campaign', 'Content', 'Sessies', 'Events'), $campaigns, array('utm_source', 'utm_campaign', 'utm_content', 'sessions', 'events')); ?>
             <?php wc_analytics_table_panel('Meest aangeklikt', array('Tekst', 'Element', 'Clicks'), $click_targets, array('target_text', 'target_tag', 'clicks')); ?>
             <?php wc_analytics_table_panel('Recente sessies', array('Sessie', 'Domein', 'Pad', 'Device', 'Browser', 'Events', 'Scroll', 'Tijd'), $recent_sessions, array('session_id', 'hostname', 'page_path', 'device_type', 'browser', 'events', 'scroll_depth', 'duration_ms'), true); ?>
+        </div>
+    </div>
+    <?php
+}
+
+function wc_analytics_unconfirmed_leads_page() {
+    global $wpdb;
+    wc_analytics_maybe_install();
+
+    $table = wc_analytics_table_name();
+    $days = wc_analytics_days_filter();
+    $since = gmdate('Y-m-d H:i:s', time() - ($days * DAY_IN_SECONDS));
+    $rows = $wpdb->get_results($wpdb->prepare(
+        "SELECT e.session_id,
+                MAX(e.hostname) hostname,
+                MAX(e.page_path) page_path,
+                MAX(e.device_type) device_type,
+                MAX(e.browser) browser,
+                MAX(e.utm_source) utm_source,
+                MAX(e.utm_campaign) utm_campaign,
+                MAX(e.created_at) last_seen,
+                SUBSTRING_INDEX(GROUP_CONCAT(JSON_UNQUOTE(JSON_EXTRACT(e.meta_json, '$.draft_json')) ORDER BY e.created_at DESC SEPARATOR '|||'), '|||', 1) draft_json,
+                COUNT(*) events
+         FROM {$table} e
+         WHERE e.created_at >= %s
+           AND e.event_name IN ('lead_field_change', 'lead_draft_saved', 'lead_abandoned_snapshot')
+         GROUP BY e.session_id
+         ORDER BY last_seen DESC
+         LIMIT 100",
+        $since
+    ));
+    ?>
+    <div class="wrap">
+        <h1>Onbevestigde Leads</h1>
+        <p>Conceptgegevens van bezoekers die begonnen zijn aan de woningcheck, maar waarvan nog geen afgeronde lead in WordPress is gemeten. Gebruik dit vooral om afhaakpatronen te herkennen.</p>
+        <p>
+            <?php foreach (array(1, 7, 14, 30, 90) as $option) : ?>
+                <a class="button <?php echo $days === $option ? 'button-primary' : ''; ?>" href="<?php echo esc_url(add_query_arg('days', $option)); ?>"><?php echo esc_html($option); ?> dagen</a>
+            <?php endforeach; ?>
+        </p>
+        <style>
+            .wc-unconfirmed{background:#fff;border:1px solid #dcdcde;border-radius:8px;overflow:hidden}
+            .wc-unconfirmed table{width:100%;border-collapse:collapse}
+            .wc-unconfirmed th,.wc-unconfirmed td{padding:10px;border-bottom:1px solid #f0f0f1;text-align:left;vertical-align:top}
+            .wc-unconfirmed code{white-space:normal}
+            .wc-draft-list{margin:0;padding:0;list-style:none}
+            .wc-draft-list li{margin:0 0 4px}
+            .wc-muted{color:#646970}
+        </style>
+        <div class="wc-unconfirmed">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Laatst gezien</th>
+                        <th>Domein</th>
+                        <th>Gegevens</th>
+                        <th>Device</th>
+                        <th>Campagne</th>
+                        <th>Sessie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php if (!$rows) : ?>
+                    <tr><td colspan="6">Nog geen onbevestigde leads gevonden.</td></tr>
+                <?php else : ?>
+                    <?php foreach ($rows as $row) : ?>
+                        <?php
+                        $draft = json_decode((string) $row->draft_json, true);
+                        $draft = is_array($draft) ? $draft : array();
+                        ?>
+                        <tr>
+                            <td><?php echo esc_html($row->last_seen); ?></td>
+                            <td><strong><?php echo esc_html($row->hostname); ?></strong><br><span class="wc-muted"><?php echo esc_html($row->page_path); ?></span></td>
+                            <td>
+                                <ul class="wc-draft-list">
+                                <?php foreach (array('postcode', 'huisnummer', 'toevoeging', 'email', 'telefoon', 'gasverbruik', 'stroomverbruik') as $field) : ?>
+                                    <?php if (!empty($draft[$field])) : ?>
+                                        <li><strong><?php echo esc_html(ucfirst($field)); ?>:</strong> <?php echo esc_html((string) $draft[$field]); ?></li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                </ul>
+                                <?php if (!$draft) : ?><span class="wc-muted">Geen veldwaarden opgeslagen.</span><?php endif; ?>
+                            </td>
+                            <td><?php echo esc_html($row->device_type . ' / ' . $row->browser); ?></td>
+                            <td><?php echo esc_html(trim($row->utm_source . ' ' . $row->utm_campaign) ?: 'Onbekend'); ?></td>
+                            <td><code><?php echo esc_html($row->session_id); ?></code><br><span class="wc-muted"><?php echo esc_html(number_format_i18n((int) $row->events)); ?> events</span></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
     <?php

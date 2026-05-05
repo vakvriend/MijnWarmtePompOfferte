@@ -52,12 +52,12 @@ $vv_props = wc_meta_rows('wc_vv_props', [
   ['🏗️','Allround installatiebedrijf','Warmtepompen, CV-ketels, sanitair, vloerverwarming, dakwerk en ventilatie. Alles in eigen hand.'],
   ['🚗','Volledig elektrisch wagenpark','Vakvriend rijdt de KIA PV5 — bewust duurzaam in elk opzicht.'],
   ['📋','Eerlijk en praktisch advies','Wij adviseren wat technisch verstandig is voor uw woning — ook als dat soms een goedkopere oplossing is.'],
-  ['💶','ISDE-subsidie van A tot Z geregeld','Vakvriend begeleidt de volledige aanvraag bij de RVO. U hoeft er niets voor te doen.'],
+  ['💶','ISDE-subsidie van A tot Z geregeld','Vakvriend helpt met de juiste stukken voor RVO. U hoeft het niet zelf uit te zoeken.'],
 ], 3);
 $voordelen = wc_meta_rows('wc_voordelen', [
   ['🔥','Geen boiler nodig (Qvantum)','De Qvantum levert verwarming én warm tapwater in één systeem met geïntegreerde thermische batterij. Compact en efficiënt.'],
   ['⚡','Lager gasverbruik','Een goed gekozen warmtepomp neemt een groot deel van de warmtevraag over. De werkelijke besparing hangt af van isolatie, afgiftesysteem en verbruik.'],
-  ['💶','ISDE-subsidie meegenomen','Vakvriend verwerkt de verwachte ISDE-subsidie apart in het advies en helpt bij de aanvraagstukken.'],
+  ['💶','ISDE-subsidie meegenomen','Vakvriend verwerkt de verwachte ISDE-subsidie apart in het advies en helpt met de juiste stukken.'],
   ['🌿','100% gasloos wonen','Onafhankelijk van gas en de gasprijs. Toekomstbestendig en klaar voor de energietransitie.'],
   ['🔇','Fluisterstil ook in woonwijken','Speciaal ontworpen voor gebruik in dichtbebouwde gebieden. Nauwelijks hoorbaar voor u en uw buren.'],
   ['🌍','Boringen door heel Nederland','Vakvriend verzorgt grondboringen voor bodemwarmtepompen in heel Nederland, inclusief vergunningsaanvraag.'],
@@ -66,7 +66,7 @@ $werkwijze = wc_meta_rows('wc_werkwijze', [
   ['01','Vrijblijvende woningcheck','Vakvriend beoordeelt uw woning en adviseert welk systeem technisch past. Volledig vrijblijvend.'],
   ['02','Helder advies','Transparante uitleg over toestel, montage, subsidie, eventuele boringen en randwerk. Geen verborgen kosten.'],
   ['03','Boring & installatie','Vakvriend verzorgt grondboringen en vergunning indien nodig. Daarna vakkundige installatie in 1-2 werkdagen.'],
-  ['04','Subsidie & uitleg','Wij regelen de ISDE-subsidieaanvraag bij de RVO en leggen alles uit. U hoeft er niets voor te doen.'],
+  ['04','Subsidie & uitleg','Wij leggen de ISDE-route uit en helpen met de juiste stukken voor RVO.'],
 ], 3);
 $reviews = wc_meta_rows('wc_reviews', [
   ['"Vakmensen. En denken mee als je een probleem hebt. Ook prima nazorg. Aanrader!"','Michiel','Warmtepomp installatie','5'],
@@ -114,7 +114,7 @@ $praktijk_images = [
       </div>
     </div>
 
-    <!-- Rechts: externe scan widget -->
+    <!-- Rechts: externe woningcheck widget -->
     <?php echo wc_homezero_scan_widget(true); ?>
   </div>
 </section>
@@ -521,7 +521,7 @@ $praktijk_images = [
 <section id="werkwijze" class="vk-section vk-bg-donker">
   <div class="vk-container">
     <div class="vk-eyebrow vk-eyebrow-wit vk-center"><?=esc_html(wc_meta('wc_werkwijze_eyebrow','Werkwijze Vakvriend'))?></div>
-    <h2 class="vk-wit vk-center"><?=esc_html(wc_meta('wc_werkwijze_titel','Van aanvraag tot installatie in 4 stappen'))?></h2>
+    <h2 class="vk-wit vk-center"><?=esc_html(wc_meta('wc_werkwijze_titel','Van woningcheck tot installatie in 4 stappen'))?></h2>
     <p class="vk-lead vk-center vk-lead-center" style="color:rgba(255,255,255,.7)"><?=esc_html(wc_meta('wc_werkwijze_lead','Vakvriend ontzorgt u volledig — van advies en vergunning tot installatie en subsidie.'))?></p>
     <div class="vk-stappen-grid">
       <?php foreach($werkwijze as [$n,$t,$p]): ?>
@@ -670,13 +670,13 @@ if ($lokale_alinea1 || $lokale_alinea2):
       $faqs=[
         ["Wat is het verschil tussen Qvantum en Nibe?","Qvantum werkt met thermische opslag en vers tapwater via een platenwisselaar. Nibe heeft een breed programma voor lucht/water, bodem/water en hybride installaties. De beste keuze hangt af van warmteverlies, tapwater, geluid, ruimte en afgiftesysteem."],
         ["Ondersteunt Vakvriend ook andere merken?","Ja. Vakvriend werkt merkonafhankelijk en kan ook warmtepompen van onder andere Itho Daalderop, Daikin, Intergas en vergelijkbare A-merken beoordelen. We kijken eerst naar woning, verbruik, tapwater, geluid en plaatsing; daarna pas naar het merk en model."],
-        ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride, bodemwarmtepompen en warmtepompboilers hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken."],
+        ["Hoeveel ISDE-subsidie kan ik ontvangen?","De subsidie hangt af van toesteltype, vermogen, meldcode en de actuele voorwaarden van RVO. Lucht/water, hybride, bodemwarmtepompen en warmtepompboilers hebben ieder een andere berekening. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt met de juiste stukken."],
         ["Wanneer is een warmtepompboiler interessant?","Een warmtepompboiler is vooral bedoeld voor warm tapwater. Het kan een logische stap zijn wanneer u douchewater zuiniger wilt maken, maar de woningverwarming nog via cv, hybride of een later warmtepompsysteem loopt."],
         ["Hoe werkt de thermische batterij van Qvantum?","Alle Qvantum-systemen werken met thermische opslag: QA, QE en QG. De batterij bewaart warmte voor verwarming en tapwater, maar slaat geen douchewater op. Wanneer u warm water vraagt, stroomt koud leidingwater langs een platenwisselaar. Die haalt warmte uit de batterij en verwarmt het tapwater direct."],
         ["Verzorgt Vakvriend ook grondboringen?","Ja. Vakvriend kan grondboringen voor bodemwarmtepompen verzorgen en de vergunningsaanvraag meenemen. We adviseren een bodemwarmtepomp alleen wanneer perceel, bron, budget en afgiftesysteem daar technisch goed bij passen."],
         ["Is mijn woning" . ($is_lokaal ? " in $stad" : "") . " geschikt voor een warmtepomp?","Dat hangt af van isolatie, warmteverlies, radiatoren of vloerverwarming, tapwatergebruik en beschikbare ruimte. Vakvriend beoordeelt eerst de woning en vergelijkt daarna hybride, lucht/water, ventilatie of bodemwarmte."],
         ["Hoe lang duurt de installatie?","Een lucht/water of ventilatie warmtepomp kan vaak in enkele werkdagen worden geplaatst. Bij bodemwarmte, extra elektra, leidingwerk of aanpassingen aan het afgiftesysteem duurt het traject langer. Dat wordt vooraf in de woningcheck besproken."],
-        ["Regelt Vakvriend de subsidieaanvraag?","Ja. Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt bij de aanvraagstukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO."],
+        ["Regelt Vakvriend de subsidieaanvraag?","Vakvriend neemt de verwachte ISDE-subsidie mee in de woningcheck en helpt met de juiste stukken. Het definitieve subsidiebedrag hangt af van toestel, vermogen, meldcode en beoordeling door RVO."],
       ];
       if($faq_extra){foreach(explode("\n",$faq_extra) as $r){if(strpos($r,':::')!==false){[$v,$a]=explode(':::',$r,2);$faqs[]=[trim($v),trim($a)];}}}
       foreach($faqs as [$v,$a]): ?>
