@@ -287,6 +287,16 @@ function initVkAnalytics() {
     });
   });
 
+  var leadWidget = document.querySelector('hz-embed');
+  if (leadWidget && 'IntersectionObserver' in window) {
+    var leadObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        document.body.classList.toggle('vk-form-in-view', entry.isIntersecting);
+      });
+    }, {threshold: 0.12});
+    leadObserver.observe(leadWidget);
+  }
+
   if ('IntersectionObserver' in window) {
     var sectionObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {

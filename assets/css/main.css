@@ -115,7 +115,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   gap:48px;align-items:start;width:100%;
 }
 @media(max-width:1020px){.vk-hero-inner{grid-template-columns:1fr;padding:0 20px}}
-@media(max-width:640px){.vk-hero{margin-top:68px;min-height:calc(100vh - 68px);padding:34px 0 56px}.vk-hero-inner{padding:0 14px;gap:26px}}
+@media(max-width:640px){.vk-hero{margin-top:68px;min-height:calc(100vh - 68px);padding:34px 0 calc(120px + env(safe-area-inset-bottom))}.vk-hero-inner{padding:0 14px;gap:26px}}
 .vk-pill{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);
@@ -700,7 +700,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
     padding:10px 12px calc(10px + env(safe-area-inset-bottom));
     background:rgba(255,255,255,.96);border-top:1px solid rgba(0,0,0,.1);
     box-shadow:0 -10px 24px rgba(0,0,0,.08);backdrop-filter:blur(14px);
+    transition:transform .22s ease,opacity .22s ease;
   }
+  body.vk-form-in-view .vk-mobile-sticky{transform:translateY(120%);opacity:0;pointer-events:none}
   .vk-mobile-sticky a{min-height:48px;border-radius:var(--r);font-size:14px;padding:0 12px;white-space:normal;text-align:center}
 }
 
