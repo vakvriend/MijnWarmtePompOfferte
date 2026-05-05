@@ -101,7 +101,7 @@ function wc_homezero_scan_widget($show_head = true) {
             src="https://scan.vakvriend.nl/link/start?id=22c68b1d-2179-4fbb-93a2-4991451ced41"
             data-address-format="dutch"
             data-language="nl"
-            data-open-new-tab="true"
+            data-open-new-tab="false"
             data-show-phone="false"
             data-phone-required="false"
             data-show-email="true"
