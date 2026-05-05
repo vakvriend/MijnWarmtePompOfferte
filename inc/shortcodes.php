@@ -79,8 +79,8 @@ function wc_homezero_scan_widget($show_head = true) {
         <?php if ($show_head): ?>
           <div class="vk-form-head">
             <div class="vk-scan-badge"><span></span> Vrijblijvende scan</div>
-            <h2>Start uw verduurzamingsscan</h2>
-            <p>Vul woningtype, systeemwens en verbruik in en ontvang een advies dat bij uw huis past.</p>
+            <h2>Start uw woningcheck</h2>
+            <p>Postcode en huisnummer zijn genoeg om te beginnen. Daarna ziet u welke route logisch is voor uw woning.</p>
           </div>
           <div class="vk-form-adviser" aria-label="Vakvriend kijkt persoonlijk mee">
             <figure class="vk-form-adviser-portrait" aria-hidden="true">
@@ -104,9 +104,9 @@ function wc_homezero_scan_widget($show_head = true) {
             data-open-new-tab="false"
             data-show-phone="false"
             data-phone-required="false"
-            data-show-email="true"
+            data-show-email="false"
             data-email-required="false"
-            data-button-text="Start verduurzamingsscan"
+            data-button-text="Start woningcheck"
             data-button-radius="7px"
             data-color="#066939"
             data-title=""
