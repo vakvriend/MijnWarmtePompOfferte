@@ -75,6 +75,9 @@ function wc_enqueue_assets() {
 add_action('wp_enqueue_scripts', 'wc_enqueue_assets');
 
 function wc_favicon_links() {
+    echo '<link rel="icon" href="' . esc_url(home_url('/favicon.ico')) . '" sizes="any">' . "\n";
+    echo '<link rel="icon" href="' . esc_url(home_url('/favicon.svg')) . '" type="image/svg+xml">' . "\n";
+    echo '<link rel="icon" href="' . esc_url(home_url('/favicon-32x32.png')) . '" type="image/png" sizes="32x32">' . "\n";
     echo '<link rel="icon" href="' . esc_url(home_url('/favicon-48x48.png')) . '" type="image/png" sizes="48x48">' . "\n";
     echo '<link rel="icon" href="' . esc_url(home_url('/favicon-96x96.png')) . '" type="image/png" sizes="96x96">' . "\n";
     echo '<link rel="icon" href="' . esc_url(home_url('/favicon-192x192.png')) . '" type="image/png" sizes="192x192">' . "\n";

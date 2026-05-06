@@ -153,6 +153,25 @@ function wc_output_domain_sitemap() {
 }
 add_action('init', 'wc_output_domain_sitemap', 0);
 
+function wc_output_domain_robots_txt() {
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    if ($path !== '/robots.txt') {
+        return;
+    }
+
+    status_header(200);
+    nocache_headers();
+    header('Content-Type: text/plain; charset=UTF-8');
+    header('X-Robots-Tag: index, follow', true);
+
+    echo "User-agent: *\n";
+    echo "Allow: /\n";
+    echo "\n";
+    echo "Sitemap: " . wc_current_public_origin() . "/sitemap.xml\n";
+    exit;
+}
+add_action('init', 'wc_output_domain_robots_txt', 0);
+
 function wc_add_domain_sitemap_to_robots($output, $public) {
     if (!$public) {
         return $output;
