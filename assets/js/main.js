@@ -54,6 +54,8 @@ function vkTrack(eventName, payload) {
   vkTrackGa4(eventName, payload);
   vkTrackWp(eventName, payload);
 }
+window.vkTrack = vkTrack;
+window.vkSessionId = vkSessionId;
 
 function getVkSessionId() {
   var key = 'vk_campaign_session_id';
@@ -80,6 +82,8 @@ function vkTrackGa4(eventName, payload) {
     lead_abandoned_snapshot: 'lead_abandoned_snapshot',
     homezero_widget_visible: 'homezero_widget_visible',
     homezero_widget_click: 'homezero_widget_click',
+    callback_form_submit: 'callback_form_submit',
+    callback_form_success: 'callback_form_success',
     phone_click: 'phone_click',
     whatsapp_click: 'whatsapp_click'
   };
@@ -399,6 +403,75 @@ function initVkAnalytics() {
     });
     widget.addEventListener('click', function(event) {
       vkTrack('homezero_widget_click', getVkElementInfo(widget, event));
+    });
+  });
+
+  document.querySelectorAll('.vk-callback-form').forEach(function(form) {
+    var status = form.querySelector('.vk-callback-status');
+    var submitButton = form.querySelector('button[type="submit"]');
+    vkTrack('callback_form_visible', {form_name: 'terugbelverzoek'});
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      if (!window.vkAnalytics || !window.vkAnalytics.ajaxUrl || !window.vkAnalytics.callbackNonce) return;
+
+      var phone = (form.querySelector('[name="phone"]') || {}).value || '';
+      var name = (form.querySelector('[name="name"]') || {}).value || '';
+      var postcode = (form.querySelector('[name="postcode"]') || {}).value || '';
+      if (!phone.trim()) {
+        if (status) status.textContent = 'Vul uw telefoonnummer in, dan kunnen we u terugbellen.';
+        return;
+      }
+
+      vkTrack('callback_form_submit', {
+        form_name: 'terugbelverzoek',
+        has_name: name.trim() ? 1 : 0,
+        has_postcode: postcode.trim() ? 1 : 0
+      });
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Versturen...';
+      }
+      if (status) status.textContent = '';
+
+      var body = new URLSearchParams();
+      body.append('action', 'wc_callback_lead');
+      body.append('nonce', window.vkAnalytics.callbackNonce);
+      body.append('name', name);
+      body.append('phone', phone);
+      body.append('postcode', postcode);
+      body.append('page_url', location.href);
+      body.append('hostname', location.hostname);
+      body.append('session_id', vkSessionId);
+
+      fetch(window.vkAnalytics.ajaxUrl, {
+        method: 'POST',
+        body: body,
+        credentials: 'same-origin'
+      })
+        .then(function(response) { return response.json(); })
+        .then(function(json) {
+          if (!json || !json.success) throw new Error((json && json.data && json.data.message) || 'Niet gelukt');
+          vkLeadSubmitted = true;
+          setVkStoredLeadDraft({});
+          vkTrack('callback_form_success', {
+            form_name: 'terugbelverzoek',
+            has_postcode: postcode.trim() ? 1 : 0
+          });
+          form.classList.add('is-success');
+          form.reset();
+          if (status) status.textContent = json.data.message || 'Top, we nemen zo snel mogelijk contact op.';
+        })
+        .catch(function(error) {
+          if (status) status.textContent = error.message || 'Versturen lukt nu niet. Probeer het later nog eens.';
+        })
+        .finally(function() {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Bel mij terug';
+          }
+        });
     });
   });
 

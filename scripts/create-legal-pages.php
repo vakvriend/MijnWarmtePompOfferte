@@ -73,6 +73,10 @@ $privacy = <<<HTML
 <p>De woningcheck kan worden aangeboden via een externe widget van HomeZero. Gegevens die u daarin invult kunnen door HomeZero technisch worden verwerkt om de check mogelijk te maken. Vakvriend gebruikt deze gegevens uitsluitend voor warmtepompadvies, opvolging en uitvoering van eventuele werkzaamheden.</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:paragraph -->
+<p>Wanneer u kiest voor een terugbelverzoek, verwerken wij de ingevulde naam, telefoonnummer, postcode, domein, pagina en het moment van aanvragen. Deze gegevens gebruiken wij alleen om contact met u op te nemen over de woningcheck en om de aanvraag netjes op te volgen.</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading {"level":3} -->
 <h3>Onbevestigde woningchecks</h3>
 <!-- /wp:heading -->

@@ -79,8 +79,8 @@ function wc_homezero_scan_widget($show_head = true) {
         <?php if ($show_head): ?>
           <div class="vk-form-head">
             <div class="vk-scan-badge"><span></span> Vrijblijvende woningcheck</div>
-            <h2>Start uw woningcheck</h2>
-            <p>Postcode en huisnummer zijn genoeg om te beginnen. Daarna ziet u welke route logisch is voor uw woning.</p>
+            <h2>Bekijk binnen 1 minuut welke warmtepomp logisch is</h2>
+            <p>Start met postcode en huisnummer. U ziet direct welke route past: lucht/water, hybride, ventilatie, bodem of warmtepompboiler.</p>
           </div>
           <div class="vk-form-adviser" aria-label="Vakvriend kijkt persoonlijk mee">
             <figure class="vk-form-adviser-portrait" aria-hidden="true">
@@ -91,6 +91,15 @@ function wc_homezero_scan_widget($show_head = true) {
               <strong>Vakvriend kijkt mee</strong>
               <span>Een vakman beoordeelt uw woningcheck met eerlijk en praktisch advies.</span>
             </div>
+          </div>
+          <div class="vk-result-preview" aria-label="Wat u krijgt na de woningcheck">
+            <strong>Dit krijgt u direct inzichtelijk</strong>
+            <ul>
+              <li>Passende warmtepomproute</li>
+              <li>ISDE-subsidie indicatie</li>
+              <li>Praktische aandachtspunten</li>
+              <li>Merkonafhankelijk advies</li>
+            </ul>
           </div>
         <?php endif; ?>
         <?php if (!$script_loaded): ?>
@@ -118,6 +127,29 @@ function wc_homezero_scan_widget($show_head = true) {
           <span>Reactie binnen 24 uur</span>
           <span>Eerlijk advies</span>
         </div>
+        <form class="vk-callback-form" action="#" method="post" novalidate>
+          <div class="vk-callback-head">
+            <strong>Liever dat Vakvriend meekijkt?</strong>
+            <span>Laat uw nummer achter, dan bellen we u over de woningcheck.</span>
+          </div>
+          <div class="vk-callback-fields">
+            <label>
+              <span>Naam</span>
+              <input type="text" name="name" autocomplete="name" placeholder="Uw naam">
+            </label>
+            <label>
+              <span>Telefoonnummer*</span>
+              <input type="tel" name="phone" autocomplete="tel" placeholder="06 12345678" required>
+            </label>
+            <label>
+              <span>Postcode</span>
+              <input type="text" name="postcode" autocomplete="postal-code" placeholder="1234AB">
+            </label>
+          </div>
+          <button type="submit">Bel mij terug</button>
+          <p class="vk-callback-note">We gebruiken dit alleen om uw woningcheck op te volgen.</p>
+          <p class="vk-callback-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </div>
     <?php
@@ -128,3 +160,74 @@ function wc_shortcode_lead_form($atts = array()) {
     return wc_homezero_scan_widget(false);
 }
 add_shortcode('warmtepomp_lead_form', 'wc_shortcode_lead_form');
+
+function wc_callback_lead_ajax() {
+    check_ajax_referer('wc_callback_lead', 'nonce');
+
+    $name = sanitize_text_field(wp_unslash($_POST['name'] ?? ''));
+    $phone = sanitize_text_field(wp_unslash($_POST['phone'] ?? ''));
+    $postcode = strtoupper(sanitize_text_field(wp_unslash($_POST['postcode'] ?? '')));
+    $page_url = esc_url_raw(wp_unslash($_POST['page_url'] ?? ''));
+    $hostname = sanitize_text_field(wp_unslash($_POST['hostname'] ?? ''));
+    $session_id = sanitize_text_field(wp_unslash($_POST['session_id'] ?? ''));
+
+    if ($phone === '' || strlen(preg_replace('/\D+/', '', $phone)) < 8) {
+        wp_send_json_error(array('message' => 'Vul een geldig telefoonnummer in.'), 400);
+    }
+
+    $subject = 'Nieuwe terugbel lead - Vakvriend';
+    if ($hostname) {
+        $subject .= ' - ' . $hostname;
+    }
+
+    $message = "Er is een terugbelverzoek binnengekomen via de warmtepomp campagne.\n\n";
+    $message .= "Naam: " . ($name ?: '-') . "\n";
+    $message .= "Telefoonnummer: {$phone}\n";
+    $message .= "Postcode: " . ($postcode ?: '-') . "\n";
+    $message .= "Domein: " . ($hostname ?: '-') . "\n";
+    $message .= "Pagina: " . ($page_url ?: '-') . "\n";
+    $message .= "Sessie: " . ($session_id ?: '-') . "\n";
+    $message .= "Tijd: " . current_time('mysql') . "\n";
+
+    wp_mail(
+        'tonny@vakvriend.nl',
+        $subject,
+        $message,
+        array('Content-Type: text/plain; charset=UTF-8')
+    );
+
+    if (function_exists('wc_analytics_maybe_install') && function_exists('wc_analytics_table_name')) {
+        wc_analytics_maybe_install();
+
+        global $wpdb;
+        $wpdb->insert(wc_analytics_table_name(), array(
+            'event_name' => 'callback_lead_submit',
+            'session_id' => $session_id ?: ('callback_' . wp_generate_uuid4()),
+            'page_url' => $page_url,
+            'page_path' => $page_url ? (string) wp_parse_url($page_url, PHP_URL_PATH) : '/',
+            'hostname' => $hostname,
+            'referrer' => '',
+            'section' => 'callback_form',
+            'device_type' => '',
+            'browser' => '',
+            'utm_source' => '',
+            'utm_medium' => '',
+            'utm_campaign' => '',
+            'utm_content' => '',
+            'utm_term' => '',
+            'duration_ms' => 0,
+            'scroll_depth' => 0,
+            'meta_json' => wp_json_encode(array(
+                'name' => $name,
+                'phone' => $phone,
+                'postcode' => $postcode,
+                'source' => 'callback_form',
+            )),
+            'created_at' => current_time('mysql'),
+        ), array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s'));
+    }
+
+    wp_send_json_success(array('message' => 'Top, we nemen zo snel mogelijk contact op.'));
+}
+add_action('wp_ajax_wc_callback_lead', 'wc_callback_lead_ajax');
+add_action('wp_ajax_nopriv_wc_callback_lead', 'wc_callback_lead_ajax');
