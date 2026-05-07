@@ -3,6 +3,9 @@ $stad      = wc_meta('wc_stad','Nederland');
 $regio     = wc_meta('wc_regio',$stad);
 $is_lokaal = ($stad !== 'Nederland' && $stad !== 'uw regio');
 $hero_foto = wc_meta('wc_hero_foto','https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp');
+if (strpos($hero_foto, 'mijn-warmtepomp-advies.webp') !== false) {
+  $hero_foto = get_template_directory_uri() . '/assets/img/landmarks/mijn-warmtepomp-offerte.webp?v=3';
+}
 $hero_t    = wc_meta('wc_hero_titel', $is_lokaal ? "Ontdek welke warmtepomp past bij uw woning in $stad" : 'Ontdek welke warmtepomp bij uw woning past');
 $hero_s    = wc_meta('wc_hero_subtitel',"Start met postcode en huisnummer. Vakvriend beoordeelt welke warmtepomp past, welke subsidie mogelijk is en welke installatie praktisch haalbaar is.");
 $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. We werken merkonafhankelijk: Qvantum en Nibe kennen we goed, maar ook Itho Daalderop, Daikin, Intergas en andere merken nemen we gewoon mee wanneer dat beter past. Eerlijk en praktisch advies: wij kijken wat technisch verstandig is voor uw situatie.");
