@@ -121,12 +121,6 @@ function wc_homezero_scan_widget($show_head = true) {
             data-title=""
             data-subtitle=""
         ></hz-embed>
-        <div class="vk-scan-usps" aria-label="Voordelen van de woningcheck">
-          <span>ISDE meegenomen</span>
-          <span>Merkonafhankelijk</span>
-          <span>Reactie binnen 24 uur</span>
-          <span>Eerlijk advies</span>
-        </div>
         <form class="vk-callback-form" action="#" method="post" novalidate>
           <div class="vk-callback-head">
             <strong>Liever dat Vakvriend meekijkt?</strong>
