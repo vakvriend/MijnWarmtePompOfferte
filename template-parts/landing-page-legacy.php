@@ -86,32 +86,24 @@ $praktijk_images = [
 
 <!-- HERO -->
 <section class="vk-hero" style="--hbg:url('<?=esc_url($hero_foto)?>')">
-  <div class="vk-hero-overlay"></div>
   <div class="vk-hero-inner">
     <!-- Links: Tekst -->
     <div class="vk-hero-content">
       <div class="vk-pill"><?=esc_html($hero_kicker)?></div>
       <h1><?=esc_html($hero_t)?></h1>
       <p class="vk-hero-sub"><?=esc_html($hero_s)?></p>
+      <div class="vk-hero-actions">
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Start de woningcheck</a>
+        <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-hero-call">Bel direct <?=esc_html($telefoon)?></a>
+      </div>
       <div class="vk-trust-row">
-        <span class="vk-trust">Vrijblijvend advies</span>
-        <span class="vk-trust">ISDE-subsidie meegenomen</span>
         <span class="vk-trust">Merkonafhankelijk advies</span>
-        <span class="vk-trust">Ook Itho Daalderop & Daikin</span>
+        <span class="vk-trust">ISDE meegenomen</span>
         <span class="vk-trust"><?=$is_lokaal?"Actief in $stad":"Door heel Nederland"?></span>
       </div>
-      <div class="vk-proof-row">
-        <?php foreach($campaign_proof as [$number,$label]): ?>
-          <div class="vk-proof">
-            <strong><?=esc_html($number)?></strong>
-            <span><?=esc_html($label)?></span>
-          </div>
-        <?php endforeach; ?>
-      </div>
-      <div class="vk-hero-contact">
-        <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-tel-link"><?=esc_html($telefoon)?></a>
-        <a href="https://wa.me/<?=esc_attr($whatsapp)?>" class="vk-wa-link">WhatsApp</a>
-      </div>
+      <figure class="vk-hero-photo" aria-label="<?=esc_attr($is_lokaal ? 'Herkenbare omgeving in ' . $stad : 'Herkenbare omgeving')?>">
+        <span></span>
+      </figure>
     </div>
 
     <!-- Rechts: externe woningcheck widget -->
