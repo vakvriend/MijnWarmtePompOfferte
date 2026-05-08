@@ -99,11 +99,6 @@ $praktijk_images = [
         <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Start de woningcheck</a>
         <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-hero-call">Bel direct <?=esc_html($telefoon)?></a>
       </div>
-      <div class="vk-trust-row">
-        <span class="vk-trust">Merkonafhankelijk advies</span>
-        <span class="vk-trust">ISDE meegenomen</span>
-        <span class="vk-trust"><?=$is_lokaal?"Actief in $stad":"Door heel Nederland"?></span>
-      </div>
       <figure class="vk-hero-photo" aria-label="<?=esc_attr($is_lokaal ? 'Herkenbare omgeving in ' . $stad : 'Herkenbare omgeving')?>">
         <span></span>
       </figure>
