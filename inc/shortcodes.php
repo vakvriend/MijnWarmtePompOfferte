@@ -70,6 +70,36 @@ function wc_shortcode_logos() {
 }
 add_shortcode('warmtepomp_logos', 'wc_shortcode_logos');
 
+function wc_callback_form_markup($class = 'vk-callback-form') {
+    ob_start();
+    ?>
+    <form class="<?php echo esc_attr($class); ?>" action="#" method="post" novalidate>
+      <div class="vk-callback-head">
+        <strong>Liever dat Vakvriend meekijkt?</strong>
+        <span>Laat uw nummer achter, dan bellen we u over de woningcheck.</span>
+      </div>
+      <div class="vk-callback-fields">
+        <label>
+          <span>Naam</span>
+          <input type="text" name="name" autocomplete="name" placeholder="Uw naam">
+        </label>
+        <label>
+          <span>Telefoonnummer*</span>
+          <input type="tel" name="phone" autocomplete="tel" placeholder="06 12345678" required>
+        </label>
+        <label>
+          <span>Postcode</span>
+          <input type="text" name="postcode" autocomplete="postal-code" placeholder="1234AB">
+        </label>
+      </div>
+      <button type="submit">Bel mij terug</button>
+      <p class="vk-callback-note">We gebruiken dit alleen om uw woningcheck op te volgen.</p>
+      <p class="vk-callback-status" role="status" aria-live="polite"></p>
+    </form>
+    <?php
+    return ob_get_clean();
+}
+
 function wc_homezero_scan_widget($show_head = true) {
     static $script_loaded = false;
     ob_start();
@@ -121,29 +151,6 @@ function wc_homezero_scan_widget($show_head = true) {
             data-title=""
             data-subtitle=""
         ></hz-embed>
-        <form class="vk-callback-form" action="#" method="post" novalidate>
-          <div class="vk-callback-head">
-            <strong>Liever dat Vakvriend meekijkt?</strong>
-            <span>Laat uw nummer achter, dan bellen we u over de woningcheck.</span>
-          </div>
-          <div class="vk-callback-fields">
-            <label>
-              <span>Naam</span>
-              <input type="text" name="name" autocomplete="name" placeholder="Uw naam">
-            </label>
-            <label>
-              <span>Telefoonnummer*</span>
-              <input type="tel" name="phone" autocomplete="tel" placeholder="06 12345678" required>
-            </label>
-            <label>
-              <span>Postcode</span>
-              <input type="text" name="postcode" autocomplete="postal-code" placeholder="1234AB">
-            </label>
-          </div>
-          <button type="submit">Bel mij terug</button>
-          <p class="vk-callback-note">We gebruiken dit alleen om uw woningcheck op te volgen.</p>
-          <p class="vk-callback-status" role="status" aria-live="polite"></p>
-        </form>
       </div>
     </div>
     <?php
