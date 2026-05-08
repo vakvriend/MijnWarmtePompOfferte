@@ -102,7 +102,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   margin-top:108px;/* 40px topbar + 68px navbar */
   background:linear-gradient(135deg,#f5faf6 0%,#eef6f1 54%,#fff6ec 100%);
   min-height:auto;
-  position:relative;overflow:hidden;
+  position:relative;overflow:visible;
   display:flex;align-items:center;
   padding:58px 0 64px;
 }
@@ -144,7 +144,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 @media(max-width:360px){.vk-proof-row{grid-template-columns:1fr}.vk-proof{display:flex;align-items:center;gap:12px}.vk-proof strong{margin:0;min-width:78px}}
 
 /* ── FORMULIER ── */
-.vk-form-wrap{position:sticky;top:120px;width:100%;max-width:560px;justify-self:end}
+.vk-form-wrap{position:sticky;top:120px;width:100%;max-width:560px;justify-self:end;align-self:start}
 .vk-form-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#f6fbf7 100%);border:1px solid rgba(255,255,255,.78);border-radius:18px;padding:36px 32px 28px;box-shadow:0 30px 76px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.92) inset}
 .vk-form-card:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,var(--groen) 0%,#10a762 22%,#f7b955 42%,var(--oranje) 50%,#f7b955 58%,#10a762 78%,var(--groen) 100%);background-size:220% 100%;animation:vkFormGlow 7s ease-in-out infinite;z-index:1}
 .vk-form-card:after{content:"";position:absolute;right:-74px;top:-94px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(6,105,57,.16),rgba(6,105,57,0) 69%);pointer-events:none}
