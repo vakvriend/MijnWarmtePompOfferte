@@ -1,17 +1,26 @@
 # Retargeting advertenties - Vakvriend warmtepomp woningcheck
 
-## Campagne-instelling
-- Campagnetype: Display / Demand Gen retargeting, niet prospecting.
-- Doelgroep: websitebezoekers, formulier gestart maar niet afgerond, Google Ads bezoekers, Analytics-engaged users.
-- Uitsluiten: mensen die lead/conversie al hebben voltooid.
-- CTA-focus: woningcheck afronden, advies bekijken, Vakvriend laten meekijken.
+## Beeldrichting
+Deze set gebruikt echte Vakvriend-foto's van www.vakvriend.nl en het officiële Vakvriend-logo. Geen AI-beelden.
+De advertenties zijn rustiger gemaakt: grote echte foto, heldere kaart, weinig tekst in beeld.
+
+## Doelgroep
+- Websitebezoekers zonder lead
+- Woningcheck gezien maar niet gestart
+- Woningcheck gestart maar niet afgerond
+- Engaged visitors uit GA4 / Google Ads
+
+## Uitsluiten
+- Lead afgerond
+- Bedankt/conversiepagina bezoekers
+- Bestaande klanten indien beschikbaar
 
 ## Korte koppen max 30 tekens
 1. Rond uw woningcheck af
 2. Vakvriend kijkt mee
 3. Welke warmtepomp past?
 4. Praktisch woningadvies
-5. Advies zonder gedoe
+5. Advies zonder omwegen
 6. Merkonafhankelijk advies
 7. ISDE direct meegenomen
 8. Start uw woningcheck
@@ -27,19 +36,11 @@
 
 ## Beschrijvingen max 90 tekens
 1. Start met postcode en huisnummer. U ziet direct welke route logisch is.
-2. Praktisch warmtepompadvies, merkonafhankelijk en zonder harde verkoopdruk.
+2. Praktisch warmtepompadvies, merkonafhankelijk en zonder harde verkooptaal.
 3. Vakvriend rekent subsidie, verbruik en aandachtspunten direct mee.
 4. Laat ons meekijken naar uw woning en ontvang een helder vervolgadvies.
 5. Geen standaard offerte, maar een woningcheck die past bij uw situatie.
 
-## Afbeeldingen
-- rond-woningcheck-af: zachte reminder voor afhakers.
-- welke-warmtepomp-past: technisch vertrouwen en merkonafhankelijk advies.
-- vakvriend-kijkt-mee: herkenbaarheid en lokale service.
-
-## Bestanden
-- liggend: 1200 x 628
-- vierkant: 1200 x 1200
-- staand: 900 x 1600
-- logo vierkant: 1200 x 1200
-- logo liggend: 1200 x 300
+## Advies voor campagne
+Begin met lage frequentie: 2-3 impressies per persoon per dag. Retargeting moet herinneren, niet irriteren.
+Gebruik 14 dagen lidmaatschapsduur voor formulierstarters en 30 dagen voor alle bezoekers.
