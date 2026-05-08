@@ -99,10 +99,12 @@ $praktijk_images = [
         <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Start de woningcheck</a>
         <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-hero-call">Bel direct <?=esc_html($telefoon)?></a>
       </div>
-      <figure class="vk-hero-photo" aria-label="<?=esc_attr($is_lokaal ? 'Herkenbare omgeving in ' . $stad : 'Herkenbare omgeving')?>">
-        <span></span>
-      </figure>
-      <?php echo wc_callback_form_markup('vk-callback-form vk-hero-callback-form'); ?>
+      <div class="vk-hero-contact-card">
+        <figure class="vk-hero-photo" aria-label="<?=esc_attr($is_lokaal ? 'Herkenbare omgeving in ' . $stad : 'Herkenbare omgeving')?>">
+          <span></span>
+        </figure>
+        <?php echo wc_callback_form_markup('vk-callback-form vk-hero-callback-form'); ?>
+      </div>
     </div>
 
     <!-- Rechts: externe woningcheck widget -->
