@@ -109,8 +109,8 @@ function wc_homezero_scan_widget($show_head = true) {
         <?php if ($show_head): ?>
           <div class="vk-form-head">
             <div class="vk-scan-badge"><span></span> Vrijblijvende woningcheck</div>
-            <h2>Bekijk binnen 1 minuut welke warmtepomp logisch is</h2>
-            <p>Start met postcode en huisnummer. U ziet direct welke route past: lucht/water, hybride, ventilatie, bodem of warmtepompboiler.</p>
+            <h2>Check welke route bij uw woning past</h2>
+            <p>Geen offerteaanvraag. U krijgt eerst inzicht in kosten, subsidie, verbruik en de warmtepomproute die technisch logisch is.</p>
           </div>
           <div class="vk-form-adviser" aria-label="Vakvriend kijkt persoonlijk mee">
             <figure class="vk-form-adviser-portrait" aria-hidden="true">
@@ -119,14 +119,14 @@ function wc_homezero_scan_widget($show_head = true) {
             <div>
               <em>Persoonlijk advies</em>
               <strong>Vakvriend kijkt mee</strong>
-              <span>Een vakman beoordeelt uw woningcheck met eerlijk en praktisch advies.</span>
+              <span>Een vakman beoordeelt uw woningcheck met praktisch advies, zonder harde verkooptaal.</span>
             </div>
           </div>
           <div class="vk-result-preview" aria-label="Wat u krijgt na de woningcheck">
-            <strong>Dit krijgt u direct inzichtelijk</strong>
+            <strong>Dit krijgt u eerst inzichtelijk</strong>
             <ul>
               <li>Passende warmtepomproute</li>
-              <li>ISDE-subsidie indicatie</li>
+              <li>Kosten en subsidie-indicatie</li>
               <li>Praktische aandachtspunten</li>
               <li>Merkonafhankelijk advies</li>
             </ul>
