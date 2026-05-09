@@ -92,6 +92,7 @@ $warmtepomp_basics = wc_meta_rows('wc_warmtepomp_basics', [
 ], 3);
 $cost_routes = wc_meta_rows('wc_cost_routes', [
   ['Hybride route','vanaf circa €4.000 - €7.500','Vaak interessant wanneer de cv-ketel blijft hangen en de woning nog niet volledig klaar is voor all-electric.'],
+  ['Ventilatiewarmtepomp','circa €5.000 - €9.000','Gebruikt warmte uit afvoerventilatielucht en kan interessant zijn bij appartementen of woningen waar een buitenunit lastig is. Het ventilatiesysteem moet wel geschikt zijn.'],
   ['Lucht/water','circa €8.000 - €16.000','Veel toegepaste route voor woningen met voldoende afgiftevermogen en een geschikte plek voor een buitenunit.'],
   ['Bodemwarmte','circa €20.000+','Hoger rendement en rustige werking, maar met bronontwerp, boring, vergunning en hogere voorbereiding.'],
 ], 3);
@@ -149,7 +150,7 @@ $cost_routes = wc_meta_rows('wc_cost_routes', [
       <div class="vk-cost-intro">
         <div class="vk-eyebrow">Kostenindicatie</div>
         <h3><?=esc_html(wc_meta('wc_cost_titel','Wat kost een warmtepomp ongeveer?'))?></h3>
-        <p><?=esc_html(wc_meta('wc_cost_intro','De investering hangt sterk af van woningtype, afgiftesysteem, tapwater, buitenunit, boring en subsidie. Zie dit als richting, niet als offerte. De woningcheck maakt duidelijk welke route realistisch is.'))?></p>
+        <p><?=esc_html(wc_meta('wc_cost_intro','De investering hangt sterk af van woningtype, afgiftesysteem, tapwater, ventilatie, buitenunit, boring en subsidie. Zie dit als richting, niet als offerte. De woningcheck maakt duidelijk welke route realistisch is.'))?></p>
       </div>
       <div class="vk-cost-list">
         <?php foreach($cost_routes as [$route,$price,$text]): ?>
