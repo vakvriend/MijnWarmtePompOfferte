@@ -13,6 +13,7 @@ html,body{max-width:100%;overflow-x:clip}
 body{font-family:var(--font-b);color:var(--tekst);background:var(--wit);line-height:1.6;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
+.vk-anchor-target{position:relative;display:block;top:-120px;height:0;visibility:hidden;pointer-events:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 .vk-page{padding:160px 0 80px}
@@ -47,7 +48,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   padding:5px 16px;border-radius:var(--r-xl);
   font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0;
 }
-@media(max-width:640px){.vk-topbar{display:none}}
+@media(max-width:640px){
+  .vk-topbar{height:34px;padding:0 14px;font-size:11px;gap:8px}
+  .vk-topbar-actions{display:none}
+  .navbar{top:34px}
+}
 
 /* ── NAVBAR ── direct onder topbar */
 .navbar{
@@ -66,10 +71,20 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 .nav-logo{display:flex;align-items:center;flex:0 0 auto}
 .nav-logo img{height:34px;width:auto}
+.nav-logo-wordmark{display:grid;gap:1px;color:#073b25;font-size:24px;font-weight:950;line-height:.95;letter-spacing:0}
+.nav-logo-wordmark small{display:block;color:#607267;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
 .nav-links{display:flex;gap:24px;list-style:none}
 .nav-links a{font-size:14px;font-weight:500;color:var(--tekst);transition:color .2s}
 .nav-links a:hover{color:var(--groen)}
 .nav-cta{display:flex;gap:10px;align-items:center}
+.nav-dashboard-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:36px;padding:8px 14px;border:1px solid #d9eadf;
+  border-radius:999px;background:#fff;color:var(--groen);
+  font-size:13px;font-weight:900;line-height:1;white-space:nowrap;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.nav-dashboard-link:hover{background:var(--groen-xl);border-color:var(--groen)}
 .nav-tel-link{
   font-weight:700;font-size:14px;color:var(--groen);
   background:var(--groen-xl);border:1.5px solid var(--groen);
@@ -80,10 +95,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .nav-offerte-btn{font-size:14px;padding:9px 18px}
 @media(max-width:900px){.nav-links{display:none}}
 @media(max-width:640px){
-  .navbar{top:0;height:64px}
+  .navbar{top:34px;height:64px}
   .nav-container{height:64px;padding:0 16px;gap:14px;align-items:center}
   .nav-logo img{height:28px}
-  .nav-cta{margin-left:auto;align-items:center}
+  .nav-cta{margin-left:auto;align-items:center;gap:8px}
+  .nav-dashboard-link{
+    min-height:40px;padding:9px 12px;font-size:0;
+    border-color:#d9eadf;background:#fff;
+  }
+  .nav-dashboard-link::after{content:"Login";font-size:13px}
   .nav-tel-link{display:none}
   .nav-offerte-btn{
     min-height:40px;
@@ -100,42 +120,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* ── HERO ── */
 .vk-hero{
   margin-top:108px;/* 40px topbar + 68px navbar */
-  background:linear-gradient(135deg,#f5faf6 0%,#eef6f1 54%,#fff6ec 100%);
+  background:linear-gradient(180deg,#f7fbf8 0%,#eef7f2 100%);
   min-height:auto;
-  position:relative;overflow:visible;
+  position:relative;overflow:hidden;
   display:flex;align-items:center;
-  padding:58px 0 64px;
+  padding:42px 0 44px;
 }
-.vk-hero::before{content:'';position:absolute;inset:auto -8% -34% 48%;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(6,104,57,.12),rgba(6,104,57,0) 68%);pointer-events:none}
+.vk-hero::before{content:'';position:absolute;inset:10% -18% auto auto;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(6,104,57,.09),rgba(6,104,57,0) 68%);pointer-events:none}
 .vk-hero-overlay{display:none}
 .vk-hero-inner{
   position:relative;z-index:1;
-  max-width:1280px;margin:0 auto;padding:0 32px;
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(500px,560px);
-  gap:46px;align-items:start;width:100%;
+  max-width:1220px;margin:0 auto;padding:0 28px;
+  display:grid;grid-template-columns:minmax(0,.92fr) minmax(500px,1.08fr);
+  gap:42px;align-items:center;width:100%;
 }
 @media(max-width:1020px){.vk-hero-inner{grid-template-columns:1fr;padding:0 20px}}
-.vk-hero-content{max-width:620px;text-shadow:none;padding-top:20px}
-@media(max-width:640px){.vk-hero{margin-top:64px;padding:28px 0 calc(96px + env(safe-area-inset-bottom))}.vk-hero-inner{padding:0 14px;gap:22px}.vk-hero-content{max-width:none;text-align:left;padding-top:0}}
+.vk-hero-content{max-width:560px;text-shadow:none;padding-top:0}
+@media(max-width:640px){.vk-hero{margin-top:64px;padding:28px 0 calc(86px + env(safe-area-inset-bottom))}.vk-hero-inner{padding:0 14px;gap:20px}.vk-hero-content{max-width:none;text-align:left;padding-top:0}}
 .vk-pill{
   display:inline-flex;align-items:center;gap:8px;
   background:#fff;border:1px solid #d9eadf;
-  color:var(--groen);padding:8px 16px;border-radius:var(--r-xl);
-  font-size:12px;font-weight:900;letter-spacing:0;margin-bottom:22px;
-  box-shadow:0 8px 20px rgba(6,104,57,.07);
+  color:var(--groen);padding:8px 14px;border-radius:999px;
+  font-size:12px;font-weight:900;letter-spacing:0;margin-bottom:18px;
+  box-shadow:0 8px 18px rgba(6,104,57,.06);
 }
 .vk-hero-content h1{
-  font-family:var(--font-h);font-size:clamp(40px,4.6vw,60px);
-  font-weight:400;line-height:1.03;letter-spacing:0;
+  font-family:var(--font-b);font-size:clamp(36px,4vw,54px);
+  font-weight:900;line-height:1.02;letter-spacing:0;
   color:#102018;margin-bottom:18px;
 }
-.vk-hero-sub{font-size:18px;color:#526258;line-height:1.72;max-width:570px;margin-bottom:26px}
-.vk-hero-insights{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:560px;margin:0 0 22px}
-.vk-hero-insights span{display:grid;grid-template-columns:18px 1fr;align-items:center;gap:7px;min-height:38px;padding:8px 10px;border:1px solid #dcefe2;border-radius:999px;background:#fff;color:#34463b;font-size:11px;font-weight:900;box-shadow:0 8px 18px rgba(6,104,57,.06)}
-.vk-hero-insights span:before{content:"✓";display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--groen);color:#fff;font-size:11px;font-weight:900}
-.vk-hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:22px}
-.vk-hero-call{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;background:#fff;border:1px solid #d9eadf;color:var(--groen);font-size:14px;font-weight:900;box-shadow:0 8px 20px rgba(6,104,57,.07)}
-.vk-hero-contact-card{width:min(100%,560px);margin:0 0 20px;border-radius:18px;overflow:hidden;border:1px solid rgba(6,104,57,.16);background:#fff;box-shadow:0 22px 48px rgba(17,36,24,.13)}
+.vk-hero-sub{font-size:18px;color:#526258;line-height:1.62;max-width:540px;margin-bottom:20px}
+.vk-hero-insights{display:flex;flex-wrap:wrap;gap:8px;max-width:540px;margin:0 0 22px}
+.vk-hero-insights span{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:8px 11px;border:1px solid #dcefe2;border-radius:999px;background:rgba(255,255,255,.92);color:#34463b;font-size:12px;line-height:1.15;font-weight:900;box-shadow:0 7px 14px rgba(6,104,57,.04)}
+.vk-hero-insights span:before{content:"✓";display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:17px;height:17px;border-radius:50%;background:var(--groen);color:#fff;font-size:10px;font-weight:900}
+.vk-hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:0}
+.vk-hero-call{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:999px;background:#fff;border:1px solid #d9eadf;color:var(--groen);font-size:14px;font-weight:900;box-shadow:0 8px 18px rgba(6,104,57,.06)}
+.vk-hero-route,.vk-hero-contact-card{display:none}
 .vk-hero-photo{position:relative;width:100%;height:210px;margin:0;overflow:hidden;background:#dce8df}
 .vk-hero-photo span{position:absolute;inset:0;background:var(--hbg) center/cover;filter:saturate(.96) contrast(1.02)}
 .vk-hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 50%,rgba(7,27,17,.22) 100%);pointer-events:none}
@@ -143,20 +163,28 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-proof{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:var(--r);padding:13px 15px;color:#fff;box-shadow:0 12px 26px rgba(0,0,0,.12);backdrop-filter:blur(8px)}
 .vk-proof strong{display:block;font-family:var(--font-b);font-size:24px;font-weight:900;line-height:1;margin-bottom:4px}
 .vk-proof span{display:block;font-size:12px;line-height:1.35;color:rgba(255,255,255,.78)}
-@media(max-width:760px){.vk-hero-content h1{font-size:38px}.vk-hero-sub{font-size:15px;line-height:1.65}.vk-pill{margin-bottom:18px}.vk-hero-insights{grid-template-columns:1fr 1fr;gap:7px;margin-bottom:18px}.vk-hero-insights span{border-radius:10px}.vk-hero-actions{display:none}.vk-hero-contact-card{border-radius:12px}.vk-hero-photo{height:150px}.vk-proof-row{margin-bottom:0}}
+@media(max-width:760px){.vk-hero-content h1{font-size:34px}.vk-hero-sub{font-size:15px;line-height:1.6}.vk-pill{margin-bottom:16px}.vk-hero-insights{gap:7px;margin-bottom:18px}.vk-hero-insights span{min-height:32px;padding:7px 10px;font-size:11px}.vk-hero-actions{display:none}.vk-hero-photo{height:150px}.vk-proof-row{margin-bottom:0}}
 @media(max-width:520px){.vk-proof-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.vk-proof{padding:10px 7px;text-align:center}.vk-proof strong{font-size:18px;margin-bottom:3px}.vk-proof span{display:block;font-size:9px;font-weight:700;line-height:1.15;color:rgba(255,255,255,.76);max-width:78px;margin:0 auto}}
 @media(max-width:360px){.vk-proof-row{grid-template-columns:1fr}.vk-proof{display:flex;align-items:center;gap:12px}.vk-proof strong{margin:0;min-width:78px}}
 
+.vk-trust-band{background:linear-gradient(180deg,#eef7f2 0%,#fff 100%);border-bottom:1px solid #e4efe8}
+.vk-trust-band-inner{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:0;padding-bottom:14px;transform:translateY(-10px)}
+.vk-trust-band-inner>div{position:relative;display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;padding:14px 16px;border:1px solid #e0ece5;border-radius:10px;background:#fff;box-shadow:0 10px 24px rgba(17,36,24,.06)}
+.vk-trust-band-inner>div:before{content:"✓";display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--groen);color:#fff;font-size:13px;font-weight:900;grid-row:1/3}
+.vk-trust-band strong{display:block;color:#102018;font-size:14px;font-weight:900;line-height:1.22;margin:0}
+.vk-trust-band span{display:block;color:#5c6a62;font-size:12px;line-height:1.45;margin-top:4px}
+@media(max-width:900px){.vk-trust-band-inner{grid-template-columns:1fr;gap:8px;transform:none;padding-top:12px}.vk-trust-band-inner>div{padding:13px 14px}}
+
 /* ── FORMULIER ── */
-.vk-form-wrap{position:sticky;top:120px;width:100%;max-width:560px;justify-self:end;align-self:start}
-.vk-form-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#f6fbf7 100%);border:1px solid rgba(255,255,255,.78);border-radius:18px;padding:36px 32px 28px;box-shadow:0 30px 76px rgba(0,0,0,.28),0 1px 0 rgba(255,255,255,.92) inset}
-.vk-form-card:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,var(--groen) 0%,#10a762 22%,#f7b955 42%,var(--oranje) 50%,#f7b955 58%,#10a762 78%,var(--groen) 100%);background-size:220% 100%;animation:vkFormGlow 7s ease-in-out infinite;z-index:1}
+.vk-form-wrap{position:sticky;top:112px;width:100%;max-width:590px;justify-self:end;align-self:start}
+.vk-form-card{position:relative;overflow:hidden;background:#fff;border:1px solid #dcebe3;border-radius:12px;padding:26px 28px 26px;box-shadow:0 22px 54px rgba(17,36,24,.14),0 1px 0 rgba(255,255,255,.92) inset}
+.vk-form-card:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--groen) 0%,#10a762 35%,#f7b955 62%,var(--oranje) 100%);background-size:220% 100%;animation:vkFormGlow 7s ease-in-out infinite;z-index:1}
 .vk-form-card:after{content:"";position:absolute;right:-74px;top:-94px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(6,105,57,.16),rgba(6,105,57,0) 69%);pointer-events:none}
-.vk-form-card hz-embed{display:block;width:100%;margin-top:16px;position:relative;z-index:2}
+.vk-form-card hz-embed{display:block;width:100%;margin-top:18px;position:relative;z-index:2}
 @media(max-width:1020px){.vk-form-wrap{position:relative;top:auto;max-width:620px;justify-self:stretch;margin:0 auto}}
 @media(max-width:640px){.vk-form-card{padding:24px}.vk-form-wrap{max-width:none}}
 @media(max-width:640px){.vk-form-card{padding:20px 16px;border-radius:8px}.vk-form-head h2{font-size:20px}.vk-form-head p{font-size:12px}}
-.vk-form-head{position:relative;z-index:2;text-align:center;margin-bottom:18px}
+.vk-form-head{position:relative;z-index:2;text-align:left;margin-bottom:16px}
 .vk-form-adviser{position:relative;z-index:2;display:grid;grid-template-columns:112px 1fr;align-items:center;gap:14px;margin:0 0 18px;padding:12px 16px 12px 10px;border:1px solid #cfe9dc;border-radius:14px;background:linear-gradient(135deg,#eaf8ff 0%,#fff 45%,#fff4e8 100%);box-shadow:0 16px 34px rgba(6,105,57,.10),0 1px 0 rgba(255,255,255,.95) inset}
 .vk-form-adviser:after{content:"";position:absolute;left:101px;top:39px;width:15px;height:15px;border-radius:4px;background:#fff;transform:rotate(45deg);border-left:1px solid #dbeee3;border-bottom:1px solid #dbeee3}
 .vk-form-adviser-portrait{position:relative;z-index:2;width:104px;height:112px;margin:-20px 0 -10px;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 28%,#fff 0,#eefbf4 48%,#dff4ee 100%);border:1px solid #d4eee2;box-shadow:0 14px 24px rgba(6,30,18,.14)}
@@ -165,14 +193,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-form-adviser em{display:inline-flex;margin-bottom:5px;padding:4px 8px;border-radius:999px;background:#ff781f;color:#fff;font-style:normal;font-size:10px;font-weight:900;line-height:1;text-transform:uppercase}
 .vk-form-adviser strong{display:block;font-family:var(--font-b);font-size:17px;line-height:1.05;color:var(--zwart);margin-bottom:4px}
 .vk-form-adviser span{display:block;font-size:12px;line-height:1.35;color:#536258;font-weight:800}
-.vk-scan-badge{display:inline-flex;align-items:center;gap:9px;margin:0 auto 13px;padding:8px 13px;border-radius:999px;background:linear-gradient(180deg,#f3fff7,#e8f7ee);color:var(--groen);font-size:12px;font-weight:900;box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 8px 22px rgba(6,105,57,.10);border:1px solid #d7eee0}
+.vk-scan-badge{display:inline-flex;align-items:center;gap:9px;margin:0 0 13px;padding:8px 13px;border-radius:999px;background:linear-gradient(180deg,#f3fff7,#e8f7ee);color:var(--groen);font-size:12px;font-weight:900;box-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 8px 22px rgba(6,105,57,.10);border:1px solid #d7eee0}
 .vk-scan-badge span{position:relative;width:9px;height:9px;border-radius:50%;background:var(--oranje);box-shadow:0 0 0 5px rgba(249,115,22,.13)}
 .vk-scan-badge span:before,.vk-scan-badge span:after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(249,115,22,.42);animation:vkScanPulse 2.1s ease-out infinite}
 .vk-scan-badge span:after{animation-delay:.7s}
 @keyframes vkScanPulse{0%{transform:scale(.55);opacity:.8}70%,100%{transform:scale(1.95);opacity:0}}
 @keyframes vkFormGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.vk-form-head h2{font-family:var(--font-b);font-size:22px;font-weight:900;letter-spacing:0;line-height:1.15;color:var(--zwart);margin-bottom:7px}
-.vk-form-head p{font-size:13px;color:var(--grijs);line-height:1.55;margin:0 auto;max-width:340px}
+.vk-form-head h2{font-family:var(--font-b);font-size:26px;font-weight:900;letter-spacing:0;line-height:1.12;color:var(--zwart);margin-bottom:8px}
+.vk-form-head p{font-size:13px;color:var(--grijs);line-height:1.55;margin:0;max-width:430px}
 .vk-result-preview{position:relative;z-index:2;margin:0 0 14px;padding:14px;border:1px solid #dceee4;border-radius:12px;background:#fff;box-shadow:0 10px 22px rgba(6,105,57,.07)}
 .vk-result-preview strong{display:block;color:#073b25;font-size:13px;font-weight:900;margin-bottom:9px}
 .vk-result-preview ul{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px;list-style:none;margin:0;padding:0}
@@ -201,17 +229,38 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-callback-note,.vk-callback-status{margin:9px 0 0;font-size:11px;line-height:1.4;color:rgba(255,255,255,.7)}
 .vk-callback-status{font-weight:900;color:#fff}
 .vk-callback-form.is-success{background:#066939}
-.vk-hero-callback-form{max-width:none;margin:0;background:#fff;color:#102018;border:0;border-radius:0;box-shadow:none}
-.vk-hero-callback-form .vk-callback-head strong{color:#102018}
-.vk-hero-callback-form .vk-callback-head span{color:#526258}
-.vk-hero-callback-form .vk-callback-fields span{color:#526258}
-.vk-hero-callback-form .vk-callback-fields input{border-color:#d6e4db;background:#fbfdfc}
-.vk-hero-callback-form .vk-callback-note{color:#6a7a70}
-.vk-hero-callback-form .vk-callback-status{color:#066839}
+.vk-widget-backup{position:relative;z-index:2;margin-top:12px;border:1px solid #dbece3;border-radius:10px;background:#f8fcfa;overflow:hidden}
+.vk-widget-backup summary{cursor:pointer;padding:13px 14px;color:#0b3f28;font-size:13px;font-weight:900;line-height:1.3;list-style:none}
+.vk-widget-backup summary::-webkit-details-marker{display:none}
+.vk-widget-backup summary:after{content:"+";float:right;color:#066939;font-size:18px;line-height:1}
+.vk-widget-backup[open] summary{border-bottom:1px solid #dbece3;background:#fff}
+.vk-widget-backup[open] summary:after{content:"−"}
+.vk-widget-callback-form{margin:0;padding:16px;border-radius:0;background:#f4fbf7;color:#183b2a;box-shadow:none}
+.vk-widget-callback-form .vk-callback-head{margin-bottom:14px}
+.vk-widget-callback-form .vk-callback-head strong{color:#073b25;font-size:16px}
+.vk-widget-callback-form .vk-callback-head span{max-width:48ch;color:#4e6b5a;font-size:13px}
+.vk-widget-callback-form .vk-callback-fields{gap:10px}
+.vk-widget-callback-form .vk-callback-fields span{color:#426250;letter-spacing:.4px}
+.vk-widget-callback-form .vk-callback-fields input{height:44px;border-color:#cfe3d8;background:#fff;color:#102018;box-shadow:0 1px 0 rgba(255,255,255,.9) inset}
+.vk-widget-callback-form .vk-callback-fields input::placeholder{color:#8b9991}
+.vk-widget-callback-form button{margin-top:12px;background:#ff7417;box-shadow:0 8px 18px rgba(255,116,23,.22)}
+.vk-widget-callback-form button:hover{background:#e8630e}
+.vk-widget-callback-form .vk-callback-note{color:#5f7669}
+.vk-widget-callback-form .vk-callback-status{color:#066939}
+.vk-widget-callback-form.is-success{background:#edf8f2}
+.vk-hero-callback-form{max-width:none;margin:0;background:#073b25;color:#fff;border:0;border-radius:0;box-shadow:none}
+.vk-hero-callback-form .vk-callback-head strong{color:#fff}
+.vk-hero-callback-form .vk-callback-head span{color:rgba(255,255,255,.76)}
+.vk-hero-callback-form .vk-callback-fields span{color:rgba(255,255,255,.72)}
+.vk-hero-callback-form .vk-callback-fields input{border-color:rgba(255,255,255,.22);background:#fff}
+.vk-hero-callback-form .vk-callback-note{color:rgba(255,255,255,.66)}
+.vk-hero-callback-form .vk-callback-status{color:#fff}
 @media(max-width:420px){.vk-callback-fields{grid-template-columns:1fr}.vk-callback-fields label:first-child{grid-column:auto}.vk-callback-form{padding:14px}}
 
 /* ── ORIENTATIE / INFORMATIE ── */
-.vk-orientation-section{background:#fff;padding-top:72px}
+.vk-orientation-section{position:relative;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#f7fbf8 54%,#fff 100%);padding-top:42px}
+.vk-orientation-section:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 640px 280px at 50% 0%,rgba(6,104,57,.07),rgba(6,104,57,0) 70%);opacity:.9}
+.vk-orientation-section>.vk-container{position:relative;z-index:1}
 .vk-info-head{max-width:760px;margin:0 auto 30px;text-align:center}
 .vk-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}
 .vk-info-card{position:relative;padding:26px;border:1px solid #e0ebe4;border-radius:12px;background:#fbfdfc;box-shadow:0 12px 28px rgba(17,36,24,.06)}
@@ -219,17 +268,26 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-info-card h3{font-size:22px;line-height:1.18;margin-bottom:12px;color:var(--zwart);font-weight:900}
 .vk-info-card p{font-size:15px;line-height:1.72;color:#526258;margin:0}
 .vk-cost-guide{display:grid;grid-template-columns:minmax(280px,.8fr) minmax(0,1.2fr);gap:24px;align-items:stretch;margin-top:28px;border:1px solid #dcebe3;border-radius:16px;background:linear-gradient(135deg,#073b25 0%,#066939 100%);overflow:hidden;box-shadow:0 22px 50px rgba(7,59,37,.14)}
-.vk-cost-intro{padding:34px;color:#fff}
+.vk-cost-intro{display:flex;flex-direction:column;padding:34px;color:#fff}
 .vk-cost-intro .vk-eyebrow{color:#b9f2d3}
 .vk-cost-intro h3{font-family:var(--font-h);font-size:38px;line-height:1.05;margin:12px 0 14px;font-weight:400;color:#fff}
 .vk-cost-intro p{font-size:15px;line-height:1.75;color:rgba(255,255,255,.78);margin:0}
+.vk-cost-summary{margin-top:auto;padding:18px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.08);box-shadow:0 16px 34px rgba(0,0,0,.12)}
+.vk-cost-summary strong{display:block;margin-bottom:7px;color:#fff;font-size:15px;font-weight:900;line-height:1.25}
+.vk-cost-summary span{display:block;color:rgba(255,255,255,.76);font-size:13px;line-height:1.55}
+.vk-cost-summary ul{display:grid;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.vk-cost-summary li{position:relative;padding-left:22px;color:#e9fff1;font-size:12px;font-weight:800;line-height:1.35}
+.vk-cost-summary li:before{content:"";position:absolute;left:0;top:3px;width:13px;height:13px;border-radius:50%;background:#ff781f;box-shadow:0 0 0 4px rgba(255,120,31,.14)}
 .vk-cost-list{display:grid;gap:10px;padding:18px;background:#f6fbf8}
-.vk-cost-row{display:grid;grid-template-columns:1fr auto;gap:6px 16px;padding:18px;border:1px solid #e0ebe4;border-radius:12px;background:#fff}
+.vk-cost-row{display:grid;grid-template-columns:1fr auto;gap:7px 16px;padding:18px;border:1px solid #e0ebe4;border-radius:12px;background:#fff}
 .vk-cost-row strong{font-size:16px;color:var(--zwart);font-weight:900}
 .vk-cost-row span{align-self:start;padding:6px 10px;border-radius:999px;background:#fff0e6;color:#d95a0c;font-size:12px;font-weight:900;white-space:nowrap}
 .vk-cost-row p{grid-column:1/-1;margin:0;color:#526258;font-size:13px;line-height:1.6}
-@media(max-width:900px){.vk-info-grid{grid-template-columns:1fr}.vk-cost-guide{grid-template-columns:1fr}.vk-cost-intro{padding:26px}.vk-cost-intro h3{font-size:32px}}
-@media(max-width:560px){.vk-orientation-section{padding-top:46px}.vk-info-head{text-align:left}.vk-info-card{padding:20px}.vk-cost-row{grid-template-columns:1fr}.vk-cost-row span{justify-self:start}.vk-cost-list{padding:12px}.vk-cost-intro{padding:22px}}
+.vk-cost-row ul{grid-column:1/-1;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px 10px;margin:4px 0 0;padding:0}
+.vk-cost-row li{position:relative;padding-left:22px;color:#314239;font-size:12px;line-height:1.45}
+.vk-cost-row li:before{content:"✓";position:absolute;left:0;top:1px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--groen);color:#fff;font-size:10px;font-weight:900}
+@media(max-width:900px){.vk-info-grid{grid-template-columns:1fr}.vk-cost-guide{grid-template-columns:1fr}.vk-cost-intro{padding:26px}.vk-cost-intro h3{font-size:32px}.vk-cost-summary{margin-top:22px}}
+@media(max-width:560px){.vk-orientation-section{padding-top:36px}.vk-info-head{text-align:left}.vk-info-card{padding:20px}.vk-cost-row{grid-template-columns:1fr}.vk-cost-row span{justify-self:start}.vk-cost-row ul{grid-template-columns:1fr}.vk-cost-list{padding:12px}.vk-cost-intro{padding:22px}}
 .vk-progress{display:flex;gap:6px;margin-bottom:6px}
 .vk-prog-dot{flex:1;height:4px;border-radius:2px;background:#e5e5e5;transition:background .3s}
 .vk-prog-dot.active{background:var(--groen)}
@@ -322,10 +380,38 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .vk-btn-lg{padding:18px 40px;font-size:17px}
 .vk-btn-full{width:100%;justify-content:center;white-space:normal;min-height:50px;text-align:center}
 @media(max-width:640px){.vk-btn{white-space:normal;text-align:center}.vk-btn-lg{padding:16px 18px;font-size:16px}}
-@media(max-width:640px){.nav-offerte-btn{font-size:0;white-space:nowrap;text-align:center}.nav-offerte-btn::after{content:"Woningcheck";font-size:14px}}
+@media(max-width:640px){.nav-offerte-btn{font-size:0;white-space:nowrap;text-align:center}.nav-offerte-btn::after{content:"Woningcheck";font-size:14px}.mkp-airco-site .nav-offerte-btn::after{content:"Offerte"}}
 .vk-btn-space{margin-top:20px}
 .vk-btn-space-sm{margin-top:10px}
 .vk-form-note{font-size:11px;opacity:.7;margin-top:4px}
+
+.vk-woningcheck-card{padding-bottom:22px}
+.vk-woningcheck{position:relative;z-index:2;display:grid;gap:14px}
+.vk-wc-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:6px;border:1px solid #e1eee7;border-radius:12px;background:#f7fbf8}
+.vk-wc-steps span{display:flex;align-items:center;justify-content:center;min-height:34px;border-radius:8px;color:#758579;font-size:11px;font-weight:900;text-align:center}
+.vk-wc-steps span.is-active{background:#073b25;color:#fff;box-shadow:0 8px 18px rgba(7,59,37,.12)}
+.vk-wc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vk-wc-grid label{display:grid;gap:5px;min-width:0}
+.vk-wc-grid label:first-child{grid-column:span 1}
+.vk-wc-grid span{color:#7582a0;font-size:11px;font-weight:900;line-height:1.2}
+.vk-wc-grid input,.vk-wc-grid select{width:100%;height:42px;min-width:0;border:1px solid #d8e3dd;border-radius:8px;background:#fff;color:#202020;font:800 13px/1 var(--font-b);padding:0 11px;outline:none}
+.vk-wc-grid select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#758579 50%),linear-gradient(135deg,#758579 50%,transparent 50%);background-position:calc(100% - 15px) 18px,calc(100% - 10px) 18px;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:28px}
+.vk-wc-grid input:focus,.vk-wc-grid select:focus{border-color:#066939;box-shadow:0 0 0 3px rgba(6,105,57,.10)}
+.vk-wc-result{overflow:hidden;border:1px solid #dce7e1;border-radius:12px;background:#fff;box-shadow:0 12px 26px rgba(7,59,37,.07)}
+.vk-wc-result-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid #e8efeb;background:linear-gradient(180deg,#fff,#fbfefc)}
+.vk-wc-result-head span,.vk-wc-advice span,.vk-wc-summary span{display:block;color:#7582a0;font-size:11px;font-weight:900;line-height:1.2}
+.vk-wc-result-head strong{display:block;margin-top:4px;color:#102018;font-size:18px;font-weight:950;line-height:1.12}
+.vk-wc-result-head b{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:54px;height:38px;border-radius:8px;background:#eaf7ef;color:#066939;font-size:18px;font-weight:950}
+.vk-wc-summary{display:grid;grid-template-columns:1fr;gap:0}
+.vk-wc-summary div{display:grid;grid-template-columns:minmax(104px,.42fr) 1fr;gap:14px;align-items:center;min-height:42px;padding:9px 16px;border-bottom:1px solid #edf3ef}
+.vk-wc-summary strong{color:#202020;font-size:13px;font-weight:900;line-height:1.25}
+.vk-wc-advice{padding:13px 16px 15px}
+.vk-wc-advice ul{display:grid;gap:7px;margin:9px 0 0;padding:0;list-style:none}
+.vk-wc-advice li{display:grid;grid-template-columns:17px 1fr;gap:8px;align-items:start;color:#405044;font-size:12px;font-weight:800;line-height:1.35}
+.vk-wc-advice li:before{content:"";width:17px;height:17px;border-radius:50%;background:#066939;box-shadow:inset 0 0 0 5px #eaf7ef}
+.vk-wc-submit{min-height:48px;border-radius:8px;background:#066939;color:#fff;font:950 15px/1 var(--font-b);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.vk-wc-submit:hover{background:#044825;transform:translateY(-1px);box-shadow:0 12px 24px rgba(6,105,57,.16)}
+@media(max-width:520px){.vk-wc-grid{grid-template-columns:1fr}.vk-wc-summary div{grid-template-columns:1fr;gap:3px}.vk-wc-result-head strong{font-size:16px}.vk-wc-steps span{font-size:10px}}
 .wp-block-button.vk-btn{padding:0;border:0;background:transparent}
 .wp-block-button.vk-btn .wp-block-button__link{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:var(--r-xl);font-size:15px;font-weight:700;font-family:var(--font-b);border:2px solid transparent;line-height:1;text-decoration:none;white-space:nowrap}
 .wp-block-button.vk-btn-groen .wp-block-button__link{background:var(--groen);color:#fff;border-color:var(--groen)}
@@ -336,7 +422,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .wp-block-button.vk-btn-lg .wp-block-button__link{padding:18px 40px;font-size:17px}
 .wp-block-button.vk-tel-link .wp-block-button__link{background:transparent;color:#fff;padding:0;border:0;font-size:20px;font-weight:800}
 .wp-block-button.vk-wa-link .wp-block-button__link{background:#25D366;color:#fff;padding:11px 22px;border-radius:var(--r-xl);font-size:14px;font-weight:700;border:0}
-.vk-block-hero{--hbg:url('https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp')}
+.vk-block-hero{--hbg:url('../img/kostenindicatie-vakvriend-site.webp')}
 .vk-block-hero .vk-hero-content h1{font-family:var(--font-h);font-size:clamp(36px,5vw,68px);font-weight:400;line-height:1.07;color:#fff;margin-bottom:20px}
 .vk-block-hero .vk-trust-row{list-style:none;padding:0}
 .vk-block-hero .vk-trust-row li{margin:0}
@@ -733,9 +819,15 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
 .vk-footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:56px;margin-bottom:48px}
 @media(max-width:760px){.vk-footer-grid{grid-template-columns:1fr;gap:32px}}
 .vk-footer-brand img{height:44px;margin-bottom:18px;display:block}
+.vk-footer-wordmark{display:block;margin-bottom:18px;color:#fff;font-size:34px;font-weight:950;line-height:1}
 .vk-footer-brand p{font-size:14px;line-height:1.75;max-width:300px}
 .vk-footer-merken{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin-top:20px}
 .vk-footer-merken img{height:16px;opacity:.3;filter:brightness(0) invert(1)}
+.vk-footer-merken .vk-footer-airco-logo{display:block;width:auto;max-width:150px;opacity:.56;filter:grayscale(1) brightness(0) invert(1)}
+.vk-footer-merken .vk-footer-airco-logo-lg{height:24px}
+.vk-footer-merken .vk-footer-airco-logo-samsung{height:19px}
+.vk-footer-merken .vk-footer-airco-logo-mitsubishi{height:20px;max-width:170px}
+.vk-footer-merken .vk-footer-airco-logo-daikin{height:20px}
 .vk-footer-col h4{font-size:12px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px}
 .vk-footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
 .vk-footer-col li{font-size:14px}
@@ -760,6 +852,9 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
   }
   body.vk-form-in-view .vk-mobile-sticky{transform:translateY(120%);opacity:0;pointer-events:none}
   .vk-mobile-sticky a{min-height:48px;border-radius:var(--r);font-size:14px;padding:0 12px;white-space:normal;text-align:center}
+  .mkp-airco-site .vk-mobile-sticky{grid-template-columns:1.15fr .85fr;padding:9px 10px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -14px 34px rgba(7,59,37,.16)}
+  .mkp-airco-site .vk-mobile-sticky a{min-height:52px;border-radius:12px;font-size:14px;font-weight:950}
+  .mkp-airco-site .vk-mobile-sticky a:first-child{background:#ff7417;color:#fff;box-shadow:0 10px 22px rgba(255,116,23,.24)}
 }
 
 /* ── EXTRA TEKST ── */
@@ -896,4 +991,1513 @@ h3{font-size:19px;font-weight:700;margin-bottom:8px;color:var(--zwart)}
   .vk-legal-content h2{font-size:25px}
   .vk-legal-content h3{font-size:17px}
   .vk-legal-content p{font-size:15px}
+}
+
+/* Preview redesign: calmer conversion page inspired by modern warmtepomp lead flows */
+.vk-design-preview{background:#f6faf7;color:#20342a}
+.vk-design-preview .vk-container{max-width:1160px}
+.vk-design-preview .vk-topbar{background:#073b25;color:rgba(255,255,255,.84);border-bottom-color:rgba(255,255,255,.10)}
+.vk-design-preview .vk-topbar-tekst{color:rgba(255,255,255,.82)}
+.vk-design-preview .vk-topbar-link{color:#d9f4e5;text-decoration-color:rgba(217,244,229,.55)}
+.vk-design-preview .vk-topbar-link:hover{color:#fff;text-decoration-color:#fff}
+.vk-design-preview .vk-topbar-btn{background:#fff;color:#073b25;border:1px solid rgba(255,255,255,.22)}
+.vk-design-preview .navbar{background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid #dfece5;box-shadow:0 8px 28px rgba(7,59,37,.06)}
+.vk-design-preview .nav-container{max-width:1240px;gap:20px}
+.vk-design-preview .nav-logo{min-width:0}
+.vk-design-preview .nav-logo img{width:154px;height:auto;display:block}
+.vk-design-preview .nav-links{display:flex;align-items:center;gap:3px;min-width:0;padding:5px;border:1px solid #e1efe7;border-radius:999px;background:#f7fbf8}
+.vk-design-preview .nav-links a{display:flex;align-items:center;min-height:34px;padding:0 11px;border-radius:999px;color:#2b3d32;font-size:13px;font-weight:900;line-height:1;text-decoration:none;transition:background .2s ease,color .2s ease;white-space:nowrap}
+.vk-design-preview .nav-links a:hover{background:#eaf6ef;color:#066939}
+.vk-design-preview .nav-dashboard-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border:1px solid #cfe7da;border-radius:999px;background:#fff;color:#066939;font-size:14px;font-weight:900;line-height:1}
+.vk-design-preview .nav-dashboard-link:hover{background:#eaf6ef}
+.vk-design-preview .nav-tel-link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 17px;border:1px solid #cfe7da;border-radius:999px;background:#fff;color:#066939;font-size:14px;font-weight:900;line-height:1}
+.vk-design-preview .nav-offerte-btn{min-height:42px;padding:0 19px;border-radius:999px;background:#066939;color:#fff;box-shadow:0 10px 20px rgba(6,105,57,.12)}
+.vk-design-preview .nav-offerte-btn:hover{background:#075b33}
+@media(max-width:1320px){.vk-design-preview .nav-tel-link{display:none}}
+@media(max-width:1180px){
+  .vk-design-preview .nav-container{padding:0 18px;gap:12px}
+  .vk-design-preview .nav-logo img{width:142px}
+  .vk-design-preview .nav-links a{padding:0 9px;font-size:12px}
+  .vk-design-preview .nav-dashboard-link{display:none}
+  .vk-design-preview .nav-offerte-btn{padding:0 14px;font-size:13px}
+}
+@media(max-width:980px){
+  .vk-design-preview .nav-links{max-width:calc(100vw - 190px);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .vk-design-preview .nav-links::-webkit-scrollbar{display:none}
+  .vk-design-preview .nav-links li{flex:0 0 auto}
+}
+.vk-design-preview .vk-section-cta{position:relative;overflow:hidden;background:#073b25;padding:76px 0}
+.vk-design-preview .vk-section-cta:before{content:"";position:absolute;inset:-45% -12% auto auto;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,116,23,.22),rgba(255,116,23,0) 68%);pointer-events:none}
+.vk-design-preview .vk-section-cta:after{content:"";position:absolute;inset:auto auto -48% -10%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(24,166,94,.28),rgba(24,166,94,0) 70%);pointer-events:none}
+.vk-design-preview .vk-cta-inner{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:42px;border:1px solid rgba(255,255,255,.14);border-radius:22px;background:rgba(255,255,255,.06);box-shadow:0 26px 62px rgba(0,0,0,.18)}
+.vk-design-preview .vk-cta-inner h2{font-family:var(--font-b);font-size:clamp(28px,3vw,42px);font-weight:900;letter-spacing:0;line-height:1.08;margin-bottom:12px;color:#fff}
+.vk-design-preview .vk-cta-inner p{color:rgba(255,255,255,.76)}
+.vk-design-preview .vk-cta-note a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.vk-design-preview .vk-footer{background:#061f14;color:rgba(255,255,255,.66);padding:58px 0 28px}
+.vk-design-preview .vk-footer-grid{grid-template-columns:1.35fr .9fr .9fr;gap:24px;margin-bottom:34px;padding:28px;border:1px solid rgba(255,255,255,.10);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03))}
+.vk-design-preview .vk-footer-brand img{max-width:180px;height:auto;margin-bottom:18px;filter:brightness(0) invert(1)}
+.vk-design-preview .vk-footer-brand p{max-width:410px;color:rgba(255,255,255,.70)}
+.vk-design-preview .vk-footer-merken{gap:18px}
+.vk-design-preview .vk-footer-merken img{height:18px;opacity:.52;filter:brightness(0) invert(1)}
+.vk-design-preview .vk-footer-merken .vk-footer-airco-logo{opacity:.62;filter:grayscale(1) brightness(0) invert(1)}
+.vk-design-preview .vk-footer-merken .vk-footer-airco-logo-lg{height:28px}
+.vk-design-preview .vk-footer-merken .vk-footer-airco-logo-samsung{height:20px}
+.vk-design-preview .vk-footer-merken .vk-footer-airco-logo-mitsubishi{height:22px}
+.vk-design-preview .vk-footer-merken .vk-footer-airco-logo-daikin{height:22px}
+.vk-design-preview .vk-footer-col h4{color:#fff;font-size:12px;letter-spacing:.09em}
+.vk-design-preview .vk-footer-col li{color:rgba(255,255,255,.70);line-height:1.5}
+.vk-design-preview .vk-footer-col a{color:rgba(255,255,255,.78);text-decoration:none}
+.vk-design-preview .vk-footer-col a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.vk-design-preview .vk-footer-social a{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.06);font-weight:900}
+.vk-design-preview .vk-footer-bottom{border-top-color:rgba(255,255,255,.10);color:rgba(255,255,255,.54)}
+.vk-design-preview .vk-footer-bottom a{color:rgba(255,255,255,.72)}
+.vk-design-preview .vk-mobile-sticky{box-shadow:0 -8px 28px rgba(7,59,37,.12)}
+.vk-design-preview .vk-nav{box-shadow:0 1px 0 rgba(7,59,37,.08)}
+.vk-design-preview .vk-section{padding:72px 0}
+.vk-design-preview .vk-section h2,
+.vk-design-preview .vk-brand-section h2,
+.vk-design-preview .vk-center{font-family:var(--font-b);font-weight:900;letter-spacing:0}
+.vk-design-preview .vk-lead{font-size:17px;line-height:1.65;color:#516259}
+.vk-design-preview .vk-eyebrow{letter-spacing:.08em;font-size:11px;color:#087241}
+.vk-design-preview .vk-hero{margin-top:108px;background:linear-gradient(180deg,#f3faf5 0%,#fff 100%);padding:46px 0 34px;overflow:hidden}
+.vk-design-preview .vk-hero:before{content:"";position:absolute;inset:auto -120px -180px auto;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(6,104,57,.10),rgba(6,104,57,0) 70%)}
+.vk-design-preview .vk-hero-inner{max-width:1160px;grid-template-columns:minmax(0,.95fr) minmax(470px,540px);gap:42px;align-items:center}
+.vk-design-preview .vk-hero-content{max-width:540px}
+.vk-design-preview .vk-pill{margin-bottom:18px;padding:8px 13px;border-radius:999px;background:#fff;color:#066939;font-size:12px;box-shadow:0 8px 18px rgba(7,59,37,.06)}
+.vk-design-preview .vk-hero-content h1{font-family:var(--font-b);font-size:clamp(36px,4.1vw,54px);font-weight:900;line-height:1.02;color:#11251a;margin-bottom:18px;max-width:530px}
+.vk-design-preview .vk-hero-sub{max-width:520px;font-size:18px;line-height:1.62;color:#52645a;margin-bottom:20px}
+.vk-design-preview .vk-hero-insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:520px;margin-bottom:22px}
+.vk-design-preview .vk-hero-insights span{min-height:40px;padding:8px 11px;border-radius:10px;background:#fff;border-color:#dcece4;box-shadow:0 8px 16px rgba(7,59,37,.04);font-size:12px;white-space:normal}
+.vk-design-preview .vk-hero-actions{margin-bottom:0}
+.vk-design-preview .vk-btn{border-radius:10px;box-shadow:none}
+.vk-design-preview .vk-btn-lg{padding:17px 24px;font-size:16px}
+.vk-design-preview .vk-hero-call{border-radius:10px;background:#fff;box-shadow:none}
+.vk-design-preview .vk-form-wrap{max-width:540px;top:96px}
+.vk-design-preview .vk-form-card{border-radius:16px;border:1px solid #dbe9e2;background:#fff;padding:26px;box-shadow:0 22px 52px rgba(17,36,24,.13)}
+.vk-design-preview .vk-form-card:before{height:5px;background:linear-gradient(90deg,#066939 0%,#28a66a 54%,#ff7417 100%);animation:none}
+.vk-design-preview .vk-form-card:after{display:none}
+.vk-design-preview .vk-form-head{text-align:left;margin-bottom:14px}
+.vk-design-preview .vk-scan-badge{margin:0 0 12px;padding:7px 12px;font-size:11px}
+.vk-design-preview .vk-form-head h2{font-size:26px;margin-bottom:7px}
+.vk-design-preview .vk-form-head p{max-width:420px;margin:0;font-size:13px;color:#65756b}
+.vk-design-preview .vk-form-adviser{grid-template-columns:86px 1fr;gap:12px;margin:0 0 16px;padding:10px;border-radius:12px;background:#f5fbf7;border-color:#d8eee2;box-shadow:none}
+.vk-design-preview .vk-form-adviser:after{display:none}
+.vk-design-preview .vk-form-adviser-portrait{width:78px;height:84px;margin:0;border-radius:12px;background:#eaf6ef;box-shadow:none}
+.vk-design-preview .vk-form-adviser-portrait img{width:112px;top:-5px}
+.vk-design-preview .vk-form-adviser div{padding:0;background:transparent;border:0;box-shadow:none}
+.vk-design-preview .vk-form-adviser em{font-size:9px;padding:4px 7px;margin-bottom:5px}
+.vk-design-preview .vk-form-adviser strong{font-size:16px}
+.vk-design-preview .vk-form-adviser span{font-size:12px;line-height:1.35;color:#536258}
+.vk-design-preview .vk-form-card hz-embed{margin-top:10px}
+.vk-design-preview .vk-trust-band{background:#fff;border-top:1px solid #e4efe8;border-bottom:1px solid #e4efe8}
+.vk-design-preview .vk-trust-band-inner{transform:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-top:18px;padding-bottom:18px}
+.vk-design-preview .vk-trust-band-inner>div{padding:16px 16px 16px 48px;border-radius:12px;background:#fbfdfc;display:block;min-height:132px}
+.vk-design-preview .vk-trust-band-inner>div:before{position:absolute;left:16px;top:18px;width:22px;height:22px}
+.vk-design-preview .vk-trust-band strong{font-size:15px;margin-bottom:6px}
+.vk-design-preview .vk-trust-band span{font-size:13px;line-height:1.5}
+.vk-design-preview .vk-orientation-section{padding-top:58px;background:#fff}
+.vk-design-preview .vk-info-head{text-align:left;max-width:760px;margin:0 0 28px}
+.vk-design-preview .vk-info-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.vk-design-preview .vk-info-card{padding:22px;border-radius:14px;background:#f9fcfa;border-color:#dfece5;box-shadow:none}
+.vk-design-preview .vk-info-card span{width:34px;height:34px;margin-bottom:14px}
+.vk-design-preview .vk-info-card h3{font-size:20px}
+.vk-design-preview .vk-info-card p{font-size:14px;line-height:1.65}
+.vk-design-preview .vk-cost-guide{grid-template-columns:1fr;gap:0;background:#fff;border-radius:18px;border-color:#dfece5;box-shadow:none;overflow:hidden}
+.vk-design-preview .vk-cost-intro{padding:28px;background:#073b25;color:#fff}
+.vk-design-preview .vk-cost-intro h3{font-family:var(--font-b);font-size:30px;font-weight:900;line-height:1.1}
+.vk-design-preview .vk-cost-summary{margin-top:20px;background:rgba(255,255,255,.08);box-shadow:none}
+.vk-design-preview .vk-cost-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:16px;background:#f8fbf9}
+.vk-design-preview .vk-cost-row{display:block;padding:18px;border-radius:12px;box-shadow:none}
+.vk-design-preview .vk-cost-row strong{display:block;font-size:17px;margin-bottom:8px}
+.vk-design-preview .vk-cost-row span{display:inline-flex;margin-bottom:10px}
+.vk-design-preview .vk-cost-row p{margin-bottom:12px}
+.vk-design-preview .vk-cost-row ul{display:grid;grid-template-columns:1fr;gap:6px}
+.vk-design-preview .vk-merken{background:#fff;padding:18px 0;border-top:1px solid #edf3ef;border-bottom:1px solid #edf3ef}
+.vk-design-preview .vk-brand-section{background:#f7fbf8}
+.vk-design-preview .vk-brand-qvantum,
+.vk-design-preview .vk-brand-nibe{padding:72px 0}
+.vk-design-preview .vk-brand-grid{align-items:start;gap:30px}
+.vk-design-preview .vk-product-card-stack,
+.vk-design-preview .vk-compare-sticky{top:96px}
+.vk-design-preview .vk-product-foto-wrap,
+.vk-design-preview .vk-vergelijk-kaart,
+.vk-design-preview .vk-hybride-kaart,
+.vk-design-preview .vk-boring-kaart-licht,
+.vk-design-preview .vk-calc,
+.vk-design-preview .vk-legal-content{border-radius:16px;box-shadow:none;border:1px solid #dfece5}
+.vk-design-preview .vk-product-foto-wrap{background:#fff}
+.vk-design-preview .vk-brand-head{align-items:center;margin-bottom:16px}
+.vk-design-preview .vk-brand-metrics span,
+.vk-design-preview .vk-nibe-metrics span{border-radius:999px;background:#fff;border:1px solid #dfece5}
+.vk-design-preview .vk-qv-type{background:#fff;border-radius:12px;box-shadow:none}
+.vk-design-preview .vk-qv-explain{border-radius:12px;background:#fff8f2;border-color:#f4d4bd}
+.vk-design-preview .vk-praktijk-section,
+.vk-design-preview .vk-bg-licht{background:#fff}
+.vk-design-preview .vk-praktijk-grid{gap:14px}
+.vk-design-preview .vk-praktijk-card,
+.vk-design-preview .vk-review,
+.vk-design-preview .vk-voordeel,
+.vk-design-preview .vk-stap-blok,
+.vk-design-preview .vk-lokaal-faq,
+.vk-design-preview .vk-faq{border-radius:14px;box-shadow:none;border:1px solid #e1ece5}
+.vk-design-preview .vk-bg-donker{background:#073b25}
+.vk-design-preview .vk-stappen-grid{gap:14px}
+.vk-design-preview .vk-stap-blok{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.13)}
+.vk-design-preview .vk-stats-rij{border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.vk-design-preview .vk-galerij{border-radius:18px;overflow:hidden}
+.vk-design-preview .vk-reviews-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.vk-design-preview .vk-review{padding:20px;background:#fff}
+.vk-design-preview .vk-review blockquote{font-size:14px;line-height:1.6}
+.vk-design-preview .vk-lokaal-wrap{align-items:start}
+.vk-design-preview .vk-faq-lijst{max-width:860px;margin:0 auto}
+@media(max-width:1020px){
+  .vk-design-preview .vk-hero{padding:32px 0 36px}
+  .vk-design-preview .vk-hero-inner{grid-template-columns:1fr;gap:24px}
+  .vk-design-preview .vk-hero-content{max-width:none}
+  .vk-design-preview .vk-form-wrap{position:relative;top:auto;max-width:620px;justify-self:stretch}
+  .vk-design-preview .vk-reviews-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  body{padding-bottom:96px}
+  .vk-design-preview .vk-hero{margin-top:64px}
+  .vk-design-preview .vk-hero-content h1{font-size:34px}
+  .vk-design-preview .vk-hero-insights{grid-template-columns:1fr}
+  .vk-design-preview .vk-trust-band-inner,
+  .vk-design-preview .vk-info-grid,
+  .vk-design-preview .vk-cost-list,
+  .vk-design-preview .vk-reviews-grid{grid-template-columns:1fr}
+  .vk-design-preview .vk-section{padding:54px 0}
+  .vk-design-preview .vk-footer{padding:46px 0 118px}
+  .vk-design-preview .vk-footer-grid{grid-template-columns:1fr;gap:30px;margin-bottom:28px;padding:24px;border-radius:18px}
+  .vk-design-preview .vk-footer-brand p{max-width:none}
+  .vk-design-preview .vk-footer-wordmark{font-size:32px}
+  .vk-design-preview .vk-footer-merken{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 20px;align-items:center;max-width:310px}
+  .vk-design-preview .vk-footer-merken .vk-footer-airco-logo{max-width:100%}
+  .vk-design-preview .vk-footer-col h4{margin-bottom:12px}
+  .vk-design-preview .vk-footer-col ul{gap:9px}
+  .vk-design-preview .vk-footer-col li{font-size:15px}
+  .vk-design-preview .vk-footer-social{flex-wrap:wrap;gap:10px}
+  .vk-design-preview .vk-footer-bottom{display:grid;grid-template-columns:1fr;gap:9px;padding-top:20px;line-height:1.5}
+}
+
+/* Full alternate preview template */
+.vk-design-preview .vv2-page{--vv-green:#066939;--vv-dark:#09261a;--vv-soft:#f3faf5;--vv-line:#dfece5;--vv-text:#52645a;background:#fff;color:#102018;font-family:var(--font-b)}
+.vk-design-preview .vv2-container{width:min(1120px,calc(100% - 40px));margin:0 auto}
+.mkp-airco-site .navbar{top:40px}
+.vk-design-preview .vv2-kicker{display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--vv-green);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.vk-design-preview .vv2-kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--vv-green)}
+.vk-design-preview .vv2-page h1,.vk-design-preview .vv2-page h2,.vk-design-preview .vv2-page h3{font-family:var(--font-b);font-weight:900;letter-spacing:0;color:#102018}
+.vk-design-preview .vv2-page p{color:var(--vv-text);line-height:1.65}
+.vk-design-preview .vv2-hero{margin-top:108px;background:linear-gradient(180deg,#f3faf5 0%,#fff 100%);padding:46px 0 34px}
+.mkp-airco-site.vk-design-preview .vv2-hero{margin-top:68px}
+.vk-design-preview .vv2-hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(470px,1.08fr);gap:42px;align-items:center}
+.vk-design-preview .vv2-hero-copy h1{max-width:570px;font-size:clamp(34px,3.8vw,52px);line-height:1.02;margin:0 0 16px}
+.vk-design-preview .vv2-hero-copy p{max-width:540px;font-size:17px;margin:0 0 18px}
+.vk-design-preview .vv2-hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+.vk-design-preview .vv2-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:12px;font-weight:950;text-decoration:none;text-align:center;white-space:nowrap;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.vk-design-preview .vv2-btn:hover{transform:translateY(-2px)}
+.vk-design-preview .vv2-btn-primary{background:#ff7417;color:#fff;box-shadow:0 16px 30px rgba(255,116,23,.24)}
+.vk-design-preview .vv2-btn-primary:hover{background:#e96510;box-shadow:0 18px 34px rgba(255,116,23,.30)}
+.vk-design-preview .vv2-btn-secondary{background:#fff;color:var(--vv-green);border:1px solid var(--vv-line);box-shadow:0 10px 22px rgba(7,59,37,.06)}
+.vk-design-preview .vv2-proof-row{display:flex;flex-wrap:wrap;gap:8px}
+.vk-design-preview .vv2-proof-row span{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid var(--vv-line);border-radius:999px;background:#fff;color:#314239;font-size:12px;font-weight:900}
+.vk-design-preview .vv2-proof-row span:before{content:"✓";display:grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--vv-green);color:#fff;font-size:10px}
+.vk-design-preview .vv2-hero-microcopy{margin:-4px 0 18px!important;color:#536258!important;font-size:13px!important;font-weight:850;line-height:1.45!important}
+.vk-design-preview .vv2-offer-panel{max-width:548px;margin:0 0 18px;padding:14px;border:1px solid #f2d1b8;border-radius:14px;background:linear-gradient(135deg,#fff7ef 0%,#fff 72%);box-shadow:0 14px 32px rgba(255,116,23,.10)}
+.vk-design-preview .vv2-offer-panel>strong{display:flex;align-items:center;gap:8px;margin-bottom:10px;color:#102018;font-size:15px;font-weight:950}
+.vk-design-preview .vv2-offer-panel>strong:before{content:"";width:9px;height:9px;border-radius:50%;background:#ff7417;box-shadow:0 0 0 6px rgba(255,116,23,.13)}
+.vk-design-preview .vv2-offer-panel div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vk-design-preview .vv2-offer-panel span{display:block;min-height:74px;padding:10px;border:1px solid #f4dfcf;border-radius:11px;background:#fff;color:#617268;font-size:12px;line-height:1.35}
+.vk-design-preview .vv2-offer-panel b{display:block;margin-bottom:4px;color:#0f2319;font-size:12px;line-height:1.2}
+.vk-design-preview .vv2-form-panel .vk-form-wrap{position:relative;top:auto;max-width:none}
+.vk-design-preview .vv2-form-panel{position:relative}
+.vk-design-preview .vv2-form-panel .vk-form-wrap{z-index:2}
+.vk-design-preview .vv2-form-panel:before{content:"Offerte binnen 1 minuut gestart";position:absolute;right:18px;top:-14px;z-index:3;display:inline-flex;align-items:center;min-height:28px;padding:0 12px;border-radius:999px;background:#ff7417;color:#fff;font-size:11px;font-weight:950;box-shadow:0 12px 24px rgba(255,116,23,.22)}
+.vk-design-preview .vv2-form-panel .vk-form-card{border-radius:18px;border:1px solid #cfe5d8;box-shadow:0 28px 70px rgba(17,36,24,.18);padding:28px}
+.vk-design-preview .vv2-form-panel .vk-form-card:after{display:none}
+.vk-design-preview .vv2-form-panel .vk-form-head{text-align:left}
+.vk-design-preview .vv2-form-panel .vk-form-card:before{height:5px;background:linear-gradient(90deg,#066939 0%,#18a65e 34%,#f3b34b 58%,#ff7417 78%,#066939 100%);background-size:220% 100%;animation:vkFormGlow 7s ease-in-out infinite}
+.vk-design-preview .vv2-form-panel .embed-submit-button{min-height:52px!important;background:#ff7417!important;border-radius:12px!important;font-weight:950!important;box-shadow:0 14px 28px rgba(255,116,23,.24)!important}
+.vk-design-preview .vv2-form-panel .embed-submit-button:hover{background:#e96510!important}
+.mkp-airco-site.vk-design-preview .vv2-hero{position:relative;overflow:hidden;background:
+  radial-gradient(circle at 62% 38%,rgba(255,116,23,.14),rgba(255,116,23,0) 24%),
+  radial-gradient(circle at 85% 10%,rgba(6,105,57,.12),rgba(6,105,57,0) 28%),
+  linear-gradient(180deg,#f5fbf7 0%,#fff 100%);padding:48px 0 42px}
+.mkp-airco-site.vk-design-preview .vv2-hero:before{content:"";position:absolute;left:50%;top:88px;width:min(48vw,640px);height:min(48vw,640px);border:1px solid rgba(6,105,57,.10);border-radius:50%;transform:translateX(-15%);pointer-events:none}
+.mkp-airco-site.vk-design-preview .vv2-hero-grid{position:relative;z-index:1;grid-template-columns:minmax(310px,.84fr) minmax(300px,.76fr) minmax(390px,.9fr);gap:30px;align-items:center}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy{max-width:560px}
+.mkp-airco-site.vk-design-preview .vv2-kicker{margin-bottom:12px;font-size:11px;letter-spacing:.1em}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy h1{max-width:540px;font-size:clamp(42px,4.9vw,66px);line-height:.98;margin-bottom:16px}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){max-width:510px;font-size:18px;line-height:1.55;margin-bottom:18px}
+.mkp-airco-site.vk-design-preview .vv2-proof-row-main{display:flex;gap:9px;margin:0 0 14px}
+.mkp-airco-site.vk-design-preview .vv2-proof-row-main span{min-height:34px;padding:7px 10px;background:#fff;border-color:#dbeae2;font-size:12px;box-shadow:0 8px 18px rgba(7,59,37,.05)}
+.mkp-airco-site.vk-design-preview .vv2-offer-panel,.mkp-airco-site.vk-design-preview .vv2-hero-photo{display:none}
+.mkp-airco-site.vk-design-preview .vv2-hero-actions{margin-top:2px}
+.mkp-airco-site.vk-design-preview .vv2-btn{border-radius:10px}
+.mkp-airco-site.vk-design-preview .airco-journey-pills{position:absolute;left:0;right:0;bottom:26px;display:flex;justify-content:center;gap:8px;z-index:2}
+.mkp-airco-site.vk-design-preview .airco-journey-pills span{display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 10px;border:1px solid #dcebe3;border-radius:999px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);color:#173626;font-size:12px;font-weight:950;box-shadow:0 12px 28px rgba(7,59,37,.07)}
+.mkp-airco-site.vk-design-preview .airco-journey-pills b{color:#ff7417}
+.mkp-airco-site.vk-design-preview .airco-visual-trust-card{position:absolute;left:4px;top:40px;z-index:2;max-width:206px;padding:13px 14px;border:1px solid #dcebe3;border-radius:14px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);box-shadow:0 18px 38px rgba(7,59,37,.10)}
+.mkp-airco-site.vk-design-preview .airco-visual-trust-card:before{content:"";position:absolute;left:14px;top:-7px;width:14px;height:14px;border-radius:50%;background:#ff7417}
+.mkp-airco-site.vk-design-preview .airco-visual-trust-card strong{display:block;color:#102018;font-size:14px;line-height:1.15;margin-bottom:4px}
+.mkp-airco-site.vk-design-preview .airco-visual-trust-card span{display:block;color:#52645a;font-size:11px;line-height:1.35;font-weight:850}
+.mkp-airco-site.vk-design-preview .vv2-form-panel:before{content:"Gratis offerte";top:-12px;right:22px;box-shadow:0 10px 22px rgba(255,116,23,.20)}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{border-radius:14px;padding:24px;box-shadow:0 22px 52px rgba(17,36,24,.14)}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-scan-badge{display:none}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head{margin-bottom:14px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head h2{font-size:25px;line-height:1.12;margin-bottom:7px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head p{font-size:13px;line-height:1.45;max-width:420px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-adviser{display:none}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card hz-embed{margin-top:8px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-widget-backup{margin-top:10px}
+.mkp-airco-site.vk-design-preview .airco-proof-strip{border-top:1px solid #e1ede6;border-bottom:1px solid #e1ede6;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-proof-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+.mkp-airco-site.vk-design-preview .airco-proof-grid article{padding:22px 24px;border-right:1px solid #e1ede6}
+.mkp-airco-site.vk-design-preview .airco-proof-grid article:last-child{border-right:0}
+.mkp-airco-site.vk-design-preview .airco-proof-grid strong{display:block;color:#073b25;font-size:26px;line-height:1;font-weight:950;margin-bottom:7px}
+.mkp-airco-site.vk-design-preview .airco-proof-grid span{display:block;color:#53665b;font-size:13px;line-height:1.35;font-weight:850}
+.mkp-airco-site.vk-design-preview .airco-section{padding:78px 0;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-section:nth-of-type(even){background:#f6fbf8}
+.mkp-airco-site.vk-design-preview .airco-visual-trust{background:#f6fbf8}
+.mkp-airco-site.vk-design-preview .airco-visual-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:44px;align-items:center}
+.mkp-airco-site.vk-design-preview .airco-photo-stack{display:grid;grid-template-columns:1.12fr .88fr;grid-template-rows:190px 190px;gap:12px}
+.mkp-airco-site.vk-design-preview .airco-photo-stack figure{margin:0;overflow:hidden;border-radius:18px;border:1px solid #dcebe3;background:#eaf4ee;box-shadow:0 18px 42px rgba(7,59,37,.10)}
+.mkp-airco-site.vk-design-preview .airco-photo-stack img{display:block;width:100%;height:100%;object-fit:cover}
+.mkp-airco-site.vk-design-preview .airco-photo-stack .airco-photo-main{grid-row:1/3}
+.mkp-airco-site.vk-design-preview .airco-visual-copy{max-width:560px}
+.mkp-airco-site.vk-design-preview .airco-visual-copy span{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;color:#0a6b3e;font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+.mkp-airco-site.vk-design-preview .airco-visual-copy span:before{content:"";width:8px;height:8px;border-radius:50%;background:#ff7417}
+.mkp-airco-site.vk-design-preview .airco-visual-copy h2{font-size:clamp(28px,2.55vw,38px);line-height:1.08;margin:0 0 14px;color:#102018;max-width:520px}
+.mkp-airco-site.vk-design-preview .airco-visual-copy>p{font-size:15.5px;line-height:1.6;margin:0 0 18px;color:#52645a;max-width:560px}
+.mkp-airco-site.vk-design-preview .airco-stek-badge{display:grid;grid-template-columns:74px 1fr;gap:12px;align-items:center;max-width:430px;margin:0 0 14px;padding:10px 12px;border:1px solid #dcebe3;border-radius:12px;background:#fff;box-shadow:0 10px 22px rgba(7,59,37,.045);overflow:hidden}
+.mkp-airco-site.vk-design-preview .airco-stek-badge img{display:block;width:74px!important;max-width:74px!important;height:auto!important;object-fit:contain}
+.mkp-airco-site.vk-design-preview .airco-stek-badge strong{display:block;color:#102018;font-size:15px;line-height:1.2;margin-bottom:3px}
+.mkp-airco-site.vk-design-preview .airco-stek-badge span{display:block;margin:0;color:#52645a;font-size:12.5px;line-height:1.35;font-weight:800;text-transform:none;letter-spacing:0}
+.mkp-airco-site.vk-design-preview .airco-stek-badge span:before{display:none}
+.mkp-airco-site.vk-design-preview .airco-trust-points{display:grid;gap:8px}
+.mkp-airco-site.vk-design-preview .airco-trust-points article{position:relative;padding:13px 15px 13px 46px;border:1px solid #dcebe3;border-radius:11px;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-trust-points article:before{content:"✓";position:absolute;left:15px;top:15px;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#066939;color:#fff;font-size:11px;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-trust-points strong{display:block;color:#102018;font-size:15px;line-height:1.2;margin-bottom:3px}
+.mkp-airco-site.vk-design-preview .airco-trust-points p{font-size:12.5px!important;line-height:1.4!important;margin:0!important}
+.mkp-airco-site.vk-design-preview .airco-section-head{max-width:760px;margin:0 0 30px}
+.mkp-airco-site.vk-design-preview .airco-choice .airco-section-head{max-width:none;display:grid;grid-template-columns:minmax(0,.98fr) minmax(340px,.58fr);gap:30px;align-items:end}
+.mkp-airco-site.vk-design-preview .airco-choice .airco-section-head p{max-width:760px}
+.mkp-airco-site.vk-design-preview .airco-section-head span,
+.mkp-airco-site.vk-design-preview .airco-price-copy span,
+.mkp-airco-site.vk-design-preview .airco-method-layout>div:first-child span,
+.mkp-airco-site.vk-design-preview .airco-review-layout>div:first-child span,
+.mkp-airco-site.vk-design-preview .airco-final-box span{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;color:#0a6b3e;font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+.mkp-airco-site.vk-design-preview .airco-section-head span:before,
+.mkp-airco-site.vk-design-preview .airco-price-copy span:before,
+.mkp-airco-site.vk-design-preview .airco-method-layout>div:first-child span:before,
+.mkp-airco-site.vk-design-preview .airco-review-layout>div:first-child span:before,
+.mkp-airco-site.vk-design-preview .airco-final-box span:before{content:"";width:8px;height:8px;border-radius:50%;background:#ff7417}
+.mkp-airco-site.vk-design-preview .airco-section h2{font-size:clamp(32px,3.6vw,48px);line-height:1.04;margin:0 0 14px;color:#102018}
+.mkp-airco-site.vk-design-preview .airco-section p{font-size:16px;line-height:1.65;color:#52645a;margin:0}
+.mkp-airco-site.vk-design-preview .airco-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.mkp-airco-site.vk-design-preview .airco-solution-card{display:flex;flex-direction:column;min-height:300px;padding:24px;border:1px solid #dcebe3;border-radius:14px;background:#fff;box-shadow:0 14px 30px rgba(7,59,37,.05)}
+.mkp-airco-site.vk-design-preview .airco-solution-card>span{align-self:flex-start;margin-bottom:22px;padding:7px 11px;border-radius:999px;background:#fff1e7;color:#d75b11;font-size:12px;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-solution-card h3{font-size:25px;line-height:1.08;margin:0 0 12px;color:#102018}
+.mkp-airco-site.vk-design-preview .airco-solution-card p{font-size:14px;line-height:1.58}
+.mkp-airco-site.vk-design-preview .airco-solution-card a{display:inline-flex;align-items:center;margin:auto 0 0;color:#066939;font-size:14px;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-solution-card a:after{content:"→";margin-left:8px;color:#ff7417}
+.mkp-airco-site.vk-design-preview .airco-price{background:#073b25;color:#fff}
+.mkp-airco-site.vk-design-preview .airco-price-layout{display:grid;grid-template-columns:.82fr 1.18fr;gap:34px;align-items:start}
+.mkp-airco-site.vk-design-preview .airco-price-copy{position:sticky;top:96px;padding:34px;border-radius:18px;background:#092f20;border:1px solid rgba(255,255,255,.12)}
+.mkp-airco-site.vk-design-preview .airco-price-copy span,.mkp-airco-site.vk-design-preview .airco-price-copy h2,.mkp-airco-site.vk-design-preview .airco-price-copy p{color:#fff}
+.mkp-airco-site.vk-design-preview .airco-price-copy p{color:rgba(255,255,255,.75)}
+.mkp-airco-site.vk-design-preview .airco-price-copy ul{display:grid;gap:10px;margin:24px 0 0;padding:0;list-style:none}
+.mkp-airco-site.vk-design-preview .airco-price-copy li{position:relative;padding-left:30px;color:#fff;font-weight:900;line-height:1.35}
+.mkp-airco-site.vk-design-preview .airco-price-copy li:before{content:"✓";position:absolute;left:0;top:0;display:grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#ff7417;color:#fff;font-size:12px}
+.mkp-airco-site.vk-design-preview .airco-price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mkp-airco-site.vk-design-preview .airco-price-grid article{min-height:205px;padding:24px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.07)}
+.mkp-airco-site.vk-design-preview .airco-price-grid span{display:block;color:rgba(255,255,255,.76);font-size:13px;font-weight:950;margin-bottom:10px}
+.mkp-airco-site.vk-design-preview .airco-price-grid strong{display:block;color:#ffb071;font-size:28px;line-height:1.1;margin-bottom:16px;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-price-grid p{color:rgba(255,255,255,.75);font-size:14px}
+.mkp-airco-site.vk-design-preview .airco-brand-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mkp-airco-site.vk-design-preview .airco-brand-grid article{min-height:280px;padding:26px;border:1px solid #dcebe3;border-radius:14px;background:#fff;box-shadow:0 12px 28px rgba(7,59,37,.04)}
+.mkp-airco-site.vk-design-preview .airco-brand-grid article>div{display:flex;align-items:center;justify-content:flex-start;height:48px;margin-bottom:28px}
+.mkp-airco-site.vk-design-preview .airco-brand-grid img{max-width:155px;max-height:38px;object-fit:contain}
+.mkp-airco-site.vk-design-preview .airco-brand-grid h3{font-size:22px;line-height:1.12;margin:0 0 12px;color:#102018}
+.mkp-airco-site.vk-design-preview .airco-brand-grid p{font-size:14px}
+.mkp-airco-site.vk-design-preview .airco-method{background:linear-gradient(135deg,#f6fbf8 0%,#fff7ef 100%)}
+.mkp-airco-site.vk-design-preview .airco-method-layout{display:grid;grid-template-columns:.82fr 1.18fr;gap:46px;align-items:start}
+.mkp-airco-site.vk-design-preview .airco-method-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.mkp-airco-site.vk-design-preview .airco-method-list article{position:relative;min-height:160px;padding:24px 24px 24px 62px;border:1px solid #dcebe3;border-radius:14px;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-method-list article:before{content:"✓";position:absolute;left:24px;top:26px;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#066939;color:#fff;font-size:13px;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-method-list strong{display:block;color:#102018;font-size:19px;line-height:1.18;margin-bottom:9px}
+.mkp-airco-site.vk-design-preview .airco-method-list p{font-size:14px}
+.mkp-airco-site.vk-design-preview .airco-process{background:#fff}
+.mkp-airco-site.vk-design-preview .airco-process-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:steps}
+.mkp-airco-site.vk-design-preview .airco-process-grid article{position:relative;min-height:230px;padding:24px;border:1px solid #dcebe3;border-radius:14px;background:#fbfdfc}
+.mkp-airco-site.vk-design-preview .airco-process-grid article span{display:grid;place-items:center;width:40px;height:40px;margin-bottom:30px;border-radius:50%;background:#073b25;color:#fff;font-size:14px;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-process-grid h3{font-size:22px;margin:0 0 10px}
+.mkp-airco-site.vk-design-preview .airco-process-grid p{font-size:14px}
+.mkp-airco-site.vk-design-preview .airco-reviews{background:#f6fbf8}
+.mkp-airco-site.vk-design-preview .airco-review-layout{display:grid;grid-template-columns:.82fr 1.18fr;gap:40px;align-items:start}
+.mkp-airco-site.vk-design-preview .airco-review-layout>div:first-child a{display:inline-flex;align-items:center;margin-top:22px;min-height:46px;padding:0 18px;border-radius:10px;background:#073b25;color:#fff;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-review-cards{display:grid;gap:14px}
+.mkp-airco-site.vk-design-preview .airco-review-cards article{padding:22px;border:1px solid #dcebe3;border-radius:14px;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-review-cards div{color:#f59e0b;font-size:14px;margin-bottom:12px}
+.mkp-airco-site.vk-design-preview .airco-review-cards blockquote{margin:0 0 16px;color:#314239;line-height:1.62}
+.mkp-airco-site.vk-design-preview .airco-review-cards strong,.mkp-airco-site.vk-design-preview .airco-review-cards span{display:block}
+.mkp-airco-site.vk-design-preview .airco-review-cards span{font-size:13px;color:#6a776f}
+.mkp-airco-site.vk-design-preview .airco-final{background:#073b25}
+.mkp-airco-site.vk-design-preview .airco-final-box{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:34px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:linear-gradient(135deg,#0a3f2a 0%,#073b25 58%,#0e6b43 100%)}
+.mkp-airco-site.vk-design-preview .airco-final-box span,.mkp-airco-site.vk-design-preview .airco-final-box h2,.mkp-airco-site.vk-design-preview .airco-final-box p{color:#fff}
+.mkp-airco-site.vk-design-preview .airco-final-box p{color:rgba(255,255,255,.72)}
+.mkp-airco-site.vk-design-preview .airco-final-box a{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-height:54px;padding:0 24px;border-radius:11px;background:#ff7417;color:#fff;font-weight:950;box-shadow:0 16px 34px rgba(255,116,23,.24)}
+.mkp-airco-site.vk-design-preview .airco-faq{background:#fff}
+.mkp-airco-site.vk-design-preview .airco-faq-list{display:grid;gap:10px;max-width:900px}
+.mkp-airco-site.vk-design-preview .airco-faq-list details{padding:20px 22px;border:1px solid #dcebe3;border-radius:12px;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-faq-list summary{cursor:pointer;color:#102018;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-faq-list p{margin-top:12px;font-size:15px}
+.vk-design-preview .vv2-logo-strip{border-top:1px solid var(--vv-line);border-bottom:1px solid var(--vv-line);background:#fff}
+.vk-design-preview .vv2-logo-strip .vv2-container{display:flex;align-items:center;gap:24px;min-height:68px;overflow:auto}
+.vk-design-preview .vv2-logo-strip span{color:#738177;font-size:13px;font-weight:800;white-space:nowrap}
+.vk-design-preview .vv2-logo-strip strong{font-size:15px;color:#21382b;white-space:nowrap}
+.vk-design-preview .vv2-sales-strip{padding:24px 0;background:#fff}
+.vk-design-preview .vv2-sales-strip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.vk-design-preview .vv2-sales-strip article{position:relative;padding:18px 18px 18px 62px;border:1px solid #dfece5;border-radius:14px;background:#fbfdfc;box-shadow:0 12px 28px rgba(7,59,37,.05)}
+.vk-design-preview .vv2-sales-strip span{position:absolute;left:18px;top:18px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#073b25;color:#fff;font-size:11px;font-weight:950}
+.vk-design-preview .vv2-sales-strip h2{font-size:18px;line-height:1.18;margin:0 0 7px}
+.vk-design-preview .vv2-sales-strip p{font-size:13px;line-height:1.5;margin:0;color:#607267}
+.vk-design-preview .vv2-check-video{padding:64px 0;background:linear-gradient(180deg,#fff 0%,#f3faf5 100%);overflow:hidden}
+.vk-design-preview .vv2-check-video-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:42px;align-items:center}
+.vk-design-preview .vv2-check-video-copy h2{font-size:clamp(30px,3.3vw,44px);line-height:1.08;margin:0 0 14px}
+.vk-design-preview .vv2-check-video-copy p{font-size:17px;max-width:500px;margin:0 0 22px}
+.vk-design-preview .vv2-animation-video{position:relative;overflow:hidden;border:1px solid #d8e9df;border-radius:18px;background:#09261a;box-shadow:0 22px 54px rgba(17,36,24,.14);min-height:398px;color:#fff}
+.vk-design-preview .vv2-animation-video:before{content:"";position:absolute;inset:-30% -18% auto auto;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,116,23,.25),rgba(255,116,23,0) 68%);pointer-events:none}
+.vk-design-preview .vv2-animation-video:after{content:"";position:absolute;inset:auto auto -36% -16%;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(24,166,94,.38),rgba(24,166,94,0) 72%);pointer-events:none}
+.vk-design-preview .vv2-video-top{position:relative;z-index:2;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
+.vk-design-preview .vv2-video-top span{width:12px;height:12px;border-radius:50%;background:#ff7417;box-shadow:0 0 0 6px rgba(255,116,23,.14)}
+.vk-design-preview .vv2-video-top strong{font-size:14px;font-weight:900;color:#fff}
+.vk-design-preview .vv2-video-top em{font-style:normal;font-size:12px;font-weight:900;color:rgba(255,255,255,.62)}
+.vk-design-preview .vv2-video-stage{position:relative;z-index:2;min-height:292px;margin:18px;border-radius:16px;background:linear-gradient(135deg,#f7fbf8 0%,#eef8f2 100%);overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+.vk-design-preview .vv2-video-stage:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(6,105,57,.06),rgba(255,116,23,.06));pointer-events:none}
+.vk-design-preview .vv2-video-house{position:absolute;left:46px;bottom:78px;width:178px;height:164px}
+.vk-design-preview .vv2-roof{position:absolute;left:18px;top:0;width:142px;height:96px;background:#0b5f38;clip-path:polygon(50% 0,100% 56%,88% 56%,88% 100%,12% 100%,12% 56%,0 56%);filter:drop-shadow(0 14px 22px rgba(7,59,37,.18))}
+.vk-design-preview .vv2-body{position:absolute;left:34px;top:70px;width:110px;height:86px;border-radius:10px;background:#fff;border:1px solid #cfe7da;box-shadow:0 18px 34px rgba(7,59,37,.12)}
+.vk-design-preview .vv2-door{position:absolute;left:77px;top:108px;width:28px;height:48px;border-radius:8px 8px 0 0;background:#ff7417}
+.vk-design-preview .vv2-window{position:absolute;top:92px;width:24px;height:24px;border-radius:6px;background:#dff5e8;border:1px solid #bfe4cd}
+.vk-design-preview .vv2-window-a{left:48px}
+.vk-design-preview .vv2-window-b{left:114px}
+.vk-design-preview .vv2-video-scan{position:absolute;left:34px;right:34px;top:42px;height:3px;border-radius:999px;background:linear-gradient(90deg,rgba(6,105,57,0),#066939,#ff7417,rgba(255,116,23,0));box-shadow:0 0 24px rgba(255,116,23,.34);animation:vv2VideoScan 6s ease-in-out infinite}
+.vk-design-preview .vv2-video-card{position:absolute;right:38px;width:250px;padding:13px 15px;border-radius:14px;background:#fff;border:1px solid #dcece4;box-shadow:0 14px 28px rgba(7,59,37,.10);color:#102018}
+.vk-design-preview .vv2-video-card small{display:block;color:#066939;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.vk-design-preview .vv2-video-card strong{font-size:17px;color:#102018}
+.vk-design-preview .vv2-video-card-a{top:36px}
+.vk-design-preview .vv2-video-card-b{top:106px}
+.vk-design-preview .vv2-video-routes{position:absolute;left:280px;right:38px;bottom:82px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vk-design-preview .vv2-video-routes span{display:flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:0 9px;border-radius:999px;background:#fff;color:#23382c;border:1px solid #dcece4;font-size:12px;font-weight:900;box-shadow:0 10px 20px rgba(7,59,37,.08);white-space:nowrap}
+.vk-design-preview .vv2-video-routes span:before{content:"✓";display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#066939;color:#fff;font-size:10px}
+.vk-design-preview .vv2-video-advice{position:absolute;left:46px;right:38px;bottom:20px;display:grid;grid-template-columns:30px 1fr;gap:2px 10px;align-items:center;padding:13px 15px;border-radius:14px;background:#073b25;color:#fff;box-shadow:0 18px 34px rgba(7,59,37,.22)}
+.vk-design-preview .vv2-video-advice span{grid-row:1/3;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#ff7417;font-weight:900}
+.vk-design-preview .vv2-video-advice strong{font-size:15px;color:#fff}
+.vk-design-preview .vv2-video-advice small{font-size:12px;color:rgba(255,255,255,.72)}
+.vk-design-preview .vv2-video-steps{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 18px 18px}
+.vk-design-preview .vv2-video-steps span{position:relative;overflow:hidden;min-height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.82);font-size:12px;font-weight:900;z-index:0}
+.vk-design-preview .vv2-video-steps span:before{content:"";position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,rgba(6,105,57,.72),rgba(255,116,23,.72));transform:scaleX(0);transform-origin:left;animation:vv2StepFill 8s linear infinite;z-index:-1}
+.vk-design-preview .vv2-video-steps span:nth-child(2):before{animation-delay:2s}
+.vk-design-preview .vv2-video-steps span:nth-child(3):before{animation-delay:4s}
+.vk-design-preview .vv2-video-steps span:nth-child(4):before{animation-delay:6s}
+.vk-design-preview .vv2-video-steps span{isolation:isolate}
+@keyframes vv2VideoScan{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(196px);opacity:1}}
+@keyframes vv2StepFill{0%{transform:scaleX(0)}23%{transform:scaleX(1)}24%,100%{transform:scaleX(1);opacity:0}}
+.vk-design-preview .vv2-check-film{position:relative;overflow:hidden;border:1px solid #d8e9df;border-radius:18px;background:#073b25;color:#fff;box-shadow:0 22px 54px rgba(17,36,24,.14)}
+.vk-design-preview .vv2-check-film:before{content:"";position:absolute;inset:-44% -20% auto auto;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,116,23,.22),rgba(255,116,23,0) 68%);pointer-events:none}
+.vk-design-preview .vv2-check-film:after{content:"";position:absolute;inset:auto auto -48% -16%;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(24,166,94,.28),rgba(24,166,94,0) 72%);pointer-events:none}
+.vk-design-preview .vv2-film-header{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
+.vk-design-preview .vv2-film-header span{width:12px;height:12px;border-radius:50%;background:#ff7417;box-shadow:0 0 0 6px rgba(255,116,23,.14)}
+.vk-design-preview .vv2-film-header strong{font-size:14px;font-weight:900;color:#fff}
+.vk-design-preview .vv2-film-header em{font-style:normal;font-size:12px;font-weight:900;color:rgba(255,255,255,.65)}
+.vk-design-preview .vv2-film-progress{position:relative;z-index:1;height:5px;background:rgba(255,255,255,.10);overflow:hidden}
+.vk-design-preview .vv2-film-progress span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#066939 0%,#18a65e 36%,#f3b34b 66%,#ff7417 100%);transform-origin:left;animation:vv2FilmProgress 7s ease-in-out infinite}
+.vk-design-preview .vv2-film-steps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:22px}
+.vk-design-preview .vv2-film-steps article{position:relative;min-height:150px;padding:22px;border:1px solid rgba(255,255,255,.13);border-radius:14px;background:rgba(255,255,255,.08);box-shadow:0 12px 30px rgba(0,0,0,.10)}
+.vk-design-preview .vv2-film-steps article:before{content:"";position:absolute;left:22px;right:22px;top:58px;height:1px;background:rgba(255,255,255,.12)}
+.vk-design-preview .vv2-film-steps article span{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;margin-bottom:26px;border-radius:50%;background:#fff;color:#066939;font-size:13px;font-weight:900}
+.vk-design-preview .vv2-film-steps article h3{font-size:19px;line-height:1.15;margin:0 0 9px;color:#fff}
+.vk-design-preview .vv2-film-steps article p{font-size:14px;line-height:1.55;margin:0;color:rgba(255,255,255,.74)}
+.vk-design-preview .vv2-film-steps article:nth-child(1){animation:vv2FilmStep 7s ease-in-out infinite}
+.vk-design-preview .vv2-film-steps article:nth-child(2){animation:vv2FilmStep 7s ease-in-out infinite 1.4s}
+.vk-design-preview .vv2-film-steps article:nth-child(3){animation:vv2FilmStep 7s ease-in-out infinite 2.8s}
+.vk-design-preview .vv2-film-steps article:nth-child(4){animation:vv2FilmStep 7s ease-in-out infinite 4.2s}
+@keyframes vv2FilmProgress{0%{transform:scaleX(.08)}85%,100%{transform:scaleX(1)}}
+@keyframes vv2FilmStep{0%,100%{border-color:rgba(255,255,255,.13);background:rgba(255,255,255,.08);transform:none}12%,28%{border-color:rgba(255,116,23,.55);background:rgba(255,255,255,.13);transform:translateY(-3px)}}
+.vk-design-preview .vv2-scan-video-card{position:relative;overflow:hidden;border:1px solid #d8e9df;border-radius:18px;background:#073b25;padding:12px;box-shadow:0 22px 54px rgba(17,36,24,.14)}
+.vk-design-preview .vv2-scan-video-card:before{content:"";position:absolute;left:12px;right:12px;top:12px;height:5px;border-radius:999px;background:linear-gradient(90deg,#066939 0%,#18a65e 42%,#f3b34b 70%,#ff7417 100%);background-size:220% 100%;animation:vv2RibbonFlow 5s linear infinite;z-index:2}
+.vk-design-preview .vv2-scan-video{position:relative;z-index:1;display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:13px;background:#073b25}
+.vk-design-preview .vv2-scan-video-card video::-webkit-media-controls-panel{background-image:linear-gradient(transparent,rgba(0,0,0,.35))}
+.vk-design-preview .vv2-section{padding:72px 0}
+.vk-design-preview .vv2-split{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:start}
+.vk-design-preview .vv2-split h2,.vk-design-preview .vv2-section-head h2{font-size:clamp(30px,3.5vw,44px);line-height:1.08;margin:0}
+.vk-design-preview .vv2-intro-text p{font-size:17px;margin:0 0 14px}
+.vk-design-preview .vv2-section-head{max-width:700px;margin:0 0 28px}
+.vk-design-preview .vv2-route-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.vk-design-preview .vv2-route-card,.vk-design-preview .vv2-cost-grid article,.vk-design-preview .vv2-process-grid article,.vk-design-preview .vv2-review-grid article,.vk-design-preview .vv2-faq-list details{border:1px solid var(--vv-line);border-radius:14px;background:#fff;box-shadow:none}
+.vk-design-preview .vv2-route-card{padding:22px;display:flex;flex-direction:column}
+.vk-design-preview .vv2-route-card span{display:inline-flex;margin-bottom:18px;padding:6px 10px;border-radius:999px;background:#fff4ea;color:#d85d12;font-size:11px;font-weight:900}
+.vk-design-preview .vv2-route-card h3{font-size:22px;margin:0 0 10px}
+.vk-design-preview .vv2-route-card p{font-size:14px;margin:0}
+.vk-design-preview .vv2-route-card ul{display:grid;gap:8px;margin:auto 0 0;padding:18px 0 0;list-style:none}
+.vk-design-preview .vv2-route-card li{position:relative;padding-left:26px;color:#314239;font-size:13px;font-weight:850;line-height:1.35}
+.vk-design-preview .vv2-route-card li:before{content:"✓";position:absolute;left:0;top:.05em;display:grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--vv-green);color:#fff;font-size:10px;font-weight:900}
+.vk-design-preview .vv2-costs{background:var(--vv-soft)}
+.vk-design-preview .vv2-cost-box{display:grid;grid-template-columns:.8fr 1.2fr;gap:0;border:1px solid var(--vv-line);border-radius:18px;overflow:hidden;background:#fff}
+.vk-design-preview .vv2-cost-lead{padding:34px;background:var(--vv-dark)}
+.vk-design-preview .vv2-cost-lead h2,.vk-design-preview .vv2-cost-lead p{color:#fff}
+.vk-design-preview .vv2-cost-lead p{opacity:.78}
+.vk-design-preview .vv2-cost-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:18px}
+.vk-design-preview .vv2-cost-grid article{padding:18px}
+.vk-design-preview .vv2-cost-grid span{display:block;color:#6a776f;font-size:12px;font-weight:900;margin-bottom:6px}
+.vk-design-preview .vv2-cost-grid strong{display:block;color:#d95a0c;font-size:16px;margin-bottom:10px}
+.vk-design-preview .vv2-cost-grid p{font-size:13px;margin:0}
+.vk-design-preview .vv2-cost-grid ul{display:grid;gap:7px;margin:16px 0 0;padding:0;list-style:none}
+.vk-design-preview .vv2-cost-grid li{position:relative;padding-left:24px;color:#314239;font-size:12.5px;font-weight:850;line-height:1.35}
+.vk-design-preview .vv2-cost-grid li:before{content:"✓";position:absolute;left:0;top:.05em;display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--vv-green);color:#fff;font-size:9px;font-weight:900}
+.vk-design-preview .vv2-trust-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+.vk-design-preview .vv2-trust figure{margin:0;border-radius:18px;overflow:hidden}
+.vk-design-preview .vv2-trust img{display:block;width:100%;height:430px;object-fit:cover}
+.vk-design-preview .vv2-trust h2{font-size:clamp(30px,3.4vw,44px);line-height:1.08;margin:0 0 16px}
+.vk-design-preview .vv2-check-list{display:grid;gap:10px;margin-top:20px}
+.vk-design-preview .vv2-check-list span{display:flex;gap:10px;align-items:center;padding:12px 14px;border:1px solid var(--vv-line);border-radius:10px;background:#fff;font-weight:900;color:#314239}
+.vk-design-preview .vv2-check-list span:before{content:"✓";display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--vv-green);color:#fff;font-size:12px}
+.vk-design-preview .vv2-process{background:var(--vv-dark)}
+.vk-design-preview .vv2-process .vv2-kicker,.vk-design-preview .vv2-process h2{color:#fff}
+.vk-design-preview .vv2-process-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.vk-design-preview .vv2-process-grid article{padding:22px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.13)}
+.vk-design-preview .vv2-process-grid span{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#fff;color:var(--vv-green);font-weight:900;margin-bottom:18px}
+.vk-design-preview .vv2-process-grid h3{font-size:18px;color:#fff;margin:0 0 10px}
+.vk-design-preview .vv2-process-grid p{font-size:14px;color:rgba(255,255,255,.72);margin:0}
+.vk-design-preview .vv2-reviews{background:#fff}
+.vk-design-preview .vv2-review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.vk-design-preview .vv2-review-grid article{padding:22px}
+.vk-design-preview .vv2-review-grid div{color:#f59e0b;margin-bottom:12px}
+.vk-design-preview .vv2-review-grid blockquote{margin:0 0 16px;color:#314239;line-height:1.65}
+.vk-design-preview .vv2-review-grid strong,.vk-design-preview .vv2-review-grid span{display:block}
+.vk-design-preview .vv2-review-grid span{color:#738177;font-size:13px;margin-top:2px}
+.vk-design-preview .vv2-final-cta{background:var(--vv-soft)}
+.vk-design-preview .vv2-final-box{display:flex;justify-content:space-between;gap:28px;align-items:center;padding:34px;border-radius:18px;background:#fff;border:1px solid var(--vv-line)}
+.vk-design-preview .vv2-final-box > div{min-width:0;flex:1 1 auto}
+.vk-design-preview .vv2-final-box .vv2-btn{flex:0 0 auto;padding:0 28px}
+.vk-design-preview .vv2-final-box h2{font-size:34px;line-height:1.1;margin:0 0 8px}
+.vk-design-preview .vv2-final-box p{margin:0}
+.vk-design-preview .vv2-faq-list{display:grid;gap:10px;max-width:860px}
+.vk-design-preview .vv2-faq-list details{padding:20px}
+.vk-design-preview .vv2-faq-list summary{cursor:pointer;font-weight:900;color:#102018}
+.vk-design-preview .vv2-faq-list p{margin:12px 0 0}
+@media(max-width:1000px){
+  .vk-design-preview .vv2-hero-grid,.vk-design-preview .vv2-split,.vk-design-preview .vv2-cost-box,.vk-design-preview .vv2-trust-grid,.vk-design-preview .vv2-brand-feature,.vk-design-preview .vv2-sales-strip-grid{grid-template-columns:1fr}
+  .vk-design-preview .vv2-route-grid,.vk-design-preview .vv2-process-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:860px){
+  .vk-design-preview .vv2-final-box{display:block}
+  .vk-design-preview .vv2-final-box .vv2-btn{margin-top:20px}
+}
+@media(max-width:700px){
+  .mkp-airco-site.vk-design-preview .navbar{top:34px}
+  .vk-design-preview .navbar{height:112px}
+  .vk-design-preview .nav-container{height:64px;padding:0 14px;gap:10px}
+  .vk-design-preview .nav-logo img{width:auto;height:30px}
+  .vk-design-preview .nav-links{position:fixed;left:0;right:0;top:98px;display:flex;gap:6px;width:100%;max-width:none;box-sizing:border-box;padding:8px 22px 8px 14px;scroll-padding-inline:14px;border:0;border-top:1px solid #e3efe8;border-radius:0;background:rgba(255,255,255,.96);box-shadow:0 10px 24px rgba(7,59,37,.08);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .vk-design-preview .nav-links::-webkit-scrollbar{display:none}
+  .vk-design-preview .nav-links li{flex:0 0 auto}
+  .vk-design-preview .nav-links a{min-height:34px;padding:0 12px;border:1px solid #dfece5;background:#f8fcfa;font-size:12px;white-space:nowrap}
+  .vk-design-preview .nav-cta{gap:0;margin-left:auto;min-width:0}
+  .vk-design-preview .nav-dashboard-link{min-height:38px;padding:0 13px;font-size:0;border-radius:999px}
+  .vk-design-preview .nav-dashboard-link::after{content:"Login";font-size:13px}
+  .vk-design-preview .nav-tel-link{display:inline-flex;min-height:38px;padding:0 13px;font-size:13px}
+  .vk-design-preview .nav-offerte-btn{display:none}
+  .vk-design-preview .vv2-container{width:min(100% - 28px,1120px)}
+  .vk-design-preview .vv2-hero{margin-top:112px;padding:30px 0}
+  .mkp-airco-site.vk-design-preview .vv2-hero{margin-top:112px}
+  .mkp-airco-site.vk-design-preview .vv2-hero{padding:28px 0 24px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:1fr;gap:20px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy h1{font-size:36px;line-height:1.02}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){font-size:15.5px;line-height:1.55}
+  .mkp-airco-site.vk-design-preview .vv2-proof-row-main{gap:7px}
+  .mkp-airco-site.vk-design-preview .vv2-proof-row-main span{font-size:11px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-actions{display:none}
+  .mkp-airco-site.vk-design-preview .airco-visual-trust-card{left:2px;top:18px;max-width:174px;padding:10px 11px}
+  .mkp-airco-site.vk-design-preview .airco-visual-trust-card strong{font-size:12px}
+  .mkp-airco-site.vk-design-preview .airco-visual-trust-card span{font-size:10px}
+  .mkp-airco-site.vk-design-preview .airco-journey-pills{bottom:5px;gap:5px}
+  .mkp-airco-site.vk-design-preview .airco-journey-pills span{min-height:28px;padding:0 8px;font-size:10px}
+  .mkp-airco-site.vk-design-preview .vv2-form-panel{order:3}
+  .mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{padding:18px 16px;border-radius:12px}
+  .mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head h2{font-size:21px}
+  .mkp-airco-site.vk-design-preview .airco-proof-grid,
+  .mkp-airco-site.vk-design-preview .airco-visual-grid,
+  .mkp-airco-site.vk-design-preview .airco-card-grid,
+  .mkp-airco-site.vk-design-preview .airco-price-layout,
+  .mkp-airco-site.vk-design-preview .airco-price-grid,
+  .mkp-airco-site.vk-design-preview .airco-brand-grid,
+  .mkp-airco-site.vk-design-preview .airco-method-layout,
+  .mkp-airco-site.vk-design-preview .airco-method-list,
+  .mkp-airco-site.vk-design-preview .airco-process-grid,
+  .mkp-airco-site.vk-design-preview .airco-review-layout{grid-template-columns:1fr}
+  .mkp-airco-site.vk-design-preview .airco-section{padding:52px 0}
+  .mkp-airco-site.vk-design-preview .airco-proof-grid article{border-right:0;border-bottom:1px solid #e1ede6;padding:16px 0}
+  .mkp-airco-site.vk-design-preview .airco-proof-grid article:last-child{border-bottom:0}
+  .mkp-airco-site.vk-design-preview .airco-proof-grid strong{font-size:22px}
+  .mkp-airco-site.vk-design-preview .airco-photo-stack{grid-template-columns:1fr;grid-template-rows:220px 140px 140px}
+  .mkp-airco-site.vk-design-preview .airco-photo-stack .airco-photo-main{grid-row:auto}
+  .mkp-airco-site.vk-design-preview .airco-visual-copy h2{font-size:29px}
+  .mkp-airco-site.vk-design-preview .airco-stek-badge{grid-template-columns:64px 1fr;gap:10px;max-width:none;padding:9px 10px}
+  .mkp-airco-site.vk-design-preview .airco-stek-badge img{width:64px!important;max-width:64px!important}
+  .mkp-airco-site.vk-design-preview .airco-section h2{font-size:31px}
+  .mkp-airco-site.vk-design-preview .airco-card-grid,.mkp-airco-site.vk-design-preview .airco-brand-grid,.mkp-airco-site.vk-design-preview .airco-process-grid{gap:10px}
+  .mkp-airco-site.vk-design-preview .airco-solution-card,.mkp-airco-site.vk-design-preview .airco-brand-grid article,.mkp-airco-site.vk-design-preview .airco-process-grid article,.mkp-airco-site.vk-design-preview .airco-price-grid article{min-height:0;padding:20px}
+  .mkp-airco-site.vk-design-preview .airco-price-copy{position:relative;top:auto;padding:24px}
+  .mkp-airco-site.vk-design-preview .airco-method-list article{min-height:0}
+  .mkp-airco-site.vk-design-preview .airco-final-box{display:block;padding:24px}
+  .mkp-airco-site.vk-design-preview .airco-final-box a{width:100%;margin-top:20px}
+  .vk-design-preview .vv2-hero-copy h1{font-size:34px}
+  .vk-design-preview .vv2-offer-panel div{grid-template-columns:1fr}
+  .vk-design-preview .vv2-offer-panel span{min-height:0}
+  .vk-design-preview .vv2-form-panel:before{left:16px;right:auto;top:-13px}
+  .vk-design-preview .vv2-route-grid,.vk-design-preview .vv2-cost-grid,.vk-design-preview .vv2-process-grid,.vk-design-preview .vv2-review-grid,.vk-design-preview .vv2-brand-card-grid{grid-template-columns:1fr}
+  .vk-design-preview .vv2-section{padding:52px 0}
+  .vk-design-preview .vv2-final-box .vv2-btn{margin-top:20px;width:100%}
+  .vk-design-preview .vv2-trust img{height:280px}
+}
+
+/* Preview content expansion with real Vakvriend proof */
+.vk-design-preview .vv2-hero{background:linear-gradient(180deg,#f4fbf6 0%,#fff 74%)}
+.vk-design-preview .vv2-hero-grid{grid-template-columns:minmax(0,.88fr) minmax(500px,1.12fr)}
+.vk-design-preview .vv2-proof-row-main{margin-bottom:18px}
+.vk-design-preview .vv2-hero-photo{position:relative;margin:20px 0 0;border-radius:16px;overflow:hidden;border:1px solid var(--vv-line);box-shadow:0 18px 40px rgba(7,59,37,.10);max-width:500px}
+.vk-design-preview .vv2-hero-photo img{display:block;width:100%;height:205px;object-fit:cover}
+.vk-design-preview .vv2-hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,59,37,0) 42%,rgba(7,59,37,.58) 100%);pointer-events:none}
+.vk-design-preview .vv2-hero-photo figcaption{position:absolute;left:16px;right:16px;bottom:14px;z-index:1;color:#fff;font-size:13px;font-weight:900;text-shadow:0 1px 10px rgba(0,0,0,.25)}
+.vk-design-preview .vv2-hero-photo{animation:vv2PhotoFloat 8s ease-in-out infinite}
+.vk-design-preview .vv2-checks{background:#fff}
+.vk-design-preview .vv2-check-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.vk-design-preview .vv2-check-grid article{position:relative;padding:22px 22px 22px 58px;border:1px solid var(--vv-line);border-radius:14px;background:#fbfdfc}
+.vk-design-preview .vv2-check-grid article:before{content:"✓";position:absolute;left:22px;top:24px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--vv-green);color:#fff;font-size:13px;font-weight:900}
+.vk-design-preview .vv2-check-grid h3{font-size:19px;margin:0 0 8px}
+.vk-design-preview .vv2-check-grid p{font-size:14px;margin:0}
+.vk-design-preview .vv2-photo-proof{background:linear-gradient(180deg,#f3faf5 0%,#fff 100%)}
+.vk-design-preview .vv2-photo-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:42px;align-items:center}
+.vk-design-preview .vv2-photo-copy h2{font-size:clamp(30px,3.5vw,44px);line-height:1.08;margin:0 0 14px}
+.vk-design-preview .vv2-photo-copy p{font-size:17px;margin:0 0 22px;max-width:520px}
+.vk-design-preview .vv2-mini-proof{display:grid;gap:10px}
+.vk-design-preview .vv2-mini-proof article{padding:16px 18px;border:1px solid var(--vv-line);border-radius:12px;background:#fff}
+.vk-design-preview .vv2-mini-proof strong{display:block;color:#102018;font-size:16px;margin-bottom:5px}
+.vk-design-preview .vv2-mini-proof span{display:block;color:var(--vv-text);font-size:14px;line-height:1.55}
+.vk-design-preview .vv2-photo-stack{display:grid;grid-template-columns:1.1fr .9fr;grid-template-rows:210px 210px;gap:12px}
+.vk-design-preview .vv2-photo-stack figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--vv-line);background:#fff}
+.vk-design-preview .vv2-photo-stack img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.vk-design-preview .vv2-photo-stack figure:nth-child(2) img{object-position:center 34%}
+.vk-design-preview .vv2-photo-stack figure:hover img{transform:scale(1.045)}
+.vk-design-preview .vv2-photo-stack .vv2-photo-large{grid-row:1/3}
+.vk-design-preview .vv2-stek{background:#fff}
+.vk-design-preview .vv2-stek-grid{display:grid;grid-template-columns:.88fr 1.12fr;gap:30px;align-items:stretch}
+.vk-design-preview .vv2-stek-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:34px;border-radius:18px;background:#f4faf6;border:1px solid var(--vv-line)}
+.vk-design-preview .vv2-stek-logo{display:block;width:132px;height:auto;margin:0 0 18px;padding:12px 14px;border:1px solid var(--vv-line);border-radius:14px;background:#fff;box-shadow:0 14px 30px rgba(7,59,37,.06)}
+.vk-design-preview .vv2-stek-copy h2{font-size:clamp(30px,3.4vw,44px);line-height:1.08;margin:0 0 16px}
+.vk-design-preview .vv2-stek-copy p{font-size:16px;line-height:1.7;margin:0 0 24px;color:#53645a}
+.vk-design-preview .vv2-stek-card{position:relative;overflow:hidden;padding:30px;border-radius:18px;background:linear-gradient(145deg,#073b25 0%,#0b6840 100%);color:#fff}
+.vk-design-preview .vv2-stek-card:before{content:"";position:absolute;right:-70px;top:-90px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,116,23,.22),rgba(255,116,23,0) 68%);pointer-events:none}
+.vk-design-preview .vv2-stek-card>strong{position:relative;z-index:1;display:block;color:#fff;font-size:26px;line-height:1.1;margin:0 0 18px}
+.vk-design-preview .vv2-stek-points{position:relative;z-index:1;display:grid;gap:10px}
+.vk-design-preview .vv2-stek-points article{display:grid;grid-template-columns:28px 1fr;gap:0 12px;padding:16px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(255,255,255,.08)}
+.vk-design-preview .vv2-stek-points article span{grid-row:1/3;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#ff7417}
+.vk-design-preview .vv2-stek-points article span:before{content:"✓";color:#fff;font-size:13px;font-weight:900}
+.vk-design-preview .vv2-stek-points h3{color:#fff;font-size:18px;margin:0 0 7px}
+.vk-design-preview .vv2-stek-points p{color:rgba(255,255,255,.74);font-size:14px;line-height:1.55;margin:0}
+.vk-design-preview .vv2-stek-card>a{position:relative;z-index:1;display:inline-flex;margin-top:20px;color:#fff;font-size:14px;font-weight:900;text-decoration:underline;text-underline-offset:4px}
+.vk-design-preview .vv2-airco-brands{background:#fff}
+.vk-design-preview .vv2-brand-feature{display:grid;grid-template-columns:.82fr 1.18fr;gap:32px;align-items:stretch}
+.vk-design-preview .vv2-brand-feature-copy{padding:34px;border-radius:18px;background:linear-gradient(145deg,#073b25 0%,#0b6840 100%);color:#fff}
+.vk-design-preview .vv2-brand-feature-copy .vv2-kicker,.vk-design-preview .vv2-brand-feature-copy h2,.vk-design-preview .vv2-brand-feature-copy p{color:#fff}
+.vk-design-preview .vv2-brand-feature-copy .vv2-kicker:before{background:#ff7417}
+.vk-design-preview .vv2-brand-feature-copy h2{font-size:clamp(30px,3.3vw,44px);line-height:1.08;margin:0 0 16px}
+.vk-design-preview .vv2-brand-feature-copy p{font-size:16px;line-height:1.7;margin:0 0 24px;color:rgba(255,255,255,.78)}
+.vk-design-preview .vv2-brand-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vk-design-preview .vv2-brand-card{position:relative;min-height:214px;padding:24px;border:1px solid var(--vv-line);border-radius:14px;background:#fbfdfc;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.vk-design-preview .vv2-brand-card:before{content:"";position:absolute;right:-44px;top:-58px;width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,rgba(6,105,57,.10),rgba(255,116,23,.10));pointer-events:none}
+.vk-design-preview .vv2-brand-card-top{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.vk-design-preview .vv2-brand-card span{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:34px;padding:0 12px;border-radius:999px;background:#073b25;color:#fff;font-size:13px;font-weight:900;margin-bottom:18px}
+.vk-design-preview .vv2-brand-card-top span{margin-bottom:0}
+.vk-design-preview .vv2-brand-card-logo{display:block;width:auto;max-width:148px;max-height:34px;object-fit:contain;opacity:.92}
+.vk-design-preview .vv2-brand-card-logo-lg{max-height:38px}
+.vk-design-preview .vv2-brand-card-logo-samsung{max-width:140px;max-height:30px}
+.vk-design-preview .vv2-brand-card-logo-mitsubishi,.vk-design-preview .vv2-brand-card-logo-mitsubishi-electric{max-width:154px;max-height:34px}
+.vk-design-preview .vv2-brand-card-logo-daikin{max-width:126px;max-height:32px}
+.vk-design-preview .vv2-brand-card h3{font-size:22px;line-height:1.16;margin:0 0 10px}
+.vk-design-preview .vv2-brand-card p{font-size:14px;line-height:1.6;margin:0;color:#53645a}
+.vk-design-preview .vv2-brand-card:hover{transform:translateY(-4px);border-color:#c8e2d2;box-shadow:0 18px 36px rgba(7,59,37,.08)}
+.vk-design-preview .vv2-route-grid-wide{grid-template-columns:repeat(6,minmax(0,1fr));align-items:stretch}
+.vk-design-preview .vv2-route-grid-wide .vv2-route-card{grid-column:span 2;display:flex;flex-direction:column;min-height:252px;min-width:0}
+.vk-design-preview .vv2-route-grid-wide .vv2-route-card:nth-child(4){grid-column:2 / span 2}
+.vk-design-preview .vv2-route-grid-wide .vv2-route-card:nth-child(5){grid-column:4 / span 2}
+.vk-design-preview .vv2-route-grid-wide .vv2-route-card h3{font-size:clamp(20px,1.65vw,24px);line-height:1.16;overflow-wrap:anywhere;hyphens:auto}
+.vk-design-preview .vv2-route-grid-wide .vv2-route-card p{font-size:14px}
+.vk-design-preview .vv2-qvantum{background:#073b25}
+.vk-design-preview .vv2-qvantum-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:18px;align-items:stretch}
+.vk-design-preview .vv2-qvantum-card{padding:34px;border-radius:18px;background:linear-gradient(135deg,#08462c 0%,#0a6e40 100%);border:1px solid rgba(255,255,255,.14)}
+.vk-design-preview .vv2-qvantum-card .vv2-kicker,.vk-design-preview .vv2-qvantum-card h2,.vk-design-preview .vv2-qvantum-card p{color:#fff}
+.vk-design-preview .vv2-qvantum-card .vv2-kicker:before{background:#ff7417}
+.vk-design-preview .vv2-qvantum-card h2{font-size:clamp(30px,3.5vw,44px);line-height:1.08;margin:0 0 16px}
+.vk-design-preview .vv2-qvantum-card p{font-size:16px;margin:0 0 14px;opacity:.84}
+.vk-design-preview .vv2-qvantum-card .vv2-simple-explain{margin-top:20px;padding:16px 18px;border-radius:12px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.15);font-weight:900;opacity:1}
+.vk-design-preview .vv2-qvantum-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}
+.vk-design-preview .vv2-qvantum-flow span{position:relative;display:flex;align-items:center;min-height:58px;padding:12px 12px 12px 40px;border-radius:12px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:900;line-height:1.25}
+.vk-design-preview .vv2-qvantum-flow span:before{content:"";position:absolute;left:14px;top:50%;width:12px;height:12px;border-radius:50%;background:#ff7417;transform:translateY(-50%);box-shadow:0 0 0 0 rgba(255,116,23,.45);animation:vv2Pulse 2.7s ease-out infinite}
+.vk-design-preview .vv2-qvantum-flow span:nth-child(2):before{animation-delay:.45s}
+.vk-design-preview .vv2-qvantum-flow span:nth-child(3):before{animation-delay:.9s}
+.vk-design-preview .vv2-qvantum-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vk-design-preview .vv2-qvantum-points article{position:relative;padding:22px 22px 22px 58px;border-radius:14px;background:#fff;border:1px solid rgba(255,255,255,.16)}
+.vk-design-preview .vv2-qvantum-points article:before{content:"✓";position:absolute;left:22px;top:24px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--vv-green);color:#fff;font-size:12px;font-weight:900}
+.vk-design-preview .vv2-qvantum-points h3{font-size:19px;margin:0 0 8px}
+.vk-design-preview .vv2-qvantum-points p{font-size:14px;margin:0}
+.vk-design-preview .vv2-cost-lead figure{margin:24px 0 0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.14)}
+.vk-design-preview .vv2-cost-lead img{display:block;width:100%;height:190px;object-fit:cover;opacity:.9}
+.vk-design-preview .vv2-cost-grid article{display:flex;flex-direction:column}
+.vk-design-preview .vv2-cost-grid article p{font-size:13px;line-height:1.55}
+.vk-design-preview .vv2-route-card,.vk-design-preview .vv2-check-grid article,.vk-design-preview .vv2-cost-grid article,.vk-design-preview .vv2-review-grid article,.vk-design-preview .vv2-qvantum-points article{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.vk-design-preview .vv2-route-card:hover,.vk-design-preview .vv2-check-grid article:hover,.vk-design-preview .vv2-cost-grid article:hover,.vk-design-preview .vv2-review-grid article:hover,.vk-design-preview .vv2-qvantum-points article:hover{transform:translateY(-4px);border-color:#c8e2d2;box-shadow:0 18px 36px rgba(7,59,37,.08)}
+.vk-design-preview.vv2-motion-ready .vv2-reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1);transition-delay:var(--vv2-delay,0ms)}
+.vk-design-preview.vv2-motion-ready .vv2-reveal.vv2-in{opacity:1;transform:none}
+@keyframes vv2Pulse{0%{box-shadow:0 0 0 0 rgba(255,116,23,.45)}70%,100%{box-shadow:0 0 0 14px rgba(255,116,23,0)}}
+@keyframes vv2PhotoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media (prefers-reduced-motion: reduce){
+  .vk-design-preview .vv2-hero-photo,.vk-design-preview .vv2-qvantum-flow span:before,.vk-design-preview .vv2-video-scan,.vk-design-preview .vv2-video-card-a,.vk-design-preview .vv2-video-card-b,.vk-design-preview .vv2-video-routes,.vk-design-preview .vv2-video-advice,.vk-design-preview .vv2-video-steps span:before,.vk-design-preview .vv2-film-progress span,.vk-design-preview .vv2-film-steps article{animation:none}
+  .vk-design-preview .vv2-photo-stack img,.vk-design-preview .vv2-route-card,.vk-design-preview .vv2-check-grid article,.vk-design-preview .vv2-cost-grid article,.vk-design-preview .vv2-review-grid article,.vk-design-preview .vv2-qvantum-points article,.vk-design-preview.vv2-motion-ready .vv2-reveal{transition:none}
+  .vk-design-preview.vv2-motion-ready .vv2-reveal{opacity:1;transform:none}
+}
+@media(max-width:1120px){
+  .vk-design-preview .vv2-route-grid-wide{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .vk-design-preview .vv2-route-grid-wide .vv2-route-card,
+  .vk-design-preview .vv2-route-grid-wide .vv2-route-card:nth-child(4),
+  .vk-design-preview .vv2-route-grid-wide .vv2-route-card:nth-child(5){grid-column:auto}
+  .vk-design-preview .vv2-hero-grid{grid-template-columns:1fr}
+  .vk-design-preview .vv2-form-panel{max-width:720px}
+  .vk-design-preview .vv2-stek-grid{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .vk-design-preview .vv2-check-grid,.vk-design-preview .vv2-photo-grid,.vk-design-preview .vv2-qvantum-grid,.vk-design-preview .vv2-check-video-grid,.vk-design-preview .vv2-brand-feature{grid-template-columns:1fr}
+  .vk-design-preview .vv2-brand-card-grid{grid-template-columns:1fr}
+  .vk-design-preview .vv2-photo-stack{grid-template-rows:190px 190px}
+}
+@media(max-width:700px){
+  .vk-design-preview .vv2-hero{margin-top:112px;padding:22px 0 26px}
+  .mkp-airco-site.vk-design-preview .vv2-hero{margin-top:112px}
+  .mkp-airco-site.vk-design-preview .vv2-hero{padding:26px 0 24px}
+  .vk-design-preview.vv2-motion-ready .vv2-reveal{opacity:1;transform:none}
+  .vk-design-preview .vk-footer-grid{padding:20px}
+  .vk-design-preview .vk-footer-merken{grid-template-columns:1fr 1fr}
+  .vk-design-preview .vv2-hero-copy h1{font-size:31px}
+  .vk-design-preview .vv2-hero-copy p{font-size:15px}
+  .vk-design-preview .vv2-hero-photo img{height:190px}
+  .vk-design-preview .vv2-check-grid,.vk-design-preview .vv2-route-grid-wide{grid-template-columns:1fr}
+  .vk-design-preview .vv2-brand-feature{gap:16px}
+  .vk-design-preview .vv2-brand-feature-copy{padding:24px;border-radius:16px}
+  .vk-design-preview .vv2-brand-feature-copy h2{font-size:clamp(27px,8vw,34px)}
+  .vk-design-preview .vv2-brand-card{min-height:auto;padding:20px}
+  .vk-design-preview .vv2-brand-card-top{flex-direction:column;align-items:flex-start;gap:12px}
+  .vk-design-preview .vv2-brand-card-logo{max-width:170px;max-height:36px}
+  .vk-design-preview .vv2-brand-card h3{font-size:20px}
+  .vk-design-preview .vv2-route-grid-wide .vv2-route-card,
+  .vk-design-preview .vv2-route-grid-wide .vv2-route-card:nth-child(4),
+  .vk-design-preview .vv2-route-grid-wide .vv2-route-card:nth-child(5){grid-column:auto}
+  .vk-design-preview .vv2-qvantum-card{padding:24px}
+  .vk-design-preview .vv2-qvantum-points{grid-template-columns:1fr}
+  .vk-design-preview .vv2-qvantum-flow{grid-template-columns:1fr}
+  .vk-design-preview .vv2-stek-logo{width:118px;margin-bottom:16px}
+.vk-design-preview .vv2-stek-copy .vv2-btn{width:100%;min-height:54px;padding:0 16px;border-radius:12px;font-size:15px;line-height:1.25;text-align:center}
+  .vk-design-preview .vv2-photo-stack{grid-template-columns:1fr;grid-template-rows:auto}
+  .vk-design-preview .vv2-photo-stack .vv2-photo-large{grid-row:auto}
+  .vk-design-preview .vv2-photo-stack img{height:220px}
+  .vk-design-preview .vv2-check-video{padding:46px 0}
+  .vk-design-preview .vv2-animation-video{min-height:410px;border-radius:16px}
+  .vk-design-preview .vv2-film-steps{grid-template-columns:1fr;padding:14px}
+  .vk-design-preview .vv2-film-steps article{min-height:auto;padding:18px}
+  .vk-design-preview .vv2-film-steps article span{margin-bottom:22px}
+  .vk-design-preview .vv2-film-header{padding:15px 16px}
+  .vk-design-preview .vv2-video-stage{min-height:304px;margin:12px}
+  .vk-design-preview .vv2-video-house{left:16px;bottom:94px;transform:scale(.68);transform-origin:left bottom}
+  .vk-design-preview .vv2-video-card{right:14px;width:176px;padding:11px 12px}
+  .vk-design-preview .vv2-video-card-a{top:28px}
+  .vk-design-preview .vv2-video-card-b{top:88px}
+  .vk-design-preview .vv2-video-card strong{font-size:15px}
+  .vk-design-preview .vv2-video-routes{left:14px;right:14px;bottom:82px;width:auto;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .vk-design-preview .vv2-video-routes span{font-size:10px;min-height:32px;padding:0 6px}
+  .vk-design-preview .vv2-video-routes span:before{display:none}
+  .vk-design-preview .vv2-video-advice{left:14px;right:14px;bottom:16px}
+  .vk-design-preview .vv2-video-steps{grid-template-columns:repeat(2,minmax(0,1fr));padding:0 12px 12px}
+}
+
+/* Mijn Koelplan conversion redesign */
+.mkp-airco-site.vk-design-preview .vv2-container{width:min(1220px,calc(100% - 44px))}
+.mkp-airco-site.vk-design-preview .vv2-hero{background:
+  linear-gradient(90deg,rgba(6,105,57,.07),rgba(6,105,57,0) 36%),
+  linear-gradient(180deg,#f7fcf9 0%,#eef8f2 100%);padding:54px 0 42px}
+.mkp-airco-site.vk-design-preview .vv2-hero:before{display:none}
+.mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:minmax(0,1fr) minmax(410px,.62fr);grid-template-rows:auto auto;gap:22px 46px;align-items:start}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy{grid-column:1;grid-row:1}
+.mkp-airco-site.vk-design-preview .vv2-form-panel{grid-column:2;grid-row:1 / span 2;margin-top:12px}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy h1{font-size:clamp(44px,4.55vw,64px);max-width:620px;letter-spacing:-.01em}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){max-width:560px;color:#46594f}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card{display:grid;grid-template-columns:78px 1fr;gap:13px;align-items:center;max-width:520px;margin:18px 0 0;padding:10px;border:1px solid #dcebe3;border-radius:16px;background:rgba(255,255,255,.86);box-shadow:0 18px 36px rgba(7,59,37,.08);backdrop-filter:blur(12px)}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card img{display:block;width:78px;height:62px;object-fit:cover;border-radius:11px}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card strong{display:block;margin-bottom:3px;color:#102018;font-size:15px;line-height:1.18}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card span{display:block;color:#53645a;font-size:12.5px;line-height:1.35;font-weight:800}
+.mkp-airco-site.vk-design-preview .airco-hero-media{grid-column:1;grid-row:2;position:relative;min-height:255px;margin:0;overflow:hidden;border:1px solid #dcebe3;border-radius:22px;background:#073b25;box-shadow:0 24px 54px rgba(7,59,37,.12)}
+.mkp-airco-site.vk-design-preview .airco-hero-media img{display:block;width:100%;height:255px;object-fit:cover;object-position:center 42%;filter:saturate(1.04) contrast(1.03)}
+.mkp-airco-site.vk-design-preview .airco-hero-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,59,37,0) 38%,rgba(7,59,37,.78) 100%)}
+.mkp-airco-site.vk-design-preview .airco-hero-media figcaption{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:18px;color:#fff}
+.mkp-airco-site.vk-design-preview .airco-hero-media strong{display:block;max-width:360px;color:#fff;font-size:22px;line-height:1.05}
+.mkp-airco-site.vk-design-preview .airco-hero-media span{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.92);color:#073b25;font-size:12px;font-weight:950;white-space:nowrap}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{background:rgba(255,255,255,.96);backdrop-filter:blur(14px)}
+.mkp-airco-site.vk-design-preview .airco-proof-strip{background:#073b25;border:0}
+.mkp-airco-site.vk-design-preview .airco-proof-grid article{border-color:rgba(255,255,255,.12)}
+.mkp-airco-site.vk-design-preview .airco-proof-grid strong{color:#fff}
+.mkp-airco-site.vk-design-preview .airco-proof-grid span{color:rgba(255,255,255,.72)}
+.mkp-airco-site.vk-design-preview .airco-campaign-journey{position:relative;overflow:hidden;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-campaign-journey:before{content:"";position:absolute;right:-140px;top:-160px;width:430px;height:430px;border-radius:50%;background:radial-gradient(circle,rgba(255,116,23,.13),rgba(255,116,23,0) 70%)}
+.mkp-airco-site.vk-design-preview .airco-campaign-grid{position:relative;display:grid;grid-template-columns:.88fr 1.12fr;gap:34px;align-items:stretch}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy{padding:34px;border-radius:20px;background:#f5fbf7;border:1px solid #dcebe3}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy span{display:inline-flex;margin-bottom:12px;color:#066939;font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy h2{font-size:clamp(30px,3.3vw,46px);line-height:1.04;margin:0 0 14px}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy p{font-size:16px;max-width:560px;margin:0 0 22px}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:12px;background:#ff7417;color:#fff;font-weight:950;text-decoration:none}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps{display:grid;gap:12px}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps article{display:grid;grid-template-columns:58px 1fr;gap:16px;align-items:start;padding:22px;border:1px solid #dcebe3;border-radius:18px;background:#fff;box-shadow:0 14px 32px rgba(7,59,37,.045)}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps article>span{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:#073b25;color:#fff;font-size:14px;font-weight:950}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps h3{font-size:24px;margin:0 0 7px}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps p{font-size:14.5px;margin:0}
+.mkp-airco-site.vk-design-preview .airco-visual-grid{grid-template-columns:minmax(0,.98fr) minmax(0,1.02fr)}
+.mkp-airco-site.vk-design-preview .airco-visual-copy h2{font-size:clamp(34px,3.5vw,50px)}
+.mkp-airco-site.vk-design-preview .airco-photo-stack{grid-template-rows:230px 230px}
+.mkp-airco-site.vk-design-preview .airco-solution-card{position:relative;overflow:hidden;min-height:330px;border-radius:20px;padding:28px;background:linear-gradient(180deg,#fff 0%,#fbfdfc 100%);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.mkp-airco-site.vk-design-preview .airco-solution-card:after{content:"";position:absolute;right:-48px;bottom:-52px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(255,116,23,.12),rgba(255,116,23,0) 68%)}
+.mkp-airco-site.vk-design-preview .airco-solution-card:hover{transform:translateY(-6px);border-color:#bfe1cd;box-shadow:0 22px 48px rgba(7,59,37,.10)}
+.mkp-airco-site.vk-design-preview .airco-solution-card h3{font-size:27px}
+.mkp-airco-site.vk-design-preview .airco-solution-card p{font-size:15px;color:#516258}
+.mkp-airco-site.vk-design-preview .airco-price{background:linear-gradient(135deg,#06291b 0%,#073b25 58%,#0a5f3a 100%)}
+.mkp-airco-site.vk-design-preview .airco-price-copy{border-radius:22px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.mkp-airco-site.vk-design-preview .airco-price-grid article{border-radius:20px;background:rgba(255,255,255,.095);box-shadow:0 18px 42px rgba(0,0,0,.10)}
+.mkp-airco-site.vk-design-preview .airco-price-grid strong{font-size:30px;color:#ffb071}
+.mkp-airco-site.vk-design-preview .airco-brand-grid article{position:relative;overflow:hidden;border-radius:20px;min-height:310px;padding:28px;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.mkp-airco-site.vk-design-preview .airco-brand-grid article:after{content:"";position:absolute;right:-46px;top:-58px;width:150px;height:150px;border-radius:50%;background:linear-gradient(135deg,rgba(6,105,57,.10),rgba(255,116,23,.09))}
+.mkp-airco-site.vk-design-preview .airco-brand-grid article:hover{transform:translateY(-6px);border-color:#bfe1cd;box-shadow:0 22px 48px rgba(7,59,37,.10)}
+.mkp-airco-site.vk-design-preview .airco-brand-grid article>*{position:relative;z-index:1}
+.mkp-airco-site.vk-design-preview .airco-method{background:#f5fbf7}
+.mkp-airco-site.vk-design-preview .airco-method-layout>div:first-child{position:sticky;top:96px}
+.mkp-airco-site.vk-design-preview .airco-method-list article{border-radius:18px;box-shadow:0 14px 32px rgba(7,59,37,.045)}
+.mkp-airco-site.vk-design-preview .airco-process{background:#fff}
+.mkp-airco-site.vk-design-preview .airco-process-grid article{border-radius:18px;background:#f8fcfa}
+.mkp-airco-site.vk-design-preview .airco-reviews{background:linear-gradient(180deg,#f6fbf8 0%,#fff 100%)}
+.mkp-airco-site.vk-design-preview .airco-review-cards article{border-radius:18px;box-shadow:0 14px 34px rgba(7,59,37,.05)}
+.mkp-airco-site.vk-design-preview .airco-final{background:#fff}
+.mkp-airco-site.vk-design-preview .airco-final-box{border-radius:22px;background:linear-gradient(135deg,#073b25 0%,#0a6b3e 100%);box-shadow:0 24px 60px rgba(7,59,37,.16)}
+
+/* Compact high-converting hero reset */
+.mkp-airco-site.vk-design-preview .vv2-hero{padding:38px 0 34px;background:linear-gradient(180deg,#f6fcf8 0%,#eef8f2 100%)}
+.mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:minmax(0,690px) minmax(390px,450px);grid-template-rows:auto;gap:46px;align-items:start;justify-content:space-between}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy{grid-column:auto;grid-row:auto;max-width:690px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel{grid-column:auto;grid-row:auto;margin-top:8px;max-width:450px;width:100%;justify-self:end}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy h1{max-width:650px;font-size:clamp(42px,4vw,58px);line-height:1.01;margin:0 0 16px}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){max-width:650px;font-size:17px;line-height:1.55;margin-bottom:18px}
+.mkp-airco-site.vk-design-preview .vv2-proof-row-main{margin:0 0 14px;gap:8px}
+.mkp-airco-site.vk-design-preview .vv2-proof-row-main span{min-height:32px;padding:6px 10px;font-size:11.5px}
+.mkp-airco-site.vk-design-preview .vv2-hero-microcopy{margin:0 0 14px!important;font-size:12.5px!important}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card{max-width:545px;margin:0 0 14px;padding:9px;grid-template-columns:70px 1fr;border-radius:14px}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card img{width:70px;height:56px;border-radius:10px}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card strong{font-size:14px}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card span{font-size:12px}
+.mkp-airco-site.vk-design-preview .vv2-hero-actions{margin:0;gap:10px}
+.mkp-airco-site.vk-design-preview .vv2-hero-actions .vv2-btn{min-height:50px;padding:0 20px}
+.mkp-airco-site.vk-design-preview .airco-hero-media{display:none}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{padding:22px;border-radius:16px;box-shadow:0 20px 52px rgba(17,36,24,.13)}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head h2{font-size:25px;line-height:1.12}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head p{font-size:13px;line-height:1.45}
+@media(max-width:1120px){
+  .mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:1fr}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy,.mkp-airco-site.vk-design-preview .airco-hero-media,.mkp-airco-site.vk-design-preview .vv2-form-panel{grid-column:auto;grid-row:auto}
+  .mkp-airco-site.vk-design-preview .vv2-form-panel{max-width:680px;margin-top:0}
+  .mkp-airco-site.vk-design-preview .airco-campaign-grid{grid-template-columns:1fr}
+  .mkp-airco-site.vk-design-preview .airco-choice .airco-section-head{grid-template-columns:1fr}
+  .mkp-airco-site.vk-design-preview .airco-card-grid,.mkp-airco-site.vk-design-preview .airco-brand-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .mkp-airco-site.vk-design-preview .vv2-container{width:min(100% - 28px,1220px)}
+  .mkp-airco-site.vk-design-preview .vv2-hero{padding:24px 0 26px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:1fr;gap:18px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy{grid-column:auto}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy h1{font-size:34px;line-height:1.04;margin-bottom:12px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){font-size:15px;margin-bottom:14px}
+  .mkp-airco-site.vk-design-preview .airco-hero-proof-card{grid-template-columns:64px 1fr;margin-top:14px;border-radius:14px}
+  .mkp-airco-site.vk-design-preview .airco-hero-proof-card img{width:64px;height:56px}
+  .mkp-airco-site.vk-design-preview .airco-hero-proof-card strong{font-size:13px}
+  .mkp-airco-site.vk-design-preview .airco-hero-proof-card span{font-size:11px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media{min-height:208px;border-radius:16px;order:2}
+  .mkp-airco-site.vk-design-preview .airco-hero-media img{height:208px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media figcaption{display:block;left:14px;right:14px;bottom:12px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media strong{font-size:18px;margin-bottom:8px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media span{display:inline-flex;white-space:normal;min-height:30px;font-size:10.5px;line-height:1.2;padding:6px 9px}
+  .mkp-airco-site.vk-design-preview .airco-campaign-copy,.mkp-airco-site.vk-design-preview .airco-campaign-steps article{border-radius:16px;padding:20px}
+  .mkp-airco-site.vk-design-preview .airco-campaign-steps article{grid-template-columns:44px 1fr;gap:12px}
+  .mkp-airco-site.vk-design-preview .airco-campaign-steps article>span{width:38px;height:38px;border-radius:12px}
+  .mkp-airco-site.vk-design-preview .airco-card-grid,.mkp-airco-site.vk-design-preview .airco-brand-grid{grid-template-columns:1fr}
+  .mkp-airco-site.vk-design-preview .airco-solution-card,.mkp-airco-site.vk-design-preview .airco-brand-grid article{border-radius:16px;min-height:0}
+  .mkp-airco-site.vk-design-preview .airco-photo-stack{grid-template-rows:210px 132px 132px}
+  .mkp-airco-site.vk-design-preview .airco-method-layout>div:first-child{position:relative;top:auto}
+}
+
+/* Mijn Koelplan premium funnel redesign */
+.mkp-airco-site.vk-design-preview .vv2-page{background:#f6faf7;color:#102018}
+.mkp-airco-site.vk-design-preview .vv2-container{width:min(1180px,calc(100% - 48px))}
+.mkp-airco-site.vk-design-preview .vv2-hero{margin-top:68px;padding:44px 0 38px;background:
+  linear-gradient(90deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.82) 48%,rgba(234,247,239,.9) 100%),
+  radial-gradient(circle at 24% 28%,rgba(255,116,23,.1),rgba(255,116,23,0) 26%)}
+.mkp-airco-site.vk-design-preview .vv2-hero-grid{display:grid;grid-template-columns:minmax(0,650px) minmax(386px,420px);gap:52px;align-items:start;justify-content:space-between}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy h1{font-size:clamp(44px,4.1vw,60px);line-height:1.01;max-width:640px;margin:0 0 16px;letter-spacing:0}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){font-size:17px;line-height:1.6;max-width:610px;margin:0 0 18px;color:#4b5e54}
+.mkp-airco-site.vk-design-preview .vv2-kicker{margin-bottom:12px;color:#067140}
+.mkp-airco-site.vk-design-preview .vv2-proof-row-main{display:grid;grid-template-columns:repeat(3,max-content);gap:9px;margin:0 0 14px}
+.mkp-airco-site.vk-design-preview .vv2-proof-row-main span{height:36px;padding:0 12px;border-radius:999px;background:#fff;box-shadow:0 10px 22px rgba(7,59,37,.055)}
+.mkp-airco-site.vk-design-preview .vv2-hero-microcopy{margin:0 0 14px!important;color:#304238!important;font-size:13px!important;font-weight:900!important}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card{max-width:560px;margin:0 0 14px;padding:10px;border-radius:16px;background:#fff;box-shadow:0 16px 38px rgba(7,59,37,.075)}
+.mkp-airco-site.vk-design-preview .vv2-hero-actions{display:flex;margin:0;gap:10px}
+.mkp-airco-site.vk-design-preview .vv2-hero-actions .vv2-btn{min-width:190px;min-height:52px;border-radius:12px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel{justify-self:end;width:100%;max-width:420px;margin:2px 0 0}
+.mkp-airco-site.vk-design-preview .vv2-form-panel:before{right:18px;top:-13px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{padding:22px;border-radius:18px;border-color:#cfe5d8;box-shadow:0 24px 58px rgba(7,59,37,.16)}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head h2{font-size:24px;line-height:1.12;margin-bottom:8px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-head p{font-size:13px;line-height:1.45}
+.mkp-airco-site.vk-design-preview .airco-hero-media{display:none!important}
+.mkp-airco-site.vk-design-preview .airco-proof-strip{background:#073b25}
+.mkp-airco-site.vk-design-preview .airco-proof-grid{width:min(1180px,calc(100% - 48px));grid-template-columns:repeat(4,minmax(0,1fr))}
+.mkp-airco-site.vk-design-preview .airco-proof-grid article{padding:22px 26px}
+.mkp-airco-site.vk-design-preview .airco-section{padding:76px 0;background:#fff}
+.mkp-airco-site.vk-design-preview .airco-section:nth-of-type(even){background:#f6faf7}
+.mkp-airco-site.vk-design-preview .airco-campaign-journey{background:linear-gradient(180deg,#fff 0%,#f6faf7 100%)}
+.mkp-airco-site.vk-design-preview .airco-campaign-grid{display:grid;grid-template-columns:minmax(0,470px) minmax(0,1fr);gap:34px;align-items:stretch}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy,.mkp-airco-site.vk-design-preview .airco-campaign-steps article,.mkp-airco-site.vk-design-preview .airco-solution-card,.mkp-airco-site.vk-design-preview .airco-brand-grid article,.mkp-airco-site.vk-design-preview .airco-review-cards article{border-radius:18px;border:1px solid #dbeae2;background:#fff;box-shadow:0 18px 44px rgba(7,59,37,.055)}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy{padding:28px;background:#f7fcf9}
+.mkp-airco-site.vk-design-preview .airco-campaign-copy h2{font-size:clamp(30px,3vw,42px);line-height:1.08}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps{gap:12px}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps article{min-height:0;padding:22px 24px;align-items:center}
+.mkp-airco-site.vk-design-preview .airco-campaign-steps h3{font-size:23px}
+.mkp-airco-site.vk-design-preview .airco-visual-trust{background:#f6faf7}
+.mkp-airco-site.vk-design-preview .airco-visual-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:46px}
+.mkp-airco-site.vk-design-preview .airco-photo-stack{grid-template-rows:220px 220px;gap:14px}
+.mkp-airco-site.vk-design-preview .airco-photo-stack figure{border-radius:18px;box-shadow:0 18px 42px rgba(7,59,37,.1)}
+.mkp-airco-site.vk-design-preview .airco-visual-copy h2,.mkp-airco-site.vk-design-preview .airco-section h2{font-size:clamp(34px,3.2vw,46px);line-height:1.08}
+.mkp-airco-site.vk-design-preview .airco-trust-points{grid-template-columns:1fr;gap:10px}
+.mkp-airco-site.vk-design-preview .airco-choice .airco-section-head{grid-template-columns:minmax(0,1fr) minmax(320px,430px);align-items:center;margin-bottom:28px}
+.mkp-airco-site.vk-design-preview .airco-card-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.mkp-airco-site.vk-design-preview .airco-solution-card{min-height:286px;padding:24px}
+.mkp-airco-site.vk-design-preview .airco-solution-card h3{font-size:25px}
+.mkp-airco-site.vk-design-preview .airco-price{background:#073b25}
+.mkp-airco-site.vk-design-preview .airco-price-layout{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:28px}
+.mkp-airco-site.vk-design-preview .airco-price-copy{position:relative;top:auto;padding:28px;border-radius:20px}
+.mkp-airco-site.vk-design-preview .airco-price-grid{gap:14px}
+.mkp-airco-site.vk-design-preview .airco-price-grid article{min-height:180px;border-radius:18px}
+.mkp-airco-site.vk-design-preview .airco-brand-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.mkp-airco-site.vk-design-preview .airco-brand-grid article{min-height:250px;padding:24px}
+.mkp-airco-site.vk-design-preview .airco-method{background:#f6faf7}
+.mkp-airco-site.vk-design-preview .airco-method-layout{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:34px}
+.mkp-airco-site.vk-design-preview .airco-method-layout>div:first-child{position:relative;top:auto}
+.mkp-airco-site.vk-design-preview .airco-method-list article{min-height:132px}
+.mkp-airco-site.vk-design-preview .airco-process-grid article{min-height:190px}
+.mkp-airco-site.vk-design-preview .airco-final-box{padding:32px}
+.mkp-airco-site.vk-design-preview section.airco-price{background:linear-gradient(135deg,#062619 0%,#073b25 58%,#075634 100%)!important;color:#fff}
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-copy{background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.14)}
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-copy span,
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-copy h2,
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-copy p,
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-copy li{color:#fff}
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-copy p{color:rgba(255,255,255,.78)}
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-grid article{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16)}
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-grid span{color:rgba(255,255,255,.72)}
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-grid strong{color:#ffb071}
+.mkp-airco-site.vk-design-preview section.airco-price .airco-price-grid p{color:rgba(255,255,255,.76)}
+
+/* Hero trust photo and wider quote panel */
+.mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:minmax(0,590px) minmax(480px,520px);grid-template-rows:auto auto;gap:22px 58px}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy{grid-column:1;grid-row:1}
+.mkp-airco-site.vk-design-preview .vv2-form-panel{grid-column:2;grid-row:1 / span 2;max-width:520px;margin-top:0}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{padding:26px;border-radius:20px}
+.mkp-airco-site.vk-design-preview .airco-hero-media{display:block!important;grid-column:1;grid-row:2;position:relative;min-height:292px;margin:0;overflow:hidden;border:1px solid #d7e9df;border-radius:20px;background:#073b25;box-shadow:0 24px 56px rgba(7,59,37,.12)}
+.mkp-airco-site.vk-design-preview .airco-hero-media img{display:block;width:100%;height:292px;object-fit:cover;object-position:center 47%;filter:saturate(1.03) contrast(1.03)}
+.mkp-airco-site.vk-design-preview .airco-hero-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,59,37,0) 36%,rgba(7,59,37,.74) 100%)}
+.mkp-airco-site.vk-design-preview .airco-hero-media figcaption{position:absolute;left:18px;right:18px;bottom:16px;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;color:#fff}
+.mkp-airco-site.vk-design-preview .airco-hero-media strong{display:block;max-width:320px;color:#fff;font-size:22px;line-height:1.08}
+.mkp-airco-site.vk-design-preview .airco-hero-media span{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.93);color:#073b25;font-size:12px;font-weight:950;white-space:nowrap}
+@media(max-width:1120px){
+  .mkp-airco-site.vk-design-preview .vv2-hero-grid,.mkp-airco-site.vk-design-preview .airco-campaign-grid,.mkp-airco-site.vk-design-preview .airco-visual-grid,.mkp-airco-site.vk-design-preview .airco-price-layout,.mkp-airco-site.vk-design-preview .airco-method-layout{grid-template-columns:1fr}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy,.mkp-airco-site.vk-design-preview .airco-hero-media,.mkp-airco-site.vk-design-preview .vv2-form-panel{grid-column:auto;grid-row:auto}
+  .mkp-airco-site.vk-design-preview .vv2-form-panel{justify-self:start;max-width:720px}
+  .mkp-airco-site.vk-design-preview .airco-card-grid,.mkp-airco-site.vk-design-preview .airco-brand-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .mkp-airco-site.vk-design-preview .vv2-container,.mkp-airco-site.vk-design-preview .airco-proof-grid{width:min(100% - 28px,1180px)}
+  .mkp-airco-site.vk-design-preview .vv2-hero{margin-top:112px;padding:24px 0 22px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-grid{gap:18px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy h1{font-size:34px;line-height:1.04}
+  .mkp-airco-site.vk-design-preview .vv2-proof-row-main{grid-template-columns:1fr;gap:7px;max-width:270px}
+  .mkp-airco-site.vk-design-preview .vv2-proof-row-main span{justify-content:flex-start}
+  .mkp-airco-site.vk-design-preview .vv2-hero-actions{display:none}
+  .mkp-airco-site.vk-design-preview .vv2-hero-actions .vv2-btn{min-width:0;width:100%;padding:0 10px;font-size:14px}
+  .mkp-airco-site.vk-design-preview .airco-hero-proof-card{grid-template-columns:58px 1fr}
+  .mkp-airco-site.vk-design-preview .airco-hero-proof-card img{width:58px;height:52px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media{min-height:210px;border-radius:16px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media img{height:210px;object-position:center 50%}
+  .mkp-airco-site.vk-design-preview .airco-hero-media figcaption{display:block;left:14px;right:14px;bottom:12px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media strong{max-width:none;margin-bottom:8px;font-size:18px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media span{white-space:normal;min-height:30px;padding:6px 9px;font-size:10.5px;line-height:1.2}
+  .mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{padding:20px;border-radius:16px}
+  .mkp-airco-site.vk-design-preview .airco-proof-grid,.mkp-airco-site.vk-design-preview .airco-card-grid,.mkp-airco-site.vk-design-preview .airco-brand-grid,.mkp-airco-site.vk-design-preview .airco-method-list,.mkp-airco-site.vk-design-preview .airco-process-grid,.mkp-airco-site.vk-design-preview .airco-price-grid{grid-template-columns:1fr}
+  .mkp-airco-site.vk-design-preview .airco-section{padding:52px 0}
+  .mkp-airco-site.vk-design-preview .airco-choice .airco-section-head{grid-template-columns:1fr}
+}
+
+.vk-cookie-banner[hidden]{display:none}
+.vk-cookie-banner{position:fixed;inset:auto 14px 14px;z-index:9999;display:flex;justify-content:center;pointer-events:none}
+.vk-cookie-panel{width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 14px;border:1px solid #cfe4d8;border-radius:14px;background:rgba(255,255,255,.98);box-shadow:0 18px 54px rgba(7,59,37,.16);pointer-events:auto}
+.vk-cookie-copy{min-width:0}
+.vk-cookie-kicker{display:inline-flex;margin-bottom:4px;color:#066939;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.vk-cookie-copy h2{margin:0 0 3px;color:#102019;font-family:"DM Sans",Inter,system-ui,sans-serif;font-size:18px;line-height:1.12;letter-spacing:0}
+.vk-cookie-copy p{max-width:560px;margin:0;color:#53645a;font-size:12px;line-height:1.42}
+.vk-cookie-copy a{display:inline-flex;margin-top:5px;color:#066939;font-size:12px;font-weight:900;text-decoration:underline;text-underline-offset:3px}
+.vk-cookie-settings{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vk-cookie-settings[hidden]{display:none}
+.vk-cookie-settings label{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;margin:0;padding:9px;border:1px solid #d8e8df;border-radius:10px;background:#f8fcfa;color:#102019}
+.vk-cookie-settings input{width:16px;height:16px;margin:1px 0 0;accent-color:#066939}
+.vk-cookie-settings strong{display:block;margin-bottom:2px;font-size:13px;line-height:1.15}
+.vk-cookie-settings small{display:block;color:#607267;font-size:11px;line-height:1.32}
+.vk-cookie-actions{display:flex;flex-wrap:nowrap;justify-content:flex-end;gap:7px}
+.vk-cookie-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 12px;border-radius:10px;font-family:"DM Sans",Inter,system-ui,sans-serif;font-size:12px;font-weight:900;line-height:1.1;white-space:nowrap;cursor:pointer}
+.vk-cookie-btn[hidden]{display:none}
+.vk-cookie-btn-light{border:1px solid #cfe4d8;background:#fff;color:#073b25}
+.vk-cookie-btn-primary{border:1px solid #066939;background:#066939;color:#fff}
+.vk-cookie-btn:hover{transform:translateY(-1px)}
+@media(max-width:760px){
+  .vk-cookie-banner{inset:auto 8px 8px}
+  .vk-cookie-panel{grid-template-columns:1fr;gap:10px;padding:12px;border-radius:14px}
+  .vk-cookie-kicker{display:none}
+  .vk-cookie-copy h2{font-size:17px}
+  .vk-cookie-copy p{font-size:12px;line-height:1.35}
+  .vk-cookie-copy a{margin-top:4px;font-size:11px}
+  .vk-cookie-settings{grid-template-columns:1fr}
+  .vk-cookie-settings label{padding:8px}
+  .vk-cookie-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .vk-cookie-btn{min-height:38px;padding:0 7px;border-radius:9px;font-size:11px}
+  .vk-cookie-btn-primary[data-cookie-save]{grid-column:1/-1}
+}
+
+/* Final hero cleanup: no duplicate trust copy, calmer sizing */
+.mkp-airco-site.vk-design-preview .vv2-hero{padding:34px 0 34px}
+.mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:minmax(0,560px) minmax(500px,540px);gap:22px 62px;align-items:start}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy h1{max-width:560px;font-size:clamp(40px,3.45vw,52px);line-height:1.02;margin-bottom:14px}
+.mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){max-width:555px;font-size:16px;line-height:1.55}
+.mkp-airco-site.vk-design-preview .vv2-proof-row-main{grid-template-columns:repeat(3,max-content);gap:8px;margin-bottom:12px}
+.mkp-airco-site.vk-design-preview .vv2-hero-microcopy{margin-bottom:16px!important}
+.mkp-airco-site.vk-design-preview .airco-hero-proof-card{display:none!important}
+.mkp-airco-site.vk-design-preview .airco-hero-media{min-height:270px;border-radius:18px}
+.mkp-airco-site.vk-design-preview .airco-hero-media img{height:270px;object-position:center 45%}
+.mkp-airco-site.vk-design-preview .airco-hero-media:after{background:linear-gradient(180deg,rgba(7,59,37,0) 58%,rgba(7,59,37,.42) 100%)}
+.mkp-airco-site.vk-design-preview .airco-hero-media figcaption{display:none}
+.mkp-airco-site.vk-design-preview .vv2-form-panel{max-width:540px}
+.mkp-airco-site.vk-design-preview .vv2-form-panel .vk-form-card{padding:26px}
+@media(min-width:1121px){
+  .mkp-airco-site.vk-design-preview .vv2-form-panel{position:sticky;top:92px;align-self:start}
+}
+@media(max-width:1120px){
+  .mkp-airco-site.vk-design-preview .vv2-hero-grid{grid-template-columns:1fr;gap:18px}
+  .mkp-airco-site.vk-design-preview .vv2-form-panel{max-width:760px;justify-self:stretch}
+}
+@media(max-width:700px){
+  .mkp-airco-site.vk-design-preview .vv2-hero{padding:22px 0 22px}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy h1{font-size:33px;line-height:1.05}
+  .mkp-airco-site.vk-design-preview .vv2-hero-copy p:not(.vv2-hero-microcopy){font-size:15px;line-height:1.52}
+  .mkp-airco-site.vk-design-preview .vv2-proof-row-main{grid-template-columns:1fr;max-width:270px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media{min-height:188px}
+  .mkp-airco-site.vk-design-preview .airco-hero-media img{height:188px}
+}
+
+/* Mijn Koelplan conversion rebuild */
+.mkp-airco-site .mkp-site{background:#f5faf7;color:#102018;font-family:"DM Sans",Inter,system-ui,sans-serif}
+.mkp-airco-site .mkp-site *{box-sizing:border-box}
+.mkp-airco-site .mkp-container{width:min(1180px,calc(100% - 48px));margin:0 auto}
+.mkp-airco-site .mkp-eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;color:#076f42;font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+.mkp-airco-site .mkp-eyebrow:before{content:"";width:8px;height:8px;border-radius:50%;background:#ff7417}
+.mkp-airco-site .mkp-site h1,.mkp-airco-site .mkp-site h2,.mkp-airco-site .mkp-site h3{margin:0;color:#102018;font-family:"DM Sans",Inter,system-ui,sans-serif;letter-spacing:0}
+.mkp-airco-site .mkp-site p{margin:0;color:#52645a;line-height:1.62}
+.mkp-airco-site .mkp-hero{padding:42px 0 36px;margin-top:68px;background:linear-gradient(180deg,#ffffff 0%,#eef8f2 100%)}
+.mkp-airco-site .mkp-hero-grid{display:grid;grid-template-columns:minmax(0,570px) minmax(480px,540px);gap:58px;align-items:start}
+.mkp-airco-site .mkp-hero-copy h1{max-width:560px;font-size:clamp(42px,4.4vw,64px);line-height:1.01;font-weight:950}
+.mkp-airco-site .mkp-lead{max-width:560px;margin-top:16px!important;font-size:18px}
+.mkp-airco-site .mkp-hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.mkp-airco-site .mkp-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 20px;border-radius:12px;font-weight:950;line-height:1.1;text-decoration:none;transition:transform .16s,box-shadow .16s,background .16s}
+.mkp-airco-site .mkp-btn:hover{transform:translateY(-1px)}
+.mkp-airco-site .mkp-btn-primary{background:#ff7417;color:#fff;box-shadow:0 14px 28px rgba(255,116,23,.23)}
+.mkp-airco-site .mkp-btn-primary:hover{background:#e96510;color:#fff}
+.mkp-airco-site .mkp-btn-secondary{border:1px solid #cfe3d8;background:#fff;color:#073b25}
+.mkp-airco-site .mkp-btn-secondary:hover{box-shadow:0 12px 24px rgba(7,59,37,.08);color:#073b25}
+.mkp-airco-site .mkp-proof-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.mkp-airco-site .mkp-proof-pills span{display:inline-flex;align-items:center;min-height:34px;padding:0 11px;border:1px solid #dbeae2;border-radius:999px;background:#fff;color:#173626;font-size:12px;font-weight:950;box-shadow:0 8px 20px rgba(7,59,37,.045)}
+.mkp-airco-site .mkp-hero-photo{margin:24px 0 0;overflow:hidden;border:1px solid #d7e9df;border-radius:20px;background:#073b25;box-shadow:0 24px 56px rgba(7,59,37,.12)}
+.mkp-airco-site .mkp-hero-photo img{display:block;width:100%;height:282px;object-fit:cover;object-position:center 45%}
+.mkp-airco-site .mkp-conversion-form{position:sticky;top:92px;align-self:start}
+.mkp-airco-site .mkp-conversion-form .vk-form-wrap{position:relative;top:auto;max-width:none}
+.mkp-airco-site .mkp-conversion-form .vk-form-card{padding:26px;border:1px solid #cfe5d8;border-radius:20px;background:#fff;box-shadow:0 24px 58px rgba(7,59,37,.16)}
+.mkp-airco-site .mkp-conversion-form .vk-form-card:before{height:5px;background:linear-gradient(90deg,#066939 0%,#18a65e 34%,#f3b34b 58%,#ff7417 78%,#066939 100%)}
+.mkp-airco-site .mkp-conversion-form .vk-form-card:after,.mkp-airco-site .mkp-conversion-form .vk-form-adviser{display:none}
+.mkp-airco-site .mkp-conversion-form .vk-form-head{text-align:left;margin-bottom:14px}
+.mkp-airco-site .mkp-conversion-form .vk-form-head h2{font-size:25px;line-height:1.12;margin-bottom:8px}
+.mkp-airco-site .mkp-conversion-form .vk-form-head p{font-size:13px;line-height:1.45}
+.mkp-airco-site .mkp-conversion-form .vk-form-card hz-embed{margin-top:8px}
+.mkp-airco-site .mkp-conversion-form .embed-submit-button{min-height:54px!important;border-radius:12px!important;background:#ff7417!important;font-weight:950!important;box-shadow:0 14px 28px rgba(255,116,23,.24)!important}
+.mkp-airco-site .mkp-form-switch{display:flex;justify-content:space-between;gap:10px;margin-top:10px;padding:12px 14px;border:1px solid #dbeae2;border-radius:14px;background:#fff;color:#52645a;font-size:13px;font-weight:850}
+.mkp-airco-site .mkp-form-switch a{color:#066939;font-weight:950;text-decoration:none}
+.mkp-airco-site .mkp-trust-bar{background:#073b25}
+.mkp-airco-site .mkp-trust-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.mkp-airco-site .mkp-trust-grid article{padding:22px 24px;border-right:1px solid rgba(255,255,255,.12)}
+.mkp-airco-site .mkp-trust-grid article:last-child{border-right:0}
+.mkp-airco-site .mkp-trust-grid strong{display:block;color:#fff;font-size:28px;line-height:1;font-weight:950;margin-bottom:7px}
+.mkp-airco-site .mkp-trust-grid span{display:block;color:rgba(255,255,255,.76);font-size:13px;line-height:1.35;font-weight:850}
+.mkp-airco-site .mkp-section{padding:74px 0;background:#fff}
+.mkp-airco-site .mkp-section:nth-of-type(even){background:#f5faf7}
+.mkp-airco-site .mkp-section h2{max-width:760px;font-size:clamp(32px,3.4vw,48px);line-height:1.06;font-weight:950}
+.mkp-airco-site .mkp-section-head{max-width:790px;margin-bottom:28px}
+.mkp-airco-site .mkp-section-head h2{margin-bottom:0}
+.mkp-airco-site .mkp-intent-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(360px,.72fr);gap:48px;align-items:center}
+.mkp-airco-site .mkp-intent-grid>div:first-child p:not(.mkp-eyebrow){max-width:650px;margin-top:18px;font-size:17px}
+.mkp-airco-site .mkp-checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mkp-airco-site .mkp-checklist span{position:relative;min-height:58px;padding:15px 15px 15px 44px;border:1px solid #dbeae2;border-radius:14px;background:#fff;color:#173626;font-weight:950;line-height:1.25;box-shadow:0 12px 28px rgba(7,59,37,.045)}
+.mkp-airco-site .mkp-checklist span:before{content:"✓";position:absolute;left:15px;top:17px;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#066939;color:#fff;font-size:11px}
+.mkp-airco-site .mkp-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.mkp-airco-site .mkp-card-grid article,.mkp-airco-site .mkp-mini-cards article,.mkp-airco-site .mkp-review-cards article{border:1px solid #dbeae2;border-radius:18px;background:#fff;box-shadow:0 18px 44px rgba(7,59,37,.055)}
+.mkp-airco-site .mkp-card-grid article{display:flex;flex-direction:column;min-height:245px;padding:24px}
+.mkp-airco-site .mkp-card-grid h3{font-size:24px;line-height:1.1;margin-bottom:12px}
+.mkp-airco-site .mkp-card-grid p{font-size:14px}
+.mkp-airco-site .mkp-card-grid a{display:inline-flex;margin:auto 0 0;color:#066939;font-weight:950;text-decoration:none}
+.mkp-airco-site .mkp-card-grid a:after{content:"→";margin-left:8px;color:#ff7417}
+.mkp-airco-site .mkp-proof{background:#f5faf7}
+.mkp-airco-site .mkp-proof-grid,.mkp-airco-site .mkp-review-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center}
+.mkp-airco-site .mkp-proof figure,.mkp-airco-site .mkp-van-photo{margin:0;overflow:hidden;border-radius:20px;border:1px solid #d7e9df;box-shadow:0 24px 56px rgba(7,59,37,.11)}
+.mkp-airco-site .mkp-proof img,.mkp-airco-site .mkp-van-photo img{display:block;width:100%;height:430px;object-fit:cover}
+.mkp-airco-site .mkp-proof-grid p:not(.mkp-eyebrow){max-width:590px;margin-top:16px;font-size:16px}
+.mkp-airco-site .mkp-mini-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.mkp-airco-site .mkp-mini-cards article{padding:18px}
+.mkp-airco-site .mkp-mini-cards strong{display:block;color:#102018;font-size:17px;line-height:1.2;margin-bottom:6px}
+.mkp-airco-site .mkp-mini-cards span{display:block;color:#52645a;font-size:13px;line-height:1.45}
+.mkp-airco-site .mkp-prices{background:linear-gradient(135deg,#062619 0%,#073b25 58%,#075634 100%)!important;color:#fff}
+.mkp-airco-site .mkp-price-grid{display:grid;grid-template-columns:minmax(0,410px) minmax(0,1fr);gap:34px;align-items:start}
+.mkp-airco-site .mkp-prices h2,.mkp-airco-site .mkp-prices p,.mkp-airco-site .mkp-prices .mkp-eyebrow{color:#fff}
+.mkp-airco-site .mkp-prices p:not(.mkp-eyebrow){color:rgba(255,255,255,.78);margin:14px 0 22px}
+.mkp-airco-site .mkp-price-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mkp-airco-site .mkp-price-cards article{min-height:196px;padding:24px;border:1px solid rgba(255,255,255,.16);border-radius:18px;background:rgba(255,255,255,.09)}
+.mkp-airco-site .mkp-price-cards span{display:block;color:rgba(255,255,255,.72);font-size:13px;font-weight:950;margin-bottom:10px}
+.mkp-airco-site .mkp-price-cards strong{display:block;color:#ffb071;font-size:26px;line-height:1.12;margin-bottom:14px;font-weight:950}
+.mkp-airco-site .mkp-price-cards p{color:rgba(255,255,255,.76);font-size:14px}
+.mkp-airco-site .mkp-brands{text-align:center;background:#fff!important}
+.mkp-airco-site .mkp-brands h2{margin:0 auto 26px}
+.mkp-airco-site .mkp-logo-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mkp-airco-site .mkp-logo-row img{display:block;width:100%;height:86px;object-fit:contain;padding:22px;border:1px solid #dbeae2;border-radius:16px;background:#fff;box-shadow:0 14px 34px rgba(7,59,37,.045)}
+.mkp-airco-site .mkp-review-cards{display:grid;gap:12px}
+.mkp-airco-site .mkp-review-cards article{padding:22px}
+.mkp-airco-site .mkp-review-cards div{color:#ff7417;font-size:14px;letter-spacing:.08em;margin-bottom:10px}
+.mkp-airco-site .mkp-review-cards blockquote{margin:0 0 12px;color:#102018;font-size:18px;line-height:1.4;font-weight:850}
+.mkp-airco-site .mkp-review-cards strong{color:#52645a;font-size:13px}
+.mkp-airco-site .mkp-final{background:#f5faf7}
+.mkp-airco-site .mkp-final-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;padding:32px;border:1px solid #dbeae2;border-radius:22px;background:#fff;box-shadow:0 18px 44px rgba(7,59,37,.06)}
+.mkp-airco-site .mkp-final-box p:not(.mkp-eyebrow){max-width:650px;margin-top:12px}
+.mkp-airco-site .mkp-final-actions{display:flex;gap:10px}
+.mkp-airco-site .mkp-faq-grid{display:grid;grid-template-columns:minmax(0,390px) minmax(0,1fr);gap:44px;align-items:start}
+.mkp-airco-site .mkp-faq details{border-bottom:1px solid #dbeae2;background:#fff}
+.mkp-airco-site .mkp-faq summary{cursor:pointer;padding:20px 0;color:#102018;font-size:18px;font-weight:950;list-style:none}
+.mkp-airco-site .mkp-faq summary::-webkit-details-marker{display:none}
+.mkp-airco-site .mkp-faq summary:after{content:"+";float:right;color:#ff7417;font-size:24px;line-height:1}
+.mkp-airco-site .mkp-faq details[open] summary:after{content:"-"}
+.mkp-airco-site .mkp-faq details p{padding:0 44px 20px 0}
+@media(max-width:1120px){
+  .mkp-airco-site .mkp-hero-grid,.mkp-airco-site .mkp-intent-grid,.mkp-airco-site .mkp-proof-grid,.mkp-airco-site .mkp-price-grid,.mkp-airco-site .mkp-review-grid,.mkp-airco-site .mkp-faq-grid{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-conversion-form{position:relative;top:auto;max-width:760px}
+  .mkp-airco-site .mkp-card-grid,.mkp-airco-site .mkp-logo-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mkp-airco-site .mkp-price-cards{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .mkp-airco-site .mkp-container{width:min(100% - 28px,1180px)}
+  .mkp-airco-site .mkp-hero{margin-top:112px;padding:24px 0 28px}
+  .mkp-airco-site .mkp-hero-grid{gap:18px}
+  .mkp-airco-site .mkp-hero-copy h1{font-size:35px;line-height:1.04}
+  .mkp-airco-site .mkp-lead{font-size:15px;line-height:1.52}
+  .mkp-airco-site .mkp-hero-actions{display:none}
+  .mkp-airco-site .mkp-proof-pills{display:none}
+  .mkp-airco-site .mkp-hero-photo{display:none}
+  .mkp-airco-site .mkp-conversion-form .vk-form-card{padding:20px;border-radius:16px}
+  .mkp-airco-site .mkp-conversion-form .vk-form-head h2{font-size:23px}
+  .mkp-airco-site .mkp-conversion-form .vk-form-head p{display:none}
+  .mkp-airco-site .mkp-form-switch{display:grid;grid-template-columns:1fr}
+  .mkp-airco-site .mkp-trust-grid,.mkp-airco-site .mkp-card-grid,.mkp-airco-site .mkp-checklist,.mkp-airco-site .mkp-mini-cards,.mkp-airco-site .mkp-logo-row{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-trust-grid article{border-right:0;border-bottom:1px solid rgba(255,255,255,.12);padding:18px 0}
+  .mkp-airco-site .mkp-trust-grid article:last-child{border-bottom:0}
+  .mkp-airco-site .mkp-section{padding:52px 0}
+  .mkp-airco-site .mkp-section h2{font-size:31px;line-height:1.08}
+  .mkp-airco-site .mkp-card-grid article{min-height:0}
+  .mkp-airco-site .mkp-proof img,.mkp-airco-site .mkp-van-photo img{height:260px}
+  .mkp-airco-site .mkp-final-box{grid-template-columns:1fr;padding:22px;border-radius:18px}
+  .mkp-airco-site .mkp-final-actions{display:grid;grid-template-columns:1fr}
+  .mkp-airco-site .mkp-faq summary{font-size:16px}
+}
+
+/* Mijn Koelplan reboot: offer-first console */
+.mkp-airco-site .mkp-reboot{background:#f7faf8;color:#101817;font-family:"DM Sans",Inter,system-ui,sans-serif}
+.mkp-airco-site .mkp-reboot *{box-sizing:border-box}
+.mkp-airco-site .mkp-reboot-container{width:min(1160px,calc(100% - 44px));margin:0 auto}
+.mkp-airco-site .mkp-offer-screen{min-height:calc(100vh - 68px);padding:26px 0 34px;margin-top:68px;background:linear-gradient(180deg,#fefefe 0%,#eef8f2 100%)}
+.mkp-airco-site .mkp-topline{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;min-height:50px;padding:9px 12px;border:1px solid #d7e7de;border-radius:14px;background:#fff;box-shadow:0 12px 30px rgba(19,51,36,.05)}
+.mkp-airco-site .mkp-topline span{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:0 11px;border-radius:999px;background:#102018;color:#fff;font-size:12px;font-weight:950}
+.mkp-airco-site .mkp-topline strong{color:#102018;font-size:14px;font-weight:950}
+.mkp-airco-site .mkp-topline a{justify-self:end;color:#066939;font-weight:950;text-decoration:none}
+.mkp-airco-site .mkp-offer-head{max-width:820px;margin:34px auto 22px;text-align:center}
+.mkp-airco-site .mkp-offer-head p{display:inline-flex;margin:0 0 12px;padding:7px 12px;border:1px solid #ffd8bd;border-radius:999px;background:#fff4ec;color:#c4510e;font-size:12px;font-weight:950;letter-spacing:.06em;text-transform:uppercase}
+.mkp-airco-site .mkp-offer-head h1{margin:0;color:#102018;font-size:clamp(42px,5.2vw,76px);line-height:.96;font-weight:950;letter-spacing:0}
+.mkp-airco-site .mkp-offer-head span{display:block;max-width:660px;margin:16px auto 0;color:#52645a;font-size:18px;line-height:1.5;font-weight:700}
+.mkp-airco-site .mkp-quote-console{display:grid;grid-template-columns:minmax(0,.86fr) minmax(430px,.78fr);gap:18px;align-items:stretch}
+.mkp-airco-site .mkp-left-stack{display:grid;gap:12px}
+.mkp-airco-site .mkp-advisor-card{display:grid;grid-template-columns:108px 1fr;gap:16px;align-items:center;min-height:144px;padding:16px;border:1px solid #d7e7de;border-radius:18px;background:#fff;color:#102018;box-shadow:0 16px 38px rgba(19,51,36,.055)}
+.mkp-airco-site .mkp-advisor-card figure{width:108px;height:108px;margin:0;overflow:hidden;border-radius:16px;background:#eaf3ef}
+.mkp-airco-site .mkp-advisor-card img{width:100%;height:100%;object-fit:cover;object-position:center}
+.mkp-airco-site .mkp-advisor-card span{display:inline-flex;margin-bottom:7px;padding:6px 9px;border-radius:999px;background:#eaf7ef;color:#066939;font-size:11px;font-weight:950}
+.mkp-airco-site .mkp-advisor-card strong{display:block;color:#102018;font-size:20px;line-height:1.12;font-weight:950}
+.mkp-airco-site .mkp-advisor-card p{margin:8px 0 0;color:#52645a;font-size:13px;line-height:1.48;font-weight:750}
+.mkp-airco-site .mkp-info-first{padding:16px;border:1px solid #d7e7de;border-radius:18px;background:#fff;color:#102018;box-shadow:0 16px 38px rgba(19,51,36,.045)}
+.mkp-airco-site .mkp-info-first strong{display:block;color:#102018;font-size:18px;line-height:1.15;font-weight:950;margin-bottom:10px}
+.mkp-airco-site .mkp-info-first ul{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.mkp-airco-site .mkp-info-first li{position:relative;padding-left:26px;color:#33483d;font-size:13px;line-height:1.4;font-weight:850}
+.mkp-airco-site .mkp-info-first li:before{content:"";position:absolute;left:0;top:2px;width:17px;height:17px;border-radius:50%;background:#ff7417;box-shadow:inset 0 0 0 5px #fff1e8}
+.mkp-airco-site .mkp-room-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mkp-airco-site .mkp-room-picker a{position:relative;display:grid;align-content:space-between;min-height:128px;padding:18px;border:1px solid #d7e7de;border-radius:18px;background:#fff;color:#102018;text-decoration:none;box-shadow:0 16px 38px rgba(19,51,36,.055);transition:transform .16s,box-shadow .16s,border-color .16s}
+.mkp-airco-site .mkp-room-picker a:hover{transform:translateY(-2px);border-color:#ffae79;box-shadow:0 20px 46px rgba(19,51,36,.08)}
+.mkp-airco-site .mkp-room-picker strong{display:block;font-size:24px;line-height:1.02;font-weight:950}
+.mkp-airco-site .mkp-room-picker span{display:inline-flex;width:max-content;margin-top:8px;padding:6px 10px;border-radius:999px;background:#eaf7ef;color:#066939;font-size:12px;font-weight:950}
+.mkp-airco-site .mkp-room-picker em{align-self:end;color:#ff7417;font-size:19px;font-style:normal;font-weight:950}
+.mkp-airco-site .mkp-form-stage{padding:22px;border:1px solid #bfd8ca;border-radius:22px;background:#fff;box-shadow:0 26px 70px rgba(19,51,36,.13)}
+.mkp-airco-site .mkp-form-stage-head{margin-bottom:14px}
+.mkp-airco-site .mkp-form-stage-head span{display:inline-flex;margin-bottom:12px;padding:7px 11px;border-radius:999px;background:#fff0e6;color:#d75b11;font-size:12px;font-weight:950}
+.mkp-airco-site .mkp-form-stage-head strong{display:block;color:#102018;font-size:28px;line-height:1.08;font-weight:950}
+.mkp-airco-site .mkp-form-stage-head p{margin:7px 0 0;color:#52645a;font-size:13px;line-height:1.45}
+.mkp-airco-site .mkp-form-stage .vk-form-wrap{position:relative;top:auto;max-width:none}
+.mkp-airco-site .mkp-form-stage .vk-form-card{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.mkp-airco-site .mkp-form-stage .vk-form-card:before,.mkp-airco-site .mkp-form-stage .vk-form-card:after,.mkp-airco-site .mkp-form-stage .vk-form-head,.mkp-airco-site .mkp-form-stage .vk-form-adviser{display:none!important}
+.mkp-airco-site .mkp-form-stage .vk-form-card hz-embed{margin-top:0}
+.mkp-airco-site .mkp-form-stage .embed-submit-button{min-height:56px!important;border-radius:12px!important;background:#ff7417!important;color:#fff!important;font-weight:950!important;box-shadow:0 14px 30px rgba(255,116,23,.24)!important}
+.mkp-airco-site .mkp-fast-contact{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.mkp-airco-site .mkp-fast-contact a{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #d7e7de;border-radius:12px;background:#f8fcfa;color:#066939;font-size:13px;font-weight:950;text-decoration:none}
+.mkp-airco-site .mkp-under-console{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px}
+.mkp-airco-site .mkp-under-console span{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border:1px solid #d7e7de;border-radius:999px;background:rgba(255,255,255,.82);color:#263f33;font-size:12px;font-weight:950}
+.mkp-airco-site .mkp-reboot-section{padding:74px 0;background:#fff}
+.mkp-airco-site .mkp-reboot-section:nth-of-type(even){background:#f7faf8}
+.mkp-airco-site .mkp-reboot-kicker{display:inline-flex;margin:0 0 12px;color:#c4510e;font-size:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+.mkp-airco-site .mkp-reboot h2,.mkp-airco-site .mkp-reboot-final h2{margin:0;color:#102018;font-size:clamp(32px,3.8vw,52px);line-height:1.04;font-weight:950;letter-spacing:0}
+.mkp-airco-site .mkp-objection-grid{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1fr);gap:44px}
+.mkp-airco-site .mkp-objection-list{display:grid;gap:12px}
+.mkp-airco-site .mkp-objection-list article{padding:22px;border:1px solid #d7e7de;border-radius:16px;background:#fff;box-shadow:0 14px 34px rgba(19,51,36,.045)}
+.mkp-airco-site .mkp-objection-list strong{display:block;color:#102018;font-size:20px;line-height:1.18;margin-bottom:8px}
+.mkp-airco-site .mkp-objection-list p,.mkp-airco-site .mkp-photo-proof p{margin:0;color:#52645a;line-height:1.62}
+.mkp-airco-site .mkp-proof-strip{padding:0;background:#102018!important}
+.mkp-airco-site .mkp-proof-strip-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.mkp-airco-site .mkp-proof-strip article{padding:24px;border-right:1px solid rgba(255,255,255,.12)}
+.mkp-airco-site .mkp-proof-strip strong{display:block;color:#fff;font-size:30px;line-height:1;font-weight:950;margin-bottom:7px}
+.mkp-airco-site .mkp-proof-strip span{color:rgba(255,255,255,.76);font-size:13px;font-weight:850}
+.mkp-airco-site .mkp-reboot-heading{max-width:760px;margin-bottom:28px}
+.mkp-airco-site .mkp-step-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mkp-airco-site .mkp-step-grid article{min-height:210px;padding:24px;border:1px solid #d7e7de;border-radius:18px;background:#fff;box-shadow:0 16px 38px rgba(19,51,36,.045)}
+.mkp-airco-site .mkp-step-grid span{display:grid;place-items:center;width:42px;height:42px;margin-bottom:38px;border-radius:14px;background:#ff7417;color:#fff;font-weight:950}
+.mkp-airco-site .mkp-step-grid strong{display:block;color:#102018;font-size:23px;line-height:1.1;margin-bottom:8px}
+.mkp-airco-site .mkp-step-grid p{margin:0;color:#52645a;line-height:1.55}
+.mkp-airco-site .mkp-photo-proof{background:#f7faf8}
+.mkp-airco-site .mkp-photo-proof-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1fr);gap:44px;align-items:center}
+.mkp-airco-site .mkp-photo-proof figure{margin:0;overflow:hidden;border-radius:22px;border:1px solid #d7e7de;box-shadow:0 24px 56px rgba(19,51,36,.11)}
+.mkp-airco-site .mkp-photo-proof img{display:block;width:100%;height:430px;object-fit:cover}
+.mkp-airco-site .mkp-photo-proof p:not(.mkp-reboot-kicker){max-width:590px;margin-top:16px;font-size:17px}
+.mkp-airco-site .mkp-photo-proof a,.mkp-airco-site .mkp-reboot-final a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;margin-top:22px;padding:0 20px;border-radius:12px;background:#ff7417;color:#fff;font-weight:950;text-decoration:none;box-shadow:0 14px 30px rgba(255,116,23,.22)}
+.mkp-airco-site .mkp-reboot-review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mkp-airco-site .mkp-reboot-review-grid article{padding:22px;border:1px solid #d7e7de;border-radius:18px;background:#fff;box-shadow:0 16px 38px rgba(19,51,36,.045)}
+.mkp-airco-site .mkp-reboot-review-grid div{color:#ff7417;font-size:14px;letter-spacing:.08em;margin-bottom:12px}
+.mkp-airco-site .mkp-reboot-review-grid blockquote{margin:0 0 14px;color:#102018;font-size:18px;line-height:1.42;font-weight:850}
+.mkp-airco-site .mkp-reboot-review-grid strong{color:#52645a;font-size:13px}
+.mkp-airco-site .mkp-reboot-final{padding:70px 0;background:#102018;text-align:center}
+.mkp-airco-site .mkp-reboot-final h2{max-width:760px;margin:0 auto;color:#fff}
+@media(max-width:1020px){
+  .mkp-airco-site .mkp-quote-console,.mkp-airco-site .mkp-objection-grid,.mkp-airco-site .mkp-photo-proof-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .mkp-airco-site .mkp-reboot-container{width:min(100% - 28px,1160px)}
+  .mkp-airco-site .mkp-offer-screen{margin-top:112px;padding:18px 0 26px}
+  .mkp-airco-site .mkp-topline{grid-template-columns:1fr auto;gap:8px;text-align:left}
+  .mkp-airco-site .mkp-topline a{justify-self:end;font-size:14px}
+  .mkp-airco-site .mkp-offer-head{margin:22px auto 18px;text-align:left}
+  .mkp-airco-site .mkp-offer-head h1{font-size:40px;line-height:1}
+  .mkp-airco-site .mkp-offer-head span{font-size:15px}
+  .mkp-airco-site .mkp-room-picker{grid-template-columns:1fr 1fr;gap:8px}
+  .mkp-airco-site .mkp-room-picker a{min-height:118px;padding:14px;border-radius:14px}
+  .mkp-airco-site .mkp-room-picker strong{font-size:21px}
+  .mkp-airco-site .mkp-room-picker span{font-size:11px}
+  .mkp-airco-site .mkp-room-picker em{font-size:13px}
+  .mkp-airco-site .mkp-form-stage{padding:18px;border-radius:18px}
+  .mkp-airco-site .mkp-form-stage-head strong{font-size:25px}
+  .mkp-airco-site .mkp-fast-contact{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-under-console{display:none}
+  .mkp-airco-site .mkp-reboot-section{padding:52px 0}
+  .mkp-airco-site .mkp-reboot h2,.mkp-airco-site .mkp-reboot-final h2{font-size:31px;line-height:1.08}
+  .mkp-airco-site .mkp-proof-strip-grid,.mkp-airco-site .mkp-step-grid,.mkp-airco-site .mkp-reboot-review-grid{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-proof-strip article{border-right:0;border-bottom:1px solid rgba(255,255,255,.12)}
+  .mkp-airco-site .mkp-step-grid article{min-height:0}
+  .mkp-airco-site .mkp-step-grid span{margin-bottom:22px}
+  .mkp-airco-site .mkp-photo-proof img{height:260px}
+}
+
+/* Reboot visual direction: dark quote desk, not the old green landing page */
+.mkp-airco-site{background:#f8f5ef}
+.mkp-airco-site .mkp-reboot{background:#101316;color:#f8fbfa}
+.mkp-airco-site .mkp-offer-screen{background:
+  radial-gradient(circle at 16% 18%,rgba(42,203,167,.20) 0,rgba(42,203,167,0) 32%),
+  radial-gradient(circle at 82% 28%,rgba(255,116,23,.18) 0,rgba(255,116,23,0) 30%),
+  linear-gradient(135deg,#101316 0%,#18201f 52%,#10251f 100%)}
+.mkp-airco-site .mkp-topline{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.08);box-shadow:none;backdrop-filter:blur(16px)}
+.mkp-airco-site .mkp-topline span{background:#f8fbfa;color:#101316}
+.mkp-airco-site .mkp-topline strong{color:#f8fbfa}
+.mkp-airco-site .mkp-topline a{color:#7bf2c8}
+.mkp-airco-site .mkp-offer-head p{border-color:rgba(123,242,200,.26);background:rgba(123,242,200,.10);color:#7bf2c8}
+.mkp-airco-site .mkp-offer-head h1{color:#f8fbfa}
+.mkp-airco-site .mkp-offer-head span{color:rgba(248,251,250,.72)}
+.mkp-airco-site .mkp-room-picker a{border-color:rgba(255,255,255,.13);background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.045));color:#f8fbfa;box-shadow:0 24px 60px rgba(0,0,0,.24);backdrop-filter:blur(18px)}
+.mkp-airco-site .mkp-advisor-card,.mkp-airco-site .mkp-info-first{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.92);box-shadow:0 24px 60px rgba(0,0,0,.20)}
+.mkp-airco-site .mkp-room-picker a:hover{border-color:rgba(123,242,200,.46);box-shadow:0 26px 66px rgba(0,0,0,.30)}
+.mkp-airco-site .mkp-room-picker span{background:rgba(123,242,200,.12);color:#7bf2c8}
+.mkp-airco-site .mkp-room-picker em{color:#ffb071}
+.mkp-airco-site .mkp-form-stage{border-color:rgba(255,255,255,.18);background:#f8fbfa;box-shadow:0 30px 80px rgba(0,0,0,.34)}
+.mkp-airco-site .mkp-under-console span{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.08);color:rgba(248,251,250,.84)}
+.mkp-airco-site .mkp-fast-contact a{border-color:#d6e2dc;background:#fff;color:#0f6d46}
+.mkp-airco-site .mkp-form-stage label,.mkp-airco-site .mkp-form-stage label span{color:#102018!important}
+.mkp-airco-site .mkp-objections{background:#f3f0ea}
+.mkp-airco-site .mkp-how{background:#fff}
+.mkp-airco-site .mkp-reboot-section:nth-of-type(even){background:#f3f0ea}
+.mkp-airco-site .mkp-reboot-kicker{color:#b14f17}
+.mkp-airco-site .mkp-proof-strip{background:#ff7417!important}
+.mkp-airco-site .mkp-proof-strip article{border-right-color:rgba(255,255,255,.25)}
+.mkp-airco-site .mkp-proof-strip strong,.mkp-airco-site .mkp-proof-strip span{color:#fff}
+.mkp-airco-site .mkp-photo-proof{background:#101316}
+.mkp-airco-site .mkp-photo-proof h2{color:#f8fbfa}
+.mkp-airco-site .mkp-photo-proof p:not(.mkp-reboot-kicker){color:rgba(248,251,250,.72)}
+.mkp-airco-site .mkp-reboot-reviews{background:#f8fbfa}
+.mkp-airco-site .mkp-reboot-final{background:linear-gradient(135deg,#101316,#20312c)}
+@media(max-width:760px){
+  .mkp-airco-site .mkp-offer-head h1{font-size:37px}
+  .mkp-airco-site .mkp-quote-console{display:flex;flex-direction:column}
+  .mkp-airco-site .mkp-left-stack{display:contents}
+  .mkp-airco-site .mkp-advisor-card{order:1;grid-template-columns:74px 1fr;gap:12px;min-height:0;padding:12px;border-radius:16px}
+  .mkp-airco-site .mkp-advisor-card figure{width:74px;height:74px;border-radius:14px}
+  .mkp-airco-site .mkp-advisor-card span{display:none}
+  .mkp-airco-site .mkp-advisor-card strong{font-size:15px}
+  .mkp-airco-site .mkp-advisor-card p{display:none}
+  .mkp-airco-site .mkp-info-first{order:2;padding:13px;border-radius:16px}
+  .mkp-airco-site .mkp-info-first strong{font-size:15px}
+  .mkp-airco-site .mkp-info-first li{font-size:12px}
+  .mkp-airco-site .mkp-form-stage{order:2}
+  .mkp-airco-site .mkp-info-first{order:3}
+  .mkp-airco-site .mkp-room-picker{order:4;margin-top:10px}
+  .mkp-airco-site .mkp-room-picker a{min-height:104px}
+  .mkp-airco-site .mkp-offer-head{margin-bottom:16px}
+  .mkp-airco-site .mkp-proof-strip article{border-right:0;border-bottom:1px solid rgba(255,255,255,.25)}
+}
+
+@media(max-width:760px){
+  .mkp-airco-site .mkp-offer-screen{padding-top:12px}
+  .mkp-airco-site .mkp-topline{min-height:0;padding:8px}
+  .mkp-airco-site .mkp-topline strong{display:none}
+  .mkp-airco-site .mkp-offer-head{margin:16px auto 12px}
+  .mkp-airco-site .mkp-offer-head p{display:none}
+  .mkp-airco-site .mkp-offer-head h1{font-size:31px;line-height:1.02}
+  .mkp-airco-site .mkp-offer-head span{margin-top:8px;font-size:13px;line-height:1.36}
+  .mkp-airco-site .mkp-form-stage-head p{display:none}
+  .mkp-airco-site .mkp-form-stage-head strong{font-size:23px}
+}
+
+/* Mijn Koelplan human redesign */
+.mkp-airco-site .mkp-human{background:#f8f5ef;color:#142019;font-family:"DM Sans",Inter,system-ui,sans-serif}
+.mkp-airco-site .mkp-human *{box-sizing:border-box}
+.mkp-airco-site .mkp-human{--mkp-ink:#142019;--mkp-muted:#627166;--mkp-green:#0d4a31;--mkp-line:#dbe6df;--mkp-paper:#fffdf8;--mkp-shadow:0 18px 42px rgba(31,49,39,.08)}
+.mkp-airco-site .mkp-human-shell{width:min(1160px,calc(100% - 44px));margin:0 auto}
+.mkp-airco-site .mkp-human-hero{position:relative;overflow:visible;padding:26px 0 46px;margin-top:108px;background:linear-gradient(180deg,#fffdf8 0%,#eef7f1 100%)}
+.mkp-airco-site .mkp-human-hero:before{content:"";position:absolute;inset:auto -18% -36% 42%;height:430px;border-radius:50%;background:radial-gradient(circle,rgba(13,74,49,.08),rgba(13,74,49,0) 70%);pointer-events:none}
+.mkp-airco-site .mkp-human-shell{position:relative;z-index:1}
+.mkp-airco-site .mkp-human-top{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;min-height:54px;padding:10px 12px;border:1px solid rgba(219,230,223,.95);border-radius:14px;background:rgba(255,255,255,.82);box-shadow:0 14px 34px rgba(30,48,38,.06);backdrop-filter:blur(12px)}
+.mkp-airco-site .mkp-human-top strong{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 13px;border-radius:999px;background:var(--mkp-green);color:#fff;font-size:13px;font-weight:800}
+.mkp-airco-site .mkp-human-top span{color:#20392d;font-size:14px;font-weight:650}
+.mkp-airco-site .mkp-human-top span a{color:#066939;text-decoration:underline;text-underline-offset:3px}
+.mkp-airco-site .mkp-human-top a{justify-self:end;color:#066939;font-weight:800;text-decoration:none}
+.mkp-airco-site .mkp-human-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(430px,500px);gap:44px;align-items:start;margin-top:42px}
+.mkp-airco-site .mkp-human-kicker{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;color:#b44f15;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.mkp-airco-site .mkp-human-kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:#ff7417}
+.mkp-airco-site .mkp-human h1,.mkp-airco-site .mkp-human h2{margin:0;color:#142019;font-family:"DM Sans",Inter,system-ui,sans-serif;font-weight:850;letter-spacing:0}
+.mkp-airco-site .mkp-human h1{max-width:660px;font-size:clamp(40px,4.25vw,58px);line-height:1.07}
+.mkp-airco-site .mkp-human-lead{max-width:610px;margin:18px 0 0;color:#52645a;font-size:18px;line-height:1.62;font-weight:600}
+.mkp-airco-site .mkp-human-advisor{display:grid;grid-template-columns:86px 1fr;gap:14px;align-items:center;max-width:610px;margin-top:24px;padding:12px;border:1px solid var(--mkp-line);border-radius:18px;background:rgba(255,255,255,.92);box-shadow:var(--mkp-shadow);transition:transform .22s ease,box-shadow .22s ease}
+.mkp-airco-site .mkp-human-advisor:hover{transform:translateY(-2px);box-shadow:0 22px 52px rgba(31,49,39,.11)}
+.mkp-airco-site .mkp-human-advisor figure{width:86px;height:86px;margin:0;overflow:hidden;border-radius:16px;background:#e8f2ed}
+.mkp-airco-site .mkp-human-advisor img{width:100%;height:100%;object-fit:cover}
+.mkp-airco-site .mkp-human-advisor strong{display:block;color:#142019;font-size:18px;line-height:1.2;font-weight:800}
+.mkp-airco-site .mkp-human-advisor span{display:block;margin-top:5px;color:#53665b;font-size:13px;line-height:1.46;font-weight:600}
+.mkp-airco-site .mkp-human-advisor a{display:inline-flex;margin-top:8px;color:#066939;font-size:13px;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+.mkp-airco-site .mkp-human-explain{max-width:610px;margin-top:14px;padding:18px;border:1px solid var(--mkp-line);border-radius:18px;background:rgba(255,255,255,.90);box-shadow:0 14px 32px rgba(30,48,38,.055)}
+.mkp-airco-site .mkp-human-explain strong{display:block;color:#142019;font-size:20px;line-height:1.2;font-weight:800;margin-bottom:12px}
+.mkp-airco-site .mkp-human-explain ol{display:grid;gap:9px;margin:0;padding:0;list-style:none;counter-reset:mkpSteps}
+.mkp-airco-site .mkp-human-explain li{counter-increment:mkpSteps;position:relative;min-height:30px;padding-left:42px;color:#34483d;font-size:14px;line-height:1.48;font-weight:600}
+.mkp-airco-site .mkp-human-explain li:before{content:counter(mkpSteps);position:absolute;left:0;top:-1px;display:grid;place-items:center;width:28px;height:28px;border-radius:10px;background:var(--mkp-green);color:#fff;font-size:13px;font-weight:800}
+.mkp-airco-site .mkp-human-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:610px;margin-top:18px}
+.mkp-airco-site .mkp-human-checks span{position:relative;min-height:52px;padding:13px 14px 13px 42px;border:1px solid var(--mkp-line);border-radius:14px;background:rgba(255,255,255,.72);color:#20392d;font-size:13px;line-height:1.35;font-weight:600}
+.mkp-airco-site .mkp-human-checks span:before{content:"✓";position:absolute;left:14px;top:15px;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#066939;color:#fff;font-size:10px}
+.mkp-airco-site .mkp-human-hero-photo{max-width:610px;margin:20px 0 0;overflow:hidden;border:1px solid #d8e8df;border-radius:18px;background:#eaf2ed;box-shadow:0 18px 38px rgba(30,48,38,.09)}
+.mkp-airco-site .mkp-human-hero-photo img{display:block;width:100%;height:240px;object-fit:cover;object-position:center 12%}
+.mkp-airco-site .mkp-human-form{position:sticky;top:132px;align-self:start;padding:24px;border:1px solid #d1e3d8;border-radius:22px;background:#fff;box-shadow:0 28px 70px rgba(30,48,38,.13);animation:mkpFloatIn .55s ease both}
+.mkp-airco-site .mkp-human-form-head span{display:inline-flex;margin-bottom:11px;padding:7px 11px;border-radius:999px;background:#fff0e7;color:#d75b11;font-size:12px;font-weight:950}
+.mkp-airco-site .mkp-human-form-head h2{font-size:30px;line-height:1.12;font-weight:850}
+.mkp-airco-site .mkp-human-form-head p{margin:8px 0 15px;color:#52645a;font-size:14px;line-height:1.52;font-weight:600}
+.mkp-airco-site .mkp-human-form .vk-form-wrap{position:relative;top:auto;max-width:none}
+.mkp-airco-site .mkp-human-form .vk-form-card{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+.mkp-airco-site .mkp-human-form .vk-form-card:before,.mkp-airco-site .mkp-human-form .vk-form-card:after,.mkp-airco-site .mkp-human-form .vk-form-head,.mkp-airco-site .mkp-human-form .vk-form-adviser{display:none!important}
+.mkp-airco-site .mkp-human-form .vk-form-card hz-embed{margin-top:0}
+.mkp-airco-site .mkp-human-form .embed-submit-button{min-height:56px!important;border-radius:12px!important;background:#ff7417!important;color:#fff!important;font-weight:800!important;box-shadow:0 14px 30px rgba(255,116,23,.22)!important;transition:transform .18s ease,box-shadow .18s ease,background .18s ease!important}
+.mkp-airco-site .mkp-human-form .embed-submit-button:hover{transform:translateY(-1px)!important;box-shadow:0 18px 38px rgba(255,116,23,.28)!important;background:#ee6814!important}
+.mkp-airco-site .mkp-human-contact{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.mkp-airco-site .mkp-human-contact a{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #d8e8df;border-radius:12px;background:#f8fcfa;color:#066939;font-size:13px;font-weight:750;text-decoration:none;transition:background .18s ease,transform .18s ease}
+.mkp-airco-site .mkp-human-contact a:hover{background:#eef8f2;transform:translateY(-1px)}
+.mkp-airco-site .mkp-human-proof{background:#0d3b27}
+.mkp-airco-site .mkp-human-proof-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.mkp-airco-site .mkp-human-proof article{padding:23px 24px;border-right:1px solid rgba(255,255,255,.14)}
+.mkp-airco-site .mkp-human-proof article:last-child{border-right:0}
+.mkp-airco-site .mkp-human-proof strong{display:block;color:#fff;font-size:27px;line-height:1;font-weight:800;margin-bottom:7px}
+.mkp-airco-site .mkp-human-proof span{display:block;color:rgba(255,255,255,.76);font-size:13px;line-height:1.35;font-weight:500}
+.mkp-airco-site .mkp-human-section{padding:74px 0;background:#fff}
+.mkp-airco-site .mkp-human-soft{background:#f8f5ef}
+.mkp-airco-site .mkp-human-section h2{max-width:720px;font-size:clamp(30px,3.2vw,44px);line-height:1.12;font-weight:850}
+.mkp-airco-site .mkp-human-section p:not(.mkp-human-kicker){margin:16px 0 0;color:#52645a;font-size:16px;line-height:1.7;font-weight:500}
+.mkp-airco-site .mkp-human-photo-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:44px;align-items:center}
+.mkp-airco-site .mkp-human-photo-grid-reverse{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
+.mkp-airco-site .mkp-human-photo-grid figure{margin:0;overflow:hidden;border:1px solid #d8e8df;border-radius:22px;background:#eaf2ed;box-shadow:0 22px 50px rgba(30,48,38,.11)}
+.mkp-airco-site .mkp-human-photo-grid img{display:block;width:100%;height:420px;object-fit:cover;object-position:center 34%}
+.mkp-airco-site .mkp-human-section-head{max-width:760px;margin-bottom:28px}
+.mkp-airco-site .mkp-human-situations{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mkp-airco-site .mkp-human-situations a{display:grid;gap:10px;min-height:152px;padding:22px;border:1px solid #d8e8df;border-radius:18px;background:#fff;color:#142019;text-decoration:none;box-shadow:0 14px 34px rgba(30,48,38,.06);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.mkp-airco-site .mkp-human-situations a:hover{transform:translateY(-3px);border-color:#bfd8ca;box-shadow:0 20px 46px rgba(30,48,38,.10)}
+.mkp-airco-site .mkp-human-situations strong{font-size:22px;line-height:1.14;font-weight:800}
+.mkp-airco-site .mkp-human-situations span{color:#52645a;font-size:14px;line-height:1.5;font-weight:600}
+.mkp-airco-site .mkp-human-advice{position:relative;overflow:hidden;background:#f3f8f5}
+.mkp-airco-site .mkp-human-advice:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.82),rgba(255,255,255,0) 54%);pointer-events:none}
+.mkp-airco-site .mkp-human-advice-grid{position:relative;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:42px;align-items:center}
+.mkp-airco-site .mkp-human-advice-intro{max-width:500px}
+.mkp-airco-site .mkp-human-advice-intro h2{font-size:clamp(30px,3vw,43px);font-weight:720}
+.mkp-airco-site .mkp-human-text-link{display:inline-flex;align-items:center;margin-top:24px;color:#066939;font-size:15px;font-weight:800;text-decoration:none}
+.mkp-airco-site .mkp-human-text-link:after{content:"";width:36px;height:1px;margin-left:12px;background:#ff7417;transition:width .2s ease}
+.mkp-airco-site .mkp-human-text-link:hover:after{width:52px}
+.mkp-airco-site .mkp-human-advice-board{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:18px;align-items:stretch}
+.mkp-airco-site .mkp-human-advice-main{position:relative;min-height:520px;margin:0;overflow:hidden;border-radius:18px;background:#dfeae5;box-shadow:0 24px 54px rgba(30,48,38,.12)}
+.mkp-airco-site .mkp-human-advice-main img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 72%}
+.mkp-airco-site .mkp-human-advice-main figcaption{position:absolute;left:18px;right:18px;bottom:18px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.9);color:#21362a;font-size:14px;line-height:1.42;font-weight:650;box-shadow:0 12px 30px rgba(0,0,0,.12);backdrop-filter:blur(10px)}
+.mkp-airco-site .mkp-human-advice-points{display:grid;gap:14px}
+.mkp-airco-site .mkp-human-advice-points article{display:grid;grid-template-columns:136px minmax(0,1fr);gap:18px;align-items:center;padding:14px;border:1px solid #d5e6dd;border-radius:18px;background:rgba(255,255,255,.88);box-shadow:0 14px 34px rgba(30,48,38,.07);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.mkp-airco-site .mkp-human-advice-points article:hover{transform:translateX(4px);border-color:#bfd8ca;box-shadow:0 18px 42px rgba(30,48,38,.10)}
+.mkp-airco-site .mkp-human-advice-points figure{margin:0;overflow:hidden;border-radius:14px;background:#eaf2ed}
+.mkp-airco-site .mkp-human-advice-points img{display:block;width:100%;height:126px;object-fit:cover}
+.mkp-airco-site .mkp-human-advice-points span{display:block;color:#0d3b27;font-size:13px;letter-spacing:.04em;text-transform:uppercase;font-weight:850}
+.mkp-airco-site .mkp-human-advice-points p{margin:7px 0 0!important;color:#46584e!important;font-size:14px!important;line-height:1.55!important;font-weight:500!important}
+.mkp-airco-site .mkp-human-packages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mkp-airco-site .mkp-human-packages article{display:grid;align-content:start;min-height:245px;padding:24px;border:1px solid #d8e8df;border-radius:20px;background:#fff;box-shadow:0 16px 38px rgba(30,48,38,.07);transition:transform .22s ease,box-shadow .22s ease}
+.mkp-airco-site .mkp-human-packages article:hover{transform:translateY(-3px);box-shadow:0 24px 52px rgba(30,48,38,.11)}
+.mkp-airco-site .mkp-human-packages span{display:inline-flex;width:max-content;margin-bottom:18px;padding:7px 10px;border-radius:999px;background:#eaf7ef;color:#066939;font-size:12px;font-weight:950}
+.mkp-airco-site .mkp-human-packages strong{display:block;color:#142019;font-size:27px;line-height:1.15;font-weight:850}
+.mkp-airco-site .mkp-human-packages p{margin:12px 0 0!important;color:#52645a!important;font-size:14px!important;line-height:1.5!important}
+.mkp-airco-site .mkp-human-packages a{display:inline-flex;align-self:end;width:max-content;margin-top:auto;color:#066939;font-size:14px;font-weight:750;text-decoration:none}
+.mkp-airco-site .mkp-human-packages a:after{content:"→";margin-left:8px;color:#ff7417}
+.mkp-airco-site .mkp-human-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mkp-airco-site .mkp-human-steps article{min-height:220px;padding:22px;border:1px solid #d8e8df;border-radius:18px;background:#fff;box-shadow:0 14px 34px rgba(30,48,38,.06)}
+.mkp-airco-site .mkp-human-steps span{display:grid;place-items:center;width:40px;height:40px;margin-bottom:34px;border-radius:12px;background:#0d3b27;color:#fff;font-weight:800}
+.mkp-airco-site .mkp-human-steps strong{display:block;color:#142019;font-size:21px;line-height:1.16;font-weight:800;margin-bottom:8px}
+.mkp-airco-site .mkp-human-steps p{margin:0!important;color:#52645a!important;font-size:13px!important;line-height:1.5!important}
+.mkp-airco-site .mkp-human-button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;margin-top:22px;padding:0 20px;border-radius:12px;background:#ff7417;color:#fff;font-weight:800;text-decoration:none;box-shadow:0 14px 30px rgba(255,116,23,.22);transition:transform .18s ease,box-shadow .18s ease}
+.mkp-airco-site .mkp-human-button:hover{transform:translateY(-1px);box-shadow:0 18px 38px rgba(255,116,23,.28)}
+.mkp-airco-site .mkp-human-faq{background:#f8f5ef}
+.mkp-airco-site .mkp-human-faq-grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:44px}
+.mkp-airco-site .mkp-human-faq details{border-bottom:1px solid #d8e8df}
+.mkp-airco-site .mkp-human-faq summary{cursor:pointer;padding:20px 0;color:#142019;font-size:18px;font-weight:750;list-style:none}
+.mkp-airco-site .mkp-human-faq summary::-webkit-details-marker{display:none}
+.mkp-airco-site .mkp-human-faq summary:after{content:"+";float:right;color:#ff7417;font-size:24px;line-height:1}
+.mkp-airco-site .mkp-human-faq details[open] summary:after{content:"-"}
+.mkp-airco-site .mkp-human-faq details p{padding:0 40px 20px 0;margin:0!important;color:#52645a!important;font-size:15px!important;line-height:1.6!important}
+@keyframes mkpFloatIn{from{transform:translateY(10px)}to{transform:translateY(0)}}
+@keyframes mkpSoftReveal{from{transform:translateY(12px)}to{transform:translateY(0)}}
+.mkp-airco-site .mkp-human-copy,.mkp-airco-site .mkp-human-proof article,.mkp-airco-site .mkp-human-section-head,.mkp-airco-site .mkp-human-photo-grid>*,.mkp-airco-site .mkp-human-situations a,.mkp-airco-site .mkp-human-packages article,.mkp-airco-site .mkp-human-steps article,.mkp-airco-site .mkp-human-advice-points article,.mkp-airco-site .mkp-human-faq-grid>*{animation:mkpSoftReveal .55s ease both}
+.mkp-airco-site .mkp-human-situations a:nth-child(2),.mkp-airco-site .mkp-human-packages article:nth-child(2),.mkp-airco-site .mkp-human-steps article:nth-child(2),.mkp-airco-site .mkp-human-advice-points article:nth-child(2){animation-delay:.06s}
+.mkp-airco-site .mkp-human-situations a:nth-child(3),.mkp-airco-site .mkp-human-packages article:nth-child(3),.mkp-airco-site .mkp-human-steps article:nth-child(3),.mkp-airco-site .mkp-human-advice-points article:nth-child(3){animation-delay:.12s}
+.mkp-airco-site .mkp-human-situations a:nth-child(4),.mkp-airco-site .mkp-human-steps article:nth-child(4){animation-delay:.18s}
+@media(prefers-reduced-motion:reduce){
+  .mkp-airco-site .mkp-human *{animation:none!important;transition:none!important}
+}
+@media(max-width:1020px){
+  .mkp-airco-site .mkp-human-grid,.mkp-airco-site .mkp-human-photo-grid,.mkp-airco-site .mkp-human-photo-grid-reverse,.mkp-airco-site .mkp-human-faq-grid{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-human-form{position:relative;top:auto;max-width:720px}
+  .mkp-airco-site .mkp-human-situations,.mkp-airco-site .mkp-human-packages,.mkp-airco-site .mkp-human-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mkp-airco-site .mkp-human-advice-grid{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-human-advice-intro{max-width:760px}
+}
+@media(max-width:760px){
+  .mkp-airco-site .mkp-human-shell{width:min(100% - 28px,1160px)}
+  .mkp-airco-site .mkp-human-hero{margin-top:146px;padding:14px 0 30px}
+  .mkp-airco-site .mkp-human-top{grid-template-columns:1fr auto;gap:8px;min-height:0;padding:8px}
+  .mkp-airco-site .mkp-human-top span{display:none}
+  .mkp-airco-site .mkp-human-top strong{min-height:30px;font-size:12px}
+  .mkp-airco-site .mkp-human-top a{font-size:13px}
+  .mkp-airco-site .mkp-human-grid{gap:16px;margin-top:22px}
+  .mkp-airco-site .mkp-human h1{font-size:31px;line-height:1.08}
+  .mkp-airco-site .mkp-human-lead{font-size:14px;line-height:1.5;margin-top:10px;font-weight:500}
+  .mkp-airco-site .mkp-human-advisor{grid-template-columns:72px 1fr;gap:12px;margin-top:16px;padding:10px;border-radius:16px}
+  .mkp-airco-site .mkp-human-advisor figure{width:72px;height:72px;border-radius:14px}
+  .mkp-airco-site .mkp-human-advisor strong{font-size:15px}
+  .mkp-airco-site .mkp-human-advisor span{font-size:11px;line-height:1.35}
+  .mkp-airco-site .mkp-human-advisor a{font-size:11px;margin-top:4px}
+  .mkp-airco-site .mkp-human-explain{margin-top:12px;padding:14px;border-radius:16px}
+  .mkp-airco-site .mkp-human-explain strong{font-size:16px;margin-bottom:10px}
+  .mkp-airco-site .mkp-human-explain li{font-size:12px;line-height:1.35;padding-left:36px}
+  .mkp-airco-site .mkp-human-explain li:before{width:25px;height:25px;border-radius:9px}
+  .mkp-airco-site .mkp-human-hero-photo{display:none}
+  .mkp-airco-site .mkp-human-checks{display:none}
+  .mkp-airco-site .mkp-human-form{padding:18px;border-radius:18px}
+  .mkp-airco-site .mkp-human-form-head h2{font-size:25px}
+  .mkp-airco-site .mkp-human-form-head p{display:none}
+  .mkp-airco-site .mkp-human-contact{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-human-proof-grid,.mkp-airco-site .mkp-human-situations,.mkp-airco-site .mkp-human-packages,.mkp-airco-site .mkp-human-steps{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-human-advice-board{grid-template-columns:1fr}
+  .mkp-airco-site .mkp-human-advice-main{display:none}
+  .mkp-airco-site .mkp-human-advice-points article{grid-template-columns:112px minmax(0,1fr)}
+  .mkp-airco-site .mkp-human-advice-points img{height:112px}
+  .mkp-airco-site .mkp-human-proof article{border-right:0;border-bottom:1px solid rgba(255,255,255,.14);padding:18px 0}
+  .mkp-airco-site .mkp-human-section{padding:52px 0}
+  .mkp-airco-site .mkp-human-section h2{font-size:31px;line-height:1.08}
+  .mkp-airco-site .mkp-human-section p:not(.mkp-human-kicker){font-size:15px;line-height:1.55}
+  .mkp-airco-site .mkp-human-photo-grid img{height:250px}
+  .mkp-airco-site .mkp-human-situations a{min-height:0}
+  .mkp-airco-site .mkp-human-packages article,.mkp-airco-site .mkp-human-steps article{min-height:0}
+  .mkp-airco-site .mkp-human-steps span{margin-bottom:18px}
+  .mkp-airco-site .mkp-human-faq summary{font-size:16px}
+}
+
+.mkp-preview-page .mkp-human-hero{margin-top:0}
+@media(max-width:760px){
+  .mkp-airco-site .mkp-human h1{font-size:32px}
+  .mkp-airco-site .mkp-human-lead{font-size:14px;margin-top:10px}
+  .mkp-airco-site .mkp-human-advisor{margin-top:12px}
+  .mkp-airco-site .mkp-human-form{padding:16px}
+  .mkp-airco-site .mkp-human-form-head span{margin-bottom:8px}
+  .mkp-airco-site .mkp-human-form-head h2{font-size:23px}
+  .mkp-airco-site .mkp-human-form .vk-widget-backup{display:none}
 }

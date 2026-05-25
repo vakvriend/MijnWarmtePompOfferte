@@ -71,12 +71,13 @@ function wc_shortcode_logos() {
 add_shortcode('warmtepomp_logos', 'wc_shortcode_logos');
 
 function wc_callback_form_markup($class = 'vk-callback-form') {
+    $is_airco = function_exists('wc_is_airco_site') && wc_is_airco_site();
     ob_start();
     ?>
     <form class="<?php echo esc_attr($class); ?>" action="#" method="post" novalidate>
       <div class="vk-callback-head">
-        <strong>Liever dat Vakvriend meekijkt?</strong>
-        <span>Laat uw nummer achter, dan bellen we u over de woningcheck.</span>
+        <strong>Liever direct iemand spreken?</strong>
+        <span><?php echo esc_html($is_airco ? 'Laat uw nummer achter. Dan belt Vakvriend u over de beste airco-oplossing, kosten en plaatsing.' : 'Laat uw nummer achter. Dan belt Vakvriend u over kosten, subsidie en de beste route.'); ?></span>
       </div>
       <div class="vk-callback-fields">
         <label>
@@ -93,51 +94,43 @@ function wc_callback_form_markup($class = 'vk-callback-form') {
         </label>
       </div>
       <button type="submit">Bel mij terug</button>
-      <p class="vk-callback-note">We gebruiken dit alleen om uw woningcheck op te volgen.</p>
+      <p class="vk-callback-note"><?php echo esc_html($is_airco ? 'We gebruiken dit alleen om uw airco-offerte op te volgen.' : 'We gebruiken dit alleen om uw woningcheck op te volgen.'); ?></p>
       <p class="vk-callback-status" role="status" aria-live="polite"></p>
     </form>
     <?php
     return ob_get_clean();
 }
 
-function wc_homezero_scan_widget($show_head = true) {
-    static $script_loaded = false;
+function wc_woningcheck_widget($show_head = true) {
+    $ctx = wc_landing_context();
+    $is_airco = function_exists('wc_is_airco_site') && wc_is_airco_site();
+    $whatsapp_text = $is_airco ? 'Ik wil graag een airco-offerte bespreken.' : 'Ik wil graag mijn woningcheck bespreken.';
+    $whatsapp_url = 'https://wa.me/' . preg_replace('/\D+/', '', $ctx['whatsapp']) . '?text=' . rawurlencode($whatsapp_text);
     ob_start();
     ?>
     <div class="vk-form-wrap" id="formulier">
-      <div class="vk-form-card">
+      <div class="vk-form-card vk-woningcheck-card" data-whatsapp-url="<?php echo esc_url($whatsapp_url); ?>">
         <?php if ($show_head): ?>
           <div class="vk-form-head">
-            <div class="vk-scan-badge"><span></span> Vrijblijvende woningcheck</div>
-            <h2>Check welke route bij uw woning past</h2>
-            <p>Geen offerteaanvraag. U krijgt eerst inzicht in kosten, subsidie, verbruik en de warmtepomproute die technisch logisch is.</p>
+            <div class="vk-scan-badge"><span></span> <?php echo esc_html(wc_theme_setting('form_badge', $is_airco ? 'Gratis airco-offerte' : 'Vrijblijvende woningcheck')); ?></div>
+            <h2><?php echo esc_html(wc_theme_setting('form_title', $is_airco ? 'Ontvang uw airco prijsvoorstel' : 'Ontdek welke warmtepomp past bij uw woning')); ?></h2>
+            <p><?php echo esc_html(wc_theme_setting('form_intro', $is_airco ? 'Start met postcode, huisnummer en e-mail. Vakvriend koppelt merk, vermogen, montage en afwerking aan uw situatie.' : 'Vul uw adresgegevens in en ontvang uw woningcheck in een persoonlijk dashboard. Vakvriend controleert kosten, subsidie en technische haalbaarheid.')); ?></p>
           </div>
           <div class="vk-form-adviser" aria-label="Vakvriend kijkt persoonlijk mee">
             <figure class="vk-form-adviser-portrait" aria-hidden="true">
               <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/vakvriend-chat-monteur.png'); ?>" alt="" loading="eager" fetchpriority="high">
             </figure>
             <div>
-              <em>Persoonlijk advies</em>
-              <strong>Vakvriend kijkt mee</strong>
-              <span>Een vakman beoordeelt uw woningcheck met praktisch advies, zonder harde verkooptaal.</span>
+              <em><?php echo esc_html(wc_theme_setting('form_adviser_badge', 'Persoonlijk dashboard')); ?></em>
+              <strong><?php echo esc_html(wc_theme_setting('form_adviser_title', 'Een vakman kijkt met u mee')); ?></strong>
+              <span><?php echo esc_html(wc_theme_setting('form_adviser_text', 'Bekijk uw warmtepomproute, aandachtspunten en vervolgstappen overzichtelijk op één plek.')); ?></span>
             </div>
           </div>
-          <div class="vk-result-preview" aria-label="Wat u krijgt na de woningcheck">
-            <strong>Dit krijgt u eerst inzichtelijk</strong>
-            <ul>
-              <li>Passende warmtepomproute</li>
-              <li>Kosten en subsidie-indicatie</li>
-              <li>Praktische aandachtspunten</li>
-              <li>Merkonafhankelijk advies</li>
-            </ul>
-          </div>
         <?php endif; ?>
-        <?php if (!$script_loaded): ?>
+        <div class="vk-homezero-widget" aria-label="<?php echo esc_attr($is_airco ? 'Vraag een airco-offerte aan' : 'Start de woningcheck'); ?>">
           <script defer src="https://homezerotech.github.io/Widget/Production/embed.js"></script>
-          <?php $script_loaded = true; ?>
-        <?php endif; ?>
-        <hz-embed
-            src="https://scan.vakvriend.nl/link/start?id=22c68b1d-2179-4fbb-93a2-4991451ced41"
+          <hz-embed
+            src="https://scan.vakvriend.nl/link/start?id=c2b0c1b7-4513-45c5-ad39-159e0f9b00e5"
             data-address-format="dutch"
             data-language="nl"
             data-open-new-tab="false"
@@ -145,22 +138,37 @@ function wc_homezero_scan_widget($show_head = true) {
             data-phone-required="false"
             data-show-email="true"
             data-email-required="true"
-            data-button-text="Start woningcheck"
+            data-button-text="<?php echo esc_attr(wc_theme_setting('form_button_text', $is_airco ? 'Ontvang mijn airco-offerte' : 'Ontvang mijn woningcheck')); ?>"
             data-button-radius="7px"
             data-color="#066939"
             data-title=""
-            data-subtitle=""
-        ></hz-embed>
+            data-subtitle="">
+          </hz-embed>
+        </div>
+        <details class="vk-widget-backup">
+          <summary><?php echo esc_html(wc_theme_setting('form_backup_summary', 'Lukt invullen niet? Laat Vakvriend u terugbellen')); ?></summary>
+          <?php echo wc_callback_form_markup('vk-callback-form vk-widget-callback-form'); ?>
+        </details>
       </div>
     </div>
     <?php
     return ob_get_clean();
 }
 
+function wc_homezero_scan_widget($show_head = true) {
+    return wc_woningcheck_widget($show_head);
+}
+
+function wc_shortcode_woningcheck($atts = array()) {
+    return wc_woningcheck_widget(true);
+}
+add_shortcode('woningcheck', 'wc_shortcode_woningcheck');
+
 function wc_shortcode_lead_form($atts = array()) {
-    return wc_homezero_scan_widget(false);
+    return wc_woningcheck_widget(false);
 }
 add_shortcode('warmtepomp_lead_form', 'wc_shortcode_lead_form');
+add_shortcode('airco_check', 'wc_shortcode_woningcheck');
 
 function wc_callback_lead_ajax() {
     check_ajax_referer('wc_callback_lead', 'nonce');
@@ -171,6 +179,17 @@ function wc_callback_lead_ajax() {
     $page_url = esc_url_raw(wp_unslash($_POST['page_url'] ?? ''));
     $hostname = sanitize_text_field(wp_unslash($_POST['hostname'] ?? ''));
     $session_id = sanitize_text_field(wp_unslash($_POST['session_id'] ?? ''));
+    $utm_source = sanitize_text_field(wp_unslash($_POST['utm_source'] ?? ''));
+    $utm_medium = sanitize_text_field(wp_unslash($_POST['utm_medium'] ?? ''));
+    $utm_campaign = sanitize_text_field(wp_unslash($_POST['utm_campaign'] ?? ''));
+    $utm_content = sanitize_text_field(wp_unslash($_POST['utm_content'] ?? ''));
+    $utm_term = sanitize_text_field(wp_unslash($_POST['utm_term'] ?? ''));
+    $gclid = sanitize_text_field(wp_unslash($_POST['gclid'] ?? ''));
+    $gbraid = sanitize_text_field(wp_unslash($_POST['gbraid'] ?? ''));
+    $wbraid = sanitize_text_field(wp_unslash($_POST['wbraid'] ?? ''));
+    $gad_source = sanitize_text_field(wp_unslash($_POST['gad_source'] ?? ''));
+    $gad_campaignid = sanitize_text_field(wp_unslash($_POST['gad_campaignid'] ?? ''));
+    $msclkid = sanitize_text_field(wp_unslash($_POST['msclkid'] ?? ''));
 
     if ($phone === '' || strlen(preg_replace('/\D+/', '', $phone)) < 8) {
         wp_send_json_error(array('message' => 'Vul een geldig telefoonnummer in.'), 400);
@@ -188,6 +207,10 @@ function wc_callback_lead_ajax() {
     $message .= "Domein: " . ($hostname ?: '-') . "\n";
     $message .= "Pagina: " . ($page_url ?: '-') . "\n";
     $message .= "Sessie: " . ($session_id ?: '-') . "\n";
+    $message .= "gclid: " . ($gclid ?: '-') . "\n";
+    $message .= "wbraid: " . ($wbraid ?: '-') . "\n";
+    $message .= "gbraid: " . ($gbraid ?: '-') . "\n";
+    $message .= "msclkid: " . ($msclkid ?: '-') . "\n";
     $message .= "Tijd: " . current_time('mysql') . "\n";
 
     wp_mail(
@@ -196,37 +219,6 @@ function wc_callback_lead_ajax() {
         $message,
         array('Content-Type: text/plain; charset=UTF-8')
     );
-
-    if (function_exists('wc_analytics_maybe_install') && function_exists('wc_analytics_table_name')) {
-        wc_analytics_maybe_install();
-
-        global $wpdb;
-        $wpdb->insert(wc_analytics_table_name(), array(
-            'event_name' => 'callback_lead_submit',
-            'session_id' => $session_id ?: ('callback_' . wp_generate_uuid4()),
-            'page_url' => $page_url,
-            'page_path' => $page_url ? (string) wp_parse_url($page_url, PHP_URL_PATH) : '/',
-            'hostname' => $hostname,
-            'referrer' => '',
-            'section' => 'callback_form',
-            'device_type' => '',
-            'browser' => '',
-            'utm_source' => '',
-            'utm_medium' => '',
-            'utm_campaign' => '',
-            'utm_content' => '',
-            'utm_term' => '',
-            'duration_ms' => 0,
-            'scroll_depth' => 0,
-            'meta_json' => wp_json_encode(array(
-                'name' => $name,
-                'phone' => $phone,
-                'postcode' => $postcode,
-                'source' => 'callback_form',
-            )),
-            'created_at' => current_time('mysql'),
-        ), array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s'));
-    }
 
     wp_send_json_success(array('message' => 'Top, we nemen zo snel mogelijk contact op.'));
 }

@@ -2,17 +2,21 @@
 $stad      = wc_meta('wc_stad','Nederland');
 $regio     = wc_meta('wc_regio',$stad);
 $is_lokaal = ($stad !== 'Nederland' && $stad !== 'uw regio');
-$hero_foto = wc_meta('wc_hero_foto','https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp');
+$vakvriend_team_foto = get_template_directory_uri() . '/assets/img/kostenindicatie-vakvriend-site.webp';
+$hero_foto = wc_meta('wc_hero_foto', $vakvriend_team_foto);
+if (strpos($hero_foto, '698669fbf18164e5304e45ef_DSC00884') !== false) {
+  $hero_foto = $vakvriend_team_foto;
+}
 if (strpos($hero_foto, 'mijn-warmtepomp-advies.webp') !== false) {
   $hero_foto = get_template_directory_uri() . '/assets/img/landmarks/mijn-warmtepomp-offerte.webp?v=3';
 }
-$hero_t    = $is_lokaal ? "Warmtepomp advies voor uw woning in $stad" : 'Warmtepomp advies dat begint bij uw woning';
-$hero_s    = "Een warmtepomp kan slim zijn, maar niet elke woning vraagt dezelfde oplossing. Vakvriend kijkt eerst naar verbruik, isolatie, afgifte, kosten en subsidie. Daarna weet u welke route logisch is.";
+$hero_t    = $is_lokaal ? "Eerst weten of uw woning in $stad geschikt is" : 'Eerst weten of uw woning geschikt is';
+$hero_s    = "Doe de woningcheck en krijg direct richting voor kosten, subsidie en het type warmtepomp. Daarna kijkt Vakvriend mee of het technisch klopt.";
 $vv_intro  = wc_meta('wc_vv_intro',"Vakvriend is een allround installatiebedrijf met jarenlange ervaring in warmtepompen, CV-ketels, sanitair, vloerverwarming en meer. We werken merkonafhankelijk: Qvantum en Nibe kennen we goed, maar ook Itho Daalderop, Daikin, Intergas en andere merken nemen we gewoon mee wanneer dat beter past. Eerlijk en praktisch advies: wij kijken wat technisch verstandig is voor uw situatie.");
 $telefoon  = wc_meta('wc_telefoon','075 234 0001');
 $whatsapp  = wc_meta('wc_whatsapp','31752340001');
 $topbar    = wc_meta('wc_topbar_tekst',"Vrijblijvende woningcheck" . ($is_lokaal ? " in $stad" : "") . " - merkonafhankelijk advies - ISDE meegenomen");
-$hero_kicker = $is_lokaal ? "Eerst begrijpen, dan kiezen in $stad" : 'Eerst begrijpen, dan kiezen';
+$hero_kicker = $is_lokaal ? "Vrijblijvende warmtepompcheck in $stad" : 'Vrijblijvende warmtepompcheck';
 $campaign_proof = wc_meta_rows('wc_campaign_proof', [
   ['24u','reactie op uw woningcheck'],
   ['ISDE','berekening inbegrepen'],
@@ -84,6 +88,7 @@ $praktijk_images = [
   'grondboring' => $praktijk_base . 'grondboring-boorstelling.webp',
   'contact' => $praktijk_base . 'contact-opvolging.webp',
   'pv5'     => $praktijk_base . 'kia-pv5-vakvriend.webp',
+  'kosten'  => $praktijk_base . 'kostenindicatie-vakvriend.webp',
 ];
 $warmtepomp_basics = wc_meta_rows('wc_warmtepomp_basics', [
   ['01','Wat doet een warmtepomp?','Een warmtepomp haalt warmte uit buitenlucht, ventilatielucht of bodemwarmte en geeft die af aan uw verwarming of tapwater. Daardoor gebruikt u minder gas, maar wel meer stroom.'],
@@ -91,11 +96,21 @@ $warmtepomp_basics = wc_meta_rows('wc_warmtepomp_basics', [
   ['03','Wat levert de woningcheck op?','U krijgt eerst inzicht in de logische warmtepomproute, aandachtspunten, verwachte subsidie en of hybride, all-electric, ventilatie of bodemwarmte passend is.'],
 ], 3);
 $cost_routes = wc_meta_rows('wc_cost_routes', [
-  ['Hybride route','vanaf circa €4.000 - €7.500','Vaak interessant wanneer de cv-ketel blijft hangen en de woning nog niet volledig klaar is voor all-electric.'],
-  ['Ventilatiewarmtepomp','circa €5.000 - €9.000','Gebruikt warmte uit afvoerventilatielucht en kan interessant zijn bij appartementen of woningen waar een buitenunit lastig is. Het ventilatiesysteem moet wel geschikt zijn.'],
-  ['Lucht/water','circa €8.000 - €16.000','Veel toegepaste route voor woningen met voldoende afgiftevermogen en een geschikte plek voor een buitenunit.'],
-  ['Bodemwarmte','circa €20.000+','Hoger rendement en rustige werking, maar met bronontwerp, boring, vergunning en hogere voorbereiding.'],
+  ['Hybride route','vanaf circa €4.000 - €7.500','Een hybride warmtepomp werkt samen met de bestaande cv-ketel. De warmtepomp doet het grootste deel van het verwarmingswerk; de ketel springt bij op koude dagen en voor warm tapwater. Dit is vaak een rustige tussenstap wanneer volledig elektrisch nog niet logisch is.','Past bij woningen waar de cv-ketel blijft hangen;Lagere instap dan all-electric;Radiatoren en isolatie blijven belangrijk'],
+  ['Ventilatiewarmtepomp','circa €9.000 - €16.000','Een ventilatiewarmtepomp haalt warmte terug uit afvoerventilatielucht. Daardoor is er meestal geen buitenunit nodig, maar het blijft een serieuze installatie met ontwerp, inregeling, leidingwerk en soms aanpassing aan ventilatie of tapwater.','Geen buitenunit nodig;Ventilatiesysteem moet geschikt zijn;Tapwater en vermogen apart beoordelen'],
+  ['Lucht/water','circa €8.000 - €16.000','Een lucht/water warmtepomp haalt warmte uit de buitenlucht en geeft die af aan radiatoren, convectoren of vloerverwarming. Dit is de meest gekozen route, maar vraagt wel een goede plek voor de buitenunit en voldoende afgiftevermogen in huis.','Veel toegepast bij rijwoningen en vrijstaande woningen;Hybride of all-electric mogelijk;Geluid, leidingroute en ruimte vooraf checken'],
+  ['Bodemwarmte','circa €20.000+','Een bodemwarmtepomp gebruikt een bron in de grond. De bron is stabieler dan buitenlucht, waardoor het systeem stil en efficient kan draaien. De investering en voorbereiding zijn hoger door boring, ontwerp en soms vergunning.','Hoog rendement en weinig buitengeluid;Interessant voor lange termijn;Boring, bronontwerp en perceelruimte nodig'],
 ], 3);
+
+if (function_exists('wc_is_airco_site') && wc_is_airco_site()) {
+  include get_template_directory() . '/template-parts/landing-page-airco.php';
+  return;
+}
+
+if (function_exists('wc_use_modern_landing') && wc_use_modern_landing()) {
+  include get_template_directory() . '/template-parts/landing-page-preview.php';
+  return;
+}
 ?>
 
 <!-- HERO -->
@@ -107,25 +122,35 @@ $cost_routes = wc_meta_rows('wc_cost_routes', [
       <h1><?=esc_html($hero_t)?></h1>
       <p class="vk-hero-sub"><?=esc_html($hero_s)?></p>
       <div class="vk-hero-insights" aria-label="Wat Vakvriend eerst beoordeelt">
-        <span>Kosten</span>
-        <span>Subsidie</span>
-        <span>Verbruik</span>
+        <span>Prijsrichting</span>
+        <span>ISDE-subsidie</span>
         <span>Geschikte route</span>
       </div>
       <div class="vk-hero-actions">
-        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Check mijn woning</a>
-        <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-hero-call">Bel direct <?=esc_html($telefoon)?></a>
-      </div>
-      <div class="vk-hero-contact-card">
-        <figure class="vk-hero-photo" aria-label="<?=esc_attr($is_lokaal ? 'Herkenbare omgeving in ' . $stad : 'Herkenbare omgeving')?>">
-          <span></span>
-        </figure>
-        <?php echo wc_callback_form_markup('vk-callback-form vk-hero-callback-form'); ?>
+        <a href="#formulier" class="vk-btn vk-btn-groen vk-btn-lg">Start mijn woningcheck</a>
+        <a href="tel:<?=esc_attr($tel_clean)?>" class="vk-hero-call">Bel voor advies <?=esc_html($telefoon)?></a>
       </div>
     </div>
 
     <!-- Rechts: externe woningcheck widget -->
     <?php echo wc_homezero_scan_widget(true); ?>
+  </div>
+</section>
+
+<section class="vk-trust-band" aria-label="Waarom bezoekers Vakvriend vertrouwen">
+  <div class="vk-container vk-trust-band-inner">
+    <div>
+      <strong>Vakvriend kijkt eerst naar de woning</strong>
+      <span>Geen standaardpakket, maar advies op basis van verbruik, afgifte, tapwater, subsidie en installatiepraktijk.</span>
+    </div>
+    <div>
+      <strong>Merkonafhankelijk</strong>
+      <span>Qvantum, Nibe, Intergas, Daikin, Itho Daalderop en andere A-merken worden eerlijk naast elkaar gezet.</span>
+    </div>
+    <div>
+      <strong>Installatiebedrijf, geen tussenpartij</strong>
+      <span>U spreekt met mensen die dagelijks met cv, warmtepompen, leidingwerk, ventilatie en vloerverwarming werken.</span>
+    </div>
   </div>
 </section>
 
@@ -151,13 +176,30 @@ $cost_routes = wc_meta_rows('wc_cost_routes', [
         <div class="vk-eyebrow">Kostenindicatie</div>
         <h3><?=esc_html(wc_meta('wc_cost_titel','Wat kost een warmtepomp ongeveer?'))?></h3>
         <p><?=esc_html(wc_meta('wc_cost_intro','De investering hangt sterk af van woningtype, afgiftesysteem, tapwater, ventilatie, buitenunit, boring en subsidie. Zie dit als richting, niet als offerte. De woningcheck maakt duidelijk welke route realistisch is.'))?></p>
+        <div class="vk-cost-summary">
+          <strong>Vakvriend rekent vooral naar de situatie</strong>
+          <span>Geen vaste pakketprijs, maar een inschatting op basis van woning, comfortwens en technische haalbaarheid.</span>
+          <ul>
+            <li>Afgiftesysteem en isolatie</li>
+            <li>Tapwater en ventilatie</li>
+            <li>Subsidie en montage-impact</li>
+          </ul>
+        </div>
       </div>
       <div class="vk-cost-list">
-        <?php foreach($cost_routes as [$route,$price,$text]): ?>
+        <?php foreach($cost_routes as $cost_route): ?>
+          <?php [$route,$price,$text,$details] = array_pad($cost_route, 4, ''); ?>
           <div class="vk-cost-row">
             <strong><?=esc_html($route)?></strong>
             <span><?=esc_html($price)?></span>
             <p><?=esc_html($text)?></p>
+            <?php if($details): ?>
+              <ul>
+                <?php foreach(array_filter(array_map('trim', explode(';', $details))) as $detail): ?>
+                  <li><?=esc_html($detail)?></li>
+                <?php endforeach; ?>
+              </ul>
+            <?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>
@@ -322,32 +364,6 @@ $cost_routes = wc_meta_rows('wc_cost_routes', [
   </div>
 </section>
 
-<!-- WARMTEPOMP TYPES -->
-<section class="vk-section">
-  <div class="vk-container">
-    <div class="vk-eyebrow vk-center"><?=esc_html(wc_meta('wc_types_eyebrow','Kenniscentrum warmtepompen'))?></div>
-    <h2 class="vk-center"><?=esc_html(wc_meta('wc_types_titel','Welk type warmtepomp past bij u?'))?></h2>
-    <p class="vk-lead vk-center vk-lead-center"><?=esc_html(wc_meta('wc_types_lead','Er zijn meerdere warmtepomproutes voor woningen. Soms gaat het om volledige ruimteverwarming, soms vooral om tapwater met een warmtepompboiler.'))?></p>
-    <p class="vk-brand-note vk-center"><?=esc_html($other_brand_note)?></p>
-    <div class="vk-type-grid">
-      <?php foreach($warmtepomp_types as [$ico,$badge,$title,$text,$items,$brands]): ?>
-        <div class="vk-type-card vk-reveal">
-          <div class="vk-type-icon"><?=esc_html($ico)?></div>
-          <?php if($badge): ?><div class="vk-type-badge"><?=esc_html($badge)?></div><?php endif; ?>
-          <h3><?=esc_html($title)?></h3>
-          <p><?=esc_html($text)?></p>
-          <ul class="vk-type-list">
-            <?php foreach(array_filter(array_map('trim', explode(';',$items))) as $item): ?>
-              <li><?=esc_html($item)?></li>
-            <?php endforeach; ?>
-          </ul>
-          <?php if($brands): ?><div class="vk-type-merken"><?=esc_html($brands)?></div><?php endif; ?>
-        </div>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
-
 <!-- PRAKTIJKBEELDEN -->
 <section class="vk-section vk-praktijk-section">
   <div class="vk-container">
@@ -429,7 +445,7 @@ $cost_routes = wc_meta_rows('wc_cost_routes', [
       <!-- Foto kolom -->
       <div class="vk-vv-fotos vk-reveal">
         <div class="vk-vv-groot">
-          <img src="https://cdn.prod.website-files.com/697e2b08c251f37c1879a259/698669fbf18164e5304e45ef_DSC00884-2.webp" alt="Vakvriend monteurs aan het werk" loading="lazy">
+          <img src="<?=esc_url($vakvriend_team_foto)?>" alt="Vakvriend monteurs aan het werk" loading="lazy">
         </div>
         <div class="vk-vv-klein-rij">
           <div class="vk-vv-klein">
